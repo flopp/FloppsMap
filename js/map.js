@@ -1,6 +1,6 @@
-var marker;
-var projection_marker;
-var projection_line;
+var markerA;
+var markerB;
+var lineAB;
 var geocoder;
 
 var map;
@@ -8,49 +8,59 @@ var copyrightDiv;
 
 function updateProjectionLine()
 {
-    if( !projection_line )
+    if( !lineAB )
     {   
-        projection_line = new google.maps.Polyline( { 
+        lineAB = new google.maps.Polyline( { 
             strokeColor: '#ff0000', 
             strokeWeight: 2, 
             strokeOpacity: 0.7, 
             geodesic: true } );
-        projection_line.setMap( map );
+        lineAB.setMap( map );
     }
 
     var path = new google.maps.MVCArray;
-    path.push( marker.getPosition() );
-    path.push( projection_marker.getPosition() );
-    projection_line.setPath( path ); 
+    path.push( markerA.getPosition() );
+    path.push( markerB.getPosition() );
+    lineAB.setPath( path ); 
 
+}
+
+function setCoordinatesA( c )
+{
+    markerA.setPosition( c );
+    updateCoordinates();
+}
+
+function setCoordinatesB( c )
+{
+    markerB.setPosition( c );
+    updateCoordinates();
 }
 
 function gotoX()
 {
-    map.setCenter( marker.getPosition() );
+    map.setCenter( markerA.getPosition() );
 }
 
 function gotoP()
 {
-    map.setCenter( projection_marker.getPosition() );
+    map.setCenter( markerB.getPosition() );
 }
 
 function centerX()
 {
-    marker.setPosition( map.getCenter() );
-    updateCoordinates();
+    setCoordinatesA( map.getCenter() );
 }
 
 function centerP()
 {
-    projection_marker.setPosition( map.getCenter() );
-    updateCoordinates();
+    setCoordinatesB( map.getCenter() );
 }
 
 function updateCoordinates() 
 {
-    pos1 = marker.getPosition();
-    pos2 = projection_marker.getPosition();
+    pos1 = markerA.getPosition();
+    pos2 = markerB.getPosition();
     
     document.getElementById( 'txtX' ).value = coords2string( pos1 );
     document.getElementById( 'txtP' ).value = coords2string( pos2 );
@@ -91,7 +101,7 @@ function projectionXP()
         return;
     }
     
-    projection_marker.setPosition( projection_geodesic( marker.getPosition(), angle, dist ) );
+    markerB.setPosition( projection_geodesic( markerA.getPosition(), angle, dist ) );
     
     updateCoordinates();    
 }
@@ -124,7 +134,7 @@ function showWelcomePopup()
 {
     var welcome= get_cookie('welcome') != null ? parseInt(get_cookie('welcome')) : ( 0 );
     
-    var currentwelcome = 1;
+    var currentwelcome = 2;
     
     if( welcome < currentwelcome )
     {
@@ -187,26 +197,24 @@ function initialize()
     var location2 = new google.maps.LatLng(lat2, lon2);
     map.setCenter(center, zoom);
 
-    marker = new google.maps.Marker( {
+    markerA = new google.maps.Marker( {
         position: location1, 
         map: map,
-        //icon: new google.maps.MarkerImage( "http://www.google.com/mapfiles/markerX.png"), 
         icon: new google.maps.MarkerImage( "img/green.png"), 
         draggable: true } );
     
-    google.maps.event.addListener( marker, "drag", function() { updateCoordinates(); } );        
-    google.maps.event.addListener( marker, "dragend", function() { updateCoordinates(); } );      
+    google.maps.event.addListener( markerA, "drag", function() { updateCoordinates(); } );        
+    google.maps.event.addListener( markerA, "dragend", function() { updateCoordinates(); } );      
     
         
-    projection_marker = new google.maps.Marker( {
+    markerB = new google.maps.Marker( {
         position: location2, 
         map: map,
-        //icon: new google.maps.MarkerImage( "http://www.google.com/mapfiles/markerP.png"), 
         icon: new google.maps.MarkerImage( "img/red.png"), 
         draggable: true } );
         
-    google.maps.event.addListener( projection_marker, "drag", function() { updateCoordinates(); } );        
-    google.maps.event.addListener( projection_marker, "dragend", function() { updateCoordinates(); } );      
+    google.maps.event.addListener( markerB, "drag", function() { updateCoordinates(); } );        
+    google.maps.event.addListener( markerB, "dragend", function() { updateCoordinates(); } );      
 
     google.maps.event.addListener( map, "center_changed", function() { storeZoom(); storeCenter(); } );
     google.maps.event.addListener( map, "zoom_changed", function() { storeZoom(); storeCenter(); } );

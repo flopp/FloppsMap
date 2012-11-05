@@ -6,7 +6,6 @@
     <title>Flopps Tolle Karte</title>
     
     <script type="text/javascript" src="https://maps.google.com/maps/api/js?key=AIzaSyC_KjqwiB6tKCcrq2aa8B3z-c7wNN8CTA0&sensor=false"></script>
-    <!--<script type="text/javascript" src="https://maps.google.com/maps/api/js?sensor=false"></script>-->
     <script type="text/javascript" src="js/cookies.js"></script>
     <script type="text/javascript" src="js/geographiclib.js"></script>
     <script type="text/javascript" src="js/coordinates.js"></script>
@@ -73,6 +72,46 @@
                 $('#sidebar-toggle').html( "Verstecke Sidebar" );
             }
         });
+        
+        $("#showCoordinatesADialog").click(
+        function() {
+            $('#coordinatesADialogEdit').val($("#txtX").val());
+            $('#coordinatesADialog').modal();
+        });
+        $("#coordinatesADialogOk").click(
+        function() {
+            s = $('#coordinatesADialogEdit').val();
+            c = string2coords( s );
+            if( c != null )
+            {
+                $('#coordinatesADialog').modal('hide');
+                setCoordinatesA( c );
+            }
+            else
+            {
+                alert( "Falsches Koordinatenformat:\n"+ s );
+            }
+        });
+        
+        $("#showCoordinatesBDialog").click(
+        function() {
+            $('#coordinatesBDialogEdit').val($("#txtP").val());
+            $('#coordinatesBDialog').modal();
+        });
+        $("#coordinatesBDialogOk").click(
+        function() {
+            s = $('#coordinatesBDialogEdit').val();
+            c = string2coords( s );
+            if( c != null )
+            {
+                $('#coordinatesBDialog').modal('hide');
+                setCoordinatesB( c );
+            }
+            else
+            {
+                alert( "Falsches Koordinatenformat:\n"+ s );
+            }
+        });
 });
 </script>
 
@@ -86,19 +125,17 @@
 <!-- the control widget -->
 <div id="sidebar" style="position:absolute; bottom:32px; right:0px; margin: 4px; padding: 4px; border:1px solid #000; background:#fff; opacity: .9; z-index:2;">
 
-<!--<form onsubmit="searchLocation()">-->
 <p>Suche</p>
 <div class="input-append">
 <input id="txtSearch" style="width: 210px" type="text" placeholder="Koordinaten oder Ort">
 <button class="btn" style="width: 44px" type="button" onClick="searchLocation()"><i class="icon-search"></i></button>
 </div>
-<!--</form>-->
 
 <form>
 <p>Marker <span class="label label-success">A</span></p>
 <div class="input-append">
 <input id="txtX" style="width: 166px" type="text" readonly>
-<button disabled class="btn" style="width: 44px" type="button" onClick="editX()"><i class="icon-pencil"></i></button>
+<button id="showCoordinatesADialog" class="btn" style="width: 44px" type="button"><i class="icon-pencil"></i></button>
 <button class="btn" style="width: 44px" type="button" onClick="centerX()"><i class="icon-screenshot"></i></button>
 </div>  
 </form>
@@ -107,7 +144,7 @@
 <p>Marker <span class="label label-important">B</span></p>
 <div class="input-append">
 <input id="txtP" style="width: 166px" type="text" readonly>
-<button disabled class="btn" style="width: 44px" type="button" onClick="editP()"><i class="icon-pencil"></i></button>
+<button id="showCoordinatesBDialog" class="btn" style="width: 44px" type="button"><i class="icon-pencil"></i></button>
 <button class="btn" style="width: 44px" type="button" onClick="centerP()"><i class="icon-screenshot"></i></button>
 </div>
 </form>
@@ -150,7 +187,7 @@
 
 
 <!-- the hilfe dialog -->
-<div class="modal hide" id="hilfeDialog" tabindex="-1" role="dialog" aria-labelledby="hilfeDialogLabel" aria-hidden="true">
+<div class="modal hide fade" id="hilfeDialog" tabindex="-1" role="dialog" aria-labelledby="hilfeDialogLabel" aria-hidden="true">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
     <h3 id="hilfeDialogLabel">Wie funktioniert die Karte?</h3>
@@ -178,6 +215,7 @@
       <p>Die Marker können mit der Maus an neue Orte auf der Karte gezogen werden.</p>
       <p>Die aktuellen Koordinaten der beiden Marker werden in den Feldern 
       "Marker <span class="label label-success">A</span>" bzw. "Marker <span class="label label-important">B</span>" angezeigt.</p>
+      <p>Der Knopf <span class="btn btn-small"><i class="icon-pencil"></i></span> öffnet ein Fenster, in dem die Koordinaten des Markers direkt geändert werden können.</p>
       <p>Durch den Knopf <span class="btn btn-small"><i class="icon-screenshot"></i></span> 
       kann der jeweilige Marker im Zentrum der Karte platziert werden.</p>
       <p>Bei "Entfernung und Winkel von <span class="label label-success">A</span> nach <span class="label label-important">B</span>" werden sowohl der aktuelle 
@@ -192,12 +230,6 @@
       Gibt man z.B. im Suchfeld "Berlin" ein und drückt auf <span class="btn btn-small"><i class="icon-search"></i></span>, 
       so wird die Karte auf Berlin zentriert. Bei Eingabe von 
       "N 47 59.734 E 007 51.172" landet man auf dem Freiburger Münster.</p>
-      <p>Um einen Marker an bestimmten Koordinaten zu platzieren, gibt man diese
-       Koordinaten im Suchfeld ein, drückt <span class="btn btn-small"><i class="icon-search"></i></span> 
-       um die Karte auf den Koordinaten zu zentrieren, und platziert schließlich 
-       den gewünschten Marker mit <span class="btn btn-small"><i class="icon-screenshot"></i></span> 
-       auf der Kartenmitte. Die Koordinaten des Markers sollten jetzt mit den 
-       eingegebenen Koordinaten übereinstimmen.</p>
       
       <div class="page-header">  
       <h4>Die Wegpunktprojektion</h4>
@@ -215,7 +247,7 @@
 </div>
 
 <!-- the kontakt dialog -->
-<div class="modal hide" id="kontaktDialog" tabindex="-1" role="dialog" aria-labelledby="kontaktDialogLabel" aria-hidden="true">
+<div class="modal hide fade" id="kontaktDialog" tabindex="-1" role="dialog" aria-labelledby="kontaktDialogLabel" aria-hidden="true">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
     <h3 id="kontaktDialogLabel">Kontakt/Info</h3>
@@ -223,7 +255,7 @@
   <div class="modal-body">
     <img class="img-polaroid" width="100ps" height="100px" style="float: right" src="avatar.jpg" alt="Flopp">
     <h4>Kontakt</h4>
-    <p>Fragen und Anregungen bitte per Mail an <a class="btn btn-mini btn-info" href="mailto:mail@flopp-caching.de">mail@flopp-caching.de</a> oder via Twitter <a class="btn btn-mini btn-info" href="https://twitter.com/floppgc">@floppgc</a></p>
+    <p>Fragen und Anregungen bitte per Mail an <a class="btn btn-mini btn-info" href="mailto:mail@flopp-caching.de" target="_blank">mail@flopp-caching.de</a> oder via Twitter <a class="btn btn-mini btn-info" href="https://twitter.com/floppgc" target="_blank">@floppgc</a>; Bug-Reports könne auch via <a class="btn btn-mini btn-info" href="https://github.com/flopp/FloppsTolleKarte" target="_blank">github</a> gemeldet werden.
     <h4>Der Unterbau</h4>
     <p>
         <b>Flopps Tolle Karte</b> benutzt <a href="https://developers.google.com/maps/" target="_blank">Google Maps</a> 
@@ -233,6 +265,7 @@
         die Icons von <a href="http://glyphicons.com/" target="_blank">Glyphicons</a>,
         sowie die Javascript-Version von <a href="http://geographiclib.sf.net/html/other.html#javascript" target="_blank">GeographicLib</a>
         für die Distanz-/Winkelberechnungen und die Wegpunktprojektion.
+        Der aktuelle Quellcode von <b>Flopps Toller Karte</b> ist auf <a href="https://github.com/flopp/FloppsTolleKarte" target="_blank">github</a> zu finden.
     </p>
     <h4>Impressum</h4>
     <p>Dies ist ein rein privates, werbe- und kostenfreies Informationsangebot
@@ -261,19 +294,54 @@ Sie können die Speicherung der Cookies durch eine entsprechende Einstellung Ihr
   </div>
 </div>
 
+<div id="coordinatesADialog" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="coordinatesADialogLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="coordinatesADialogLabel">Koordinaten für <img src="img/green.png"></h3>
+  </div>
+  <div class="modal-body">
+    <input id="coordinatesADialogEdit" style="width: 210px" type="text">
+    <p>Zulässiges Koordinatenformat: "N 47 58.123 E 007 54.567"</p>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Abbrechen</button>
+    <button class="btn btn-primary" id="coordinatesADialogOk">Ok</button>
+  </div>
+</div>
+
+<div id="coordinatesBDialog" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="coordinatesBDialogLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="coordinatesBDialogLabel">Koordinaten für <img src="img/red.png"></h3>
+  </div>
+  <div class="modal-body">
+    <input id="coordinatesBDialogEdit" style="width: 210px" type="text">
+    <p>Zulässiges Koordinatenformat: "N 47 58.123 E 007 54.567"</p>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Abbrechen</button>
+    <button class="btn btn-primary" id="coordinatesBDialogOk">Ok</button>
+  </div>
+</div>
 
 <!-- the welcome dialog -->
-<div class="modal hide" id="welcomeDialog" tabindex="-1" role="dialog" aria-labelledby="welcomeDialogLabel" aria-hidden="true">
+<div id="welcomeDialog" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="welcomeDialogLabel" aria-hidden="true">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
     <h3 id="welcomeDialogLabel">Willkommen!</h3>
   </div>
   <div class="modal-body">
 <p>
-    Willkommen bei <b>Flopps Toller Karte</b>!
+    <h4>Willkommen bei <i>Flopps Toller Karte</i>!</h4>
 </p>
 <p>
     Wie man diese Online-Karte benutzt und welche Möglichkeiten man hat, erfährst du mit einem Klick auf <i>Wie funktioniert diese Karte?</i> in der Titelleiste. Viel Spaß!
+</p>
+<p id="news">
+    <h4>Neuigkeiten</h4>
+    <ul>
+        <li><b>2012/11/05</b> Die Koordinaten der Marker können jetzt über den Button <span class="btn btn-small"><i class="icon-pencil"></i></span> direkt geändert werden.</li>
+    </ul>
 </p>
   </div>
   <div class="modal-footer">
