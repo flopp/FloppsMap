@@ -89,24 +89,26 @@
 <!--<form onsubmit="searchLocation()">-->
 <p>Suche</p>
 <div class="input-append">
-<input id="txtSearch" type="text" placeholder="Koordinaten oder Ort">
-<button class="btn" type="button" onClick="searchLocation()"><i class="icon-search"></i></button>
+<input id="txtSearch" style="width: 210px" type="text" placeholder="Koordinaten oder Ort">
+<button class="btn" style="width: 44px" type="button" onClick="searchLocation()"><i class="icon-search"></i></button>
 </div>
 <!--</form>-->
 
 <form>
 <p>Marker <span class="label label-success">A</span></p>
 <div class="input-append">
-<input id="txtX" type="text" readonly>
-<button class="btn" type="button" onClick="centerX()"><i class="icon-screenshot"></i></button>
+<input id="txtX" style="width: 166px" type="text" readonly>
+<button disabled class="btn" style="width: 44px" type="button" onClick="editX()"><i class="icon-pencil"></i></button>
+<button class="btn" style="width: 44px" type="button" onClick="centerX()"><i class="icon-screenshot"></i></button>
 </div>  
 </form>
 
 <form>
 <p>Marker <span class="label label-important">B</span></p>
 <div class="input-append">
-<input id="txtP" type="text" readonly>
-<button class="btn" type="button" onClick="centerP()"><i class="icon-screenshot"></i></button>
+<input id="txtP" style="width: 166px" type="text" readonly>
+<button disabled class="btn" style="width: 44px" type="button" onClick="editP()"><i class="icon-pencil"></i></button>
+<button class="btn" style="width: 44px" type="button" onClick="centerP()"><i class="icon-screenshot"></i></button>
 </div>
 </form>
 
