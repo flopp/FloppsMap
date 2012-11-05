@@ -62,8 +62,8 @@ function updateCoordinates()
     pos1 = markerA.getPosition();
     pos2 = markerB.getPosition();
     
-    document.getElementById( 'txtX' ).value = coords2string( pos1 );
-    document.getElementById( 'txtP' ).value = coords2string( pos2 );
+    document.getElementById( 'inputCoordinatesA' ).value = coords2string( pos1 );
+    document.getElementById( 'inputCoordinatesB' ).value = coords2string( pos2 );
     
     set_cookie('lat1', pos1.lat());
     set_cookie('lon1', pos1.lng());

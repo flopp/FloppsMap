@@ -75,7 +75,7 @@
         
         $("#showCoordinatesADialog").click(
         function() {
-            $('#coordinatesADialogEdit').val($("#txtX").val());
+            $('#coordinatesADialogEdit').val($("#inputCoordinatesA").val());
             $('#coordinatesADialog').modal();
         });
         $("#coordinatesADialogOk").click(
@@ -95,7 +95,7 @@
         
         $("#showCoordinatesBDialog").click(
         function() {
-            $('#coordinatesBDialogEdit').val($("#txtP").val());
+            $('#coordinatesBDialogEdit').val($("#inputCoordinatesB").val());
             $('#coordinatesBDialog').modal();
         });
         $("#coordinatesBDialogOk").click(
@@ -134,7 +134,7 @@
 <form>
 <p>Marker <span class="label label-success">A</span></p>
 <div class="input-append">
-<input id="txtX" style="width: 166px" type="text" readonly>
+<input id="inputCoordinatesA" style="width: 166px" type="text" readonly>
 <button id="showCoordinatesADialog" class="btn" style="width: 44px" type="button"><i class="icon-pencil"></i></button>
 <button class="btn" style="width: 44px" type="button" onClick="centerX()"><i class="icon-screenshot"></i></button>
 </div>  
@@ -143,7 +143,7 @@
 <form>
 <p>Marker <span class="label label-important">B</span></p>
 <div class="input-append">
-<input id="txtP" style="width: 166px" type="text" readonly>
+<input id="inputCoordinatesB" style="width: 166px" type="text" readonly>
 <button id="showCoordinatesBDialog" class="btn" style="width: 44px" type="button"><i class="icon-pencil"></i></button>
 <button class="btn" style="width: 44px" type="button" onClick="centerP()"><i class="icon-screenshot"></i></button>
 </div>
@@ -196,8 +196,9 @@
       <div class="page-header">  
       <h4>Die Karte</h4>
       </div>
-      <p>Die Karte basiert auf Google Maps und enthält daher auch die von Google Maps gewohnten Steuerelemente zur Navigation. Über die Knöpfe "OSM", "OSM/DE", "Karte", "Satellit" in der oberen, rechten Ecke der Karte kann zwischen verschiedenen Kartendarstellungen umgeschaltet werden.</p>
-      
+      <p>Die Karte basiert auf Google Maps und enthält daher auch die von Google Maps gewohnten Steuerelemente zur Navigation. Über die Knöpfe "OSM", "OSM/DE", "Karte", "Satellit" in der oberen, rechten Ecke der Karte kann zwischen verschiedenen Kartendarstellungen umgeschaltet werden.
+      <img src="img/screenshot.png" alt="Screenshot von 'Flopps Tolle Karte'" width="400px" height="426px" class="img-polaroid">
+      </p>
       <div class="page-header">  
       <h4>Die Sidebar</h4>
       </div>
@@ -255,7 +256,8 @@
   <div class="modal-body">
     <img class="img-polaroid" width="100ps" height="100px" style="float: right" src="avatar.jpg" alt="Flopp">
     <h4>Kontakt</h4>
-    <p>Fragen und Anregungen bitte per Mail an <a class="btn btn-mini btn-info" href="mailto:mail@flopp-caching.de" target="_blank">mail@flopp-caching.de</a> oder via Twitter <a class="btn btn-mini btn-info" href="https://twitter.com/floppgc" target="_blank">@floppgc</a>; Bug-Reports könne auch via <a class="btn btn-mini btn-info" href="https://github.com/flopp/FloppsTolleKarte" target="_blank">github</a> gemeldet werden.
+    <p>Fragen und Anregungen bitte per Mail an <a class="btn btn-mini btn-info" href="mailto:mail@flopp-caching.de" target="_blank">mail@flopp-caching.de</a> oder via Twitter <a class="btn btn-mini btn-info" href="https://twitter.com/floppgc" target="_blank">@floppgc</a>.</p>
+    <p>Bugs können auch via <a class="btn btn-mini btn-info" href="https://github.com/flopp/FloppsTolleKarte" target="_blank">github</a> gemeldet werden.</p>
     <h4>Der Unterbau</h4>
     <p>
         <b>Flopps Tolle Karte</b> benutzt <a href="https://developers.google.com/maps/" target="_blank">Google Maps</a> 

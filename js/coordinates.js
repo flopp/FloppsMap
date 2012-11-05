@@ -13,7 +13,7 @@ function coords2string( coord )
     lat_rest = lat - lat_deg;
     lat_min = parseInt( lat_rest * 60 );
     lat_rest = lat_rest * 60 - lat_min;
-    lat_mmin = parseInt( lat_rest * 1000 );
+    lat_mmin = parseInt( Math.round( lat_rest * 1000 ) );
 
     lat_string += " ";
     if( lat_deg < 10 ) lat_string += "0";
@@ -42,7 +42,7 @@ function coords2string( coord )
     lng_rest = lng - lng_deg;
     lng_min = parseInt( lng_rest * 60 );
     lng_rest = lng_rest * 60 - lng_min;
-    lng_mmin = parseInt( lng_rest * 1000 );
+    lng_mmin = parseInt( Math.round( lng_rest * 1000 ) );
 
     lng_string += " ";
     if( lng_deg < 100 ) lng_string += "0";
