@@ -134,7 +134,7 @@ function showWelcomePopup()
 {
     var welcome= get_cookie('welcome') != null ? parseInt(get_cookie('welcome')) : ( 0 );
     
-    var currentwelcome = 2;
+    var currentwelcome = 3;
     
     if( welcome < currentwelcome )
     {
@@ -160,6 +160,7 @@ function initialize()
     var myOptions = {
         zoom: zoom,
         center: center,
+        scaleControl: true,
         mapTypeControlOptions: { mapTypeIds: ['OSM', 'OSM/DE', google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.SATELLITE, google.maps.MapTypeId.HYBRID, google.maps.MapTypeId.TERRAIN] },
         mapTypeId: google.maps.MapTypeId.ROADMAP };
         
