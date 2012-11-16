@@ -134,7 +134,7 @@ function showWelcomePopup()
 {
     var welcome= get_cookie('welcome') != null ? parseInt(get_cookie('welcome')) : ( 0 );
     
-    var currentwelcome = 3;
+    var currentwelcome = 4;
     
     if( welcome < currentwelcome )
     {
