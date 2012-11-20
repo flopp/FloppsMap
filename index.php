@@ -43,7 +43,172 @@
 
 </head>
   
-<body onload="initialize()" onunload="GUnload()">
+<?php
+$lat1_valid = false;
+$lon1_valid = false;
+$lat2_valid = false;
+$lon2_valid = false;
+$clat_valid = false;
+$clon_valid = false;
+$zoom_valid = false;
+
+$lat1 = 0;
+$lon1 = 0;
+$lat2 = 0;
+$lon2 = 0;
+$clat = 0;
+$clon = 0;
+$zoom = 0;
+$maptype = 'OSM';
+
+function my_parse_float( $s, &$f, &$ok, $min, $max )
+{
+    if( is_numeric( $s ) )
+    {
+        $f = floatval($s);
+        $ok = ( $min <= $f && $f <= $max );
+    }
+    else
+    {
+        $ok = false;
+    }
+    
+    if( !$ok ) $f = NULL;
+}
+
+function my_parse_int( $s, &$f, &$ok, $min, $max )
+{
+    $f = intval( $s );
+    if (strval($f) == $s) 
+    { 
+        $ok = ( $min <= $f && $f <= $max );
+    }
+    else
+    {
+        $ok = false;
+    }
+    
+    if( !$ok ) $f = NULL;
+}
+
+
+if(!empty($_GET)) 
+{
+    if (isset($_GET['lat1']))
+    {
+        my_parse_float( $_GET['lat1'], $lat1, $lat1_valid, -90, +90 );
+    }
+    if (isset($_GET['lon1']))
+    {
+        my_parse_float( $_GET['lon1'], $lon1, $lon1_valid, -180, +180 );
+    }
+    
+    if (isset($_GET['lat2']))
+    {
+        my_parse_float( $_GET['lat2'], $lat2, $lat2_valid, -90, +90 );
+    }
+    if (isset($_GET['lon2']))
+    {
+        my_parse_float( $_GET['lon2'], $lon2, $lon2_valid, -180, +180 );
+    }
+    
+    if (isset($_GET['clat']))
+    {
+        my_parse_float( $_GET['clat'], $clat, $clat_valid, -90, +90 );
+    }
+    if (isset($_GET['clon']))
+    {
+        my_parse_float( $_GET['clon'], $clon, $clon_valid, -180, +180 );
+    }
+    
+    if (isset($_GET['zoom']))
+    {
+        my_parse_int( $_GET['zoom'], $zoom, $zoom_valid, 1, 18 );
+    }
+    
+    if (isset($_GET['map']))
+    {
+        $maptype = $_GET['map'];
+        if( $maptype != 'OSM' && $maptype != 'OSM/DE' && $maptype != 'roadmap' && $maptype != 'satellite' && $maptype != 'terrain' && $maptype != 'hybrid' )
+        {
+            $maptype = 'OSM';
+        }
+    }  
+}
+
+$ok = false;
+if( $lat1_valid && $lon1_valid )
+{
+    $ok = true;
+    if( $lat2_valid && $lon2_valid )
+    {
+        if( $clat_valid && $clon_valid )
+        {
+            // alles ok
+        }
+        else
+        {
+            $clat = ( $lat1 + $lat2 )/2;
+            $clon = ( $lon1 + $lon2 )/2;
+        }
+    }
+    else if( $clat_valid && $clon_valid )
+    {
+        $lat2 = $clat + ( $clat - $lat1 );
+        $lon2 = $clon + ( $clon - $lon1 );
+    }
+    else
+    {
+        $clat = $lat1;
+        $clon = $lon1;
+        
+        $lat2 = $lat1 + 0.01666666;
+        $lon2 = $lon1 + 0.01666666;
+    }
+}
+else if( $lat2_valid && $lon2_valid )
+{
+    $ok = true;
+    if( $clat_valid && $clon_valid )
+    {
+        $lat1 = $clat + ( $clat - $lat2 );
+        $lon1 = $clon + ( $clon - $lon2 );
+    }
+    else
+    {
+        $clat = $lat2;
+        $clon = $lon2;
+        
+        $lat1 = $lat2 + 0.01666666;
+        $lon1 = $lon2 + 0.01666666;
+    }
+}
+else if( $clat_valid && $clon_valid )
+{
+    $ok = true;
+    
+    $lat1 = $clat;
+    $lon1 = $clon;
+    
+    $lat2 = $lat1 + 0.01666666;
+    $lon2 = $lon1 + 0.01666666;
+}
+else
+{
+    $ok = false;
+}
+
+if( !$zoom_valid ) $zoom = 12;
+
+if( $ok )
+{
+    echo "<body onload=\"initialize( true, $lat1, $lon1, $lat2, $lon2, $clat, $clon, $zoom, '$maptype' )\" onunload=\"GUnload()\">";
+}
+else
+{
+    echo "<body onload=\"initialize( false, $lat1, $lon1, $lat2, $lon2, $clat, $clon, $zoom, '$maptype' )\" onunload=\"GUnload()\">";
+}
+?>
 
 
 <!-- the menu -->
@@ -56,7 +221,10 @@
                 <li><a role="button" href="#kontaktDialog" data-toggle="modal">Info/Impressum</a></li>
             </ul>
             <div class="pull-right">
-                <a class="btn btn-small" href="javascript:" id='sidebar-toggle'>Verstecke Sidebar</a>
+                <ul class="nav">
+                    <li><a role="button" href="javascript:" id='showPermalink'>Permalink</a></li>
+                    <li><a role="button" href="javascript:" id='sidebar-toggle'>Verstecke Sidebar</a></li>
+                </ul>
             </div>
         </div>
     </div>
@@ -76,6 +244,11 @@
                 $('#sidebar').show();
                 $('#sidebar-toggle').html( "Verstecke Sidebar" );
             }
+        });
+        
+        $("#showPermalink").click(
+        function() {
+            showPermalinkDialog();
         });
         
         $("#showCoordinatesADialog").click(
@@ -250,6 +423,16 @@
       "Wegpunktprojektion" übereinstimmen.
       </p>
       
+      <div class="page-header">  
+      <h4>Permalinks</h4>
+      </div>
+      <p>
+          Der Eintrag "Permalink" in der Naviagtionsleiste öffnet einen Dialog in 
+          dem ein Permalink auf die aktuelle Kartenansicht angezeigt wird (inklusive 
+          der Positionen der Marker, der Zoomstufe, des gewählten Kartentyps). 
+          Diesen Link kann man kopieren und z.B. an Freunde schicken um die 
+          aktuelle Kartenansicht mit ihnen zu teilen.
+      </p>
   </div>
   <div class="modal-footer">
     <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Ok</button>
@@ -344,6 +527,22 @@ Sie können die Speicherung der Cookies durch eine entsprechende Einstellung Ihr
   </div>
 </div>
 
+<div id="permalinkDialog" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="permalinkDialogLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="permalinkDialogLabel">Permalink für die aktuelle Kartenansicht</h3>
+  </div>
+  <div class="modal-body">
+    <input id="permalinkDialogEdit" style="width: 500px" type="text">
+    <p>
+    Der obige Permalink ist Link zur aktuellen Kartenansicht, inklusive beider Marker, der Zoomstufe und des gewählten Kartentyps. So kann eine spezielle Kartenansicht mit anderen geteilt werden.
+    </p>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Ok</button>
+  </div>
+</div>
+
 <!-- the welcome dialog -->
 <div id="welcomeDialog" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="welcomeDialogLabel" aria-hidden="true">
   <div class="modal-header">
@@ -360,6 +559,7 @@ Sie können die Speicherung der Cookies durch eine entsprechende Einstellung Ihr
 <p id="news">
     <h4>Neuigkeiten</h4>
     <ul>
+        <li><b>2012/11/20</b> Es können Permalinks für die aktuelle Kartenansicht erzeugt werden.</li>
         <li><b>2012/11/16</b> Die Karte ist jetzt auch unter <a href="http://foomap.de/">foomap.de</a> erreichbar.</li>
         <li><b>2012/11/09</b> Anzeige des Kartenmaßstabs hinzugefügt.</li>
         <li><b>2012/11/05</b> Rundungsfehler bei der internen Berechnung von Koordinaten behoben.</li>

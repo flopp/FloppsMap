@@ -134,7 +134,7 @@ function showWelcomePopup()
 {
     var welcome= get_cookie('welcome') != null ? parseInt(get_cookie('welcome')) : ( 0 );
     
-    var currentwelcome = 4;
+    var currentwelcome = 5;
     
     if( welcome < currentwelcome )
     {
@@ -144,17 +144,55 @@ function showWelcomePopup()
     set_cookie( 'welcome', currentwelcome );
 }
 
-function initialize()
+function showPermalinkDialog()
 {
-    /* try to read coordinats from cookie */
-    var lat1 = get_cookie('lat1') != null ? parseFloat(get_cookie('lat1')) : ( 48.0+0.356/60.0 );
-    var lon1 = get_cookie('lon1') != null ? parseFloat(get_cookie('lon1')) : ( 7.0+50.832/60.0 );
-    var lat2 = get_cookie('lat2') != null ? parseFloat(get_cookie('lat2')) : ( 48.0+1.504/60.0 );
-    var lon2 = get_cookie('lon2') != null ? parseFloat(get_cookie('lon2')) : ( 7.0+51.841/60.0 );
-    var clat = get_cookie('clat') != null ? parseFloat(get_cookie('clat')) : ( 0.5*(lat1+lat2) );
-    var clon = get_cookie('clon') != null ? parseFloat(get_cookie('clon')) : ( 0.5*(lon1+lon2) );
-    var zoom = get_cookie('zoom') != null ? parseInt(get_cookie('zoom')) : 12;
-    var maptype = get_cookie('maptype') != null ? get_cookie('maptype') : "OSM";
+    pos1 = markerA.getPosition();
+    pos2 = markerB.getPosition();
+    posc = map.getCenter();
+    zoom = map.getZoom();
+    
+    var s = "http://foomap.de/index.html?lat1=" + pos1.lat() + "&lon1=" + pos1.lng() + "&lat2=" + pos2.lat() + "&lon2=" + pos2.lng() + "&clat=" + posc.lat() + "&clon=" + posc.lng() + "&zoom=" + zoom + "&map=" + map.getMapTypeId();
+    $('#permalinkDialogEdit').val(s);
+    $('#permalinkDialog').modal( {show: true} );
+}
+
+function initialize( ok, xlat1, xlon1, xlat2, xlon2, xclat, xclon, xzoom, xmap )
+{
+    var lat1, lon1;
+    var lat2, lon2;
+    var clat, clon;
+    var zoom;
+    var maptype;
+    
+    if( typeof(ok) === 'undefined' ) a = false;
+    
+    if( ok )
+    {
+        /* load values from parameters */
+        lat1 = xlat1;
+        lon1 = xlon1;
+        
+        lat2 = xlat2;
+        lon2 = xlon2;
+        
+        clat = xclat;
+        clon = xclon;
+        
+        zoom = xzoom;
+        maptype = xmap;
+    }
+    else
+    {
+        /* try to read coordinats from cookie */
+        lat1 = get_cookie('lat1') != null ? parseFloat(get_cookie('lat1')) : ( 48.0+0.356/60.0 );
+        lon1 = get_cookie('lon1') != null ? parseFloat(get_cookie('lon1')) : ( 7.0+50.832/60.0 );
+        lat2 = get_cookie('lat2') != null ? parseFloat(get_cookie('lat2')) : ( 48.0+1.504/60.0 );
+        lon2 = get_cookie('lon2') != null ? parseFloat(get_cookie('lon2')) : ( 7.0+51.841/60.0 );
+        clat = get_cookie('clat') != null ? parseFloat(get_cookie('clat')) : ( 0.5*(lat1+lat2) );
+        clon = get_cookie('clon') != null ? parseFloat(get_cookie('clon')) : ( 0.5*(lon1+lon2) );
+        zoom = get_cookie('zoom') != null ? parseInt(get_cookie('zoom')) : 12;
+        maptype = get_cookie('maptype') != null ? get_cookie('maptype') : "OSM";
+    }
     
     var center = new google.maps.LatLng( clat, clon);    
     var myOptions = {
