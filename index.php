@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="description" content="Vollbildkarte mit Koordinatenbestimmung, Wegpunktprojektion und Abstandsberechnung">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flopps Tolle Karte</title>
+    <title>Flopps Tolle Karte: Wegpunktprojektion, Koordinaten, Abstand</title>
     <link rel="author" href="https://plus.google.com/100782631618812527586" />
     <link rel="icon" href="img/favicon.png" type="image/png" />
     <link rel="shortcut icon" href="img/favicon.png" type="image/png" />
