@@ -497,10 +497,21 @@ Seite gemäß Telemediengesetz nicht der Impressumspflicht.</p>
         die Icons von <a href="http://glyphicons.com/" target="_blank">Glyphicons</a> und <a href="http://www.awicons.com/" target="_blank">Lokas Software</a>,
         sowie die Javascript-Version von <a href="http://geographiclib.sf.net/html/other.html#javascript" target="_blank">GeographicLib</a>
         für die Distanz-/Winkelberechnungen und die Wegpunktprojektion.
-        Informationen über deutsche Naturschutzgebiete werden vom <a href="http://www.nsg-atlas/" target="_blank">NSG-Atlas</a> freundlicherweise zur Verfügung gestellt. Danke dafür!
-        
+        <br />        
         Der aktuelle Quellcode von <b>Flopps Toller Karte</b> ist auf <a href="https://github.com/flopp/FloppsTolleKarte" target="_blank">github</a> zu finden.
     </p>
+    
+<h4>Naturschutzgebiete</h4>
+<p>
+Informationen über deutsche Naturschutzgebiete werden vom <a href="http://www.nsg-atlas/" target="_blank">NSG-Atlas</a> freundlicherweise zur Verfügung gestellt. Danke dafür!
+<br />
+Die Informationen über die Naturschutzgebiete dürfen nicht kommerziell genutzt werden und nicht
+auf Seiten verwendet werden, die Werbung beinhalten.
+<br />
+Das Datenmaterial der NSG gehört den einzelnen Ämtern der Länder.
+Die bereitgestellten Daten haben keine Rechtsverbindlichkeit.
+Details zum Datenmaterial sind auf den <a href="http://www.nsg-atlas.de/Datenmaterial.html" target="_blank">bei NSG-Atlas</a> zu finden.
+</p>
 
 <h4>Datenschutz</h4>
 <p>
