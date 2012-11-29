@@ -3,6 +3,10 @@ var markerB;
 var lineAB;
 var geocoder;
 
+var nsgLayer = null;
+var nsgLayerShown = false;
+var nsgLayerUpdateTimeout = null;
+
 var map;
 var copyrightDiv;
 
@@ -134,7 +138,7 @@ function showWelcomePopup()
 {
     var welcome= get_cookie('welcome') != null ? parseInt(get_cookie('welcome')) : ( 0 );
     
-    var currentwelcome = 5;
+    var currentwelcome = 6;
     
     if( welcome < currentwelcome )
     {
@@ -154,6 +158,69 @@ function showPermalinkDialog()
     var s = "http://foomap.de/index.html?lat1=" + pos1.lat() + "&lon1=" + pos1.lng() + "&lat2=" + pos2.lat() + "&lon2=" + pos2.lng() + "&clat=" + posc.lat() + "&clon=" + posc.lng() + "&zoom=" + zoom + "&map=" + map.getMapTypeId();
     $('#permalinkDialogEdit').val(s);
     $('#permalinkDialog').modal( {show: true} );
+}
+
+function showNSGLayer( t )
+{
+    if( t == nsgLayerShown )
+    {
+        return;
+    }
+    
+    nsgLayerShown = t;
+    $( '#showNSG' ).attr( 'checked', nsgLayerShown );
+    set_cookie( 'maptype', nsgLayerShown ? 1 : 0 );
+    
+    if( nsgLayerShown )
+    {
+        updateNSGLayer();
+    }
+    else
+    {
+        if( nsgLayerUpdateTimeout != null )
+        {
+            clearTimeout( nsgLayerUpdateTimeout );
+            nsgLayerUpdateTimeout = null;
+        }
+        
+        nsgLayer.setMap( null );
+        nsgLayer = null;
+    }
+}
+
+function updateNSGLayer()
+{
+    if( !nsgLayerShown )
+    {
+        return;
+    }
+    
+    if( nsgLayerUpdateTimeout != null )
+    {
+        clearTimeout( nsgLayerUpdateTimeout );
+    }
+    
+    nsgLayerUpdateTimeout = setTimeout( 
+        function()
+        {
+            b = map.getBounds();
+            z = map.getZoom();
+            
+            url = "http://www.nsg-atlas.de/genkml.php?S=" + b.getSouthWest().lat() + "&N=" + b.getNorthEast().lat() + "&W=" + b.getSouthWest().lng() + "&E=" + b.getNorthEast().lng() + "&ZOOM=" + z;
+            
+            if( nsgLayer == null )
+            {
+                nsgLayer = new google.maps.KmlLayer(
+                    url, 
+                    { suppressInfoWindows: false, preserveViewport: true }
+                );
+                nsgLayer.setMap( map );
+            }
+            else
+            {
+                nsgLayer.setUrl( url );
+            }
+        }, 1000 );
 }
 
 function initialize( ok, xlat1, xlon1, xlat2, xlon2, xclat, xclon, xzoom, xmap )
@@ -193,6 +260,9 @@ function initialize( ok, xlat1, xlon1, xlat2, xlon2, xclat, xclon, xzoom, xmap )
         zoom = get_cookie('zoom') != null ? parseInt(get_cookie('zoom')) : 12;
         maptype = get_cookie('maptype') != null ? get_cookie('maptype') : "OSM";
     }
+    
+    var nsg = get_cookie('nsg') != null ? parseInt( get_cookie('nsg') ) : 0;
+    
     
     var center = new google.maps.LatLng( clat, clon);    
     var myOptions = {
@@ -255,15 +325,17 @@ function initialize( ok, xlat1, xlon1, xlat2, xlon2, xclat, xclon, xzoom, xmap )
     google.maps.event.addListener( markerB, "drag", function() { updateCoordinates(); } );        
     google.maps.event.addListener( markerB, "dragend", function() { updateCoordinates(); } );      
 
-    google.maps.event.addListener( map, "center_changed", function() { storeZoom(); storeCenter(); } );
-    google.maps.event.addListener( map, "zoom_changed", function() { storeZoom(); storeCenter(); } );
+    google.maps.event.addListener( map, "center_changed", function() { storeZoom(); storeCenter(); updateNSGLayer(); } );
+    google.maps.event.addListener( map, "zoom_changed", function() { storeZoom(); storeCenter(); updateNSGLayer(); } );
     google.maps.event.addListener( map, "maptypeid_changed", function(){ updateCopyrights()});
     
     geocoder = new google.maps.Geocoder();
     
     updateCoordinates();
     updateCopyrights();
-    
+        
+    showNSGLayer( nsg != 0 );
+    updateNSGLayer();
     
     showWelcomePopup();
 }

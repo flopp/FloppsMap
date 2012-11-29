@@ -290,6 +290,18 @@ else
                 alert( "Falsches Koordinatenformat:\n"+ s );
             }
         });
+        
+        $("#showNSG").click(
+        function() {
+            if( $('#showNSG').is(':checked') )
+            {
+                showNSGLayer( true );
+            }
+            else
+            {
+                showNSGLayer( false );
+            }
+        });
 });
 </script>
 
@@ -360,7 +372,12 @@ else
 
 <input class="btn" type="button" value="Los geht's!" onClick="projectionXP()" />
 </form>
-
+<form>
+<p>Naturschutzgebiete</p>
+<label class="checkbox">
+    <input id="showNSG" type="checkbox"> Zeige Naturschutzgebiete
+</label>
+</form>
 </div>
 
 
@@ -424,6 +441,14 @@ else
       </p>
       
       <div class="page-header">  
+      <h4>Naturschutzgebiete</h4>
+      </div>
+      <p>
+      Durch ankreuzen des Feldes "Zeige Naturschutzgebiete", wird die Anzeige von deutschen Naturschutzgebieten in der Karte als farbige Flächen aktiviert. Die Informationen über die Naturschutzgebiete werden vom <a href="http://www.nsg-atlas/" target="_blank">NSG-Atlas</a> bezogen.
+      <img src="img/screenshot-nsg.png" alt="Naturschutzgebiete" class="img-polaroid">
+      </p>
+      
+      <div class="page-header">  
       <h4>Permalinks</h4>
       </div>
       <p>
@@ -472,6 +497,8 @@ Seite gemäß Telemediengesetz nicht der Impressumspflicht.</p>
         die Icons von <a href="http://glyphicons.com/" target="_blank">Glyphicons</a> und <a href="http://www.awicons.com/" target="_blank">Lokas Software</a>,
         sowie die Javascript-Version von <a href="http://geographiclib.sf.net/html/other.html#javascript" target="_blank">GeographicLib</a>
         für die Distanz-/Winkelberechnungen und die Wegpunktprojektion.
+        Informationen über deutsche Naturschutzgebiete werden vom <a href="http://www.nsg-atlas/" target="_blank">NSG-Atlas</a> freundlicherweise zur Verfügung gestellt. Danke dafür!
+        
         Der aktuelle Quellcode von <b>Flopps Toller Karte</b> ist auf <a href="https://github.com/flopp/FloppsTolleKarte" target="_blank">github</a> zu finden.
     </p>
 
@@ -559,6 +586,7 @@ Sie können die Speicherung der Cookies durch eine entsprechende Einstellung Ihr
 <p id="news">
     <h4>Neuigkeiten</h4>
     <ul>
+        <li><b>2012/11/29</b> Kooperation mit dem <a href="http://www.nsg-atlas.de/" target="_blank">NSG-Atlas</a>: Naturschutzgebiete können eingeblendet werden.</li>        
         <li><b>2012/11/20</b> Es können Permalinks für die aktuelle Kartenansicht erzeugt werden.</li>
         <li><b>2012/11/16</b> Die Karte ist jetzt auch unter <a href="http://foomap.de/">foomap.de</a> erreichbar.</li>
         <li><b>2012/11/09</b> Anzeige des Kartenmaßstabs hinzugefügt.</li>
