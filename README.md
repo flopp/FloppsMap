@@ -5,8 +5,9 @@ Flopps Tolle Karte
 *  Suche nach Orten und Koordinaten
 *  Verschiebbare Marker zum Bestimmen von Koordinaten, Distanzen und Winkeln
 *  Wegpunktprojektion/Peilung
+*  Anzeige von deutschen Naturschutzgebieten
 
-Die Online-Version ist unter http://www.flopp-caching.de/ zu finden.
+Die Online-Version ist unter http://www.flopp-caching.de/ bzw. http://www.foomap.de/ zu finden.
 
 Autor
 -----
