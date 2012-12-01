@@ -36,9 +36,10 @@
 
 <style type="text/css">
     html, body { height: 100%; overflow: hidden}
-    .map-wrapper { position: absolute; width: 100%; margin: 0; padding: 0; top: 40px; bottom: 0px; left: 0;}
+    #map-wrapper { position: absolute; left: 0; right:300px; top: 40px; bottom: 0; float: left; }
     #themap { width: 100%; height: 100%;}
     #themap img { max-width: none; }
+    #sidebar { overflow: auto; position: absolute; width: 290px; right: 0; top: 50px; bottom: 0px; float: right; }
 </style>
 
 </head>
@@ -223,7 +224,7 @@ else
             <div class="pull-right">
                 <ul class="nav">
                     <li><a role="button" href="javascript:" id='showPermalink'>Permalink</a></li>
-                    <li><a role="button" href="javascript:" id='sidebar-toggle'>Verstecke Sidebar</a></li>
+                    <li><a role="button" href="javascript:" id='sidebar-toggle'>Sidebar <i class="icon-ok-sign icon-white"></i></a></li>
                 </ul>
             </div>
         </div>
@@ -237,12 +238,18 @@ else
             if( $('#sidebar').is(':visible') )
             {
                 $('#sidebar').hide();
-                $('#sidebar-toggle').html( "Zeige Sidebar" );
+                $('#sidebar-toggle').html( "Sidebar <i class=\"icon-remove-sign icon-white\"></i>" );
+                
+                $('#map-wrapper').css("right", "0px");
+                google.maps.event.trigger(map, "resize");
             }
             else
             {
                 $('#sidebar').show();
-                $('#sidebar-toggle').html( "Verstecke Sidebar" );
+                $('#sidebar-toggle').html( "Sidebar <i class=\"icon-ok-sign icon-white\"></i>" );
+                
+                $('#map-wrapper').css("right", "300px");
+                google.maps.event.trigger(map, "resize");
             }
         });
         
@@ -307,13 +314,13 @@ else
 
 
 <!-- the map -->
-<div class="map-wrapper">
+<div id="map-wrapper">
     <div id="themap"></div>
 </div>
   
 
 <!-- the control widget -->
-<div id="sidebar" style="position:absolute; bottom:32px; right:0px; margin: 4px; padding: 4px; border:1px solid #000; background:#fff; opacity: .9; z-index:2;">
+<div id="sidebar">
 
 <p>Suche</p>
 <div class="input-append">
@@ -398,7 +405,7 @@ else
       <h4>Die Sidebar</h4>
       </div>
       <p>Auf der rechten Seite des Kartenfensters befindet sich die Sidebar, die Informationen über die Marker, sowie Elemente zur Kontrolle und Manipulation der Marker enthält.</p>
-      <p>Die Sidebar kann über den Knopf <a class="btn btn-small" href="javascript:">Verstecke Sidebar</a> versteckt und über den Knopf <a class="btn btn-small" href="javascript:">Zeige Sidebar</a> wieder eingeblendet werden.</p>
+      <p>Die Sidebar kann über den Eintrag "Sidebar" in der Navigationsleiste aus- und wieder eingeblendet werden.</p>
       
       <div class="page-header">  
       <h4>Die Marker</h4>
@@ -452,7 +459,7 @@ else
       <h4>Permalinks</h4>
       </div>
       <p>
-          Der Eintrag "Permalink" in der Naviagtionsleiste öffnet einen Dialog in 
+          Der Eintrag "Permalink" in der Navigationsleiste öffnet einen Dialog in 
           dem ein Permalink auf die aktuelle Kartenansicht angezeigt wird (inklusive 
           der Positionen der Marker, der Zoomstufe, des gewählten Kartentyps). 
           Diesen Link kann man kopieren und z.B. an Freunde schicken um die 
