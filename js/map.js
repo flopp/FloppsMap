@@ -223,6 +223,38 @@ function updateNSGLayer()
         }, 1000 );
 }
 
+function repairMaptype( t )
+{
+    if( t == "OSM" )
+    {
+        return t;
+    }
+    else if( t == "OSM/DE" )
+    {
+        return t;
+    }
+    else if( t == "satellite" )
+    {
+        return t;
+    }
+    else if( t == "hybrid" )
+    {
+        return t;
+    }
+    else if( t == "roadmap" )
+    {
+        return t;
+    }
+    else if( t == "terrain" )
+    {
+        return t;
+    }
+    else
+    {
+        return "OSM";
+    }
+}
+
 function initialize( ok, xlat1, xlon1, xlat2, xlon2, xclat, xclon, xzoom, xmap )
 {
     var lat1, lon1;
@@ -261,6 +293,8 @@ function initialize( ok, xlat1, xlon1, xlat2, xlon2, xclat, xclon, xzoom, xmap )
         maptype = get_cookie('maptype') != null ? get_cookie('maptype') : "OSM";
     }
     
+    maptype = repairMaptype( maptype );
+       
     var nsg = get_cookie('nsg') != null ? parseInt( get_cookie('nsg') ) : 0;
     
     
