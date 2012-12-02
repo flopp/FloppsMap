@@ -223,7 +223,7 @@ else
             </ul>
             <div class="pull-right">
                 <ul class="nav">
-                    <li><a role="button" href="javascript:" id='showPermalink'>Permalink</a></li>
+                <!--<li><a role="button" href="javascript:" id='showPermalink'>Permalink</a></li>-->
                     <li><a role="button" href="javascript:" id='sidebar-toggle'>Sidebar <i class="icon-ok-sign icon-white"></i></a></li>
                 </ul>
             </div>
@@ -414,16 +414,17 @@ else
 
   <div class="accordion-group">
     <div class="accordion-heading">
-      <a class="accordion-toggle" data-toggle="collapse" data-parent="#sidebar-accordion" href="#collapseNSG">
-        Naturschutzgebiete
+      <a class="accordion-toggle" data-toggle="collapse" data-parent="#sidebar-accordion" href="#collapseOther">
+        Sonstiges
       </a>
     </div>
-    <div id="collapseNSG" class="accordion-body collapse">
+    <div id="collapseOther" class="accordion-body collapse">
       <div class="accordion-inner">
 <form>
 <label class="checkbox">
     <input id="showNSG" type="checkbox"> Zeige Naturschutzgebiete
 </label>
+    <input class="btn" onClick="javascript:" value="Permalink" id='showPermalink'>
 </form>
       </div>
     </div>
@@ -438,9 +439,7 @@ else
     <h3 id="hilfeDialogLabel">Wie funktioniert die Karte?</h3>
   </div>
   <div class="modal-body">
-      <div class="page-header">  
       <h4>Die Karte</h4>
-      </div>
       <p>Die Karte basiert auf Google Maps und enthält daher auch die von Google Maps gewohnten Steuerelemente zur Navigation. Über die Knöpfe "OSM", "OSM/DE", "Karte", "Satellit" in der oberen, rechten Ecke der Karte kann zwischen verschiedenen Kartendarstellungen umgeschaltet werden.
       <img src="img/screenshot.png" alt="Screenshot von 'Flopps Tolle Karte'" width="400px" height="426px" class="img-polaroid">
       </p>
@@ -450,9 +449,8 @@ else
       <p>Auf der rechten Seite des Kartenfensters befindet sich die Sidebar, die Informationen über die Marker, sowie Elemente zur Kontrolle und Manipulation der Marker enthält.</p>
       <p>Die Sidebar kann über den Eintrag "Sidebar" in der Navigationsleiste aus- und wieder eingeblendet werden.</p>
       
-      <div class="page-header">  
+      <hr />
       <h4>Die Marker</h4>
-      </div>
       <p>Auf der Karte gibt es zwei Marker: <img src="img/green.png" alt="A"> 
       und <img src="img/red.png" alt="B"></p>
       <p>
@@ -469,18 +467,15 @@ else
       Abstand von Marker <span class="label label-success">A</span> zu Marker <span class="label label-important">B</span> in Metern, als auch der Richtungswinkel 
       von <span class="label label-success">A</span> zu <span class="label label-important">B</span> angezeigt.</p>
       
-      
-      <div class="page-header">  
+      <hr />
       <h4>Die Suche</h4>
-      </div>
       <p>Über das Feld "Suche" kann man nach Koordinaten und Orten suchen. 
       Gibt man z.B. im Suchfeld "Berlin" ein und drückt auf <span class="btn btn-small"><i class="icon-search"></i></span>, 
       so wird die Karte auf Berlin zentriert. Bei Eingabe von 
       "N 47 59.734 E 007 51.172" landet man auf dem Freiburger Münster.</p>
       
-      <div class="page-header">  
+      <hr />
       <h4>Die Wegpunktprojektion</h4>
-      </div>
       <p>
       <img src="img/projection.png"  style="float: right" alt="Wegpunktprojektion" width="100px" height="123px" class="img-polaroid">
       Beim Klick auf <span class="btn btn-small">Los geht's!</span> wird 
@@ -490,19 +485,17 @@ else
       "Wegpunktprojektion" übereinstimmen.
       </p>
       
-      <div class="page-header">  
+      <hr />
       <h4>Naturschutzgebiete</h4>
-      </div>
       <p>
-      Durch ankreuzen des Feldes "Zeige Naturschutzgebiete", wird die Anzeige von deutschen Naturschutzgebieten in der Karte als farbige Flächen aktiviert. Die Informationen über die Naturschutzgebiete werden vom <a href="http://www.nsg-atlas/" target="_blank">NSG-Atlas</a> bezogen.
+      Durch ankreuzen des Feldes "Zeige Naturschutzgebiete" im Abschnitt "Sonstiges" der Sidebar, wird die Anzeige von deutschen Naturschutzgebieten in der Karte als farbige Flächen aktiviert. Die Informationen über die Naturschutzgebiete werden vom <a href="http://www.nsg-atlas/" target="_blank">NSG-Atlas</a> bezogen.
       <img src="img/screenshot-nsg.png" alt="Naturschutzgebiete" class="img-polaroid">
       </p>
       
-      <div class="page-header">  
+      <hr />
       <h4>Permalinks</h4>
-      </div>
       <p>
-          Der Eintrag "Permalink" in der Navigationsleiste öffnet einen Dialog in 
+          Der Button "Permalink" im Abschnitt "Sonstiges" der Sidebar öffnet einen Dialog in 
           dem ein Permalink auf die aktuelle Kartenansicht angezeigt wird (inklusive 
           der Positionen der Marker, der Zoomstufe, des gewählten Kartentyps). 
           Diesen Link kann man kopieren und z.B. an Freunde schicken um die 
@@ -533,11 +526,13 @@ else
         <a href="https://www.facebook.com/FloppsTolleKarte" target="_blank"><img src="img/facebook.png"></a>
     </p>
     
+    <hr />
     <h4>Impressum</h4>
     <p>Dies ist ein rein privates, werbe- und kostenfreies Informationsangebot
 zum Hobby Geocaching. Als nicht geschäftsmäßiges Angebot unterliegt diese
 Seite gemäß Telemediengesetz nicht der Impressumspflicht.</p>
 
+    <hr />
     <h4>Hinter den Kulissen...</h4>
     <p>
         <b>Flopps Tolle Karte</b> benutzt <a href="https://developers.google.com/maps/" target="_blank">Google Maps</a> 
@@ -551,6 +546,7 @@ Seite gemäß Telemediengesetz nicht der Impressumspflicht.</p>
         Der aktuelle Quellcode von <b>Flopps Toller Karte</b> ist auf <a href="https://github.com/flopp/FloppsTolleKarte" target="_blank">github</a> zu finden.
     </p>
     
+    <hr />
 <h4>Naturschutzgebiete</h4>
 <p>
 Informationen über deutsche Naturschutzgebiete werden vom <a href="http://www.nsg-atlas/" target="_blank">NSG-Atlas</a> freundlicherweise zur Verfügung gestellt. Danke dafür!
@@ -563,14 +559,19 @@ Die bereitgestellten Daten haben keine Rechtsverbindlichkeit.
 Details zum Datenmaterial sind auf den <a href="http://www.nsg-atlas.de/Datenmaterial.html" target="_blank">bei NSG-Atlas</a> zu finden.
 </p>
 
+<hr />
 <h4>Datenschutz</h4>
 <p>
 Diese Seite erhebt keine personenbezogenen Daten.
 </p>
+
+<hr />
 <h4>Cookies</h4>
 <p>
 Diese Seite verwendet Cookies, um die aktuelle Ansicht der Karte (Zentrum, Position der Marker, gewählter Kartentyp) abzuspeichern und beim erneuten Besuch der Seite wieder zu laden. Selbstverständlich ist das Löschen dieser Cookies bzw. das Unterbinden dieser Cookies in den Browsereinstellungen möglich.
 </p>
+
+<hr />
 <h4>Google Analytics</h4>
 <p>
 Diese Website benutzt Google Analytics, einen Webanalysedienst der Google Inc. ("Google"). Google Analytics verwendet sog. "Cookies", Textdateien, die auf Ihrem Computer gespeichert werden und die eine Analyse der Benutzung der Website durch Sie ermöglichen. Die durch den Cookie erzeugten Informationen über Ihre Benutzung dieser Website werden in der Regel an einen Server von Google in den USA übertragen und dort gespeichert. Im Falle der Aktivierung der IP-Anonymisierung auf dieser Webseite wird Ihre IP-Adresse von Google jedoch innerhalb von Mitgliedstaaten der Europäischen Union oder in anderen Vertragsstaaten des Abkommens über den Europäischen Wirtschaftsraum zuvor gekürzt.

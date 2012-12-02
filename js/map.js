@@ -155,7 +155,11 @@ function showPermalinkDialog()
     posc = map.getCenter();
     zoom = map.getZoom();
     
-    var s = "http://foomap.de/index.html?lat1=" + pos1.lat() + "&lon1=" + pos1.lng() + "&lat2=" + pos2.lat() + "&lon2=" + pos2.lng() + "&clat=" + posc.lat() + "&clon=" + posc.lng() + "&zoom=" + zoom + "&map=" + map.getMapTypeId();
+    var s = "http://foomap.de/index.html?lat1=" + pos1.lat().toFixed(6) + "&lon1=" + pos1.lng().toFixed(6) 
+            + "&lat2=" + pos2.lat().toFixed(6) + "&lon2=" + pos2.lng().toFixed(6) 
+            + "&clat=" + posc.lat().toFixed(6) + "&clon=" + posc.lng().toFixed(6) 
+            + "&zoom=" + zoom 
+            + "&map=" + map.getMapTypeId();
     $('#permalinkDialogEdit').val(s);
     $('#permalinkDialog').modal( {show: true} );
 }
