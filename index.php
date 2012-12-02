@@ -39,7 +39,7 @@
     #map-wrapper { position: absolute; left: 0; right:300px; top: 40px; bottom: 0; float: left; }
     #themap { width: 100%; height: 100%;}
     #themap img { max-width: none; }
-    #sidebar { overflow: auto; position: absolute; width: 290px; right: 0; top: 50px; bottom: 0px; float: right; }
+    #sidebar { overflow: auto; position: absolute; padding: 4px; width: 292px; right: 0; top: 40px; bottom: 0px; float: right; }
 </style>
 
 </head>
@@ -321,13 +321,32 @@ else
 
 <!-- the control widget -->
 <div id="sidebar">
-
-<p>Suche</p>
+<div class="accordion" id="sidebar-accordion">
+    
+  <div class="accordion-group">
+    <div class="accordion-heading">
+      <a class="accordion-toggle" data-toggle="collapse" data-parent="#sidebar-accordion" href="#collapseSearch">
+        Suche
+      </a>
+    </div>
+    <div id="collapseSearch" class="accordion-body collapse">
+      <div class="accordion-inner">
 <div class="input-append">
 <input id="txtSearch" style="width: 210px" type="text" placeholder="Koordinaten oder Ort">
 <button class="btn" style="width: 44px" type="button" onClick="searchLocation()"><i class="icon-search"></i></button>
 </div>
-
+      </div>
+    </div>
+  </div>
+  
+  <div class="accordion-group">
+    <div class="accordion-heading">
+      <a class="accordion-toggle" data-toggle="collapse" data-parent="#sidebar-accordion" href="#collapseMarkers">
+        Marker
+      </a>
+    </div>
+    <div id="collapseMarkers" class="accordion-body collapse in">
+      <div class="accordion-inner">
 <form>
 <p>Marker <span class="label label-success">A</span></p>
 <div class="input-append">
@@ -362,9 +381,19 @@ else
 </div>
 </form>
 
-<form onsubmit="projectionXP()">
-<p>Wegpunktprojektion</p>
+      </div>
+    </div>
+  </div>
 
+  <div class="accordion-group">
+    <div class="accordion-heading">
+      <a class="accordion-toggle" data-toggle="collapse" data-parent="#sidebar-accordion" href="#collapseProjection">
+        Wegpunktprojektion
+      </a>
+    </div>
+    <div id="collapseProjection" class="accordion-body collapse">
+      <div class="accordion-inner">
+<form onsubmit="projectionXP()">
 <div class="input-prepend input-append" style="width: 200px">
 <span class="add-on" style="width: 48px">Distanz</span>
 <input id="txtProjectionDistance" style="width: 160px" type="text" placeholder="Distanz (m)">
@@ -379,12 +408,26 @@ else
 
 <input class="btn" type="button" value="Los geht's!" onClick="projectionXP()" />
 </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion-group">
+    <div class="accordion-heading">
+      <a class="accordion-toggle" data-toggle="collapse" data-parent="#sidebar-accordion" href="#collapseNSG">
+        Naturschutzgebiete
+      </a>
+    </div>
+    <div id="collapseNSG" class="accordion-body collapse">
+      <div class="accordion-inner">
 <form>
-<p>Naturschutzgebiete</p>
 <label class="checkbox">
     <input id="showNSG" type="checkbox"> Zeige Naturschutzgebiete
 </label>
 </form>
+      </div>
+    </div>
+  </div>
 </div>
 
 
