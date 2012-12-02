@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <meta name="description" content="Vollbildkarte mit Koordinatenbestimmung, Wegpunktprojektion und Abstandsberechnung">
+    <meta name="description" content="Vollbildkarte mit Koordinatenbestimmung, Wegpunktprojektion, Abstandsberechnung und Anzeige von Naturschutzgebieten">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Flopps Tolle Karte: Wegpunktprojektion, Koordinaten, Abstand</title>
     <link rel="author" href="https://plus.google.com/100782631618812527586" />
