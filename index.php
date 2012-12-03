@@ -536,7 +536,7 @@ Seite gemäß Telemediengesetz nicht der Impressumspflicht.</p>
     <h4>Hinter den Kulissen...</h4>
     <p>
         <b>Flopps Tolle Karte</b> benutzt <a href="https://developers.google.com/maps/" target="_blank">Google Maps</a> 
-        und <a href="http://openstreetmap.org/" target="_blank">OpenStreetMap</a> als Kartelieferanten, 
+        und <a href="http://openstreetmap.org/" target="_blank">OpenStreetMap</a> als Kartenlieferanten, 
         <a href="http://twitter.github.com/bootstrap/index.html" target="_blank">Bootstrap</a> 
         und <a href="http://jquery.com/" target="_blank">jQuery</a> für die Elemente des Userinterfaces,
         die Icons von <a href="http://glyphicons.com/" target="_blank">Glyphicons</a> und <a href="http://www.awicons.com/" target="_blank">Lokas Software</a>,
@@ -556,7 +556,7 @@ auf Seiten verwendet werden, die Werbung beinhalten.
 <br />
 Das Datenmaterial der NSG gehört den einzelnen Ämtern der Länder.
 Die bereitgestellten Daten haben keine Rechtsverbindlichkeit.
-Details zum Datenmaterial sind auf den <a href="http://www.nsg-atlas.de/Datenmaterial.html" target="_blank">bei NSG-Atlas</a> zu finden.
+Details zum Datenmaterial sind auf den <a href="http://www.nsg-atlas.de/Datenmaterial.html" target="_blank">Seiten vom NSG-Atlas</a> zu finden.
 </p>
 
 <hr />
