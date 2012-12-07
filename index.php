@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="description" content="Vollbildkarte mit Koordinatenbestimmung, Wegpunktprojektion, Abstandsberechnung und Anzeige von Naturschutzgebieten">
+    <meta http-equiv="content-language" content="de">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Flopps Tolle Karte: Wegpunktprojektion, Koordinaten, Abstand</title>
     <link rel="author" href="https://plus.google.com/100782631618812527586" />
@@ -451,8 +452,8 @@ else
       
       <hr />
       <h4>Die Marker</h4>
-      <p>Auf der Karte gibt es zwei Marker: <img src="img/green.png" alt="A"> 
-      und <img src="img/red.png" alt="B"></p>
+      <p>Auf der Karte gibt es zwei Marker: <img src="img/green.png" alt="Marker A"> 
+      und <img src="img/red.png" alt="Marker B"></p>
       <p>
       <img alt="Die Marker auf der Karte" src="img/screenshot-markers.png" class="img-polaroid">
       </p>
@@ -520,10 +521,10 @@ else
     <p>Bugs können auch via <a href="https://github.com/flopp/FloppsTolleKarte" target="_blank">github</a> gemeldet werden.</p>
     <p>Flopps Tolle Karte ist unter den URLs <a href="http://flopp-caching.de/">flopp-caching.de</a> und <a href="http://foomap.de/">foomap.de</a> erreichbar.</p>
     <p>
-        <a href="mailto:mail@flopp-caching.de" target="_blank"><img src="img/email.png"></a>
-        <a href="https://twitter.com/floppgc" target="_blank"><img src="img/twitter.png"></a>
-        <a href="https://plus.google.com/u/0/116067328889875491676" target="_blank"><img src="img/googleplus.png"></a>
-        <a href="https://www.facebook.com/FloppsTolleKarte" target="_blank"><img src="img/facebook.png"></a>
+        <a href="mailto:mail@flopp-caching.de" target="_blank"><img src="img/email.png" alt="E-Mail"></a>
+        <a href="https://twitter.com/floppgc" target="_blank"><img src="img/twitter.png" alt="Twitter"></a>
+        <a href="https://plus.google.com/u/0/116067328889875491676" target="_blank"><img src="img/googleplus.png" alt="Google+"></a>
+        <a href="https://www.facebook.com/FloppsTolleKarte" target="_blank"><img src="img/facebook.png" alt="Facebook"></a>
     </p>
     
     <hr />
@@ -589,7 +590,7 @@ Sie können die Speicherung der Cookies durch eine entsprechende Einstellung Ihr
 <div id="coordinatesADialog" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="coordinatesADialogLabel" aria-hidden="true">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3 id="coordinatesADialogLabel">Koordinaten für <img src="img/green.png"></h3>
+    <h3 id="coordinatesADialogLabel">Koordinaten für <img src="img/green.png" alt="Marker A"></h3>
   </div>
   <div class="modal-body">
     <input id="coordinatesADialogEdit" style="width: 210px" type="text">
@@ -604,7 +605,7 @@ Sie können die Speicherung der Cookies durch eine entsprechende Einstellung Ihr
 <div id="coordinatesBDialog" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="coordinatesBDialogLabel" aria-hidden="true">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3 id="coordinatesBDialogLabel">Koordinaten für <img src="img/red.png"></h3>
+    <h3 id="coordinatesBDialogLabel">Koordinaten für <img src="img/red.png" alt="Marker B"></h3>
   </div>
   <div class="modal-body">
     <input id="coordinatesBDialogEdit" style="width: 210px" type="text">
