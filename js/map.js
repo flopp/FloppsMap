@@ -88,11 +88,15 @@ function storeCenter()
     c = map.getCenter();
     set_cookie( 'clat', c.lat() );
     set_cookie( 'clon', c.lng() );
+    
+    updateIngressLink();
 }
 
 function storeZoom()
 {
     set_cookie( 'zoom', map.getZoom() );
+    
+    updateIngressLink();
 }
 
 function projectionXP()
@@ -162,6 +166,15 @@ function showPermalinkDialog()
             + "&map=" + map.getMapTypeId();
     $('#permalinkDialogEdit').val(s);
     $('#permalinkDialog').modal( {show: true} );
+}
+
+function updateIngressLink()
+{
+    latE6 = Math.round( map.getCenter().lat() * 1000000 );
+    lngE6 = Math.round( map.getCenter().lng() * 1000000 );
+    zoom = map.getZoom();
+    link = "http://www.ingress.com/intel?latE6=" + latE6 + "&lngE6=" + lngE6 + "&z=" + zoom;
+    $( "#ingresslink" ).attr( "href", link );
 }
 
 function showNSGLayer( t )

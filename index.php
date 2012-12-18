@@ -427,6 +427,7 @@ else
 </label>
     <input class="btn" onClick="javascript:" value="Permalink" id='showPermalink'>
 </form>
+        <a id="ingresslink" href="http://ingress.com/intel" target="_blank"><img src="img/ingress.png" alt="Ingress"></a>
       </div>
     </div>
   </div>
@@ -501,6 +502,9 @@ else
           der Positionen der Marker, der Zoomstufe, des gewählten Kartentyps). 
           Diesen Link kann man kopieren und z.B. an Freunde schicken um die 
           aktuelle Kartenansicht mit ihnen zu teilen.
+      </p>
+      <p>   
+          Ein Klick auf das Ingress-Logo <img width="24px" height="24px" src="img/ingress.png" /> öffnet die Karte von <a href="http://www.ingress.com/">Ingress</a> an der aktuellen Position.
       </p>
   </div>
   <div class="modal-footer">
@@ -649,6 +653,7 @@ Sie können die Speicherung der Cookies durch eine entsprechende Einstellung Ihr
 <p id="news">
     <h4>Neuigkeiten</h4>
     <ul>
+        <li><b>2012/12/18</b> Link zur Karte von <a href="http://www.ingress.com/">Ingress</a>.</li>        
         <li><b>2012/12/01</b> Neues Sidebar-Design.</li>        
         <li><b>2012/11/29</b> Kooperation mit dem <a href="http://www.nsg-atlas.de/" target="_blank">NSG-Atlas</a>: Naturschutzgebiete können eingeblendet werden.</li>        
         <li><b>2012/11/20</b> Es können Permalinks für die aktuelle Kartenansicht erzeugt werden.</li>
