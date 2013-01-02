@@ -416,7 +416,7 @@ else
   <div class="accordion-group">
     <div class="accordion-heading">
       <a class="accordion-toggle" data-toggle="collapse" data-parent="#sidebar-accordion" href="#collapseOther">
-        Sonstiges
+        Sonstiges/Links
       </a>
     </div>
     <div id="collapseOther" class="accordion-body collapse">
@@ -427,8 +427,14 @@ else
 </label>
     <input class="btn" onClick="javascript:" value="Permalink" id='showPermalink'>
 </form>
-        <a id="ingresslink" href="http://ingress.com/intel" target="_blank"><img src="img/ingress.png" alt="Ingress"></a>
-      </div>
+<b>Externe Links</b>
+<ul>
+    <li><a id="googlemapslink" href="https://maps.google.com/" target="_blank">Google Maps</a></li>
+<li><a id="ingresslink" href="http://ingress.com/intel" target="_blank">Ingress Intel Map</a></li>
+<li><a id="geocachingcomlink" href="http://coord.info/map" target="_blank">Geocaching.com Map</a></li>
+<li><a id="opencachingdelink" href="http://www.opencaching.de/map2.php" target="_blank">Opencaching.de Map</a></li>
+</ul>
+</div>
     </div>
   </div>
 </div>
@@ -490,21 +496,21 @@ else
       <hr />
       <h4>Naturschutzgebiete</h4>
       <p>
-      Durch ankreuzen des Feldes "Zeige Naturschutzgebiete" im Abschnitt "Sonstiges" der Sidebar, wird die Anzeige von deutschen Naturschutzgebieten in der Karte als farbige Flächen aktiviert. Die Informationen über die Naturschutzgebiete werden vom <a href="http://www.nsg-atlas/" target="_blank">NSG-Atlas</a> bezogen.
+      Durch ankreuzen des Feldes "Zeige Naturschutzgebiete" im Abschnitt "Sonstiges/Links" der Sidebar, wird die Anzeige von deutschen Naturschutzgebieten in der Karte als farbige Flächen aktiviert. Die Informationen über die Naturschutzgebiete werden vom <a href="http://www.nsg-atlas/" target="_blank">NSG-Atlas</a> bezogen.
       <img src="img/screenshot-nsg.png" alt="Naturschutzgebiete" class="img-polaroid">
       </p>
       
       <hr />
-      <h4>Permalinks</h4>
+      <h4>Permalinks/Links</h4>
       <p>
-          Der Button "Permalink" im Abschnitt "Sonstiges" der Sidebar öffnet einen Dialog in 
+          Der Button "Permalink" im Abschnitt "Sonstiges/Links" der Sidebar öffnet einen Dialog in 
           dem ein Permalink auf die aktuelle Kartenansicht angezeigt wird (inklusive 
           der Positionen der Marker, der Zoomstufe, des gewählten Kartentyps). 
           Diesen Link kann man kopieren und z.B. an Freunde schicken um die 
           aktuelle Kartenansicht mit ihnen zu teilen.
       </p>
       <p>   
-          Ein Klick auf das Ingress-Logo <img width="24px" height="24px" src="img/ingress.png" /> öffnet die Karte von <a href="http://www.ingress.com/">Ingress</a> an der aktuellen Position.
+          Unter "Externe Links" sind Links zu einigen externen Kartendiensten zu finden. Ein Klick auf einen dieser Links offnet die Karte des externen Dienstes an der Position, die hier aktuelle angezeigt wird. Manche Dienste benötigen eine vorige Anmeldung.
       </p>
   </div>
   <div class="modal-footer">
@@ -653,6 +659,7 @@ Sie können die Speicherung der Cookies durch eine entsprechende Einstellung Ihr
 <p id="news">
     <h4>Neuigkeiten</h4>
     <ul>
+        <li><b>2013/01/01</b> Externe Links zu diversen Karten: Google Maps, Geocaching.com, <a href="http://opencaching.de/">Opencaching.de</a></li>        
         <li><b>2012/12/18</b> Link zur Karte von <a href="http://www.ingress.com/">Ingress</a>.</li>        
         <li><b>2012/12/01</b> Neues Sidebar-Design.</li>        
         <li><b>2012/11/29</b> Kooperation mit dem <a href="http://www.nsg-atlas.de/" target="_blank">NSG-Atlas</a>: Naturschutzgebiete können eingeblendet werden.</li>        

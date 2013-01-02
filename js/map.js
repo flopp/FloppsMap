@@ -89,14 +89,14 @@ function storeCenter()
     set_cookie( 'clat', c.lat() );
     set_cookie( 'clon', c.lng() );
     
-    updateIngressLink();
+    updateLinks();
 }
 
 function storeZoom()
 {
     set_cookie( 'zoom', map.getZoom() );
     
-    updateIngressLink();
+    updateLinks();
 }
 
 function projectionXP()
@@ -168,13 +168,25 @@ function showPermalinkDialog()
     $('#permalinkDialog').modal( {show: true} );
 }
 
-function updateIngressLink()
+function updateLinks()
 {
-    latE6 = Math.round( map.getCenter().lat() * 1000000 );
-    lngE6 = Math.round( map.getCenter().lng() * 1000000 );
+    lat = map.getCenter().lat();
+    lng = map.getCenter().lng();
+    latE6 = Math.round( lat * 1000000 );
+    lngE6 = Math.round( lng * 1000000 );
     zoom = map.getZoom();
-    link = "http://www.ingress.com/intel?latE6=" + latE6 + "&lngE6=" + lngE6 + "&z=" + zoom;
-    $( "#ingresslink" ).attr( "href", link );
+    
+    googlemapslink = "https://maps.google.com/maps?ll=" + lat + "," + lng + "&z=" + zoom;
+    $( "#googlemapslink" ).attr( "href", googlemapslink );
+    
+    ingresslink = "http://www.ingress.com/intel?latE6=" + latE6 + "&lngE6=" + lngE6 + "&z=" + zoom;
+    $( "#ingresslink" ).attr( "href", ingresslink );
+    
+    geocachingcomlink = "http://coord.info/map?ll=" + lat + "," + lng + "&z=" + zoom;
+    $( "#geocachingcomlink" ).attr( "href", geocachingcomlink );
+    
+    opencachingdelink = "http://www.opencaching.de/map2.php?lat=" + lat + "&lon=" + lng + "&zoom=" + zoom;
+    $( "#opencachingdelink" ).attr( "href", opencachingdelink );
 }
 
 function showNSGLayer( t )
@@ -387,6 +399,8 @@ function initialize( ok, xlat1, xlon1, xlat2, xlon2, xclat, xclon, xzoom, xmap )
         
     showNSGLayer( nsg != 0 );
     updateNSGLayer();
+    
+    updateLinks();
     
     showWelcomePopup();
 }
