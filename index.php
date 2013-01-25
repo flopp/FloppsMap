@@ -240,13 +240,13 @@ else
         <div class="container-fluid">
             <ul class="nav">
                 <li><a role="button" class="brand" href="javascript:">Flopps Tolle Karte</a></li>
-                <li><a role="button" href="http://blog.flopp-caching.de/">Blog <i class="icon-star icon-white"></i></a></li>
-                <li><a role="button" href="#hilfeDialog" data-toggle="modal">Hilfe <i class="icon-question-sign icon-white"></i></a></li>
-                <li><a role="button" href="#kontaktDialog" data-toggle="modal">Info/Impressum <i class="icon-info-sign icon-white"></i></a></li>
+                <li><a role="button" href="http://blog.flopp-caching.de/" rel="tooltip" title="Hier geht es zu 'Flopps Tolles Blog'">Blog <i class="icon-star icon-white"></i></a></li>
+                <li><a role="button" href="#hilfeDialog" data-toggle="modal" rel="tooltip" title="Anleitung für die Karte">Hilfe <i class="icon-question-sign icon-white"></i></a></li>
+                <li><a role="button" href="#kontaktDialog" data-toggle="modal" rel="tooltip" title="Rechtliche Hinweise, Kontaktinformationen, usw.">Info/Impressum <i class="icon-info-sign icon-white"></i></a></li>
             </ul>
             <div class="pull-right">
                 <ul class="nav">
-                    <li><a role="button" href="javascript:" id='sidebar-toggle'>Sidebar <i class="icon-ok-sign icon-white"></i></a></li>
+                    <li><a role="button" href="javascript:" id='sidebar-toggle' rel="tooltip" title="Sidebar ein- und ausblenden">Sidebar <i class="icon-ok-sign icon-white"></i></a></li>
                 </ul>
             </div>
         </div>
@@ -394,8 +394,8 @@ else
     <div id="collapseSearch" class="accordion-body collapse">
       <div class="accordion-inner">
 <div class="input-append">
-<input id="txtSearch" style="width: 210px" type="text" placeholder="Koordinaten oder Ort">
-<button class="btn" style="width: 44px" type="button" onClick="searchLocation()"><i class="icon-search"></i></button>
+<input id="txtSearch" style="width: 210px" type="text" placeholder="Koordinaten oder Ort" title="Nach einem Ort oder Koordinaten suchen und die Karte auf dem Suchergebnis zentrieren">
+<button class="btn" style="width: 44px" type="button" onClick="searchLocation()" title="Nach einem Ort oder Koordinaten suchen und die Karte auf dem Suchergebnis zentrieren"><i class="icon-search"></i></button>
 </div>
       </div>
     </div>
@@ -412,43 +412,43 @@ else
 <form>
 <p>Marker <span class="label label-success">A</span></p>
 <div class="input-append">
-<input id="inputCoordinatesA" style="width: 166px" type="text" readonly>
-<button id="showCoordinatesADialog" class="btn" style="width: 44px" type="button"><i class="icon-pencil"></i></button>
-<button class="btn" style="width: 44px" type="button" onClick="centerX()"><i class="icon-screenshot"></i></button>
+<input id="inputCoordinatesA" style="width: 166px" type="text" readonly title="Die Koordinaten des Markers A">
+<button id="showCoordinatesADialog" class="btn" style="width: 44px" type="button" title="Koordinaten des Markers A ändern"><i class="icon-pencil"></i></button>
+<button class="btn" style="width: 44px" type="button" onClick="centerX()" title="Marker A in der Mitte der Karte platzieren"><i class="icon-screenshot"></i></button>
 </div>
 <div class="input-prepend input-append">
-<span class="add-on" style="width: 24px"><i class="icon-remove-circle"></i></span>
-<input id="inputRadiusA" style="width: 148px" type="text" readonly>
+<span class="add-on" style="width: 24px" title="Radius des Kreises um Marker A"><i class="icon-remove-circle"></i></span>
+<input id="inputRadiusA" style="width: 148px" type="text" readonly title="Radius des Kreises um Marker A">
 <span class="add-on" style="width: 16px">m</span>
-<button id="showRadiusADialog" class="btn" style="width: 44px" type="button"><i class="icon-pencil"></i></button>
+<button id="showRadiusADialog" class="btn" style="width: 44px" type="button" title="Radius des Kreises um Marker A ändern"><i class="icon-pencil"></i></button>
 </div> 
 </form>
 
 <form>
 <p>Marker <span class="label label-important">B</span></p>
 <div class="input-append">
-<input id="inputCoordinatesB" style="width: 166px" type="text" readonly>
-<button id="showCoordinatesBDialog" class="btn" style="width: 44px" type="button"><i class="icon-pencil"></i></button>
-<button class="btn" style="width: 44px" type="button" onClick="centerP()"><i class="icon-screenshot"></i></button>
+<input id="inputCoordinatesB" style="width: 166px" type="text" readonly title="Die Koordinaten des Markers B">
+<button id="showCoordinatesBDialog" class="btn" style="width: 44px" type="button" title="Koordinaten des Markers B ändern"><i class="icon-pencil"></i></button>
+<button class="btn" style="width: 44px" type="button" onClick="centerP()" title="Marker B in der Mitte der Karte platzieren"><i class="icon-screenshot"></i></button>
 </div>
 <div class="input-prepend input-append">
-<span class="add-on" style="width: 24px"><i class="icon-remove-circle"></i></span>
-<input id="inputRadiusB" style="width: 148px" type="text" readonly>
+<span class="add-on" style="width: 24px" title="Radius des Kreises um Marker B"><i class="icon-remove-circle"></i></span>
+<input id="inputRadiusB" style="width: 148px" type="text" readonly title="Radius des Kreises um Marker B">
 <span class="add-on" style="width: 16px">m</span>
-<button id="showRadiusBDialog" class="btn" style="width: 44px" type="button"><i class="icon-pencil"></i></button>
+<button id="showRadiusBDialog" class="btn" style="width: 44px" type="button" title="Radius des Kreises um Marker B ändern"><i class="icon-pencil"></i></button>
 </div>
 </form>
 
 <form>
 <p>Entfernung und Winkel von <span class="label label-success">A</span> nach <span class="label label-important">B</span></p>
 
-<div class="input-prepend input-append" style="width: 200px">
+<div class="input-prepend input-append" style="width: 200px" title="Abstand des Markers A vom Marker B in Metern">
 <span class="add-on" style="width: 48px">Distanz</span>
 <input id="txtDistance" style="width: 160px" type="text" readonly>
 <span class="add-on" style="width: 16px">m</span>
 </div>
 
-<div class="input-prepend input-append" style="width: 200px">
+<div class="input-prepend input-append" style="width: 200px" title="Peilungswinkel von Marker A nach Marker B">
 <span class="add-on" style="width: 48px">Winkel</span>
 <input id="txtBearing" style="width: 160px" type="text" readonly>
 <span class="add-on" style="width: 16px">°</span>
@@ -467,14 +467,15 @@ else
     </div>
     <div id="collapseProjection" class="accordion-body collapse">
       <div class="accordion-inner">
+          <p><span class="label label-important">B</span> von <span class="label label-success">A</span> aus verschieben.</p>
 <form onsubmit="projectionXP()">
-<div class="input-prepend input-append" style="width: 200px">
+<div class="input-prepend input-append" style="width: 200px" title="Projektionsdistanz in Metern">
 <span class="add-on" style="width: 48px">Distanz</span>
 <input id="txtProjectionDistance" style="width: 160px" type="text" placeholder="Distanz (m)">
 <span class="add-on" style="width: 16px">m</span>
 </div>
 
-<div class="input-prepend input-append">
+<div class="input-prepend input-append" title="Projektionswinkel">
 <span class="add-on" style="width: 48px">Winkel</span>
 <input id="txtProjectionBearing" style="width: 160px" type="text" placeholder="Winkel (°)">
 <span class="add-on" style="width: 16px">°</span>
@@ -495,14 +496,14 @@ else
     <div id="collapseOther" class="accordion-body collapse">
       <div class="accordion-inner">
 <form>
-<label class="checkbox">
+<label class="checkbox" title="Deutsche Naturschutzgebiete in der Karte markieren">
     <input id="showNSG" type="checkbox"> Zeige Naturschutzgebiete
 </label>
     <input class="btn" onClick="javascript:" value="Permalink" id='showPermalink'>
 </form>
 <b>Externe Links</b>
 <ul>
-    <li><a id="googlemapslink" href="https://maps.google.com/" target="_blank">Google Maps</a></li>
+<li><a id="googlemapslink" href="https://maps.google.com/" target="_blank">Google Maps</a></li>
 <li><a id="ingresslink" href="http://ingress.com/intel" target="_blank">Ingress Intel Map</a></li>
 <li><a id="geocachingcomlink" href="http://coord.info/map" target="_blank">Geocaching.com Map</a></li>
 <li><a id="opencachingdelink" href="http://www.opencaching.de/map2.php" target="_blank">Opencaching.de Map</a></li>
@@ -603,6 +604,7 @@ else
   <div class="modal-body">
     <img class="img-polaroid" width="100ps" height="100px" style="float: right" src="avatar.jpg" alt="Flopp">
     <h4>Kontakt</h4>
+    <p>Neuigkeiten und aktuelle Informationen werden über das <a href="http://blog.flopp-caching.de/" alt="Blog">zugehörige Blog</a> verbreitet.</p>
     <p>Fragen und Anregungen nehme ich gerne per <a href="mailto:mail@flopp-caching.de" target="_blank">Mail</a> oder <a href="https://twitter.com/floppgc" target="_blank">Twitter</a> entgegen. Außerdem gibt es Seiten bei <a href="https://plus.google.com/u/0/116067328889875491676" target="_blank">Google+</a> und bei <a href="https://www.facebook.com/FloppsTolleKarte" target="_blank">Facebook</a>.</p>
     <p>Bugs können auch via <a href="https://github.com/flopp/FloppsTolleKarte" target="_blank">github</a> gemeldet werden.</p>
     <p>Flopps Tolle Karte ist unter den URLs <a href="http://flopp-caching.de/">flopp-caching.de</a> und <a href="http://foomap.de/">foomap.de</a> erreichbar.</p>
