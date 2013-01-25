@@ -1,5 +1,7 @@
 var markerA;
 var markerB;
+var circleA;
+var circleB;
 var lineAB;
 var geocoder;
 
@@ -32,13 +34,27 @@ function updateProjectionLine()
 function setCoordinatesA( c )
 {
     markerA.setPosition( c );
+    circleA.setCenter( c );
     updateCoordinates();
+}
+
+function setRadiusA( c )
+{
+    circleA.setRadius( c );
+    $('#inputRadiusA').val( c );
 }
 
 function setCoordinatesB( c )
 {
     markerB.setPosition( c );
+    circleB.setCenter( c );
     updateCoordinates();
+}
+
+function setRadiusB( c )
+{
+    circleB.setRadius( c );
+    $('#inputRadiusB').val( c );
 }
 
 function gotoX()
@@ -66,8 +82,13 @@ function updateCoordinates()
     pos1 = markerA.getPosition();
     pos2 = markerB.getPosition();
     
-    document.getElementById( 'inputCoordinatesA' ).value = coords2string( pos1 );
-    document.getElementById( 'inputCoordinatesB' ).value = coords2string( pos2 );
+    circleA.setCenter( pos1 );
+    circleB.setCenter( pos2 );
+    
+    $('#inputCoordinatesA' ).val( coords2string( pos1 ) ); 
+    $('#inputCoordinatesB' ).val( coords2string( pos2 ) ); 
+    //document.getElementById( 'inputCoordinatesA' ).value = coords2string( pos1 );
+    //document.getElementById( 'inputCoordinatesB' ).value = coords2string( pos2 );
     
     set_cookie('lat1', pos1.lat());
     set_cookie('lon1', pos1.lng());
@@ -142,7 +163,7 @@ function showWelcomePopup()
 {
     var welcome= get_cookie('welcome') != null ? parseInt(get_cookie('welcome')) : ( 0 );
     
-    var currentwelcome = 6;
+    var currentwelcome = 7;
     
     if( welcome < currentwelcome )
     {
@@ -159,8 +180,9 @@ function showPermalinkDialog()
     posc = map.getCenter();
     zoom = map.getZoom();
     
-    var s = "http://foomap.de/index.html?lat1=" + pos1.lat().toFixed(6) + "&lon1=" + pos1.lng().toFixed(6) 
-            + "&lat2=" + pos2.lat().toFixed(6) + "&lon2=" + pos2.lng().toFixed(6) 
+    var s = "http://foomap.de/?"
+            + "lat1=" + pos1.lat().toFixed(6) + "&lon1=" + pos1.lng().toFixed(6) + "&r1=" + circleA.getRadius().toFixed(0)
+            + "&lat2=" + pos2.lat().toFixed(6) + "&lon2=" + pos2.lng().toFixed(6) + "&r2=" + circleB.getRadius().toFixed(0)
             + "&clat=" + posc.lat().toFixed(6) + "&clon=" + posc.lng().toFixed(6) 
             + "&zoom=" + zoom 
             + "&map=" + map.getMapTypeId();
@@ -252,7 +274,55 @@ function updateNSGLayer()
         }, 1000 );
 }
 
-function repairMaptype( t )
+function repairLat( x, d )
+{
+    if( x == NaN || x < -90 || x > +90 )
+    {
+        return d;
+    }
+    else
+    {
+        return x;
+    }
+}
+
+function repairLon( x, d )
+{
+    if( x == NaN || x < -180 || x > +180 )
+    {
+        return d;
+    }
+    else
+    {
+        return x;
+    }
+}
+
+function repairRadius( x, d )
+{
+    if( x == NaN || x < 0 || x > 100000000 )
+    {
+        return d;
+    }
+    else
+    {
+        return x;
+    }
+}
+
+function repairZoom( x, d )
+{
+    if( x == NaN || x < 1 || x > 20 )
+    {
+        return d;
+    }
+    else
+    {
+        return x;
+    }
+}
+
+function repairMaptype( t, d )
 {
     if( t == "OSM" )
     {
@@ -280,14 +350,14 @@ function repairMaptype( t )
     }
     else
     {
-        return "OSM";
+        return d;
     }
 }
 
-function initialize( ok, xlat1, xlon1, xlat2, xlon2, xclat, xclon, xzoom, xmap )
+function initialize( ok, xlat1, xlon1, xr1, xlat2, xlon2, xr2, xclat, xclon, xzoom, xmap )
 {
-    var lat1, lon1;
-    var lat2, lon2;
+    var lat1, lon1, r1;
+    var lat2, lon2, r2;
     var clat, clon;
     var zoom;
     var maptype;
@@ -299,9 +369,11 @@ function initialize( ok, xlat1, xlon1, xlat2, xlon2, xclat, xclon, xzoom, xmap )
         /* load values from parameters */
         lat1 = xlat1;
         lon1 = xlon1;
+        r1 = xr1;
         
         lat2 = xlat2;
         lon2 = xlon2;
+        r2 = xr2;
         
         clat = xclat;
         clon = xclon;
@@ -312,17 +384,28 @@ function initialize( ok, xlat1, xlon1, xlat2, xlon2, xclat, xclon, xzoom, xmap )
     else
     {
         /* try to read coordinats from cookie */
-        lat1 = get_cookie('lat1') != null ? parseFloat(get_cookie('lat1')) : ( 48.0+0.356/60.0 );
+        lat1 = get_cookie('lat1') != null ? parseFloat(get_cookie('lat1')) : ( 48.0+0.356/60.0 ); 
         lon1 = get_cookie('lon1') != null ? parseFloat(get_cookie('lon1')) : ( 7.0+50.832/60.0 );
+        r1 = get_cookie('r1') != null ? parseFloat(get_cookie('r1')) : ( 100.0 );
         lat2 = get_cookie('lat2') != null ? parseFloat(get_cookie('lat2')) : ( 48.0+1.504/60.0 );
         lon2 = get_cookie('lon2') != null ? parseFloat(get_cookie('lon2')) : ( 7.0+51.841/60.0 );
+        r2 = get_cookie('r2') != null ? parseFloat(get_cookie('r2')) : ( 100.0 );
         clat = get_cookie('clat') != null ? parseFloat(get_cookie('clat')) : ( 0.5*(lat1+lat2) );
         clon = get_cookie('clon') != null ? parseFloat(get_cookie('clon')) : ( 0.5*(lon1+lon2) );
         zoom = get_cookie('zoom') != null ? parseInt(get_cookie('zoom')) : 12;
         maptype = get_cookie('maptype') != null ? get_cookie('maptype') : "OSM";
     }
     
-    maptype = repairMaptype( maptype );
+    lat1 = repairLat( lat1, 48.0+0.356/60.0 );
+    lon1 = repairLon( lon1, 7.0+50.832/60.0 );
+    r1 = repairRadius( r1, 100 );
+    lat2 = repairLat( lat2, 48.0+1.504/60.0 );
+    lon2 = repairLon( lon2, 7.0+51.841/60.0 );
+    r2 = repairRadius( r2, 100 );
+    clat = repairLat( clat, 0.5*(lat1+lat2) );
+    clon = repairLon( clon, 0.5*(lon1+lon2) );
+    zoom = repairZoom( zoom, 12 );
+    maptype = repairMaptype( maptype, "OSM" );
        
     var nsg = get_cookie('nsg') != null ? parseInt( get_cookie('nsg') ) : 0;
     
@@ -378,7 +461,17 @@ function initialize( ok, xlat1, xlon1, xlat2, xlon2, xclat, xclon, xzoom, xmap )
     google.maps.event.addListener( markerA, "drag", function() { updateCoordinates(); } );        
     google.maps.event.addListener( markerA, "dragend", function() { updateCoordinates(); } );      
     
-        
+    circleA = new google.maps.Circle( {
+        center: location1, 
+        map: map,
+        strokeColor: "#007F00",
+        strokeOpacity: 1,
+        fillColor: "#00FF00",
+        fillOpacity: 0.25,
+        strokeWeight: 1,
+        radius: r1 } );
+    setRadiusA( r1 );
+    
     markerB = new google.maps.Marker( {
         position: location2, 
         map: map,
@@ -387,7 +480,18 @@ function initialize( ok, xlat1, xlon1, xlat2, xlon2, xclat, xclon, xzoom, xmap )
         
     google.maps.event.addListener( markerB, "drag", function() { updateCoordinates(); } );        
     google.maps.event.addListener( markerB, "dragend", function() { updateCoordinates(); } );      
-
+    
+    circleB = new google.maps.Circle( {
+        center: location2, 
+        map: map,
+        strokeColor: "#7F0000",
+        strokeOpacity: 1,
+        fillColor: "#FF0000",
+        fillOpacity: 0.25,
+        strokeWeight: 1,
+        radius: r2 } );
+    setRadiusB( r2 );
+    
     google.maps.event.addListener( map, "center_changed", function() { storeZoom(); storeCenter(); updateNSGLayer(); } );
     google.maps.event.addListener( map, "zoom_changed", function() { storeZoom(); storeCenter(); updateNSGLayer(); } );
     google.maps.event.addListener( map, "maptypeid_changed", function(){ updateCopyrights()});

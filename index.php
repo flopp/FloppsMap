@@ -48,16 +48,20 @@
 <?php
 $lat1_valid = false;
 $lon1_valid = false;
+$r1_valid = false;
 $lat2_valid = false;
 $lon2_valid = false;
+$r2_valid = false;
 $clat_valid = false;
 $clon_valid = false;
 $zoom_valid = false;
 
 $lat1 = 0;
 $lon1 = 0;
+$r1 = 0;
 $lat2 = 0;
 $lon2 = 0;
+$r2 = 0;
 $clat = 0;
 $clon = 0;
 $zoom = 0;
@@ -104,6 +108,10 @@ if(!empty($_GET))
     {
         my_parse_float( $_GET['lon1'], $lon1, $lon1_valid, -180, +180 );
     }
+    if (isset($_GET['r1']))
+    {
+        my_parse_float( $_GET['r1'], $r1, $r1_valid, 0, 10000000 );
+    }
     
     if (isset($_GET['lat2']))
     {
@@ -112,6 +120,10 @@ if(!empty($_GET))
     if (isset($_GET['lon2']))
     {
         my_parse_float( $_GET['lon2'], $lon2, $lon2_valid, -180, +180 );
+    }
+    if (isset($_GET['r2']))
+    {
+        my_parse_float( $_GET['r2'], $r2, $r2_valid, 0, 100000000 );
     }
     
     if (isset($_GET['clat']))
@@ -136,6 +148,15 @@ if(!empty($_GET))
             $maptype = 'OSM';
         }
     }  
+}
+
+if( !$r1_valid )
+{
+    $r1 = 100;
+}
+if( !$r2_valid )
+{
+    $r2 = 100;
 }
 
 $ok = false;
@@ -204,11 +225,11 @@ if( !$zoom_valid ) $zoom = 12;
 
 if( $ok )
 {
-    echo "<body onload=\"initialize( true, $lat1, $lon1, $lat2, $lon2, $clat, $clon, $zoom, '$maptype' )\" onunload=\"GUnload()\">";
+    echo "<body onload=\"initialize( true, $lat1, $lon1, $r1, $lat2, $lon2, $r2, $clat, $clon, $zoom, '$maptype' )\" onunload=\"GUnload()\">";
 }
 else
 {
-    echo "<body onload=\"initialize( false, $lat1, $lon1, $lat2, $lon2, $clat, $clon, $zoom, '$maptype' )\" onunload=\"GUnload()\">";
+    echo "<body onload=\"initialize( false, $lat1, $lon1, $r1, $lat2, $lon2, $r2, $clat, $clon, $zoom, '$maptype' )\" onunload=\"GUnload()\">";
 }
 ?>
 
@@ -279,6 +300,26 @@ else
             }
         });
         
+        $("#showRadiusADialog").click(
+        function() {
+            $('#radiusADialogEdit').val($("#inputRadiusA").val());
+            $('#radiusADialog').modal();
+        });
+        $("#radiusADialogOk").click(
+        function() {
+            s = $('#radiusADialogEdit').val();
+            c = parseFloat( s );
+            if( c != NaN && c >= 0 )
+            {
+                $('#radiusADialog').modal('hide');
+                setRadiusA( c );
+            }
+            else
+            {
+                alert( "Falsches Zahlenformat:\n"+ s );
+            }
+        });
+        
         $("#showCoordinatesBDialog").click(
         function() {
             $('#coordinatesBDialogEdit').val($("#inputCoordinatesB").val());
@@ -296,6 +337,26 @@ else
             else
             {
                 alert( "Falsches Koordinatenformat:\n"+ s );
+            }
+        });
+        
+        $("#showRadiusBDialog").click(
+        function() {
+            $('#radiusBDialogEdit').val($("#inputRadiusB").val());
+            $('#radiusBDialog').modal();
+        });
+        $("#radiusBDialogOk").click(
+        function() {
+            s = $('#radiusBDialogEdit').val();
+            c = parseFloat( s );
+            if( c != NaN && c >= 0 )
+            {
+                $('#radiusBDialog').modal('hide');
+                setRadiusB( c );
+            }
+            else
+            {
+                alert( "Falsches Zahlenformat:\n"+ s );
             }
         });
         
@@ -354,7 +415,13 @@ else
 <input id="inputCoordinatesA" style="width: 166px" type="text" readonly>
 <button id="showCoordinatesADialog" class="btn" style="width: 44px" type="button"><i class="icon-pencil"></i></button>
 <button class="btn" style="width: 44px" type="button" onClick="centerX()"><i class="icon-screenshot"></i></button>
-</div>  
+</div>
+<div class="input-prepend input-append">
+<span class="add-on" style="width: 24px"><i class="icon-remove-circle"></i></span>
+<input id="inputRadiusA" style="width: 148px" type="text" readonly>
+<span class="add-on" style="width: 16px">m</span>
+<button id="showRadiusADialog" class="btn" style="width: 44px" type="button"><i class="icon-pencil"></i></button>
+</div> 
 </form>
 
 <form>
@@ -363,6 +430,12 @@ else
 <input id="inputCoordinatesB" style="width: 166px" type="text" readonly>
 <button id="showCoordinatesBDialog" class="btn" style="width: 44px" type="button"><i class="icon-pencil"></i></button>
 <button class="btn" style="width: 44px" type="button" onClick="centerP()"><i class="icon-screenshot"></i></button>
+</div>
+<div class="input-prepend input-append">
+<span class="add-on" style="width: 24px"><i class="icon-remove-circle"></i></span>
+<input id="inputRadiusB" style="width: 148px" type="text" readonly>
+<span class="add-on" style="width: 16px">m</span>
+<button id="showRadiusBDialog" class="btn" style="width: 44px" type="button"><i class="icon-pencil"></i></button>
 </div>
 </form>
 
@@ -474,6 +547,9 @@ else
       <p>Bei "Entfernung und Winkel von <span class="label label-success">A</span> nach <span class="label label-important">B</span>" werden sowohl der aktuelle 
       Abstand von Marker <span class="label label-success">A</span> zu Marker <span class="label label-important">B</span> in Metern, als auch der Richtungswinkel 
       von <span class="label label-success">A</span> zu <span class="label label-important">B</span> angezeigt.</p>
+      
+      <p>Um die Marker herum wird ein transparenter Kreis gezeichnet. Der Radius des jeweiligen Kreises ist im Feld <span class="btn btn-small"><i class="icon-remove-circle"></i></span> angegeben und kann mit einem Klick auf den Knopf <span class="btn btn-small"><i class="icon-pencil"></i></span> geändert werden.
+      </p>
       
       <hr />
       <h4>Die Suche</h4>
@@ -627,6 +703,36 @@ Sie können die Speicherung der Cookies durch eine entsprechende Einstellung Ihr
   </div>
 </div>
 
+<div id="radiusADialog" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="radiusADialogLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="radiusADialogLabel">Radius (in m) für Kreis um <img src="img/green.png" alt="Marker A"></h3>
+  </div>
+  <div class="modal-body">
+    <input id="radiusADialogEdit" style="width: 210px" type="text">
+    <p>Zulässig sind positive Dezimalzahlen mit oder ohne Nachkommastellen, z.B. "123.45" oder "9876"</p>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Abbrechen</button>
+    <button class="btn btn-primary" id="radiusADialogOk">Ok</button>
+  </div>
+</div>
+
+<div id="radiusBDialog" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="radiusBDialogLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="radiusBDialogLabel">Radius (in m) für Kreis um <img src="img/red.png" alt="Marker B"></h3>
+  </div>
+  <div class="modal-body">
+    <input id="radiusBDialogEdit" style="width: 210px" type="text">
+    <p>Zulässig sind positive Dezimalzahlen mit oder ohne Nachkommastellen, z.B. "123.45" oder "9876"</p>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Abbrechen</button>
+    <button class="btn btn-primary" id="radiusBDialogOk">Ok</button>
+  </div>
+</div>
+
 <div id="permalinkDialog" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="permalinkDialogLabel" aria-hidden="true">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -659,7 +765,8 @@ Sie können die Speicherung der Cookies durch eine entsprechende Einstellung Ihr
 <p id="news">
     <h4>Neuigkeiten</h4>
     <ul>
-        <li><b>2013/01/01</b> Externe Links zu diversen Karten: Google Maps, Geocaching.com, <a href="http://opencaching.de/">Opencaching.de</a></li>        
+        <li><b>2013/01/25</b> Es werden nun transparente Kreise mit änderbarem Radius um die Marker gezeichnet.</li>
+        <li><b>2013/01/01</b> Externe Links zu diversen Karten: Google Maps, Geocaching.com, <a href="http://opencaching.de/">Opencaching.de</a>.</li>        
         <li><b>2012/12/18</b> Link zur Karte von <a href="http://www.ingress.com/">Ingress</a>.</li>        
         <li><b>2012/12/01</b> Neues Sidebar-Design.</li>        
         <li><b>2012/11/29</b> Kooperation mit dem <a href="http://www.nsg-atlas.de/" target="_blank">NSG-Atlas</a>: Naturschutzgebiete können eingeblendet werden.</li>        
