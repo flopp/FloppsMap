@@ -240,12 +240,12 @@ else
         <div class="container-fluid">
             <ul class="nav">
                 <li><a role="button" class="brand" href="javascript:">Flopps Tolle Karte</a></li>
+                <li><a role="button" href="http://blog.flopp-caching.de/">Blog <i class="icon-star icon-white"></i></a></li>
                 <li><a role="button" href="#hilfeDialog" data-toggle="modal">Hilfe <i class="icon-question-sign icon-white"></i></a></li>
                 <li><a role="button" href="#kontaktDialog" data-toggle="modal">Info/Impressum <i class="icon-info-sign icon-white"></i></a></li>
             </ul>
             <div class="pull-right">
                 <ul class="nav">
-                <!--<li><a role="button" href="javascript:" id='showPermalink'>Permalink</a></li>-->
                     <li><a role="button" href="javascript:" id='sidebar-toggle'>Sidebar <i class="icon-ok-sign icon-white"></i></a></li>
                 </ul>
             </div>
