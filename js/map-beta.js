@@ -61,15 +61,20 @@ function updateDistance()
 function updateMarker( m )
 {
     var pos = m.marker.getPosition();
+    var r = m.circle.getRadius();
+    
     m.circle.setCenter( pos );
     
+    set_cookie( 'marker' + m.id, pos.lat().toFixed(6) + ":" + pos.lng().toFixed(6) + ":" + r );
     $('#coordinates' + m.alpha ).html( coords2string( pos ) ); 
-    $('#radius' + m.alpha ).html( m.circle.getRadius() );
+    $('#radius' + m.alpha ).html( r );
     
     if( m.id == sourceid || m.id == targetid )
     {
         updateDistance();
     }
+    
+    updateLinks();
 }
 
 function setRadius( m, r )
@@ -97,6 +102,8 @@ function getMarkerById( id )
 
 function selectSource( id )
 {
+    set_cookie( 'source', id );
+    
     if( id != sourceid )
     {
         sourceid = id;
@@ -109,6 +116,8 @@ function selectSource( id )
 
 function selectTarget( id )
 {
+    set_cookie( 'target', id );
+    
     if( id != targetid )
     {
         targetid = id;
@@ -123,6 +132,7 @@ function updateLists()
 {
     var s1 = "";
     var s2 = "";
+    var lst = "";
     
     for( var i = 0; i < markers.length; ++i )
     {
@@ -131,8 +141,11 @@ function updateLists()
         {
             s1 = s1 + "<li><a href=\"#\" onClick=\"selectSource(" + m.id + ")\">" + m.alpha + "</a></li>";
             s2 = s2 + "<li><a href=\"#\" onClick=\"selectTarget(" + m.id + ")\">" + m.alpha + "</a></li>";
+            lst = lst + ":" + m.id;
         }
     }
+    
+    set_cookie( 'markers', lst );
     
     if( s1 == "" || s2 == "" )
     {
@@ -164,11 +177,15 @@ function removeMarker( id )
     
     if( id == sourceid )
     {
+        set_cookie( 'source', -1 );
+        
         $('#sourcebtn').html( "?" );
         sourceid = -1;
     }
     if( id == targetid )
     {
+        set_cookie( 'target', id );
+        
         $('#targetbtn').html( "?" );
         targetid = -1;
     }
@@ -223,10 +240,11 @@ function editRadius( id )
     else
     {
         setRadius( m, rr );
+        updateMarker( m );
     }
 }
 
-function newMarker( coordinates )
+function newMarker( coordinates, theid )
 {
     if( markers == null )
     {
@@ -243,7 +261,8 @@ function newMarker( coordinates )
         }
     }
     
-    var id = getFreeId();
+    var id = theid;
+    if( id == -1 || id < 0 || id >= 26 || markers[id].free == true ) id = getFreeId();
     if( id == -1 )
     {
         alert( "no free markers :(" );
@@ -343,7 +362,7 @@ function projectFromMarker( id )
     }
     
     var newpos = projection_geodesic( oldpos, angle, dist );
-    var m = newMarker( newpos );
+    var m = newMarker( newpos, -1 );
     if( m != null )
     {
         alert( "Neuer Marker: " + m.alpha );
@@ -412,7 +431,16 @@ function updateLinks()
     lngE6 = Math.round( lng * 1000000 );
     zoom = map.getZoom();
     
-    ftklink = "http://foomap.de/beta.php?c=" + lat.toFixed(6) + ":" + lng.toFixed(6) + "&z=" + zoom + "&t=" + map.getMapTypeId();
+    var s = "&m=";
+    for( i = 0; i != markers.length; ++i )
+    {
+        var m = markers[i];
+        if( m.free ) continue;
+        var p = m.marker.getPosition();
+        
+        s = s + m.alpha + ":" + p.lat().toFixed(6) + ":" + p.lng().toFixed(6) + ":" + m.circle.getRadius() + "|";
+    }
+    ftklink = "http://foomap.de/beta.php?c=" + lat.toFixed(6) + ":" + lng.toFixed(6) + "&z=" + zoom + "&t=" + map.getMapTypeId() + s;
     $( "#permalink" ).attr( "href", ftklink );
     
     googlemapslink = "https://maps.google.com/maps?ll=" + lat + "," + lng + "&z=" + zoom;
@@ -571,11 +599,13 @@ function repairMaptype( t, d )
     }
 }
 
-function initialize( xclat, xclon, xzoom, xmap )
+function initialize( xclat, xclon, xzoom, xmap, xmarkers )
 {
     var clat, clon;
     var zoom;
     var maptype;
+    
+    var loadfromcookies = false;
     
     if( xclat != null && xclon != null )
     {
@@ -587,11 +617,13 @@ function initialize( xclat, xclon, xzoom, xmap )
     }
     else
     {
+        loadfromcookies = true;
+        
         /* try to read coordinats from cookie */
         clat = get_cookie('clat') != null ? parseFloat(get_cookie('clat')) : 51.163375;
         clon = get_cookie('clon') != null ? parseFloat(get_cookie('clon')) : 10.447683;
         zoom = get_cookie('zoom') != null ? parseInt(get_cookie('zoom')) : 12;
-        maptype = get_cookie('maptype') != null ? get_cookie('maptype') : "OSM";
+        maptype = get_cookie('maptype') != null ? get_cookie('maptype') : "OSM";        
     }
     
     clat = repairLat( clat, 51.163375 );
@@ -647,6 +679,85 @@ function initialize( xclat, xclon, xzoom, xmap )
     google.maps.event.addListener( map, "maptypeid_changed", function(){ updateCopyrights()});
     
     geocoder = new google.maps.Geocoder();
+    
+    
+    if( loadfromcookies )
+    {
+        raw_ids = get_cookie('markers');
+        if( raw_ids != null )
+        {
+            ids = raw_ids.split(':');
+            for( var i = 0; i != ids.length; ++i )
+            {
+                var id = parseInt(ids[i]);
+                if( id == null || id < 0 || id >=26 ) continue;
+                
+                var raw_data = get_cookie( 'marker' + id );
+                if( raw_data == null ) continue;
+                
+                var data = raw_data.split(':')
+                if( data.length != 3 ) continue;
+                
+                var lat = parseFloat( data[0] );
+                if( lat < -90 || lat > 90 ) continue;
+                var lon = parseFloat( data[1] );
+                if( lon < -180 || lon > 180 ) continue; 
+                var r = parseFloat( data[2] );
+                if( r < 0 || r > 100000000000 ) continue; 
+                
+                newMarker( new google.maps.LatLng( lat, lon ), id );
+                setRadius( markers[id], r );
+            }
+        }
+        
+        raw_source = get_cookie('source');
+        if( raw_source != null )
+        {
+            var id = parseInt(raw_source);
+            if( id != null && id >= 0 && id < 26 && markers[id].free == false )
+            {
+                selectSource( id );
+            }
+        }
+        
+        raw_target = get_cookie('target');
+        if( raw_target != null )
+        {
+            var id = parseInt(raw_target);
+            if( id != null && id >= 0 && id < 26 && markers[id].free == false )
+            {
+                selectTarget( id );
+            }
+        }
+    }
+    else
+    {
+        // ID:LAT:LON:R|ID:LAT:LON:R
+        data = xmarkers.split('|');
+        for( var i = 0; i != data.length; ++i )
+        {
+            var data2 = data[i].split(':');
+            if( data2.length != 4 ) continue;
+            
+            var alpha = data2[0];
+            var id = -1;
+            if( alpha.length != 1 ) continue;
+            if( alpha[0] >= 'A' && alpha[0] <= 'Z' ) id = alpha.charCodeAt(0) - 'A'.charCodeAt(0); 
+            if( alpha[0] >= 'a' && alpha[0] <= 'z' ) id = alpha.charCodeAt(0) - 'a'.charCodeAt(0); 
+            if( id == null || id < 0 || id >=26 ) continue;
+                
+            var lat = parseFloat( data2[1] );
+            if( lat < -90 || lat > 90 ) continue;
+            var lon = parseFloat( data2[2] );
+            if( lon < -180 || lon > 180 ) continue; 
+            var r = parseFloat( data2[3] );
+            if( r < 0 || r > 100000000000 ) continue; 
+                
+            newMarker( new google.maps.LatLng( lat, lon ), id );
+            setRadius( markers[id], r );
+        }
+    }
+    
     
     updateDistance();
     

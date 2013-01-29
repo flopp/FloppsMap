@@ -52,7 +52,7 @@ $clat = "null";
 $clon = "null";
 $zoom = "null";
 $maptype = "null";
-
+$markers = "";
 function my_parse_float( $s, &$f, &$ok, $min, $max )
 {
     if( is_numeric( $s ) )
@@ -116,10 +116,14 @@ if(!empty($_GET))
         {
             $maptype = "OSM";
         }
-    }      
+    }    
+    if(isset($_GET['m']))
+    {
+        $markers = $_GET['m'];
+    }
 }
 
-echo "<body onload=\"initialize( $clat, $clon, $zoom, '$maptype' )\">";
+echo "<body onload=\"initialize( $clat, $clon, $zoom, '$maptype', '$markers' )\">";
 ?>
 
 
@@ -215,7 +219,7 @@ echo "<body onload=\"initialize( $clat, $clon, $zoom, '$maptype' )\">";
     </div>
     <div id="collapseDynMarkers" class="accordion-body collapse in">
       <div class="accordion-inner">
-          <button class="btn btn-success"  title="Erzeuge einen neuen Marker" type="button" onClick="newMarker( map.getCenter() )">Neuer Marker</button>
+          <button class="btn btn-success"  title="Erzeuge einen neuen Marker" type="button" onClick="newMarker( map.getCenter(), -1 )">Neuer Marker</button>
 <div id="dynMarkerDiv"></div>
       </div>
     </div>
