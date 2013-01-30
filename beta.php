@@ -5,7 +5,8 @@
     <meta name="description" content="Vollbildkarte mit Koordinatenbestimmung, Wegpunktprojektion, Abstandsberechnung und Anzeige von Naturschutzgebieten">
     <meta http-equiv="content-language" content="de">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flopps Tolle Karte: Wegpunktprojektion, Koordinaten, Abstand</title>
+    <meta name="expires" content="604800"> <!-- force reload after 1 week -->
+    <title>Flopps Tolle Karte (beta): Wegpunktprojektion, Koordinaten, Abstand</title>
     <link rel="author" href="https://plus.google.com/100782631618812527586" />
     <link rel="icon" href="img/favicon.png" type="image/png" />
     <link rel="shortcut icon" href="img/favicon.png" type="image/png" />
@@ -26,7 +27,7 @@
 <script type="text/javascript">
 
   var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-27729857-1']);
+  _gaq.push(['_setAccount', 'UA-27729857-4']);
   _gaq.push(['_trackPageview']);
 
   (function() {
