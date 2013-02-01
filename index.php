@@ -21,19 +21,28 @@
     <script type="text/javascript" src="ext/bootstrap/js/bootstrap.min.js"></script>
     
     <link href="ext/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    
+
+<!-- Google Analytics -->
 <script type="text/javascript">
-
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-27729857-1']);
-  _gaq.push(['_trackPageview']);
-
-  (function() {
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-27729857-1']);
+_gaq.push(['_trackPageview']);
+(function() {
     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
+})();
+</script>
 
+<!-- Flattr -->
+<script type="text/javascript">
+(function() {
+    var s = document.createElement('script'), t = document.getElementsByTagName('script')[0];
+    s.type = 'text/javascript';
+    s.async = true;
+    s.src = 'http://api.flattr.com/js/0.6/load.js?mode=auto';
+    t.parentNode.insertBefore(s, t);
+})();
 </script>
 
 <style type="text/css">
@@ -615,6 +624,7 @@ else
         <a href="https://plus.google.com/u/0/116067328889875491676" target="_blank"><img src="img/googleplus.png" alt="Google+"></a>
         <a href="https://www.facebook.com/FloppsTolleKarte" target="_blank"><img src="img/facebook.png" alt="Facebook"></a>
     </p>
+    <p><a class="FlattrButton" style="display:none;" href="http://flopp-caching.de/"></a></p>
     
     <hr />
     <h4>Impressum</h4>
@@ -763,7 +773,7 @@ Sie können die Speicherung der Cookies durch eine entsprechende Einstellung Ihr
     <h4>Willkommen bei <i>Flopps Toller Karte</i>!</h4>
 </p>
 <p>
-    Wie man diese Online-Karte benutzt und welche Möglichkeiten man hat, erfährst du mit einem Klick auf <i>Wie funktioniert diese Karte?</i> in der Titelleiste. Viel Spaß!
+    Wie man diese Online-Karte benutzt und welche Möglichkeiten man hat, erfährst du mit einem Klick auf <i>Hilfe</i> in der Titelleiste. Viel Spaß!
 </p>
 <p id="news">
     <h4>Neuigkeiten</h4>
