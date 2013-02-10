@@ -6,7 +6,7 @@
     <meta http-equiv="content-language" content="de">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="expires" content="604800"> <!-- force reload after 1 week -->
-    <title>Flopps Tolle Karte: Wegpunktprojektion, Koordinaten, Abstand</title>
+    <title>Flopps Tolle Karte (beta): Wegpunktprojektion, Koordinaten, Abstand</title>
     <link rel="author" href="https://plus.google.com/100782631618812527586" />
     <link rel="icon" href="img/favicon.png" type="image/png" />
     <link rel="shortcut icon" href="img/favicon.png" type="image/png" />
@@ -19,13 +19,15 @@
     <script type="text/javascript" src="js/map.js"></script>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
     <script type="text/javascript" src="ext/bootstrap/js/bootstrap.min.js"></script>
-    
     <link href="ext/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="ext/jquery-dropdown/jquery.dropdown.css" />`
+    <script type="text/javascript" src="ext/jquery-dropdown/jquery.dropdown.js"></script>`
+    <link rel="stylesheet" href="ext/font-awesome/css/font-awesome.min.css"> 
 
 <!-- Google Analytics -->
 <script type="text/javascript">
 var _gaq = _gaq || [];
-_gaq.push(['_setAccount', 'UA-27729857-1']);
+_gaq.push(['_setAccount', 'UA-27729857-4']);
 _gaq.push(['_trackPageview']);
 (function() {
     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
@@ -47,36 +49,20 @@ _gaq.push(['_trackPageview']);
 
 <style type="text/css">
     html, body { height: 100%; overflow: hidden}
-    #map-wrapper { position: absolute; left: 0; right:300px; top: 40px; bottom: 0; float: left; }
+    #map-wrapper { position: absolute; left: 0; right:274px; top: 40px; bottom: 0; float: left; }
     #themap { width: 100%; height: 100%;}
     #themap img { max-width: none; }
-    #sidebar { overflow: auto; position: absolute; padding: 4px; width: 292px; right: 0; top: 40px; bottom: 0px; float: right; }
+    #sidebar { overflow: auto; position: absolute; padding: 4px; width: 264px; right: 0; top: 40px; bottom: 0px; float: right; }
 </style>
 
 </head>
   
 <?php
-$lat1_valid = false;
-$lon1_valid = false;
-$r1_valid = false;
-$lat2_valid = false;
-$lon2_valid = false;
-$r2_valid = false;
-$clat_valid = false;
-$clon_valid = false;
-$zoom_valid = false;
-
-$lat1 = 0;
-$lon1 = 0;
-$r1 = 0;
-$lat2 = 0;
-$lon2 = 0;
-$r2 = 0;
-$clat = 0;
-$clon = 0;
-$zoom = 0;
-$maptype = 'OSM';
-
+$clat = "null";
+$clon = "null";
+$zoom = "null";
+$maptype = "null";
+$markers = "";
 function my_parse_float( $s, &$f, &$ok, $min, $max )
 {
     if( is_numeric( $s ) )
@@ -107,140 +93,47 @@ function my_parse_int( $s, &$f, &$ok, $min, $max )
     if( !$ok ) $f = NULL;
 }
 
-
 if(!empty($_GET)) 
 {
-    if (isset($_GET['lat1']))
+    // center: c=LAT:LON
+    if(isset($_GET['c']))
     {
-        my_parse_float( $_GET['lat1'], $lat1, $lat1_valid, -90, +90 );
+        $coord = explode(':', $_GET['c']);
+        
+        $v = ( count($coord) == 2 );
+        if( $v ) my_parse_float( $coord[0], $clat, $v, -90, +90 );
+        if( $v ) my_parse_float( $coord[1], $clon, $v, -180, +180 );
+        
+        if( !$v )
+        {
+            $clat = "null";
+            $clon = "null";
+        }
     }
-    if (isset($_GET['lon1']))
+    if(isset($_GET['z']))
     {
-        my_parse_float( $_GET['lon1'], $lon1, $lon1_valid, -180, +180 );
+        $v = false;
+        my_parse_int( $_GET['z'], $zoom, $v, 1, 18 );
+        if( !$v )
+        {
+            $zoom = "null";
+        }
     }
-    if (isset($_GET['r1']))
+    if(isset($_GET['t']))
     {
-        my_parse_float( $_GET['r1'], $r1, $r1_valid, 0, 10000000 );
-    }
-    
-    if (isset($_GET['lat2']))
-    {
-        my_parse_float( $_GET['lat2'], $lat2, $lat2_valid, -90, +90 );
-    }
-    if (isset($_GET['lon2']))
-    {
-        my_parse_float( $_GET['lon2'], $lon2, $lon2_valid, -180, +180 );
-    }
-    if (isset($_GET['r2']))
-    {
-        my_parse_float( $_GET['r2'], $r2, $r2_valid, 0, 100000000 );
-    }
-    
-    if (isset($_GET['clat']))
-    {
-        my_parse_float( $_GET['clat'], $clat, $clat_valid, -90, +90 );
-    }
-    if (isset($_GET['clon']))
-    {
-        my_parse_float( $_GET['clon'], $clon, $clon_valid, -180, +180 );
-    }
-    
-    if (isset($_GET['zoom']))
-    {
-        my_parse_int( $_GET['zoom'], $zoom, $zoom_valid, 1, 18 );
-    }
-    
-    if (isset($_GET['map']))
-    {
-        $maptype = $_GET['map'];
+        $maptype = $_GET['t'];
         if( $maptype != 'OSM' && $maptype != 'OSM/DE' && $maptype != 'roadmap' && $maptype != 'satellite' && $maptype != 'terrain' && $maptype != 'hybrid' )
         {
-            $maptype = 'OSM';
+            $maptype = "OSM";
         }
-    }  
+    }    
+    if(isset($_GET['m']))
+    {
+        $markers = $_GET['m'];
+    }
 }
 
-if( !$r1_valid )
-{
-    $r1 = 100;
-}
-if( !$r2_valid )
-{
-    $r2 = 100;
-}
-
-$ok = false;
-if( $lat1_valid && $lon1_valid )
-{
-    $ok = true;
-    if( $lat2_valid && $lon2_valid )
-    {
-        if( $clat_valid && $clon_valid )
-        {
-            // alles ok
-        }
-        else
-        {
-            $clat = ( $lat1 + $lat2 )/2;
-            $clon = ( $lon1 + $lon2 )/2;
-        }
-    }
-    else if( $clat_valid && $clon_valid )
-    {
-        $lat2 = $clat + ( $clat - $lat1 );
-        $lon2 = $clon + ( $clon - $lon1 );
-    }
-    else
-    {
-        $clat = $lat1;
-        $clon = $lon1;
-        
-        $lat2 = $lat1 + 0.01666666;
-        $lon2 = $lon1 + 0.01666666;
-    }
-}
-else if( $lat2_valid && $lon2_valid )
-{
-    $ok = true;
-    if( $clat_valid && $clon_valid )
-    {
-        $lat1 = $clat + ( $clat - $lat2 );
-        $lon1 = $clon + ( $clon - $lon2 );
-    }
-    else
-    {
-        $clat = $lat2;
-        $clon = $lon2;
-        
-        $lat1 = $lat2 + 0.01666666;
-        $lon1 = $lon2 + 0.01666666;
-    }
-}
-else if( $clat_valid && $clon_valid )
-{
-    $ok = true;
-    
-    $lat1 = $clat;
-    $lon1 = $clon;
-    
-    $lat2 = $lat1 + 0.01666666;
-    $lon2 = $lon1 + 0.01666666;
-}
-else
-{
-    $ok = false;
-}
-
-if( !$zoom_valid ) $zoom = 12;
-
-if( $ok )
-{
-    echo "<body onload=\"initialize( true, $lat1, $lon1, $r1, $lat2, $lon2, $r2, $clat, $clon, $zoom, '$maptype' )\" onunload=\"GUnload()\">";
-}
-else
-{
-    echo "<body onload=\"initialize( false, $lat1, $lon1, $r1, $lat2, $lon2, $r2, $clat, $clon, $zoom, '$maptype' )\" onunload=\"GUnload()\">";
-}
+echo "<body onload=\"initialize( $clat, $clon, $zoom, '$maptype', '$markers' )\">";
 ?>
 
 
@@ -249,7 +142,7 @@ else
     <div class="navbar-inner">
         <div class="container-fluid">
             <ul class="nav">
-                <li><a role="button" class="brand" href="javascript:">Flopps Tolle Karte</a></li>
+                <li><a role="button" class="brand" href="javascript:">Flopps Tolle Karte (beta)</a></li>
                 <li><a role="button" href="http://blog.flopp-caching.de/" rel="tooltip" title="Hier geht es zu 'Flopps Tolles Blog'">Blog <i class="icon-star icon-white"></i></a></li>
                 <li><a role="button" href="#hilfeDialog" data-toggle="modal" rel="tooltip" title="Anleitung für die Karte">Hilfe <i class="icon-question-sign icon-white"></i></a></li>
                 <li><a role="button" href="#kontaktDialog" data-toggle="modal" rel="tooltip" title="Rechtliche Hinweise, Kontaktinformationen, usw.">Info/Impressum <i class="icon-info-sign icon-white"></i></a></li>
@@ -280,93 +173,8 @@ else
                 $('#sidebar').show();
                 $('#sidebar-toggle').html( "Sidebar <i class=\"icon-ok-sign icon-white\"></i>" );
                 
-                $('#map-wrapper').css("right", "300px");
+                $('#map-wrapper').css("right", "274px");
                 google.maps.event.trigger(map, "resize");
-            }
-        });
-        
-        $("#showPermalink").click(
-        function() {
-            showPermalinkDialog();
-        });
-        
-        $("#showCoordinatesADialog").click(
-        function() {
-            $('#coordinatesADialogEdit').val($("#inputCoordinatesA").val());
-            $('#coordinatesADialog').modal();
-        });
-        $("#coordinatesADialogOk").click(
-        function() {
-            s = $('#coordinatesADialogEdit').val();
-            c = string2coords( s );
-            if( c != null )
-            {
-                $('#coordinatesADialog').modal('hide');
-                setCoordinatesA( c );
-            }
-            else
-            {
-                alert( "Falsches Koordinatenformat:\n"+ s );
-            }
-        });
-        
-        $("#showRadiusADialog").click(
-        function() {
-            $('#radiusADialogEdit').val($("#inputRadiusA").val());
-            $('#radiusADialog').modal();
-        });
-        $("#radiusADialogOk").click(
-        function() {
-            s = $('#radiusADialogEdit').val();
-            c = parseFloat( s );
-            if( c != NaN && c >= 0 )
-            {
-                $('#radiusADialog').modal('hide');
-                setRadiusA( c );
-            }
-            else
-            {
-                alert( "Falsches Zahlenformat:\n"+ s );
-            }
-        });
-        
-        $("#showCoordinatesBDialog").click(
-        function() {
-            $('#coordinatesBDialogEdit').val($("#inputCoordinatesB").val());
-            $('#coordinatesBDialog').modal();
-        });
-        $("#coordinatesBDialogOk").click(
-        function() {
-            s = $('#coordinatesBDialogEdit').val();
-            c = string2coords( s );
-            if( c != null )
-            {
-                $('#coordinatesBDialog').modal('hide');
-                setCoordinatesB( c );
-            }
-            else
-            {
-                alert( "Falsches Koordinatenformat:\n"+ s );
-            }
-        });
-        
-        $("#showRadiusBDialog").click(
-        function() {
-            $('#radiusBDialogEdit').val($("#inputRadiusB").val());
-            $('#radiusBDialog').modal();
-        });
-        $("#radiusBDialogOk").click(
-        function() {
-            s = $('#radiusBDialogEdit').val();
-            c = parseFloat( s );
-            if( c != NaN && c >= 0 )
-            {
-                $('#radiusBDialog').modal('hide');
-                setRadiusB( c );
-            }
-            else
-            {
-                alert( "Falsches Zahlenformat:\n"+ s );
             }
         });
         
@@ -404,98 +212,61 @@ else
     <div id="collapseSearch" class="accordion-body collapse">
       <div class="accordion-inner">
 <div class="input-append">
-<input id="txtSearch" style="width: 210px" type="text" placeholder="Koordinaten oder Ort" title="Nach einem Ort oder Koordinaten suchen und die Karte auf dem Suchergebnis zentrieren">
-<button class="btn" style="width: 44px" type="button" onClick="searchLocation()" title="Nach einem Ort oder Koordinaten suchen und die Karte auf dem Suchergebnis zentrieren"><i class="icon-search"></i></button>
+<input id="txtSearch" style="width: 173px" type="text" placeholder="Koordinaten oder Ort" title="Nach einem Ort oder Koordinaten suchen und die Karte auf dem Suchergebnis zentrieren">
+<button class="btn btn-info" style="width: 44px" type="button" onClick="searchLocation()" title="Nach einem Ort oder Koordinaten suchen und die Karte auf dem Suchergebnis zentrieren"><i class="icon-search"></i></button>
 </div>
+      </div>
+    </div>
+  </div>
+
+
+
+<div class="accordion-group">
+    <div class="accordion-heading">
+      <a class="accordion-toggle" data-toggle="collapse" data-parent="#sidebar-accordion" href="#collapseDynMarkers">
+        Marker
+      </a>
+    </div>
+    <div id="collapseDynMarkers" class="accordion-body collapse in">
+      <div class="accordion-inner">
+          <button class="btn btn-success"  title="Erzeuge einen neuen Marker" type="button" onClick="newMarker( map.getCenter(), -1 )">Neuer Marker</button>
+<div id="dynMarkerDiv"></div>
       </div>
     </div>
   </div>
   
-  <div class="accordion-group">
+<div class="accordion-group">
     <div class="accordion-heading">
-      <a class="accordion-toggle" data-toggle="collapse" data-parent="#sidebar-accordion" href="#collapseMarkers">
-        Marker
+      <a class="accordion-toggle" data-toggle="collapse" data-parent="#sidebar-accordion" href="#collapseDistance">
+        Abstand/Winkel
       </a>
     </div>
-    <div id="collapseMarkers" class="accordion-body collapse in">
+    <div id="collapseDistance" class="accordion-body collapse">
       <div class="accordion-inner">
-<form>
-<p>Marker <span class="label label-success">A</span></p>
-<div class="input-append">
-<input id="inputCoordinatesA" style="width: 166px" type="text" readonly title="Die Koordinaten des Markers A">
-<button id="showCoordinatesADialog" class="btn" style="width: 44px" type="button" title="Koordinaten des Markers A ändern"><i class="icon-pencil"></i></button>
-<button class="btn" style="width: 44px" type="button" onClick="centerX()" title="Marker A in der Mitte der Karte platzieren"><i class="icon-screenshot"></i></button>
-</div>
-<div class="input-prepend input-append">
-<span class="add-on" style="width: 24px" title="Radius des Kreises um Marker A"><i class="icon-remove-circle"></i></span>
-<input id="inputRadiusA" style="width: 148px" type="text" readonly title="Radius des Kreises um Marker A">
-<span class="add-on" style="width: 16px">m</span>
-<button id="showRadiusADialog" class="btn" style="width: 44px" type="button" title="Radius des Kreises um Marker A ändern"><i class="icon-pencil"></i></button>
-</div> 
-</form>
-
-<form>
-<p>Marker <span class="label label-important">B</span></p>
-<div class="input-append">
-<input id="inputCoordinatesB" style="width: 166px" type="text" readonly title="Die Koordinaten des Markers B">
-<button id="showCoordinatesBDialog" class="btn" style="width: 44px" type="button" title="Koordinaten des Markers B ändern"><i class="icon-pencil"></i></button>
-<button class="btn" style="width: 44px" type="button" onClick="centerP()" title="Marker B in der Mitte der Karte platzieren"><i class="icon-screenshot"></i></button>
-</div>
-<div class="input-prepend input-append">
-<span class="add-on" style="width: 24px" title="Radius des Kreises um Marker B"><i class="icon-remove-circle"></i></span>
-<input id="inputRadiusB" style="width: 148px" type="text" readonly title="Radius des Kreises um Marker B">
-<span class="add-on" style="width: 16px">m</span>
-<button id="showRadiusBDialog" class="btn" style="width: 44px" type="button" title="Radius des Kreises um Marker B ändern"><i class="icon-pencil"></i></button>
-</div>
-</form>
-
-<form>
-<p>Entfernung und Winkel von <span class="label label-success">A</span> nach <span class="label label-important">B</span></p>
-
-<div class="input-prepend input-append" style="width: 200px" title="Abstand des Markers A vom Marker B in Metern">
-<span class="add-on" style="width: 48px">Distanz</span>
-<input id="txtDistance" style="width: 160px" type="text" readonly>
+          <div style="padding:4px">
+          Von
+          <button id="sourcebtn" class="btn btn-small btn-info" title="Wähle Marker" type="button" href="#" data-dropdown="#sourcelist">?</button>
+          nach
+          <button id="targetbtn" class="btn btn-small btn-info" title="Wähle Marker" type="button" href="#" data-dropdown="#targetlist">?</button>
+          </div>
+<div>
+<div class="input-prepend input-append" title="Abstand des Markers A vom Marker B in Metern">
+<span class="add-on" style="width: 52px">Abstand</span>
+<span id="txtDistance" class="add-on" style="width: 128px; text-align: left">n/a</span>
 <span class="add-on" style="width: 16px">m</span>
 </div>
 
-<div class="input-prepend input-append" style="width: 200px" title="Peilungswinkel von Marker A nach Marker B">
-<span class="add-on" style="width: 48px">Winkel</span>
-<input id="txtBearing" style="width: 160px" type="text" readonly>
+<div class="input-prepend input-append" title="Peilungswinkel von Marker A nach Marker B">
+<span class="add-on" style="width: 52px">Winkel</span>
+<span id="txtBearing" class="add-on" style="width: 128px; text-align: left">n/a</span>
 <span class="add-on" style="width: 16px">°</span>
 </div>
-</form>
+</div>          
 
       </div>
     </div>
   </div>
 
-  <div class="accordion-group">
-    <div class="accordion-heading">
-      <a class="accordion-toggle" data-toggle="collapse" data-parent="#sidebar-accordion" href="#collapseProjection">
-        Wegpunktprojektion
-      </a>
-    </div>
-    <div id="collapseProjection" class="accordion-body collapse">
-      <div class="accordion-inner">
-          <p><span class="label label-important">B</span> von <span class="label label-success">A</span> aus verschieben.</p>
-<form onsubmit="projectionXP()">
-<div class="input-prepend input-append" style="width: 200px" title="Projektionsdistanz in Metern">
-<span class="add-on" style="width: 48px">Distanz</span>
-<input id="txtProjectionDistance" style="width: 160px" type="text" placeholder="Distanz (m)">
-<span class="add-on" style="width: 16px">m</span>
-</div>
-
-<div class="input-prepend input-append" title="Projektionswinkel">
-<span class="add-on" style="width: 48px">Winkel</span>
-<input id="txtProjectionBearing" style="width: 160px" type="text" placeholder="Winkel (°)">
-<span class="add-on" style="width: 16px">°</span>
-</div>
-
-<input class="btn" type="button" value="Los geht's!" onClick="projectionXP()" />
-</form>
-      </div>
-    </div>
-  </div>
 
   <div class="accordion-group">
     <div class="accordion-heading">
@@ -505,12 +276,17 @@ else
     </div>
     <div id="collapseOther" class="accordion-body collapse">
       <div class="accordion-inner">
+
 <form>
 <label class="checkbox" title="Deutsche Naturschutzgebiete in der Karte markieren">
     <input id="showNSG" type="checkbox"> Zeige Naturschutzgebiete
 </label>
-    <input class="btn" onClick="javascript:" value="Permalink" id='showPermalink'>
 </form>
+
+<b>Permalinks</b>
+<ul>
+<li><a id="permalink" href="https://foomap.de/beta.php" target="_blank">Flopps Tolle Karte (beta)</a></li>
+</ul>
 <b>Externe Links</b>
 <ul>
 <li><a id="googlemapslink" href="https://maps.google.com/" target="_blank">Google Maps</a></li>
@@ -531,74 +307,8 @@ else
     <h3 id="hilfeDialogLabel">Wie funktioniert die Karte?</h3>
   </div>
   <div class="modal-body">
-      <h4>Die Karte</h4>
-      <p>Die Karte basiert auf Google Maps und enthält daher auch die von Google Maps gewohnten Steuerelemente zur Navigation. Über die Knöpfe "OSM", "OSM/DE", "Karte", "Satellit" in der oberen, rechten Ecke der Karte kann zwischen verschiedenen Kartendarstellungen umgeschaltet werden.
-      <img src="img/screenshot.png" alt="Screenshot von 'Flopps Tolle Karte'" width="400px" height="426px" class="img-polaroid">
-      </p>
-      <div class="page-header">  
-      <h4>Die Sidebar</h4>
-      </div>
-      <p>Auf der rechten Seite des Kartenfensters befindet sich die Sidebar, die Informationen über die Marker, sowie Elemente zur Kontrolle und Manipulation der Marker enthält.</p>
-      <p>Die Sidebar kann über den Eintrag "Sidebar" in der Navigationsleiste aus- und wieder eingeblendet werden.</p>
-      
-      <hr />
-      <h4>Die Marker</h4>
-      <p>Auf der Karte gibt es zwei Marker: <img src="img/green.png" alt="Marker A"> 
-      und <img src="img/red.png" alt="Marker B"></p>
-      <p>
-      <img alt="Die Marker auf der Karte" src="img/screenshot-markers.png" class="img-polaroid">
-      </p>
-      <p>Die Marker können mit der Maus an neue Orte auf der Karte gezogen werden.<img src="img/screenshot-move.gif" alt="Ziehen der Marker" class="img-polaroid"></p>
-      
-      <p>Die aktuellen Koordinaten der beiden Marker werden in den Feldern 
-      "Marker <span class="label label-success">A</span>" bzw. "Marker <span class="label label-important">B</span>" angezeigt.</p>
-      <p>Der Knopf <span class="btn btn-small"><i class="icon-pencil"></i></span> öffnet ein Fenster, in dem die Koordinaten des Markers direkt geändert werden können.</p>
-      <p>Durch den Knopf <span class="btn btn-small"><i class="icon-screenshot"></i></span> 
-      kann der jeweilige Marker im Zentrum der Karte platziert werden.</p>
-      <p>Bei "Entfernung und Winkel von <span class="label label-success">A</span> nach <span class="label label-important">B</span>" werden sowohl der aktuelle 
-      Abstand von Marker <span class="label label-success">A</span> zu Marker <span class="label label-important">B</span> in Metern, als auch der Richtungswinkel 
-      von <span class="label label-success">A</span> zu <span class="label label-important">B</span> angezeigt.</p>
-      
-      <p>Um die Marker herum wird ein transparenter Kreis gezeichnet. Der Radius des jeweiligen Kreises ist im Feld <span class="btn btn-small"><i class="icon-remove-circle"></i></span> angegeben und kann mit einem Klick auf den Knopf <span class="btn btn-small"><i class="icon-pencil"></i></span> geändert werden.
-      </p>
-      
-      <hr />
-      <h4>Die Suche</h4>
-      <p>Über das Feld "Suche" kann man nach Koordinaten und Orten suchen. 
-      Gibt man z.B. im Suchfeld "Berlin" ein und drückt auf <span class="btn btn-small"><i class="icon-search"></i></span>, 
-      so wird die Karte auf Berlin zentriert. Bei Eingabe von 
-      "N 47 59.734 E 007 51.172" landet man auf dem Freiburger Münster.</p>
-      
-      <hr />
-      <h4>Die Wegpunktprojektion</h4>
-      <p>
-      <img src="img/projection.png"  style="float: right" alt="Wegpunktprojektion" width="100px" height="123px" class="img-polaroid">
-      Beim Klick auf <span class="btn btn-small">Los geht's!</span> wird 
-      Marker <span class="label label-important">B</span> vom Marker <span class="label label-success">A</span> aus in Richtung "Winkel" um die Entfernung "Distanz" 
-      verschoben; Marker <span class="label label-success">A</span> bleibt an seiner Position. Nach erfolgter Projektion
-      sollten die Werte in "Entfernung und Winkel von <span class="label label-success">A</span> nach B" mit denen in 
-      "Wegpunktprojektion" übereinstimmen.
-      </p>
-      
-      <hr />
-      <h4>Naturschutzgebiete</h4>
-      <p>
-      Durch ankreuzen des Feldes "Zeige Naturschutzgebiete" im Abschnitt "Sonstiges/Links" der Sidebar, wird die Anzeige von deutschen Naturschutzgebieten in der Karte als farbige Flächen aktiviert. Die Informationen über die Naturschutzgebiete werden vom <a href="http://www.nsg-atlas/" target="_blank">NSG-Atlas</a> bezogen.
-      <img src="img/screenshot-nsg.png" alt="Naturschutzgebiete" class="img-polaroid">
-      </p>
-      
-      <hr />
-      <h4>Permalinks/Links</h4>
-      <p>
-          Der Button "Permalink" im Abschnitt "Sonstiges/Links" der Sidebar öffnet einen Dialog in 
-          dem ein Permalink auf die aktuelle Kartenansicht angezeigt wird (inklusive 
-          der Positionen der Marker, der Zoomstufe, des gewählten Kartentyps). 
-          Diesen Link kann man kopieren und z.B. an Freunde schicken um die 
-          aktuelle Kartenansicht mit ihnen zu teilen.
-      </p>
-      <p>   
-          Unter "Externe Links" sind Links zu einigen externen Kartendiensten zu finden. Ein Klick auf einen dieser Links offnet die Karte des externen Dienstes an der Position, die hier aktuelle angezeigt wird. Manche Dienste benötigen eine vorige Anmeldung.
-      </p>
+      <h4>Hier muss alles neu geschrieben werden...</h4>
+      Bis das geschehen ist, kann man im <a href'="http://blog.flopp-caching.de/category/karte/">Blog</a> nützliche Informationen finden.
   </div>
   <div class="modal-footer">
     <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Ok</button>
@@ -686,82 +396,6 @@ Sie können die Speicherung der Cookies durch eine entsprechende Einstellung Ihr
   </div>
 </div>
 
-<div id="coordinatesADialog" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="coordinatesADialogLabel" aria-hidden="true">
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3 id="coordinatesADialogLabel">Koordinaten für <img src="img/green.png" alt="Marker A"></h3>
-  </div>
-  <div class="modal-body">
-    <input id="coordinatesADialogEdit" style="width: 210px" type="text">
-    <p>Zulässiges Koordinatenformat: "N 47 58.123 E 007 54.567"</p>
-  </div>
-  <div class="modal-footer">
-    <button class="btn" data-dismiss="modal" aria-hidden="true">Abbrechen</button>
-    <button class="btn btn-primary" id="coordinatesADialogOk">Ok</button>
-  </div>
-</div>
-
-<div id="coordinatesBDialog" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="coordinatesBDialogLabel" aria-hidden="true">
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3 id="coordinatesBDialogLabel">Koordinaten für <img src="img/red.png" alt="Marker B"></h3>
-  </div>
-  <div class="modal-body">
-    <input id="coordinatesBDialogEdit" style="width: 210px" type="text">
-    <p>Zulässiges Koordinatenformat: "N 47 58.123 E 007 54.567"</p>
-  </div>
-  <div class="modal-footer">
-    <button class="btn" data-dismiss="modal" aria-hidden="true">Abbrechen</button>
-    <button class="btn btn-primary" id="coordinatesBDialogOk">Ok</button>
-  </div>
-</div>
-
-<div id="radiusADialog" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="radiusADialogLabel" aria-hidden="true">
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3 id="radiusADialogLabel">Radius (in m) für Kreis um <img src="img/green.png" alt="Marker A"></h3>
-  </div>
-  <div class="modal-body">
-    <input id="radiusADialogEdit" style="width: 210px" type="text">
-    <p>Zulässig sind positive Dezimalzahlen mit oder ohne Nachkommastellen, z.B. "123.45" oder "9876"</p>
-  </div>
-  <div class="modal-footer">
-    <button class="btn" data-dismiss="modal" aria-hidden="true">Abbrechen</button>
-    <button class="btn btn-primary" id="radiusADialogOk">Ok</button>
-  </div>
-</div>
-
-<div id="radiusBDialog" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="radiusBDialogLabel" aria-hidden="true">
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3 id="radiusBDialogLabel">Radius (in m) für Kreis um <img src="img/red.png" alt="Marker B"></h3>
-  </div>
-  <div class="modal-body">
-    <input id="radiusBDialogEdit" style="width: 210px" type="text">
-    <p>Zulässig sind positive Dezimalzahlen mit oder ohne Nachkommastellen, z.B. "123.45" oder "9876"</p>
-  </div>
-  <div class="modal-footer">
-    <button class="btn" data-dismiss="modal" aria-hidden="true">Abbrechen</button>
-    <button class="btn btn-primary" id="radiusBDialogOk">Ok</button>
-  </div>
-</div>
-
-<div id="permalinkDialog" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="permalinkDialogLabel" aria-hidden="true">
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3 id="permalinkDialogLabel">Permalink für die aktuelle Kartenansicht</h3>
-  </div>
-  <div class="modal-body">
-    <input id="permalinkDialogEdit" style="width: 500px" type="text">
-    <p>
-    Der obige Permalink ist Link zur aktuellen Kartenansicht, inklusive beider Marker, der Zoomstufe und des gewählten Kartentyps. So kann eine spezielle Kartenansicht mit anderen geteilt werden.
-    </p>
-  </div>
-  <div class="modal-footer">
-    <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Ok</button>
-  </div>
-</div>
-
 <!-- the welcome dialog -->
 <div id="welcomeDialog" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="welcomeDialogLabel" aria-hidden="true">
   <div class="modal-header">
@@ -778,6 +412,7 @@ Sie können die Speicherung der Cookies durch eine entsprechende Einstellung Ihr
 <p id="news">
     <h4>Neuigkeiten</h4>
     <ul>
+        <li><b>2013/02/10</b> Karte durch "beta" Karte ersetzt. Die "alte" Version der Karte ist unter <a href="http://flopp-caching.de/alt.php">http://flopp-caching.de/alt.php</a> zu finden.</li>
         <li><b>2013/01/25</b> Es werden nun transparente Kreise mit änderbarem Radius um die Marker gezeichnet.</li>
         <li><b>2013/01/01</b> Externe Links zu diversen Karten: Google Maps, Geocaching.com, <a href="http://opencaching.de/">Opencaching.de</a>.</li>        
         <li><b>2012/12/18</b> Link zur Karte von <a href="http://www.ingress.com/">Ingress</a>.</li>        
@@ -795,7 +430,19 @@ Sie können die Speicherung der Cookies durch eine entsprechende Einstellung Ihr
     <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Ok</button>
   </div>
 </div>
+</div>
 
+<div id="sourcelist" class="dropdown-menu has-tip">
+    <ul>
+        <li>Keine Marker :(</li>
+    </ul>
+</div>
+
+<div id="targetlist" class="dropdown-menu has-tip">
+    <ul>
+        <li>Keine Marker :(</li>
+    </ul>
+</div>
 
   </body>
 
