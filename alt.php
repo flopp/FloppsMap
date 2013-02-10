@@ -6,7 +6,7 @@
     <meta http-equiv="content-language" content="de">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="expires" content="604800"> <!-- force reload after 1 week -->
-    <title>Flopps Tolle Karte: Wegpunktprojektion, Koordinaten, Abstand</title>
+    <title>Flopps Tolle Karte (alte Version): Wegpunktprojektion, Koordinaten, Abstand</title>
     <link rel="author" href="https://plus.google.com/100782631618812527586" />
     <link rel="icon" href="img/favicon.png" type="image/png" />
     <link rel="shortcut icon" href="img/favicon.png" type="image/png" />
@@ -770,7 +770,7 @@ Sie können die Speicherung der Cookies durch eine entsprechende Einstellung Ihr
   </div>
   <div class="modal-body">
 <p>
-    <h4>Willkommen bei <i>Flopps Toller Karte</i>!</h4>
+    <h4>Willkommen bei <i>Flopps Toller Karte (alte Version)</i>!</h4>
 </p>
 <p>
     Wie man diese Online-Karte benutzt und welche Möglichkeiten man hat, erfährst du mit einem Klick auf <i>Hilfe</i> in der Titelleiste. Viel Spaß!

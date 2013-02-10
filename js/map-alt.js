@@ -180,7 +180,7 @@ function showPermalinkDialog()
     posc = map.getCenter();
     zoom = map.getZoom();
     
-    var s = "http://foomap.de/?"
+    var s = "http://foomap.de/alt.php?"
             + "lat1=" + pos1.lat().toFixed(6) + "&lon1=" + pos1.lng().toFixed(6) + "&r1=" + circleA.getRadius().toFixed(0)
             + "&lat2=" + pos2.lat().toFixed(6) + "&lon2=" + pos2.lng().toFixed(6) + "&r2=" + circleB.getRadius().toFixed(0)
             + "&clat=" + posc.lat().toFixed(6) + "&clon=" + posc.lng().toFixed(6) 

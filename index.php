@@ -6,7 +6,7 @@
     <meta http-equiv="content-language" content="de">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="expires" content="604800"> <!-- force reload after 1 week -->
-    <title>Flopps Tolle Karte (beta): Wegpunktprojektion, Koordinaten, Abstand</title>
+    <title>Flopps Tolle Karte: Wegpunktprojektion, Koordinaten, Abstand</title>
     <link rel="author" href="https://plus.google.com/100782631618812527586" />
     <link rel="icon" href="img/favicon.png" type="image/png" />
     <link rel="shortcut icon" href="img/favicon.png" type="image/png" />
@@ -142,7 +142,7 @@ echo "<body onload=\"initialize( $clat, $clon, $zoom, '$maptype', '$markers' )\"
     <div class="navbar-inner">
         <div class="container-fluid">
             <ul class="nav">
-                <li><a role="button" class="brand" href="javascript:">Flopps Tolle Karte (beta)</a></li>
+                <li><a role="button" class="brand" href="javascript:">Flopps Tolle Karte</a></li>
                 <li><a role="button" href="http://blog.flopp-caching.de/" rel="tooltip" title="Hier geht es zu 'Flopps Tolles Blog'">Blog <i class="icon-star icon-white"></i></a></li>
                 <li><a role="button" href="#hilfeDialog" data-toggle="modal" rel="tooltip" title="Anleitung für die Karte">Hilfe <i class="icon-question-sign icon-white"></i></a></li>
                 <li><a role="button" href="#kontaktDialog" data-toggle="modal" rel="tooltip" title="Rechtliche Hinweise, Kontaktinformationen, usw.">Info/Impressum <i class="icon-info-sign icon-white"></i></a></li>
@@ -285,7 +285,7 @@ echo "<body onload=\"initialize( $clat, $clon, $zoom, '$maptype', '$markers' )\"
 
 <b>Permalinks</b>
 <ul>
-<li><a id="permalink" href="https://foomap.de/beta.php" target="_blank">Flopps Tolle Karte (beta)</a></li>
+<li><a id="permalink" href="https://foomap.de/" target="_blank">Flopps Tolle Karte</a></li>
 </ul>
 <b>Externe Links</b>
 <ul>
