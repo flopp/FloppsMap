@@ -396,30 +396,6 @@ function storeZoom()
     updateLinks();
 }
 
-function updateCopyrights() 
-{
-	if( copyrightDiv == null )
-	{
-		return;
-	}
-	
-	newMapType = map.getMapTypeId();
-	set_cookie( 'maptype', newMapType );
-    
-	if( newMapType == "OSM" )
-	{
-		copyrightDiv.innerHTML = "Map data (C) by <a href=\"http://www.openstreetmap.org/\">OpenStreetMap.org</a> and its contributors; <a href=\"http://opendatacommons.org/licenses/odbl/\">Open Database License</a>";
-	}
-	else if( newMapType == "OSM/DE" )
-	{
-		copyrightDiv.innerHTML = "Map data (C) by <a href=\"http://www.openstreetmap.org/\">OpenStreetMap.org</a> and its contributors; <a href=\"http://opendatacommons.org/licenses/odbl/\">Open Database License</a>";
-	}
-	else
-	{
-		copyrightDiv.innerHTML = "";
-	}
-}
-
 function showWelcomePopup()
 {
     var welcome= get_cookie('welcome') != null ? parseInt(get_cookie('welcome')) : ( 0 );
@@ -465,6 +441,32 @@ function updateLinks()
     
     opencachingdelink = "http://www.opencaching.de/map2.php?lat=" + lat + "&lon=" + lng + "&zoom=" + zoom;
     $( "#opencachingdelink" ).attr( "href", opencachingdelink );
+}
+
+function updateCopyrights() 
+{
+	if( copyrightDiv == null )
+	{
+		return;
+	}
+	
+	newMapType = map.getMapTypeId();
+	set_cookie( 'maptype', newMapType );
+    
+	if( newMapType == "OSM" )
+	{
+		copyrightDiv.innerHTML = "Map data (C) by <a href=\"http://www.openstreetmap.org/\">OpenStreetMap.org</a> and its contributors; <a href=\"http://opendatacommons.org/licenses/odbl/\">Open Database License</a>";
+	}
+	else if( newMapType == "OSM/DE" )
+	{
+		copyrightDiv.innerHTML = "Map data (C) by <a href=\"http://www.openstreetmap.org/\">OpenStreetMap.org</a> and its contributors; <a href=\"http://opendatacommons.org/licenses/odbl/\">Open Database License</a>";
+	}
+	else
+	{
+		copyrightDiv.innerHTML = "";
+	}
+    
+    updateLinks();
 }
 
 function showNSGLayer( t )
