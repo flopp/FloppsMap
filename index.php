@@ -53,6 +53,33 @@ _gaq.push(['_trackPageview']);
     #themap { width: 100%; height: 100%;}
     #themap img { max-width: none; }
     #sidebar { overflow: auto; position: absolute; padding: 4px; width: 264px; right: 0; top: 40px; bottom: 0px; float: right; }
+
+.my-section {
+  position: relative;
+  margin: 4px 0;
+  padding: 39px 6px 6px;
+  *padding-top: 19px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  -webkit-border-radius: 4px;
+     -moz-border-radius: 4px;
+          border-radius: 4px;
+}
+
+.my-section-header {
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  padding: 3px 7px;
+  font-size: 16px;
+  font-weight: bold;
+  background-color: #f5f5f5;
+  border: 1px solid #ddd;
+  color: #444;
+  -webkit-border-radius: 4px 0 4px 0;
+     -moz-border-radius: 4px 0 4px 0;
+          border-radius: 4px 0 4px 0;
+}
 </style>
 
 </head>
@@ -149,7 +176,11 @@ echo "<body onload=\"initialize( $clat, $clon, $zoom, '$maptype', '$markers' )\"
             </ul>
             <div class="pull-right">
                 <ul class="nav">
-                    <li><a role="button" href="javascript:" id='sidebar-toggle' rel="tooltip" title="Sidebar ein- und ausblenden">Sidebar <i class="icon-ok-sign icon-white"></i></a></li>
+                    <li><a role="button" href="javascript:" id='sidebar-toggle' rel="tooltip" title="Sidebar ein- und ausblenden">
+                        <i class="icon-chevron-up icon-white"></i>
+                        <i class="icon-chevron-up icon-white"></i>
+                        <i class="icon-chevron-up icon-white"></i>
+                    </a></li>
                 </ul>
             </div>
         </div>
@@ -163,7 +194,7 @@ echo "<body onload=\"initialize( $clat, $clon, $zoom, '$maptype', '$markers' )\"
             if( $('#sidebar').is(':visible') )
             {
                 $('#sidebar').hide();
-                $('#sidebar-toggle').html( "Sidebar <i class=\"icon-remove-sign icon-white\"></i>" );
+                $('#sidebar-toggle').html( "<i class=\"icon-chevron-down icon-white\"></i><i class=\"icon-chevron-down icon-white\"></i><i class=\"icon-chevron-down icon-white\"></i>" );
                 
                 $('#map-wrapper').css("right", "0px");
                 google.maps.event.trigger(map, "resize");
@@ -171,7 +202,7 @@ echo "<body onload=\"initialize( $clat, $clon, $zoom, '$maptype', '$markers' )\"
             else
             {
                 $('#sidebar').show();
-                $('#sidebar-toggle').html( "Sidebar <i class=\"icon-ok-sign icon-white\"></i>" );
+                $('#sidebar-toggle').html( "<i class=\"icon-chevron-up icon-white\"></i><i class=\"icon-chevron-up icon-white\"></i><i class=\"icon-chevron-up icon-white\"></i>" );
                 
                 $('#map-wrapper').css("right", "274px");
                 google.maps.event.trigger(map, "resize");
@@ -201,16 +232,12 @@ echo "<body onload=\"initialize( $clat, $clon, $zoom, '$maptype', '$markers' )\"
 
 <!-- the control widget -->
 <div id="sidebar">
-<div class="accordion" id="sidebar-accordion">
-    
-  <div class="accordion-group">
-    <div class="accordion-heading">
-      <a class="accordion-toggle" data-toggle="collapse" data-parent="#sidebar-accordion" href="#collapseSearch">
-        Suche
-      </a>
-    </div>
-    <div id="collapseSearch" class="accordion-body collapse">
-      <div class="accordion-inner">
+<div>
+
+<div class="my-section">
+    <div class="my-section-header">Suche</div>
+    <div>
+      <div>
 <div class="input-append">
 <input id="txtSearch" style="width: 173px" type="text" placeholder="Koordinaten oder Ort" title="Nach einem Ort oder Koordinaten suchen und die Karte auf dem Suchergebnis zentrieren">
 <button class="btn btn-info" style="width: 44px" type="button" onClick="searchLocation()" title="Nach einem Ort oder Koordinaten suchen und die Karte auf dem Suchergebnis zentrieren"><i class="icon-search"></i></button>
@@ -221,28 +248,20 @@ echo "<body onload=\"initialize( $clat, $clon, $zoom, '$maptype', '$markers' )\"
 
 
 
-<div class="accordion-group">
-    <div class="accordion-heading">
-      <a class="accordion-toggle" data-toggle="collapse" data-parent="#sidebar-accordion" href="#collapseDynMarkers">
-        Marker
-      </a>
-    </div>
-    <div id="collapseDynMarkers" class="accordion-body collapse in">
-      <div class="accordion-inner">
+<div class="my-section">
+    <div class="my-section-header">Marker</div>
+    <div>
+      <div>
           <button class="btn btn-success"  title="Erzeuge einen neuen Marker" type="button" onClick="newMarker( map.getCenter(), -1 )">Neuer Marker</button>
 <div id="dynMarkerDiv"></div>
       </div>
     </div>
   </div>
   
-<div class="accordion-group">
-    <div class="accordion-heading">
-      <a class="accordion-toggle" data-toggle="collapse" data-parent="#sidebar-accordion" href="#collapseDistance">
-        Abstand/Winkel
-      </a>
-    </div>
-    <div id="collapseDistance" class="accordion-body collapse">
-      <div class="accordion-inner">
+<div class="my-section">
+    <div class="my-section-header">Abstand/Winkel</div>
+    <div>
+      <div>
           <div style="padding:4px">
           Von
           <button id="sourcebtn" class="btn btn-small btn-info" title="Wähle Marker" type="button" href="#" data-dropdown="#sourcelist">?</button>
@@ -267,15 +286,10 @@ echo "<body onload=\"initialize( $clat, $clon, $zoom, '$maptype', '$markers' )\"
     </div>
   </div>
 
-
-  <div class="accordion-group">
-    <div class="accordion-heading">
-      <a class="accordion-toggle" data-toggle="collapse" data-parent="#sidebar-accordion" href="#collapseOther">
-        Sonstiges/Links
-      </a>
-    </div>
-    <div id="collapseOther" class="accordion-body collapse">
-      <div class="accordion-inner">
+<div class="my-section">
+    <div class="my-section-header">Sonstiges/Links</div>
+    <div>
+      <div>
 
 <form>
 <label class="checkbox" title="Deutsche Naturschutzgebiete in der Karte markieren">

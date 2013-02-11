@@ -282,21 +282,32 @@ function newMarker( coordinates, theid )
     var m = markers[id];
     m.free = false;
     
+    // base.png is 7x4 icons (each: 32px x 37px)
+    var iconw = 32;
+    var iconh = 37;
+    var offsetx = (m.id % 7)*iconw;
+    var offsety = Math.floor(m.id / 7)*iconh;
     m.marker = new google.maps.Marker( {
         position: coordinates, 
         map: map,
-        icon: new google.maps.MarkerImage( "img/icons/blue/"+m.alpha+".png", null, null, new google.maps.Point(15,33) ),
+        icon: new google.maps.MarkerImage( 
+            "img/base.png", 
+            new google.maps.Size(iconw, iconh),
+            new google.maps.Point(offsetx, offsety), 
+            new google.maps.Point(15.5,36) ),
         draggable: true } );
     
     google.maps.event.addListener( m.marker, "drag", function() { updateMarker( m ); } );        
     google.maps.event.addListener( m.marker, "dragend", function() { updateMarker( m ); } );      
     
+    colors = [ "#03ab17", "#d10f12", "#0d58d9", "#9d0ac2", "#ff8a22", "#27bcd6", "#3d3d3d" ];
+    
     m.circle = new google.maps.Circle( {
         center: coordinates, 
         map: map,
-        strokeColor: "#0080C0",
+        strokeColor: colors[m.id % 7],
         strokeOpacity: 1,
-        fillColor: "#0080C0",
+        fillColor: colors[m.id % 7],
         fillOpacity: 0.25,
         strokeWeight: 1,
         radius: 100 } );
