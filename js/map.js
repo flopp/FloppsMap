@@ -310,7 +310,7 @@ function newMarker( coordinates, theid )
         fillColor: colors[m.id % 7],
         fillOpacity: 0.25,
         strokeWeight: 1,
-        radius: 100 } );
+        radius: 161 } );
 
     var parent = document.getElementById("dynMarkerDiv");
     var div = document.createElement("div" );
