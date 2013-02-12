@@ -53,7 +53,13 @@ _gaq.push(['_trackPageview']);
     #themap { width: 100%; height: 100%;}
     #themap img { max-width: none; }
     #sidebar { overflow: auto; position: absolute; padding: 4px; width: 264px; right: 0; top: 40px; bottom: 0px; float: right; }
-
+    #sidebartoggle { position: absolute; display: block; right: 274px; width: 20px; height: 60px; top: 50%; background-color: white; 
+    webkit-border-radius: 8px 0 0 8px;
+     -moz-border-radius: 8px 0 0 8px;
+          border-radius: 8px 0 0 8px;
+    }
+    #sidebartogglebutton { position: absolute; display: block; width: 14px; height: 14px; top: 50%; left: 50%; margin-left: -5px; margin-top: -10px; }
+    
 .my-section {
   position: relative;
   margin: 4px 0;
@@ -174,36 +180,27 @@ echo "<body onload=\"initialize( $clat, $clon, $zoom, '$maptype', '$markers' )\"
                 <li><a role="button" href="#hilfeDialog" data-toggle="modal" rel="tooltip" title="Anleitung für die Karte">Hilfe <i class="icon-question-sign icon-white"></i></a></li>
                 <li><a role="button" href="#kontaktDialog" data-toggle="modal" rel="tooltip" title="Rechtliche Hinweise, Kontaktinformationen, usw.">Info/Impressum <i class="icon-info-sign icon-white"></i></a></li>
             </ul>
-            <div class="pull-right">
-                <ul class="nav">
-                    <li><a role="button" href="javascript:" id='sidebar-toggle' rel="tooltip" title="Sidebar ein- und ausblenden">
-                        <i class="icon-chevron-up icon-white"></i>
-                        <i class="icon-chevron-up icon-white"></i>
-                        <i class="icon-chevron-up icon-white"></i>
-                    </a></li>
-                </ul>
-            </div>
         </div>
     </div>
 </div>
 
 <script type="text/javascript">
     jQuery(document).ready(function() {
-        $("#sidebar-toggle").click(
+        $("#sidebartoggle").click(
         function() {
             if( $('#sidebar').is(':visible') )
             {
                 $('#sidebar').hide();
-                $('#sidebar-toggle').html( "<i class=\"icon-chevron-down icon-white\"></i><i class=\"icon-chevron-down icon-white\"></i><i class=\"icon-chevron-down icon-white\"></i>" );
-                
+                $('#sidebartoggle').css( "right", "0px" );
+                $('#sidebartogglebutton').html( "<i class=\"icon-chevron-left\"></i>" );
                 $('#map-wrapper').css("right", "0px");
                 google.maps.event.trigger(map, "resize");
             }
             else
             {
                 $('#sidebar').show();
-                $('#sidebar-toggle').html( "<i class=\"icon-chevron-up icon-white\"></i><i class=\"icon-chevron-up icon-white\"></i><i class=\"icon-chevron-up icon-white\"></i>" );
-                
+                $('#sidebartoggle').css( "right", "274px" );
+                $('#sidebartogglebutton').html( "<i class=\"icon-chevron-right\"></i>" );
                 $('#map-wrapper').css("right", "274px");
                 google.maps.event.trigger(map, "resize");
             }
@@ -230,6 +227,9 @@ echo "<body onload=\"initialize( $clat, $clon, $zoom, '$maptype', '$markers' )\"
 </div>
   
 
+<a id="sidebartoggle" href="javascript:">
+<span id="sidebartogglebutton"><i class="icon-chevron-right"></i></span>
+</a>
 <!-- the control widget -->
 <div id="sidebar">
 <div>
