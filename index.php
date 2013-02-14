@@ -12,16 +12,21 @@
     <link rel="shortcut icon" href="img/favicon.png" type="image/png" />
     <link rel="image_src" href="img/screenshot.png" />
     
+    <!-- google maps -->
     <script type="text/javascript" src="https://maps.google.com/maps/api/js?key=AIzaSyC_KjqwiB6tKCcrq2aa8B3z-c7wNN8CTA0&sensor=false"></script>
+    <!-- my own stuff -->
     <script type="text/javascript" src="js/cookies.js"></script>
     <script type="text/javascript" src="js/geographiclib.js"></script>
     <script type="text/javascript" src="js/coordinates.js"></script>
     <script type="text/javascript" src="js/map.js"></script>
+    <!-- jquery -->
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
-    <script type="text/javascript" src="ext/bootstrap/js/bootstrap.min.js"></script>
-    <link href="ext/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link type="text/css" rel="stylesheet" href="ext/jquery-dropdown/jquery.dropdown.css" />`
     <script type="text/javascript" src="ext/jquery-dropdown/jquery.dropdown.js"></script>`
+    <!-- bootstrap -->
+    <script type="text/javascript" src="ext/bootstrap/js/bootstrap.min.js"></script>
+    <link href="ext/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- additional button icons -->
     <link rel="stylesheet" href="ext/font-awesome/css/font-awesome.min.css"> 
 
 <!-- Google Analytics -->
@@ -59,6 +64,9 @@ _gaq.push(['_trackPageview']);
           border-radius: 8px 0 0 8px;
     }
     #sidebartogglebutton { position: absolute; display: block; width: 14px; height: 14px; top: 50%; left: 50%; margin-left: -5px; margin-top: -10px; }
+    
+    @media(max-width:599px){.only-small{display:inherit!important}.only-large{display:none!important}}
+    @media(min-width:600px){.only-small{display:none!important}.only-large{display:inherit!important}}
     
 .my-section {
   position: relative;
@@ -175,10 +183,10 @@ echo "<body onload=\"initialize( $clat, $clon, $zoom, '$maptype', '$markers' )\"
     <div class="navbar-inner">
         <div class="container-fluid">
             <ul class="nav">
-                <li><a role="button" class="brand" href="javascript:">Flopps Tolle Karte</a></li>
-                <li><a role="button" href="http://blog.flopp-caching.de/" rel="tooltip" title="Hier geht es zu 'Flopps Tolles Blog'">Blog <i class="icon-star icon-white"></i></a></li>
-                <li><a role="button" href="#hilfeDialog" data-toggle="modal" rel="tooltip" title="Anleitung für die Karte">Hilfe <i class="icon-question-sign icon-white"></i></a></li>
-                <li><a role="button" href="#kontaktDialog" data-toggle="modal" rel="tooltip" title="Rechtliche Hinweise, Kontaktinformationen, usw.">Info/Impressum <i class="icon-info-sign icon-white"></i></a></li>
+                <li class="hidden-phone"><a role="button" class="brand" href="javascript:"><span class="only-large">Flopps Tolle Karte</span><span class="only-small">FTK</span></a></li>
+                <li><a role="button" href="http://blog.flopp-caching.de/" rel="tooltip" title="Hier geht es zu 'Flopps Tolles Blog'"><span class="only-large">Blog <i class="icon-star icon-white"></i></span><span class="only-small">Blog</span></a></li>
+                <li><a role="button" href="#hilfeDialog" data-toggle="modal" rel="tooltip" title="Anleitung für die Karte"><span class="only-large">Hilfe <i class="icon-question-sign icon-white"></i></span><span class="only-small">Hilfe</span></a></li>
+                <li><a role="button" href="#kontaktDialog" data-toggle="modal" rel="tooltip" title="Rechtliche Hinweise, Kontaktinformationen, usw."><span class="only-large">Info/Impressum <i class="icon-info-sign icon-white"></i></span><span class="only-small">Info/Impressum</span></a></li>
             </ul>
         </div>
     </div>
