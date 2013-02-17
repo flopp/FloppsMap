@@ -41,17 +41,6 @@ _gaq.push(['_trackPageview']);
 })();
 </script>
 
-<!-- Flattr -->
-<script type="text/javascript">
-(function() {
-    var s = document.createElement('script'), t = document.getElementsByTagName('script')[0];
-    s.type = 'text/javascript';
-    s.async = true;
-    s.src = 'http://api.flattr.com/js/0.6/load.js?mode=auto';
-    t.parentNode.insertBefore(s, t);
-})();
-</script>
-
 <style type="text/css">
     html, body { height: 100%; overflow: hidden}
     #map-wrapper { position: absolute; left: 0; right:274px; top: 40px; bottom: 0; float: left; }
@@ -356,7 +345,6 @@ echo "<body onload=\"initialize( $clat, $clon, $zoom, '$maptype', '$markers' )\"
         <a href="https://plus.google.com/u/0/116067328889875491676" target="_blank"><img src="img/googleplus.png" alt="Google+"></a>
         <a href="https://www.facebook.com/FloppsTolleKarte" target="_blank"><img src="img/facebook.png" alt="Facebook"></a>
     </p>
-    <p><a class="FlattrButton" style="display:none;" href="http://flopp-caching.de/"></a></p>
     
     <hr />
     <h4>Impressum</h4>
