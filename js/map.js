@@ -191,12 +191,14 @@ function removeMarker( id )
     }
     updateLists();
     updateDistance();
+    updateLinks();
 }
 
 function gotoMarker( id )
 {
     var m = getMarkerById( id );
     map.setCenter( m.marker.getPosition() );
+    updateLinks();
 }
 
 function editMarker( id )
@@ -345,6 +347,7 @@ function newMarker( coordinates, theid )
      
     updateMarker( m );
     updateLists();
+    updateLinks();
     
     return m;
 }
@@ -628,6 +631,45 @@ function initialize( xclat, xclon, xzoom, xmap, xmarkers )
         zoom = xzoom;
         maptype = xmap;
     }
+    else if( xmarkers != null )
+    {
+        clat = 0;
+        clon = 0;
+        cnum = 0;
+        
+        data = xmarkers.split('|');
+        for( var i = 0; i != data.length; ++i )
+        {
+            var data2 = data[i].split(':');
+            if( data2.length != 4 ) continue;
+            
+            var alpha = data2[0];
+            var id = -1;
+            if( alpha.length != 1 ) continue;
+            if( alpha[0] >= 'A' && alpha[0] <= 'Z' ) id = alpha.charCodeAt(0) - 'A'.charCodeAt(0); 
+            if( alpha[0] >= 'a' && alpha[0] <= 'z' ) id = alpha.charCodeAt(0) - 'a'.charCodeAt(0); 
+            if( id == null || id < 0 || id >=26 ) continue;
+                
+            var lat = parseFloat( data2[1] );
+            if( lat < -90 || lat > 90 ) continue;
+            var lon = parseFloat( data2[2] );
+            if( lon < -180 || lon > 180 ) continue; 
+            var r = parseFloat( data2[3] );
+            if( r < 0 || r > 100000000000 ) continue; 
+            
+            clat = clat + lat;    
+            clon = clon + lon;
+            cnum = cnum + 1;
+        }
+        
+        if( cnum > 0 )
+        {
+            clat = clat / cnum;
+            clon = clon / cnum;
+            zoom = xzoom;
+            maptype = xmap;
+        }
+    }
     else
     {
         loadfromcookies = true;
@@ -808,5 +850,6 @@ function searchLocation()
     {
         //console.log( "ok: coordinates" );
         map.setCenter( coords, 13 );
+        updateLinks();
     }
 }
