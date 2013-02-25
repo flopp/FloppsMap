@@ -11,6 +11,11 @@ var nsgLayerUpdateTimeout = null;
 var map;
 var copyrightDiv;
 
+var CLAT_DEFAULT = 51.163375;
+var CLON_DEFAULT = 10.447683;
+var ZOOM_DEFAULT = 12;
+var MAPTYPE_DEFAULT = "OSM";
+
 function updateDistance()
 {
     if( sourceid == -1 || targetid == -1 )
@@ -667,22 +672,29 @@ function initialize( xclat, xclon, xzoom, xmap, xmarkers )
             zoom = xzoom;
             maptype = xmap;
         }
+        else
+        {
+            clat = CLAT_DEFAULT;
+            clon = CLON_DEFAULT;
+            zoom = ZOOM_DEFAULT;
+            maptype = MAPTYPE_DEFAULT;
+        }
     }
     else
     {
         loadfromcookies = true;
         
         /* try to read coordinats from cookie */
-        clat = get_cookie('clat') != null ? parseFloat(get_cookie('clat')) : 51.163375;
-        clon = get_cookie('clon') != null ? parseFloat(get_cookie('clon')) : 10.447683;
-        zoom = get_cookie('zoom') != null ? parseInt(get_cookie('zoom')) : 12;
-        maptype = get_cookie('maptype') != null ? get_cookie('maptype') : "OSM";        
+        clat = get_cookie('clat') != null ? parseFloat(get_cookie('clat')) : CLAT_DEFAULT;
+        clon = get_cookie('clon') != null ? parseFloat(get_cookie('clon')) : CLON_DEFAULT;
+        zoom = get_cookie('zoom') != null ? parseInt(get_cookie('zoom')) : ZOOM_DEFAULT;
+        maptype = get_cookie('maptype') != null ? get_cookie('maptype') : MAPTYPE_DEFAULT;        
     }
     
-    clat = repairLat( clat, 51.163375 );
-    clon = repairLon( clon, 10.447683 );
-    zoom = repairZoom( zoom, 12 );
-    maptype = repairMaptype( maptype, "OSM" );
+    clat = repairLat( clat, CLAT_DEFAULT );
+    clon = repairLon( clon, CLON_DEFAULT );
+    zoom = repairZoom( zoom, ZOOM_DEFAULT );
+    maptype = repairMaptype( maptype, MAPTYPE_DEFAULT );
        
     var nsg = get_cookie('nsg') != null ? parseInt( get_cookie('nsg') ) : 0;
     
