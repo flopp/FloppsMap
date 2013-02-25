@@ -248,21 +248,6 @@ function editRadius( id )
 
 function newMarker( coordinates, theid )
 {
-    if( markers == null )
-    {
-        markers = new Array();
-        for( var i = 0; i != 26; i++ )
-        {
-            var m = new Object();
-            m.id = i;
-            m.alpha = String.fromCharCode('A'.charCodeAt()+m.id);
-            m.free = true;
-            m.marker = null;
-            m.circle = null;
-            markers.push( m );
-        }
-    }
-    
     var id = theid;
     if( id == -1 || id < 0 || id >= 26 || markers[id].free == true ) id = getFreeId();
     if( id == -1 )
@@ -620,6 +605,19 @@ function initialize( xclat, xclon, xzoom, xmap, xmarkers )
     var clat, clon;
     var zoom;
     var maptype;
+    
+    
+    markers = new Array();
+    for( var i = 0; i != 26; i++ )
+    {
+        var m = new Object();
+        m.id = i;
+        m.alpha = String.fromCharCode('A'.charCodeAt()+m.id);
+        m.free = true;
+        m.marker = null;
+        m.circle = null;
+        markers.push( m );
+    }
     
     var loadfromcookies = false;
     
