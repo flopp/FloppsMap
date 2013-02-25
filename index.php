@@ -299,12 +299,9 @@ echo "<body onload=\"initialize( $clat, $clon, $zoom, '$maptype', '$markers' )\"
 <li><a id="permalink" href="https://foomap.de/" target="_blank">Flopps Tolle Karte</a></li>
 </ul>
 <b>Externe Links</b>
-<ul>
-<li><a id="googlemapslink" href="https://maps.google.com/" target="_blank">Google Maps</a></li>
-<li><a id="ingresslink" href="http://ingress.com/intel" target="_blank">Ingress Intel Map</a></li>
-<li><a id="geocachingcomlink" href="http://coord.info/map" target="_blank">Geocaching.com Map</a></li>
-<li><a id="opencachingdelink" href="http://www.opencaching.de/map2.php" target="_blank">Opencaching.de Map</a></li>
-</ul>
+<div class="input-append" title="Externer Link">
+<select id="externallinks" style="width: 185px" title="Externen Dienst an Kartenposition öffnen"></select>
+<button class="btn btn-info" style="width: 44px" type="button" onClick="gotoExternalLink()" title="Externen Dienst an Kartenposition öffnen"><i class="icon-play"></i></button>
 </div>
     </div>
   </div>

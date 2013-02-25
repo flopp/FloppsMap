@@ -16,6 +16,62 @@ var CLON_DEFAULT = 10.447683;
 var ZOOM_DEFAULT = 12;
 var MAPTYPE_DEFAULT = "OSM";
 
+var externalLinkTargets = null;
+
+function setupExternalLinkTargets()
+{
+    var e = new Array();
+    
+    e["★ Spiele ★"] = "";
+    e["Confluence.org"] = "http://www.confluence.org/confluence.php?lat=%lat%&lon=%lon%";
+    e["Geocaching.com"] = "http://coord.info/map?ll=%lat%,%lon%&z=%zoom%";
+    e["Ingress.com"] = "http://www.ingress.com/intel?latE6=%late6%&lngE6=%lone6%&z=%zoom%";
+    e["Lacita.com"] = "http://www.lacita.org/cgi_bin/bf.pl?Path=00&lat=%lat%&lng=%lon%&z=%zoom%";
+    e["Munzee (da-fi.de)"] = "http://da-fi.de/public/munzee/bbmap2.php?lat=%lat%&lon=%lon%&zoom=%zoom%";
+    e["Nachtcaches.de"] = "http://nachtcaches.de/#%lat%,%lon%,%zoom%";
+    e["Opencaching.de"] = "http://www.opencaching.de/map2.php?lat=%lat%&lon=%lon%&zoom=%zoom%";
+    
+    e["★ Karten ★"] = "";
+    e["Bing Maps"] = "http://www.bing.com/maps/?v=2&cp=%lat%~%lon%&lvl=%zoom%";
+    e["Cloudmade"] = "http://maps.cloudmade.com/?lat=%lat%&lng=%lon%&zoom=%zoom%";
+    e["Google Maps"] = "https://maps.google.com/maps?ll=%lat%,%lon%&z=%zoom%";
+    e["OpenStreetMap"] = "http://www.openstreetmap.org/?lat=%lat%&lon=%lon%&zoom=%zoom%";
+    e["OpenCycleMap"] = "http://www.opencyclemap.org/?zoom=%zoom%&lat=%lat%&lon=%lon%";
+    e["ÖPNV-Karte"] = "http://www.öpnvkarte.de/?zoom=%zoom%&lat=%lat%&lon=%lon%";
+    e["Wheelmap.org"] = "http://wheelmap.org/?zoom=%zoom%&lat=%lat%&lon=%lon%";
+    e["Wikimapia.org"] = "http://wikimapia.org/#lat=%lat%&lon=%lon%&z=%zoom%";
+    
+    for( index in e ) 
+    {
+        $('#externallinks').append('<option value="'+index+'">'+index+'</option>');
+    }
+    
+    externalLinkTargets = e;
+}
+
+function gotoExternalLink()
+{
+    var selected = $('#externallinks').find(":selected").text();
+    var url = externalLinkTargets[selected];
+    if( url == null || url == '' ) return;
+    
+    lat = map.getCenter().lat();
+    lon = map.getCenter().lng();
+    latE6 = Math.round( lat * 1000000 );
+    lonE6 = Math.round( lon * 1000000 );
+    lat = lat.toFixed(6);
+    lon = lon.toFixed(6);
+    zoom = map.getZoom();
+    
+    url = url.replace( /%lat%/g, lat );
+    url = url.replace( /%lon%/g, lon );
+    url = url.replace( /%late6%/g, latE6 );
+    url = url.replace( /%lone6%/g, lonE6 );
+    url = url.replace( /%zoom%/g, zoom );
+    
+    window.open(url, '_blank');
+}
+
 function updateDistance()
 {
     if( sourceid == -1 || targetid == -1 )
@@ -422,7 +478,7 @@ function updateLinks()
     }
     ftklink = "http://foomap.de/?c=" + lat.toFixed(6) + ":" + lng.toFixed(6) + "&z=" + zoom + "&t=" + map.getMapTypeId() + s;
     $( "#permalink" ).attr( "href", ftklink );
-    
+/*    
     googlemapslink = "https://maps.google.com/maps?ll=" + lat + "," + lng + "&z=" + zoom;
     $( "#googlemapslink" ).attr( "href", googlemapslink );
     
@@ -434,6 +490,7 @@ function updateLinks()
     
     opencachingdelink = "http://www.opencaching.de/map2.php?lat=" + lat + "&lon=" + lng + "&zoom=" + zoom;
     $( "#opencachingdelink" ).attr( "href", opencachingdelink );
+*/
 }
 
 function updateCopyrights() 
@@ -830,7 +887,9 @@ function initialize( xclat, xclon, xzoom, xmap, xmarkers )
         
     showNSGLayer( nsg != 0 );
     updateNSGLayer();
-    
+
+    setupExternalLinkTargets();
+        
     updateLinks();
     
     showWelcomePopup();
