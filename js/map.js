@@ -40,6 +40,7 @@ function setupExternalLinkTargets()
     e["ÖPNV-Karte"] = "http://www.öpnvkarte.de/?zoom=%zoom%&lat=%lat%&lon=%lon%";
     e["Wheelmap.org"] = "http://wheelmap.org/?zoom=%zoom%&lat=%lat%&lon=%lon%";
     e["Wikimapia.org"] = "http://wikimapia.org/#lat=%lat%&lon=%lon%&z=%zoom%";
+    e["YAPIS"] = "http://yapis.eu/?id=9&lat=%lat%&lon=%lon%zoom=%zoom%";
     
     for( index in e ) 
     {
