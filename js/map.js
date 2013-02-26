@@ -30,6 +30,7 @@ function setupExternalLinkTargets()
     e["Munzee (da-fi.de)"] = "http://da-fi.de/public/munzee/bbmap2.php?lat=%lat%&lon=%lon%&zoom=%zoom%";
     e["Nachtcaches.de"] = "http://nachtcaches.de/#%lat%,%lon%,%zoom%";
     e["Opencaching.de"] = "http://www.opencaching.de/map2.php?lat=%lat%&lon=%lon%&zoom=%zoom%";
+    e["Waymarking.com"] = "http://www.waymarking.com/wm/search.aspx?f=1&lat=%lat%&lon=%lon%";
     
     e["★ Karten ★"] = "";
     e["Bing Maps"] = "http://www.bing.com/maps/?v=2&cp=%lat%~%lon%&lvl=%zoom%";
