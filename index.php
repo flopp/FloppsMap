@@ -316,7 +316,7 @@ echo "<body onload=\"initialize( $clat, $clon, $zoom, '$maptype', '$markers' )\"
   </div>
   <div class="modal-body">
       <h4>Hier muss alles neu geschrieben werden...</h4>
-      Bis das geschehen ist, kann man im <a href'="http://blog.flopp-caching.de/category/karte/">Blog</a> nützliche Informationen finden.
+      Bis das geschehen ist, kann man im <a href="http://blog.flopp-caching.de/category/karte/">Blog</a> nützliche Informationen finden.
   </div>
   <div class="modal-footer">
     <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Ok</button>
