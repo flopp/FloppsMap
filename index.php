@@ -229,49 +229,43 @@ echo "<body onload=\"initialize( $clat, $clon, $zoom, '$maptype', '$markers' )\"
 </a>
 <!-- the control widget -->
 <div id="sidebar">
-<div>
 
 <div class="my-section">
     <div class="my-section-header">Suche</div>
     <div>
-      <div>
 <div class="input-append">
 <input id="txtSearch" style="width: 173px" type="text" placeholder="Koordinaten oder Ort" title="Nach einem Ort oder Koordinaten suchen und die Karte auf dem Suchergebnis zentrieren">
 <button class="btn btn-info" style="width: 44px" type="button" onClick="searchLocation()" title="Nach einem Ort oder Koordinaten suchen und die Karte auf dem Suchergebnis zentrieren"><i class="icon-search"></i></button>
 </div>
-      </div>
     </div>
-  </div>
+</div> <!-- section -->
 
 
 
 <div class="my-section">
     <div class="my-section-header">Marker</div>
     <div>
-      <div>
-          <button class="btn btn-success"  title="Erzeuge einen neuen Marker" type="button" onClick="newMarker( map.getCenter(), -1 )">Neuer Marker</button>
+<button class="btn btn-success"  title="Erzeuge einen neuen Marker" type="button" onClick="newMarker( map.getCenter(), -1 )">Neuer Marker</button>
 <div id="dynMarkerDiv"></div>
-      </div>
     </div>
-  </div>
+</div> <!-- section -->
   
 <div class="my-section">
     <div class="my-section-header">Abstand/Winkel</div>
     <div>
-      <div>
-          <div style="padding:4px">
-          Von
-          <button id="sourcebtn" class="btn btn-small btn-info" title="Wähle Marker" type="button" href="#" data-dropdown="#sourcelist">?</button>
-          nach
-          <button id="targetbtn" class="btn btn-small btn-info" title="Wähle Marker" type="button" href="#" data-dropdown="#targetlist">?</button>
-          </div>
+<div style="padding:4px">
+Von
+<button id="sourcebtn" class="btn btn-small btn-info" title="Wähle Marker" type="button" href="#" data-dropdown="#sourcelist">?</button>
+nach
+<button id="targetbtn" class="btn btn-small btn-info" title="Wähle Marker" type="button" href="#" data-dropdown="#targetlist">?</button>
+</div>
+
 <div>
 <div class="input-prepend input-append" title="Abstand des Markers A vom Marker B in Metern">
 <span class="add-on" style="width: 52px">Abstand</span>
 <span id="txtDistance" class="add-on" style="width: 128px; text-align: left">n/a</span>
 <span class="add-on" style="width: 16px">m</span>
 </div>
-
 <div class="input-prepend input-append" title="Peilungswinkel von Marker A nach Marker B">
 <span class="add-on" style="width: 52px">Winkel</span>
 <span id="txtBearing" class="add-on" style="width: 128px; text-align: left">n/a</span>
@@ -279,15 +273,12 @@ echo "<body onload=\"initialize( $clat, $clon, $zoom, '$maptype', '$markers' )\"
 </div>
 </div>          
 
-      </div>
     </div>
-  </div>
+</div> <!-- section -->
 
 <div class="my-section">
     <div class="my-section-header">Sonstiges/Links</div>
     <div>
-      <div>
-
 <form>
 <label class="checkbox" title="Deutsche Naturschutzgebiete in der Karte markieren">
     <input id="showNSG" type="checkbox"> Zeige Naturschutzgebiete
@@ -304,9 +295,9 @@ echo "<body onload=\"initialize( $clat, $clon, $zoom, '$maptype', '$markers' )\"
 <button class="btn btn-info" style="width: 44px" type="button" onClick="gotoExternalLink()" title="Externen Dienst an Kartenposition öffnen"><i class="icon-play"></i></button>
 </div>
     </div>
-  </div>
-</div>
+</div> <!-- section -->
 
+</div> <!-- sidebar -->
 
 <!-- the hilfe dialog -->
 <div class="modal hide fade" id="hilfeDialog" tabindex="-1" role="dialog" aria-labelledby="hilfeDialogLabel" aria-hidden="true">
@@ -321,7 +312,7 @@ echo "<body onload=\"initialize( $clat, $clon, $zoom, '$maptype', '$markers' )\"
   <div class="modal-footer">
     <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Ok</button>
   </div>
-</div>
+</div> <!-- dialog -->
 
 <!-- the kontakt dialog -->
 <div class="modal hide fade" id="kontaktDialog" tabindex="-1" role="dialog" aria-labelledby="kontaktDialogLabel" aria-hidden="true">
@@ -401,7 +392,7 @@ Sie können die Speicherung der Cookies durch eine entsprechende Einstellung Ihr
   <div class="modal-footer">
     <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Ok</button>
   </div>
-</div>
+</div> <!-- dialog -->
 
 <!-- the welcome dialog -->
 <div id="welcomeDialog" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="welcomeDialogLabel" aria-hidden="true">
@@ -436,8 +427,9 @@ Sie können die Speicherung der Cookies durch eine entsprechende Einstellung Ihr
   <div class="modal-footer">
     <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Ok</button>
   </div>
-</div>
-</div>
+</div> <!-- dialog -->
+
+
 
 <div id="sourcelist" class="dropdown-menu has-tip">
     <ul>
