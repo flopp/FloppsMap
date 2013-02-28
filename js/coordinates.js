@@ -1,3 +1,66 @@
+function string2coords( coordstring )
+{
+    coordstring = coordstring.trim()
+
+    var matches;
+    
+    // DM: N 48° 00.123 E 7° 51.678
+    // DM2: N 48 00.123 E 7 51.678
+    var dm_pattern = /^([ns])\s*(\d+)°\s+([\d\.]+)\s+([we])\s*(\d+)°\s+([\d\.]+)$/i;
+    var dm2_pattern = /^([ns])\s*(\d+)\s+([\d\.]+)\s+([we])\s*(\d+)\s+([\d\.]+)$/i;
+    matches = coordstring.match( dm_pattern );
+    if( !matches ) matches = coordstring.match( dm2_pattern );
+    if( matches )
+    {
+        var lat_sign = ( matches[1] == 's' || matches[1] == 'S' ) ? -1 : 1;
+        var lng_sign = ( matches[4] == 'w' || matches[4] == 'W' ) ? -1 : 1;
+        
+        var lat_d = parseFloat( matches[2] );
+        var lat_m = parseFloat( matches[3] );
+        
+        var lon_d = parseFloat( matches[5] );
+        var lon_m = parseFloat( matches[6] );
+
+        lat = lat_sign * ( lat_d + ( lat_m / 60.0 ) );
+        lng = lng_sign * ( lon_d + ( lon_m / 60.0 ) );
+        
+        return new google.maps.LatLng( lat, lng );
+    }
+    
+    var d_pattern = /^([ns])\s*([\d\.]+)°\s+([we])\s*([\d\.]+)°$/i;
+    var d2_pattern = /^([ns])\s*([\d\.]+)\s+([we])\s*([\d\.]+)$/i;
+    matches = coordstring.match( d_pattern );
+    if( !matches ) matches = coordstring.match( d2_pattern );
+    if( matches )
+    {
+        var lat_sign = ( matches[1] == 's' || matches[1] == 'S' ) ? -1 : 1;
+        var lng_sign = ( matches[3] == 'w' || matches[3] == 'W' ) ? -1 : 1;
+        
+        var lat = lat_sign * parseFloat( matches[2] );
+        var lng = lng_sign * parseFloat( matches[4] );
+        
+        return new google.maps.LatLng( lat, lng );
+    }
+    
+    var dsign_pattern = /^(-?)([\d\.]+)°\s+(-?)([\d\.]+)°$/i;
+    var dsign2_pattern = /^(-?)([\d\.]+)\s+(-?)([\d\.]+)$/i;
+    matches = coordstring.match( dsign_pattern );
+    if( !matches ) matches = coordstring.match( dsign2_pattern );
+    if( matches )
+    {
+        var lat_sign = ( matches[1] == '-' ) ? -1 : 1;
+        var lng_sign = ( matches[3] == '-' ) ? -1 : 1;
+        
+        var lat = lat_sign * parseFloat( matches[2] );
+        var lng = lng_sign * parseFloat( matches[4] );
+    
+        return new google.maps.LatLng( lat, lng );
+    }
+    
+    return null;
+}
+
+
 function coords2string( coord )
 {
     lat = coord.lat();
@@ -60,56 +123,6 @@ function coords2string( coord )
 
     
     return lat_string + " " + lng_string;
-}
-
-function string2coords( coordstring )
-{
-    var dm_pattern = /([ns])\s*(\d+)°?\s+([\d\.]+)\s+([we])\s*(\d+)°?\s+([\d\.]+)/i;
-    matches = coordstring.match( dm_pattern );
-    if( matches )
-    {
-        var lat_sign = ( matches[1] == 's' || matches[1] == 'S' ) ? -1 : 1;
-		var lng_sign = ( matches[4] == 'w' || matches[4] == 'W' ) ? -1 : 1;
-		
-		var lat_d = parseFloat( matches[2] );
-		var lat_m = parseFloat( matches[3] );
-        
-		var lon_d = parseFloat( matches[5] );
-		var lon_m = parseFloat( matches[6] );
-
-        lat = lat_sign * ( lat_d + ( lat_m / 60.0 ) );
-		lng = lng_sign * ( lon_d + ( lon_m / 60.0 ) );
-
-        return new google.maps.LatLng( lat, lng );
-    }
-    
-    var d_pattern = /([ns])\s*([\d\.]+)°?\s+([we])\s*([\d\.]+)°?/i;
-    matches = coordstring.match( d_pattern );
-    if( matches )
-    {
-        var lat_sign = ( matches[1] == 's' || matches[1] == 'S' ) ? -1 : 1;
-		var lng_sign = ( matches[3] == 'w' || matches[3] == 'W' ) ? -1 : 1;
-		
-		var lat = lat_sign * parseFloat( matches[2] );
-		var lng = lng_sign * parseFloat( matches[4] );
-	
-        return new google.maps.LatLng( lat, lng );
-    }
-
-    var dsign_pattern = /(-?)([\d\.]+)°?\s+(-?)([\d\.]+)°?/i;
-    matches = coordstring.match( dsign_pattern );
-    if( matches )
-    {
-        var lat_sign = ( matches[1] == '-' ) ? -1 : 1;
-		var lng_sign = ( matches[3] == '-' ) ? -1 : 1;
-		
-		var lat = lat_sign * parseFloat( matches[2] );
-		var lng = lng_sign * parseFloat( matches[4] );
-	
-        return new google.maps.LatLng( lat, lng );
-    }
-                       
-    return null;
 }
 
 function dist_angle_geodesic( startpos, endpos )
