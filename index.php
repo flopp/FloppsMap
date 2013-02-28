@@ -233,10 +233,12 @@ echo "<body onload=\"initialize( $clat, $clon, $zoom, '$maptype', '$markers' )\"
 <div class="my-section">
     <div class="my-section-header">Suche</div>
     <div>
+<form action="javascript:searchLocation()">
 <div class="input-append">
 <input id="txtSearch" style="width: 173px" type="text" placeholder="Koordinaten oder Ort" title="Nach einem Ort oder Koordinaten suchen und die Karte auf dem Suchergebnis zentrieren">
-<button class="btn btn-info" style="width: 44px" type="button" onClick="searchLocation()" title="Nach einem Ort oder Koordinaten suchen und die Karte auf dem Suchergebnis zentrieren"><i class="icon-search"></i></button>
+<button class="btn btn-info" type="submit" style="width: 44px" type="button" title="Nach einem Ort oder Koordinaten suchen und die Karte auf dem Suchergebnis zentrieren"><i class="icon-search"></i></button>
 </div>
+</form>
     </div>
 </div> <!-- section -->
 
