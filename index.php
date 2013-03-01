@@ -88,41 +88,10 @@ _gaq.push(['_trackPageview']);
 </head>
   
 <?php
-$cntr = "null";
-$clat = "null";
-$clon = "null";
-$zoom = "null";
-$maptype = "null";
+$cntr = "";
+$zoom = "";
+$maptype = "";
 $markers = "";
-function my_parse_float( $s, &$f, &$ok, $min, $max )
-{
-    if( is_numeric( $s ) )
-    {
-        $f = floatval($s);
-        $ok = ( $min <= $f && $f <= $max );
-    }
-    else
-    {
-        $ok = false;
-    }
-    
-    if( !$ok ) $f = NULL;
-}
-
-function my_parse_int( $s, &$f, &$ok, $min, $max )
-{
-    $f = intval( $s );
-    if (strval($f) == $s) 
-    { 
-        $ok = ( $min <= $f && $f <= $max );
-    }
-    else
-    {
-        $ok = false;
-    }
-    
-    if( !$ok ) $f = NULL;
-}
 
 if(!empty($_GET)) 
 {
@@ -133,12 +102,7 @@ if(!empty($_GET))
     }
     if(isset($_GET['z']))
     {
-        $v = false;
-        my_parse_int( $_GET['z'], $zoom, $v, 1, 18 );
-        if( !$v )
-        {
-            $zoom = "null";
-        }
+        $zoom = $_GET['z'];
     }
     if(isset($_GET['t']))
     {
@@ -150,7 +114,7 @@ if(!empty($_GET))
     }
 }
 
-echo "<body onload=\"initialize( '$cntr', $zoom, '$maptype', '$markers' )\">";
+echo "<body onload=\"initialize( '$cntr', '$zoom', '$maptype', '$markers' )\">";
 ?>
 
 

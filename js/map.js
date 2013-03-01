@@ -653,8 +653,8 @@ function repairMaptype( t, d )
 function initialize( xcenter, xzoom, xmap, xmarkers )
 {
     var center = null;
-    var zoom;
-    var maptype;    
+    var zoom = parseInt( xzoom );;
+    var maptype = xmap;    
     
     markers = new Array();
     for( var i = 0; i != 26; i++ )
@@ -667,10 +667,6 @@ function initialize( xcenter, xzoom, xmap, xmarkers )
         m.circle = null;
         markers.push( m );
     }
-    
-    // load maptype & zoom
-    zoom = xzoom;
-    maptype = xmap;
     
     // parse markers 
     var markerdata = new Array();
@@ -741,7 +737,7 @@ function initialize( xcenter, xzoom, xmap, xmarkers )
     
     var loadfromcookies = false;
     
-    if( xcenter != null )
+    if( xcenter != null && xcenter != '' )
     {
         var data = xcenter.split(':');
         
