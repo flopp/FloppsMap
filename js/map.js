@@ -15,6 +15,7 @@ var CLAT_DEFAULT = 51.163375;
 var CLON_DEFAULT = 10.447683;
 var ZOOM_DEFAULT = 12;
 var MAPTYPE_DEFAULT = "OSM";
+var RADIUS_DEFAULT = 161;
 
 var externalLinkTargets = null;
 
@@ -309,8 +310,10 @@ function editRadius( id )
     }
 }
 
-function newMarker( coordinates, theid )
+function newMarker( coordinates, theid, radius )
 {
+    if( radius < 0 ) radius = RADIUS_DEFAULT;
+    
     var id = theid;
     if( id == -1 || id < 0 || id >= 26 || markers[id].free == true ) id = getFreeId();
     if( id == -1 )
@@ -360,7 +363,7 @@ function newMarker( coordinates, theid )
         fillColor: colors[m.id % 7],
         fillOpacity: 0.25,
         strokeWeight: 1,
-        radius: 161 } );
+        radius: radius } );
 
     var parent = document.getElementById("dynMarkerDiv");
     var div = document.createElement("div" );
@@ -424,7 +427,7 @@ function projectFromMarker( id )
     }
     
     var newpos = projection_geodesic( oldpos, angle, dist );
-    var m = newMarker( newpos, -1 );
+    var m = newMarker( newpos, -1, RADIUS_DEFAULT );
     if( m != null )
     {
         alert( "Neuer Marker: " + m.alpha );
@@ -480,43 +483,26 @@ function updateLinks()
     }
     ftklink = "http://foomap.de/?c=" + lat.toFixed(6) + ":" + lng.toFixed(6) + "&z=" + zoom + "&t=" + map.getMapTypeId() + s;
     $( "#permalink" ).attr( "href", ftklink );
-/*    
-    googlemapslink = "https://maps.google.com/maps?ll=" + lat + "," + lng + "&z=" + zoom;
-    $( "#googlemapslink" ).attr( "href", googlemapslink );
-    
-    ingresslink = "http://www.ingress.com/intel?latE6=" + latE6 + "&lngE6=" + lngE6 + "&z=" + zoom;
-    $( "#ingresslink" ).attr( "href", ingresslink );
-    
-    geocachingcomlink = "http://coord.info/map?ll=" + lat + "," + lng + "&z=" + zoom;
-    $( "#geocachingcomlink" ).attr( "href", geocachingcomlink );
-    
-    opencachingdelink = "http://www.opencaching.de/map2.php?lat=" + lat + "&lon=" + lng + "&zoom=" + zoom;
-    $( "#opencachingdelink" ).attr( "href", opencachingdelink );
-*/
 }
 
 function updateCopyrights() 
 {
-	if( copyrightDiv == null )
-	{
-		return;
-	}
-	
-	newMapType = map.getMapTypeId();
-	set_cookie( 'maptype', newMapType );
+    if( copyrightDiv == null )
+    {
+        return;
+    }
     
-	if( newMapType == "OSM" )
-	{
-		copyrightDiv.innerHTML = "Map data (C) by <a href=\"http://www.openstreetmap.org/\">OpenStreetMap.org</a> and its contributors; <a href=\"http://opendatacommons.org/licenses/odbl/\">Open Database License</a>";
-	}
-	else if( newMapType == "OSM/DE" )
-	{
-		copyrightDiv.innerHTML = "Map data (C) by <a href=\"http://www.openstreetmap.org/\">OpenStreetMap.org</a> and its contributors; <a href=\"http://opendatacommons.org/licenses/odbl/\">Open Database License</a>";
-	}
-	else
-	{
-		copyrightDiv.innerHTML = "";
-	}
+    newMapType = map.getMapTypeId();
+    set_cookie( 'maptype', newMapType );
+    
+    if( newMapType == "OSM" || newMapType == "OSM/DE" )
+    {
+        copyrightDiv.innerHTML = "Map data (C) by <a href=\"http://www.openstreetmap.org/\">OpenStreetMap.org</a> and its contributors; <a href=\"http://opendatacommons.org/licenses/odbl/\">Open Database License</a>";
+    }
+    else
+    {
+        copyrightDiv.innerHTML = "";
+    }
     
     updateLinks();
 }
@@ -664,12 +650,11 @@ function repairMaptype( t, d )
     }
 }
 
-function initialize( xclat, xclon, xzoom, xmap, xmarkers )
+function initialize( xcenter, xzoom, xmap, xmarkers )
 {
-    var clat, clon;
+    var center = null;
     var zoom;
-    var maptype;
-    
+    var maptype;    
     
     markers = new Array();
     for( var i = 0; i != 26; i++ )
@@ -683,61 +668,101 @@ function initialize( xclat, xclon, xzoom, xmap, xmarkers )
         markers.push( m );
     }
     
-    var loadfromcookies = false;
+    // load maptype & zoom
+    zoom = xzoom;
+    maptype = xmap;
     
-    if( xclat != null && xclon != null )
+    // parse markers 
+    var markerdata = new Array();
+    var makercenter = null;
     {
-        /* load values from parameters */
-        clat = xclat;
-        clon = xclon;
-        zoom = xzoom;
-        maptype = xmap;
-    }
-    else if( xmarkers != null )
-    {
-        clat = 0;
-        clon = 0;
-        cnum = 0;
+        var count = 0;
+        var clat = 0;
+        var clon = 0;
         
-        data = xmarkers.split('|');
+        // ID:COODS:R|ID:COORDS:R
+        // COORDS=LAT:LON or DEG or DMMM
+        var data = xmarkers.split('|');
         for( var i = 0; i != data.length; ++i )
         {
             var data2 = data[i].split(':');
-            if( data2.length != 4 ) continue;
             
-            var alpha = data2[0];
-            var id = -1;
-            if( alpha.length != 1 ) continue;
-            if( alpha[0] >= 'A' && alpha[0] <= 'Z' ) id = alpha.charCodeAt(0) - 'A'.charCodeAt(0); 
-            if( alpha[0] >= 'a' && alpha[0] <= 'z' ) id = alpha.charCodeAt(0) - 'a'.charCodeAt(0); 
-            if( id == null || id < 0 || id >=26 ) continue;
+            var m = new Object();
+            
+            m.alpha = data2[0];
+            m.id = null;
+            if( m.alpha.length != 1 ) continue;
+            if( m.alpha[0] >= 'A' && m.alpha[0] <= 'Z' ) m.id = m.alpha.charCodeAt(0) - 'A'.charCodeAt(0); 
+            if( m.alpha[0] >= 'a' && m.alpha[0] <= 'z' ) m.id = m.alpha.charCodeAt(0) - 'a'.charCodeAt(0); 
+            if( m.id == null || m.id < 0 || m.id >= 26 ) continue;
+            
+            // LAT:LON
+            if( data2.length == 4 )
+            {
+                var lat = parseFloat( data2[1] );
+                if( lat < -90 || lat > 90 ) continue;
+                var lon = parseFloat( data2[2] );
+                if( lon < -180 || lon > 180 ) continue; 
                 
-            var lat = parseFloat( data2[1] );
-            if( lat < -90 || lat > 90 ) continue;
-            var lon = parseFloat( data2[2] );
-            if( lon < -180 || lon > 180 ) continue; 
-            var r = parseFloat( data2[3] );
-            if( r < 0 || r > 100000000000 ) continue; 
+                var r = parseFloat( data2[3] );
+                if( r < 0 || r > 100000000000 ) continue;
+                
+                m.coords = new google.maps.LatLng( lat, lon );
+                m.r = r;
+            }
+            // DEG, DMMM, ...
+            else if( data2.length == 3 )
+            {                
+                m.coords = string2coords( data2[1] ); 
+                if( m.coords == null ) continue;
+                
+                var r = parseFloat( data2[2] );
+                if( r < 0 || r > 100000000000 ) continue;
+                
+                m.r = r;
+            }
+            else
+            {
+                continue;
+            }
             
-            clat = clat + lat;    
-            clon = clon + lon;
-            cnum = cnum + 1;
+            count += 1;
+            clat += m.coords.lat();
+            clon += m.coords.lng();
+            
+            markerdata.push( m );
         }
         
-        if( cnum > 0 )
+        if( count != 0 )
         {
-            clat = clat / cnum;
-            clon = clon / cnum;
-            zoom = xzoom;
-            maptype = xmap;
+            markercenter = new google.maps.LatLng( clat/count, clon/count );
+        }
+    }
+    
+    var loadfromcookies = false;
+    
+    if( xcenter != null )
+    {
+        var data = xcenter.split(':');
+        
+        if( data.length == 1 )
+        {
+            center = string2coords( xcenter ); 
         }
         else
         {
-            clat = CLAT_DEFAULT;
-            clon = CLON_DEFAULT;
-            zoom = ZOOM_DEFAULT;
-            maptype = MAPTYPE_DEFAULT;
+            var lat = parseFloat( data[0] );
+            var lon = parseFloat( data[1] );
+            
+            if( lat >= -90 && lat <= 90 && lon >= -180 && lon <= 180 )
+            {
+                center = new google.maps.LatLng( lat, lon );
+            }
         }
+    }
+    else if( markercenter != null )
+    {
+        center = markercenter;
     }
     else
     {
@@ -746,19 +771,24 @@ function initialize( xclat, xclon, xzoom, xmap, xmarkers )
         /* try to read coordinats from cookie */
         clat = get_cookie('clat') != null ? parseFloat(get_cookie('clat')) : CLAT_DEFAULT;
         clon = get_cookie('clon') != null ? parseFloat(get_cookie('clon')) : CLON_DEFAULT;
+        clat = repairLat( clat, CLAT_DEFAULT );
+        clon = repairLon( clon, CLON_DEFAULT );
+        center = new google.maps.LatLng( clat, clon );
+        
         zoom = get_cookie('zoom') != null ? parseInt(get_cookie('zoom')) : ZOOM_DEFAULT;
         maptype = get_cookie('maptype') != null ? get_cookie('maptype') : MAPTYPE_DEFAULT;        
     }
     
-    clat = repairLat( clat, CLAT_DEFAULT );
-    clon = repairLon( clon, CLON_DEFAULT );
+    if( center == null )
+    {
+        center = new google.maps.LatLng( CLAT_DEFAULT, CLON_DEFAULT );
+    }
+    
     zoom = repairZoom( zoom, ZOOM_DEFAULT );
     maptype = repairMaptype( maptype, MAPTYPE_DEFAULT );
        
     var nsg = get_cookie('nsg') != null ? parseInt( get_cookie('nsg') ) : 0;
     
-    
-    var center = new google.maps.LatLng( clat, clon);    
     var myOptions = {
         zoom: zoom,
         center: center,
@@ -787,14 +817,14 @@ function initialize( xclat, xclon, xzoom, xmap, xmarkers )
     map.setMapTypeId( maptype );
     
     // Create div for showing copyrights.
-	copyrightDiv = document.createElement("div");
-	copyrightDiv.id = "map-copyright";
-	copyrightDiv.style.fontSize = "11px";
-	copyrightDiv.style.fontFamily = "Arial, sans-serif";
-	copyrightDiv.style.margin = "0 2px 2px 0";
-	copyrightDiv.style.whiteSpace = "nowrap";
-	copyrightDiv.style.background = "#FFFFFF";
-	map.controls[google.maps.ControlPosition.BOTTOM_RIGHT].push(copyrightDiv);    
+    copyrightDiv = document.createElement("div");
+    copyrightDiv.id = "map-copyright";
+    copyrightDiv.style.fontSize = "11px";
+    copyrightDiv.style.fontFamily = "Arial, sans-serif";
+    copyrightDiv.style.margin = "0 2px 2px 0";
+    copyrightDiv.style.whiteSpace = "nowrap";
+    copyrightDiv.style.background = "#FFFFFF";
+    map.controls[google.maps.ControlPosition.BOTTOM_RIGHT].push(copyrightDiv);    
     
     map.setCenter(center, zoom);
    
@@ -829,8 +859,7 @@ function initialize( xclat, xclon, xzoom, xmap, xmarkers )
                 var r = parseFloat( data[2] );
                 if( r < 0 || r > 100000000000 ) continue; 
                 
-                newMarker( new google.maps.LatLng( lat, lon ), id );
-                setRadius( markers[id], r );
+                newMarker( new google.maps.LatLng( lat, lon ), id, r );
             }
         }
         
@@ -856,29 +885,9 @@ function initialize( xclat, xclon, xzoom, xmap, xmarkers )
     }
     else
     {
-        // ID:LAT:LON:R|ID:LAT:LON:R
-        data = xmarkers.split('|');
-        for( var i = 0; i != data.length; ++i )
+        for( var i = 0; i != markerdata.length; ++i )
         {
-            var data2 = data[i].split(':');
-            if( data2.length != 4 ) continue;
-            
-            var alpha = data2[0];
-            var id = -1;
-            if( alpha.length != 1 ) continue;
-            if( alpha[0] >= 'A' && alpha[0] <= 'Z' ) id = alpha.charCodeAt(0) - 'A'.charCodeAt(0); 
-            if( alpha[0] >= 'a' && alpha[0] <= 'z' ) id = alpha.charCodeAt(0) - 'a'.charCodeAt(0); 
-            if( id == null || id < 0 || id >=26 ) continue;
-                
-            var lat = parseFloat( data2[1] );
-            if( lat < -90 || lat > 90 ) continue;
-            var lon = parseFloat( data2[2] );
-            if( lon < -180 || lon > 180 ) continue; 
-            var r = parseFloat( data2[3] );
-            if( r < 0 || r > 100000000000 ) continue; 
-                
-            newMarker( new google.maps.LatLng( lat, lon ), id );
-            setRadius( markers[id], r );
+            newMarker( markerdata[i].coords, markerdata[i].id, markerdata[i].r );
         }
     }
     

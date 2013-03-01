@@ -88,6 +88,7 @@ _gaq.push(['_trackPageview']);
 </head>
   
 <?php
+$cntr = "null";
 $clat = "null";
 $clon = "null";
 $zoom = "null";
@@ -125,20 +126,10 @@ function my_parse_int( $s, &$f, &$ok, $min, $max )
 
 if(!empty($_GET)) 
 {
-    // center: c=LAT:LON
+    // center: c=LAT:LON or c=DEG or c=DMMM or ...
     if(isset($_GET['c']))
     {
-        $coord = explode(':', $_GET['c']);
-        
-        $v = ( count($coord) == 2 );
-        if( $v ) my_parse_float( $coord[0], $clat, $v, -90, +90 );
-        if( $v ) my_parse_float( $coord[1], $clon, $v, -180, +180 );
-        
-        if( !$v )
-        {
-            $clat = "null";
-            $clon = "null";
-        }
+        $cntr = $_GET['c'];
     }
     if(isset($_GET['z']))
     {
@@ -152,10 +143,6 @@ if(!empty($_GET))
     if(isset($_GET['t']))
     {
         $maptype = $_GET['t'];
-        if( $maptype != 'OSM' && $maptype != 'OSM/DE' && $maptype != 'roadmap' && $maptype != 'satellite' && $maptype != 'terrain' && $maptype != 'hybrid' )
-        {
-            $maptype = "OSM";
-        }
     }    
     if(isset($_GET['m']))
     {
@@ -163,7 +150,7 @@ if(!empty($_GET))
     }
 }
 
-echo "<body onload=\"initialize( $clat, $clon, $zoom, '$maptype', '$markers' )\">";
+echo "<body onload=\"initialize( '$cntr', $zoom, '$maptype', '$markers' )\">";
 ?>
 
 
@@ -247,7 +234,7 @@ echo "<body onload=\"initialize( $clat, $clon, $zoom, '$maptype', '$markers' )\"
 <div class="my-section">
     <div class="my-section-header">Marker</div>
     <div>
-<button class="btn btn-success"  title="Erzeuge einen neuen Marker" type="button" onClick="newMarker( map.getCenter(), -1 )">Neuer Marker</button>
+<button class="btn btn-success"  title="Erzeuge einen neuen Marker" type="button" onClick="newMarker( map.getCenter(), -1, -1 )">Neuer Marker</button>
 <div id="dynMarkerDiv"></div>
     </div>
 </div> <!-- section -->
