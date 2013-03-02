@@ -670,7 +670,7 @@ function initialize( xcenter, xzoom, xmap, xmarkers )
     
     // parse markers 
     var markerdata = new Array();
-    var makercenter = null;
+    var markercenter = null;
     {
         var count = 0;
         var clat = 0;
