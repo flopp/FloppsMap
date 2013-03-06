@@ -499,6 +499,14 @@ function updateCopyrights()
     {
         copyrightDiv.innerHTML = "Map data (C) by <a href=\"http://www.openstreetmap.org/\">OpenStreetMap.org</a> and its contributors; <a href=\"http://opendatacommons.org/licenses/odbl/\">Open Database License</a>";
     }
+    else if( newMapType == "OCM" )
+    {
+        copyrightDiv.innerHTML = "Map data (C) by <a href=\"http://www.openstreetmap.org/\">OpenStreetMap.org</a> and its contributors; <a href=\"http://opendatacommons.org/licenses/odbl/\">Open Database License</a>, tiles (C) by <a href=\"http://opencyclemap.org\">OpenCycleMap.org</a>";
+    }
+    else if( newMapType == "MQ" )
+    {
+        copyrightDiv.innerHTML = "Map data (C) by <a href=\"http://www.openstreetmap.org/\">OpenStreetMap.org</a> and its contributors; <a href=\"http://opendatacommons.org/licenses/odbl/\">Open Database License</a>, tiles (C) by <a href=\"http://mapquest.com\">MapQuest</a>";
+    }
     else
     {
         copyrightDiv.innerHTML = "";
@@ -620,27 +628,15 @@ function repairZoom( x, d )
 
 function repairMaptype( t, d )
 {
-    if( t == "OSM" )
+    if( t == "OSM" || t == "OSM/DE" || t == "OCM" )
     {
         return t;
     }
-    else if( t == "OSM/DE" )
+    else if( t == "MQ" )
     {
         return t;
     }
-    else if( t == "satellite" )
-    {
-        return t;
-    }
-    else if( t == "hybrid" )
-    {
-        return t;
-    }
-    else if( t == "roadmap" )
-    {
-        return t;
-    }
-    else if( t == "terrain" )
+    else if( t == "satellite" || t == "hybrid" || t == "roadmap" || t == "terrain" )
     {
         return t;
     }
@@ -789,7 +785,7 @@ function initialize( xcenter, xzoom, xmap, xmarkers )
         zoom: zoom,
         center: center,
         scaleControl: true,
-        mapTypeControlOptions: { mapTypeIds: ['OSM', 'OSM/DE', google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.SATELLITE, google.maps.MapTypeId.HYBRID, google.maps.MapTypeId.TERRAIN] },
+        mapTypeControlOptions: { mapTypeIds: ['OSM', 'OSM/DE', 'OCM', 'MQ', google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.SATELLITE, google.maps.MapTypeId.HYBRID, google.maps.MapTypeId.TERRAIN] },
         mapTypeId: google.maps.MapTypeId.ROADMAP };
         
     map = new google.maps.Map(document.getElementById("themap"), myOptions);
@@ -806,9 +802,23 @@ function initialize( xcenter, xzoom, xmap, xmarkers )
         name: "OSM/DE",
         alt: "OpenStreetMap (german style)",
         maxZoom: 18 });
+    ocm_type = new google.maps.ImageMapType({
+        getTileUrl: function(coord, zoom) { return "http://tile.opencyclemap.org/cycle/" + zoom + "/" + coord.x + "/" + coord.y + ".png"; },
+        tileSize: new google.maps.Size(256, 256),
+        name: "OCM",
+        alt: "OpenCycleMap",
+        maxZoom: 18 });
+    mq_type = new google.maps.ImageMapType({
+        getTileUrl: function(coord, zoom) { return "http://otile1.mqcdn.com/tiles/1.0.0/osm/" + zoom + "/" + coord.x + "/" + coord.y + ".png"; },
+        tileSize: new google.maps.Size(256, 256),
+        name: "MQ",
+        alt: "MapQuest (OSM)",
+        maxZoom: 19 });
+        
     map.mapTypes.set("OSM", osm_type );
     map.mapTypes.set("OSM/DE", osmde_type );
-    
+    map.mapTypes.set("OCM", ocm_type );
+    map.mapTypes.set("MQ", mq_type );
     
     map.setMapTypeId( maptype );
     
