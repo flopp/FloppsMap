@@ -360,22 +360,6 @@ Sie können die Speicherung der Cookies durch eine entsprechende Einstellung Ihr
 <p>
     Wie man diese Online-Karte benutzt und welche Möglichkeiten man hat, erfährst du mit einem Klick auf <i>Hilfe</i> in der Titelleiste. Viel Spaß!
 </p>
-<p id="news">
-    <h4>Neuigkeiten</h4>
-    <ul>
-        <li><b>2013/02/10</b> Karte durch "beta" Karte ersetzt. Die "alte" Version der Karte ist unter <a href="http://flopp-caching.de/alt.php">http://flopp-caching.de/alt.php</a> zu finden.</li>
-        <li><b>2013/01/25</b> Es werden nun transparente Kreise mit änderbarem Radius um die Marker gezeichnet.</li>
-        <li><b>2013/01/01</b> Externe Links zu diversen Karten: Google Maps, Geocaching.com, <a href="http://opencaching.de/">Opencaching.de</a>.</li>        
-        <li><b>2012/12/18</b> Link zur Karte von <a href="http://www.ingress.com/">Ingress</a>.</li>        
-        <li><b>2012/12/01</b> Neues Sidebar-Design.</li>        
-        <li><b>2012/11/29</b> Kooperation mit dem <a href="http://www.nsg-atlas.de/" target="_blank">NSG-Atlas</a>: Naturschutzgebiete können eingeblendet werden.</li>        
-        <li><b>2012/11/20</b> Es können Permalinks für die aktuelle Kartenansicht erzeugt werden.</li>
-        <li><b>2012/11/16</b> Die Karte ist jetzt auch unter <a href="http://foomap.de/">foomap.de</a> erreichbar.</li>
-        <li><b>2012/11/09</b> Anzeige des Kartenmaßstabs hinzugefügt.</li>
-        <li><b>2012/11/05</b> Rundungsfehler bei der internen Berechnung von Koordinaten behoben.</li>
-        <li><b>2012/11/05</b> Die Koordinaten der Marker können jetzt über den Button <span class="btn btn-small"><i class="icon-pencil"></i></span> direkt geändert werden.</li>
-    </ul>
-</p>
   </div>
   <div class="modal-footer">
     <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Ok</button>

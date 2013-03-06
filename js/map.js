@@ -452,16 +452,14 @@ function storeZoom()
 
 function showWelcomePopup()
 {
-    var welcome= get_cookie('welcome') != null ? parseInt(get_cookie('welcome')) : ( 0 );
+    var welcome = get_cookie('welcome') != null ? parseInt(get_cookie('welcome')) : ( 0 );
     
-    var currentwelcome = 8;
-    
-    if( welcome < currentwelcome )
+    if( welcome == 0 )
     {
         $('#welcomeDialog').modal( {show: true});
     }
     
-    set_cookie( 'welcome', currentwelcome );
+    set_cookie( 'welcome', 1 );
 }
 
 function updateLinks()
