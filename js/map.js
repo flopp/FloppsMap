@@ -269,7 +269,7 @@ function editMarker( id )
 {
     var m = getMarkerById( id );
     
-    var r = prompt( "Neue Koordinaten für Marker " + m.alpha, coords2string( m.marker.getPosition() ) );
+    var r = prompt( "Neue Koordinaten für Marker %1".replace(/%1/, m.alpha), coords2string( m.marker.getPosition() ) );
     if( r == null ) return;
     
     var c = string2coords( r );
@@ -280,7 +280,7 @@ function editMarker( id )
     }
     else
     {
-        alert( "Ungültiges Koordinatenformat: \"" + r + "\"" );
+        showAlert( "Fehler", "Ungültiges Koordinatenformat: \"%1\".".replace( /%1/, r ) );
     }
 }
 
@@ -295,13 +295,13 @@ function editRadius( id )
 {
     var m = getMarkerById( id );
     
-    var r = prompt( "Neuer Radius für Marker " + m.alpha, m.circle.getRadius() );
+    var r = prompt( "Neuer Radius für den Kreis um Marker %1 in Meter".replace(/%1/, m.alpha), m.circle.getRadius() );
     if( r == null ) return;
     
-    var rr = parseInt( r );
-    if( rr == null || rr < 0 || rr > 100000000000 )
+    var rr = getInteger( r, 0, 100000000000 );
+    if( rr == null )
     {
-        alert( "Ungültiger Wert für den Radius: \"" + r + "\"" );
+        showAlert( "Fehler", "Ungültiger Wert für den Radius: \"%1\".<br />Erlaubt sind ganzzahlige Werte größer gleich 0.".replace( /%1/, r ) );
     }
     else
     {
@@ -318,7 +318,7 @@ function newMarker( coordinates, theid, radius )
     if( id == -1 || id < 0 || id >= 26 || markers[id].free == true ) id = getFreeId();
     if( id == -1 )
     {
-        alert( "no free markers :(" );
+        showAlert( "Fehler", "Es sind keine weiteren Marker verfügbar." );
         return null;
     }
     
@@ -410,19 +410,19 @@ function projectFromMarker( id )
      
     var s1 = prompt( "Projektionswinkel in ° (0-360)", "0" );
     if( s1 == null ) return;
-    var angle = parseFloat( s1 );
-    if( angle == null || angle == NaN || angle < 0 || angle > 360 )
+    var angle =  getFloat( s1, 0, 360 );
+    if( angle == null )
     {
-        alert( "Ungültiger Projektionswinkel!" );
+        showAlert( "Fehler", "Ungültiger Wert für den Projektionswinkel: \"%1\".<br />Erlaubt sind Fließkommazahlen größer gleich 0 und kleiner 360.".replace( /%1/, s1 ) );
         return;
     }
     
     var s2 = prompt( "Projektionsdistanz in Metern (>0)", "0" );
     if( s2 == null ) return;
-    var dist = parseFloat( s2 );
-    if( dist == null || dist == NaN || dist < 0 || dist > 100000000000 )
+    var dist = getFloat( s2, 0, 100000000000 );
+    if( dist == null )
     {
-        alert( "Ungültige Projektionsdistanz!" );
+        showAlert( "Fehler", "Ungültiger Wert für die Projektionsdistanz: \"%1\".<br />Erlaubt sind Fließkommazahlen größer gleich 0".replace( /%1/, s2 ) );
         return;
     }
     
@@ -430,7 +430,7 @@ function projectFromMarker( id )
     var m = newMarker( newpos, -1, RADIUS_DEFAULT );
     if( m != null )
     {
-        alert( "Neuer Marker: " + m.alpha );
+        showAlert( "Information", "Es wurde ein neuer Marker erzeugt: %1.".replace( /%1/, m.alpha ) );
     }
 }
 
@@ -926,7 +926,7 @@ function searchLocation()
           if (status == google.maps.GeocoderStatus.OK) {
             map.setCenter(results[0].geometry.location);
           } else {
-            alert('Suche nach ' + address + ' war nicht erfolgreich: ' + status);
+            showAlert( "Information", "Die Suche nach \"%1\" war nicht erfolgreich.".replace( /%1/, address ) );
           }
         });
     }

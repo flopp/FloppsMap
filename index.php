@@ -15,6 +15,7 @@
     <!-- google maps -->
     <script type="text/javascript" src="https://maps.google.com/maps/api/js?key=AIzaSyC_KjqwiB6tKCcrq2aa8B3z-c7wNN8CTA0&sensor=false"></script>
     <!-- my own stuff -->
+    <script type="text/javascript" src="js/conversion.js"></script>
     <script type="text/javascript" src="js/cookies.js"></script>
     <script type="text/javascript" src="js/geographiclib.js"></script>
     <script type="text/javascript" src="js/coordinates.js"></script>
@@ -379,6 +380,26 @@ Sie können die Speicherung der Cookies durch eine entsprechende Einstellung Ihr
         <li>Keine Marker :(</li>
     </ul>
 </div>
+
+
+<!-- the alert dialog -->
+<div id="dlgAlert" class="modal hide fade">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3 id="dlgAlertHeader">Modal header</h3>
+    </div>
+    <div id="dlgAlertMessage" class="modal-body">Modal body</div>
+    <div class="modal-footer"><button type="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">OK</button></div>
+</div>
+<script>
+$("#dlgAlert").on("show", function() { $("#dlgAlert a.btn").on("click", function(e) { $("#dlgAlert").modal('hide'); }); });
+$("#dlgAlert").on("hide", function() { $("#myModal a.btn").off("click"); });
+function showAlert( title, msg ) {
+    $("#dlgAlertHeader").html( title );
+    $("#dlgAlertMessage").html( msg );
+    $("#dlgAlert").modal({ "backdrop" : "static", "keyboard" : true, "show" : true });
+}
+</script>
 
   </body>
 
