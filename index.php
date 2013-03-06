@@ -58,6 +58,23 @@ _gaq.push(['_trackPageview']);
     @media(max-width:599px){.only-small{display:inherit!important}.only-large{display:none!important}}
     @media(min-width:600px){.only-small{display:none!important}.only-large{display:inherit!important}}
     
+    @media(max-width:599px) { 
+        #dlgWelcome{ width: 100%; height: 100%; margin: 0 0 0 0; position: absolute; left: 0; top: 0; }
+        #dlgHelp{ width: 100%; height: 100%; margin: 0 0 0 0; position: absolute; left: 0; top: 0; }
+        #dlgInfo{ width: 100%; height: 100%; margin: 0 0 0 0; position: absolute; left: 0; top: 0; }
+        #dlgAlert{ width: 100%; height: 100%; margin: 0 0 0 0; position: absolute; left: 0; top: 0; }
+        #dlgSingleInput{ width: 100%; height: 100%; margin: 0 0 0 0; position: absolute; left: 0; top: 0; }
+        #dlgDoubleInput{ width: 100%; height: 100%; margin: 0 0 0 0; position: absolute; left: 0; top: 0; }
+    }
+    
+    @media(max-height:550px) { 
+        #dlgWelcome{ width: 100%; height: 100%; margin: 0 0 0 0; position: absolute; left: 0; top: 0; }
+        #dlgHelp{ width: 100%; height: 100%; margin: 0 0 0 0; position: absolute; left: 0; top: 0; }
+        #dlgInfo{ width: 100%; height: 100%; margin: 0 0 0 0; position: absolute; left: 0; top: 0; }
+        #dlgAlert{ width: 100%; height: 100%; margin: 0 0 0 0; position: absolute; left: 0; top: 0; }
+        #dlgSingleInput{ width: 100%; height: 100%; margin: 0 0 0 0; position: absolute; left: 0; top: 0; }
+        #dlgDoubleInput{ width: 100%; height: 100%; margin: 0 0 0 0; position: absolute; left: 0; top: 0; }
+    }
 .my-section {
   position: relative;
   margin: 4px 0;
@@ -126,8 +143,8 @@ echo "<body onload=\"initialize( '$cntr', '$zoom', '$maptype', '$markers' )\">";
             <ul class="nav">
                 <li class="hidden-phone"><a role="button" class="brand" href="javascript:"><span class="only-large">Flopps Tolle Karte</span><span class="only-small">FTK</span></a></li>
                 <li><a role="button" href="http://blog.flopp-caching.de/" rel="tooltip" title="Hier geht es zu 'Flopps Tolles Blog'"><span class="only-large">Blog <i class="icon-star icon-white"></i></span><span class="only-small">Blog</span></a></li>
-                <li><a role="button" href="#hilfeDialog" data-toggle="modal" rel="tooltip" title="Anleitung für die Karte"><span class="only-large">Hilfe <i class="icon-question-sign icon-white"></i></span><span class="only-small">Hilfe</span></a></li>
-                <li><a role="button" href="#kontaktDialog" data-toggle="modal" rel="tooltip" title="Rechtliche Hinweise, Kontaktinformationen, usw."><span class="only-large">Info/Impressum <i class="icon-info-sign icon-white"></i></span><span class="only-small">Info/Impressum</span></a></li>
+                <li><a role="button" href="#dlgHelp" data-toggle="modal" rel="tooltip" title="Anleitung für die Karte"><span class="only-large">Hilfe <i class="icon-question-sign icon-white"></i></span><span class="only-small">Hilfe</span></a></li>
+                <li><a role="button" href="#dlgInfo" data-toggle="modal" rel="tooltip" title="Rechtliche Hinweise, Kontaktinformationen, usw."><span class="only-large">Info/Impressum <i class="icon-info-sign icon-white"></i></span><span class="only-small">Info/Impressum</span></a></li>
             </ul>
         </div>
     </div>
@@ -253,8 +270,8 @@ nach
 
 </div> <!-- sidebar -->
 
-<!-- the hilfe dialog -->
-<div class="modal hide fade" id="hilfeDialog" tabindex="-1" role="dialog" aria-labelledby="hilfeDialogLabel" aria-hidden="true">
+<!-- the help dialog -->
+<div id="dlgHelp" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="hilfeDialogLabel" aria-hidden="true">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
     <h3 id="hilfeDialogLabel">Wie funktioniert die Karte?</h3>
@@ -268,8 +285,8 @@ nach
   </div>
 </div> <!-- dialog -->
 
-<!-- the kontakt dialog -->
-<div class="modal hide fade" id="kontaktDialog" tabindex="-1" role="dialog" aria-labelledby="kontaktDialogLabel" aria-hidden="true">
+<!-- the info dialog -->
+<div id="dlgInfo" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="kontaktDialogLabel" aria-hidden="true">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
     <h3 id="kontaktDialogLabel">Kontakt/Info</h3>
@@ -349,7 +366,7 @@ Sie können die Speicherung der Cookies durch eine entsprechende Einstellung Ihr
 </div> <!-- dialog -->
 
 <!-- the welcome dialog -->
-<div id="welcomeDialog" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="welcomeDialogLabel" aria-hidden="true">
+<div id="dlgWelcome" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="welcomeDialogLabel" aria-hidden="true">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
     <h3 id="welcomeDialogLabel">Willkommen!</h3>
@@ -383,21 +400,80 @@ Sie können die Speicherung der Cookies durch eine entsprechende Einstellung Ihr
 
 
 <!-- the alert dialog -->
-<div id="dlgAlert" class="modal hide fade">
+<div id="dlgAlert" class="modal hide">
     <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h3 id="dlgAlertHeader">Modal header</h3>
     </div>
     <div id="dlgAlertMessage" class="modal-body">Modal body</div>
     <div class="modal-footer"><button type="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">OK</button></div>
 </div>
 <script>
-$("#dlgAlert").on("show", function() { $("#dlgAlert a.btn").on("click", function(e) { $("#dlgAlert").modal('hide'); }); });
-$("#dlgAlert").on("hide", function() { $("#myModal a.btn").off("click"); });
 function showAlert( title, msg ) {
     $("#dlgAlertHeader").html( title );
     $("#dlgAlertMessage").html( msg );
     $("#dlgAlert").modal({ "backdrop" : "static", "keyboard" : true, "show" : true });
+}
+</script>
+
+<!-- the single input dialog -->
+<div id="dlgSingleInput" class="modal hide">
+    <div class="modal-header">
+        <h3 id="dlgSingleInputHeader">Modal header</h3>
+    </div>
+    <div class="modal-body">
+        <div id="dlgSingleInputMessage">Message</div>
+        <input class="xlarge" id="dlgSingleInputData" type="text" />
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn" data-dismiss="modal" aria-hidden="true">Abbruch</a>
+        <button id="dlgSingleInputOk" type="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">OK</button>
+    </div>
+</div>
+
+<script>
+function showSingleInputDialog( title, msg, data, callback ) {
+    $("#dlgSingleInputHeader").html( title );
+    $("#dlgSingleInputMessage").html( msg );
+    $("#dlgSingleInputData").val( data );
+    $('#dlgSingleInputOk').off( 'click' );
+    $('#dlgSingleInputOk').click(function(){
+        $('#dlgSingleInput').modal('hide');
+        if (callback) callback($("#dlgSingleInputData").val());
+    });
+    $("#dlgSingleInput").modal({ "backdrop" : "static", "keyboard" : true, "show" : true });
+}
+</script>
+
+<!-- the double input dialog -->
+<div id="dlgDoubleInput" class="modal hide">
+    <div class="modal-header">
+        <h3 id="dlgDoubleInputHeader">Modal header</h3>
+    </div>
+    <div class="modal-body">
+        <div id="dlgDoubleInputMessage1">Message1</div>
+        <input class="xlarge" id="dlgDoubleInputData1" type="text" />
+        <div id="dlgDoubleInputMessage2">Message2</div>
+        <input class="xlarge" id="dlgDoubleInputData2" type="text" />
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn" data-dismiss="modal" aria-hidden="true">Abbruch</a>
+        <button id="dlgDoubleInputOk" type="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">OK</button>
+    </div>
+</div>
+
+<script>
+function showDoubleInputDialog( title, msg1, data1, msg2, data2, callback ) {
+    $("#dlgDoubleInputHeader").html( title );
+    $("#dlgDoubleInputMessage1").html( msg1 );
+    $("#dlgDoubleInputMessage2").html( msg2 );
+    $("#dlgDoubleInputData1").val( data1 );
+    $("#dlgDoubleInputData2").val( data2 );
+    $('#dlgDoubleInputOk').off( 'click' );
+    $('#dlgDoubleInputOk').click(function(){
+        $('#dlgDoubleInput').modal('hide');
+        if (callback) callback($("#dlgDoubleInputData1").val(), $("#dlgDoubleInputData2").val());
+    });
+    $("#dlgDoubleInput").modal({ "backdrop" : "static", "keyboard" : true, "show" : true });
 }
 </script>
 

@@ -26,6 +26,7 @@ function setupExternalLinkTargets()
     e["★ Spiele ★"] = "";
     e["Confluence.org"] = "http://www.confluence.org/confluence.php?lat=%lat%&lon=%lon%";
     e["Geocaching.com"] = "http://coord.info/map?ll=%lat%,%lon%&z=%zoom%";
+    e["Geograph"] = "http://geo.hlipp.de/ommap.php?z=%zoom%&t=g&ll=%lat%,%lon%";
     e["Ingress.com"] = "http://www.ingress.com/intel?latE6=%late6%&lngE6=%lone6%&z=%zoom%";
     e["Lacita.org"] = "http://www.lacita.org/cgi_bin/bf.pl?Path=00&lat=%lat%&lng=%lon%&z=%zoom%";
     e["Munzee (da-fi.de)"] = "http://da-fi.de/public/munzee/bbmap2.php?lat=%lat%&lon=%lon%&zoom=%zoom%";
@@ -269,6 +270,26 @@ function editMarker( id )
 {
     var m = getMarkerById( id );
     
+    showSingleInputDialog( 
+        "Koordinaten ändern", 
+        "Neue Koordinaten für Marker %1".replace(/%1/, m.alpha), 
+        coords2string( m.marker.getPosition() ), 
+        function(data)
+        {
+            var c = string2coords( data );
+            if( c != null )
+            {
+                m.marker.setPosition( c );
+                updateMarker( m );
+            }
+            else
+            {
+                showAlert( "Fehler", "Ungültiges Koordinatenformat: \"%1\".".replace( /%1/, r ) );
+            }
+        }
+    );
+    
+    /*
     var r = prompt( "Neue Koordinaten für Marker %1".replace(/%1/, m.alpha), coords2string( m.marker.getPosition() ) );
     if( r == null ) return;
     
@@ -282,6 +303,7 @@ function editMarker( id )
     {
         showAlert( "Fehler", "Ungültiges Koordinatenformat: \"%1\".".replace( /%1/, r ) );
     }
+    */ 
 }
 
 function centerMarker( id )
@@ -295,6 +317,27 @@ function editRadius( id )
 {
     var m = getMarkerById( id );
     
+    showSingleInputDialog( 
+        "Radius ändern", 
+        "Neuer Radius für den Kreis um Marker %1 in Meter".replace(/%1/, m.alpha), 
+        m.circle.getRadius(), 
+        function(data)
+        {
+            var rr = getInteger( data, 0, 100000000000 );
+     
+            if( rr == null )
+            {
+                showAlert( "Fehler", "Ungültiger Wert für den Radius: \"%1\".<br />Erlaubt sind ganzzahlige Werte größer gleich 0.".replace( /%1/, data ) );
+            }
+            else
+            {
+                setRadius( m, rr );
+                updateMarker( m );
+            }
+        }
+    );
+    
+    /*
     var r = prompt( "Neuer Radius für den Kreis um Marker %1 in Meter".replace(/%1/, m.alpha), m.circle.getRadius() );
     if( r == null ) return;
     
@@ -308,6 +351,7 @@ function editRadius( id )
         setRadius( m, rr );
         updateMarker( m );
     }
+    */
 }
 
 function newMarker( coordinates, theid, radius )
@@ -407,7 +451,40 @@ function projectFromMarker( id )
 {
     var mm = getMarkerById( id );
     var oldpos = mm.marker.getPosition();
-     
+    
+    showDoubleInputDialog( 
+        "Wegpunktprojektion", 
+        "Projektionswinkel in ° (0-360)",
+        0,
+        "Projektionsdistanz in Metern (>0)",
+        0, 
+        function(data1, data2)
+        {
+            var angle = getFloat( data1, 0, 360 );
+            var dist = getFloat( data2, 0, 100000000000 );
+            
+            if( angle == null )
+            {
+                showAlert( "Fehler", "Ungültiger Wert für den Projektionswinkel: \"%1\".<br />Erlaubt sind Fließkommazahlen größer gleich 0 und kleiner 360.".replace( /%1/, data1 ) );
+                return;
+            }
+            
+            if( dist == null )
+            {
+                showAlert( "Fehler", "Ungültiger Wert für die Projektionsdistanz: \"%1\".<br />Erlaubt sind Fließkommazahlen größer gleich 0".replace( /%1/, data2 ) );
+                return;
+            }
+
+            var newpos = projection_geodesic( oldpos, angle, dist );
+            var m = newMarker( newpos, -1, RADIUS_DEFAULT );
+            if( m != null )
+            {
+                showAlert( "Information", "Es wurde ein neuer Marker erzeugt: %1.".replace( /%1/, m.alpha ) );
+            }        
+        }
+    );
+    
+    /*
     var s1 = prompt( "Projektionswinkel in ° (0-360)", "0" );
     if( s1 == null ) return;
     var angle =  getFloat( s1, 0, 360 );
@@ -432,6 +509,7 @@ function projectFromMarker( id )
     {
         showAlert( "Information", "Es wurde ein neuer Marker erzeugt: %1.".replace( /%1/, m.alpha ) );
     }
+    */ 
 }
 
 function storeCenter()
@@ -456,7 +534,7 @@ function showWelcomePopup()
     
     if( welcome == 0 )
     {
-        $('#welcomeDialog').modal( {show: true});
+        $('#dlgWelcome').modal( {show: true});
     }
     
     set_cookie( 'welcome', 1 );
