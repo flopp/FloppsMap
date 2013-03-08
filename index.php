@@ -130,7 +130,7 @@ echo "<body onload=\"initialize( '$cntr', '$zoom', '$maptype', '$markers' )\">";
             <ul class="nav">
                 <li class="hidden-phone"><a role="button" class="brand" href="javascript:"><span class="only-large">Flopps Tolle Karte</span><span class="only-small">FTK</span></a></li>
                 <li><a role="button" href="http://blog.flopp-caching.de/" rel="tooltip" title="Hier geht es zu 'Flopps Tolles Blog'"><span class="only-large">Blog <i class="icon-star icon-white"></i></span><span class="only-small">Blog</span></a></li>
-                <li><a role="button" href="javascript:showDlgHelp()" rel="tooltip" title="Anleitung für die Karte"><span class="only-large">Hilfe <i class="icon-question-sign icon-white"></i></span><span class="only-small">Hilfe</span></a></li>
+                <!--<li><a role="button" href="javascript:showDlgHelp()" rel="tooltip" title="Anleitung für die Karte"><span class="only-large">Hilfe <i class="icon-question-sign icon-white"></i></span><span class="only-small">Hilfe</span></a></li>-->
                 <li><a role="button" href="javascript:showDlgInfoAjax()" rel="tooltip" title="Rechtliche Hinweise, Kontaktinformationen, usw."><span class="only-large">Info/Impressum <i class="icon-info-sign icon-white"></i></span><span class="only-small">Info/Impressum</span></a></li>
             </ul>
         </div>
@@ -258,6 +258,7 @@ nach
 </div> <!-- sidebar -->
 
 <!-- the help dialog -->
+<!--
 <div id="dlgHelp" class="modal hide" tabindex="-1" aria-hidden="true">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -270,9 +271,9 @@ nach
   <div class="modal-footer">
       <button type="button" data-dismiss="modal" class="btn">Ok</button>
   </div>
-</div> <!-- dialog -->
+</div>
 <script> function showDlgHelp() { $("#dlgHelp").modal({ "backdrop" : "static", "keyboard" : true, "show" : true }); } </script>
-
+-->
 
 <!-- the info dialog -->
 <div id="dlgInfoAjax" class="modal hide" tabindex="-1" role="dialog" aria-hidden="true"></div>
@@ -284,6 +285,7 @@ function showDlgInfoAjax() {
 </script>
 
 <!-- the welcome dialog -->
+<!--
 <div id="dlgWelcome" class="modal hide" tabindex="-1" role="dialog">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -300,8 +302,8 @@ function showDlgInfoAjax() {
   <div class="modal-footer">
     <button class="btn btn-primary" data-dismiss="modal">Ok</button>
   </div>
-</div> <!-- dialog -->
-
+</div>
+-->
 
 
 <div id="sourcelist" class="dropdown-menu has-tip">

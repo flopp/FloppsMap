@@ -288,22 +288,6 @@ function editMarker( id )
             }
         }
     );
-    
-    /*
-    var r = prompt( "Neue Koordinaten für Marker %1".replace(/%1/, m.alpha), coords2string( m.marker.getPosition() ) );
-    if( r == null ) return;
-    
-    var c = string2coords( r );
-    if( c != null )
-    {
-        m.marker.setPosition( c );
-        updateMarker( m );
-    }
-    else
-    {
-        showAlert( "Fehler", "Ungültiges Koordinatenformat: \"%1\".".replace( /%1/, r ) );
-    }
-    */ 
 }
 
 function centerMarker( id )
@@ -336,22 +320,6 @@ function editRadius( id )
             }
         }
     );
-    
-    /*
-    var r = prompt( "Neuer Radius für den Kreis um Marker %1 in Meter".replace(/%1/, m.alpha), m.circle.getRadius() );
-    if( r == null ) return;
-    
-    var rr = getInteger( r, 0, 100000000000 );
-    if( rr == null )
-    {
-        showAlert( "Fehler", "Ungültiger Wert für den Radius: \"%1\".<br />Erlaubt sind ganzzahlige Werte größer gleich 0.".replace( /%1/, r ) );
-    }
-    else
-    {
-        setRadius( m, rr );
-        updateMarker( m );
-    }
-    */
 }
 
 function newMarker( coordinates, theid, radius )
@@ -483,33 +451,6 @@ function projectFromMarker( id )
             }        
         }
     );
-    
-    /*
-    var s1 = prompt( "Projektionswinkel in ° (0-360)", "0" );
-    if( s1 == null ) return;
-    var angle =  getFloat( s1, 0, 360 );
-    if( angle == null )
-    {
-        showAlert( "Fehler", "Ungültiger Wert für den Projektionswinkel: \"%1\".<br />Erlaubt sind Fließkommazahlen größer gleich 0 und kleiner 360.".replace( /%1/, s1 ) );
-        return;
-    }
-    
-    var s2 = prompt( "Projektionsdistanz in Metern (>0)", "0" );
-    if( s2 == null ) return;
-    var dist = getFloat( s2, 0, 100000000000 );
-    if( dist == null )
-    {
-        showAlert( "Fehler", "Ungültiger Wert für die Projektionsdistanz: \"%1\".<br />Erlaubt sind Fließkommazahlen größer gleich 0".replace( /%1/, s2 ) );
-        return;
-    }
-    
-    var newpos = projection_geodesic( oldpos, angle, dist );
-    var m = newMarker( newpos, -1, RADIUS_DEFAULT );
-    if( m != null )
-    {
-        showAlert( "Information", "Es wurde ein neuer Marker erzeugt: %1.".replace( /%1/, m.alpha ) );
-    }
-    */ 
 }
 
 function storeCenter()
@@ -528,6 +469,7 @@ function storeZoom()
     updateLinks();
 }
 
+/*
 function showWelcomePopup()
 {
     var welcome = get_cookie('welcome') != null ? parseInt(get_cookie('welcome')) : ( 0 );
@@ -539,7 +481,8 @@ function showWelcomePopup()
     
     set_cookie( 'welcome', 1 );
 }
-
+*/
+ 
 function updateLinks()
 {
     lat = map.getCenter().lat();
@@ -985,7 +928,7 @@ function initialize( xcenter, xzoom, xmap, xmarkers )
         
     updateLinks();
     
-    showWelcomePopup();
+    //showWelcomePopup();
 }
 
 function searchLocation()
