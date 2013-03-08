@@ -25,8 +25,12 @@
     <link type="text/css" rel="stylesheet" href="ext/jquery-dropdown/jquery.dropdown.css" />`
     <script type="text/javascript" src="ext/jquery-dropdown/jquery.dropdown.js"></script>`
     <!-- bootstrap -->
+    <link href="ext/bootstrap/css/bootstrap.min.css" rel="stylesheet"></link>
     <script type="text/javascript" src="ext/bootstrap/js/bootstrap.min.js"></script>
-    <link href="ext/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- bootstrap modal -->
+    <link  href="ext/bootstrap-modal/css/bootstrap-modal.css" rel="stylesheet"></link>
+    <script src="ext/bootstrap-modal/js/bootstrap-modalmanager.js"></script>
+    <script src="ext/bootstrap-modal/js/bootstrap-modal.js"></script>
     <!-- additional button icons -->
     <link rel="stylesheet" href="ext/font-awesome/css/font-awesome.min.css"> 
 
@@ -57,24 +61,7 @@ _gaq.push(['_trackPageview']);
     
     @media(max-width:599px){.only-small{display:inherit!important}.only-large{display:none!important}}
     @media(min-width:600px){.only-small{display:none!important}.only-large{display:inherit!important}}
-    
-    @media(max-width:599px) { 
-        #dlgWelcome{ width: 100%; height: 100%; margin: 0 0 0 0; position: absolute; left: 0; top: 0; }
-        #dlgHelp{ width: 100%; height: 100%; margin: 0 0 0 0; position: absolute; left: 0; top: 0; }
-        #dlgInfo{ width: 100%; height: 100%; margin: 0 0 0 0; position: absolute; left: 0; top: 0; }
-        #dlgAlert{ width: 100%; height: 100%; margin: 0 0 0 0; position: absolute; left: 0; top: 0; }
-        #dlgSingleInput{ width: 100%; height: 100%; margin: 0 0 0 0; position: absolute; left: 0; top: 0; }
-        #dlgDoubleInput{ width: 100%; height: 100%; margin: 0 0 0 0; position: absolute; left: 0; top: 0; }
-    }
-    
-    @media(max-height:550px) { 
-        #dlgWelcome{ width: 100%; height: 100%; margin: 0 0 0 0; position: absolute; left: 0; top: 0; }
-        #dlgHelp{ width: 100%; height: 100%; margin: 0 0 0 0; position: absolute; left: 0; top: 0; }
-        #dlgInfo{ width: 100%; height: 100%; margin: 0 0 0 0; position: absolute; left: 0; top: 0; }
-        #dlgAlert{ width: 100%; height: 100%; margin: 0 0 0 0; position: absolute; left: 0; top: 0; }
-        #dlgSingleInput{ width: 100%; height: 100%; margin: 0 0 0 0; position: absolute; left: 0; top: 0; }
-        #dlgDoubleInput{ width: 100%; height: 100%; margin: 0 0 0 0; position: absolute; left: 0; top: 0; }
-    }
+   
 .my-section {
   position: relative;
   margin: 4px 0;
@@ -143,8 +130,8 @@ echo "<body onload=\"initialize( '$cntr', '$zoom', '$maptype', '$markers' )\">";
             <ul class="nav">
                 <li class="hidden-phone"><a role="button" class="brand" href="javascript:"><span class="only-large">Flopps Tolle Karte</span><span class="only-small">FTK</span></a></li>
                 <li><a role="button" href="http://blog.flopp-caching.de/" rel="tooltip" title="Hier geht es zu 'Flopps Tolles Blog'"><span class="only-large">Blog <i class="icon-star icon-white"></i></span><span class="only-small">Blog</span></a></li>
-                <li><a role="button" href="#dlgHelp" data-toggle="modal" rel="tooltip" title="Anleitung für die Karte"><span class="only-large">Hilfe <i class="icon-question-sign icon-white"></i></span><span class="only-small">Hilfe</span></a></li>
-                <li><a role="button" href="#dlgInfo" data-toggle="modal" rel="tooltip" title="Rechtliche Hinweise, Kontaktinformationen, usw."><span class="only-large">Info/Impressum <i class="icon-info-sign icon-white"></i></span><span class="only-small">Info/Impressum</span></a></li>
+                <li><a role="button" href="javascript:showDlgHelp()" rel="tooltip" title="Anleitung für die Karte"><span class="only-large">Hilfe <i class="icon-question-sign icon-white"></i></span><span class="only-small">Hilfe</span></a></li>
+                <li><a role="button" href="javascript:showDlgInfoAjax()" rel="tooltip" title="Rechtliche Hinweise, Kontaktinformationen, usw."><span class="only-large">Info/Impressum <i class="icon-info-sign icon-white"></i></span><span class="only-small">Info/Impressum</span></a></li>
             </ul>
         </div>
     </div>
@@ -271,105 +258,36 @@ nach
 </div> <!-- sidebar -->
 
 <!-- the help dialog -->
-<div id="dlgHelp" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="hilfeDialogLabel" aria-hidden="true">
+<div id="dlgHelp" class="modal hide" tabindex="-1" aria-hidden="true">
   <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3 id="hilfeDialogLabel">Wie funktioniert die Karte?</h3>
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+    <h3 >Wie funktioniert die Karte?</h3>
   </div>
   <div class="modal-body">
       <h4>Hier muss alles neu geschrieben werden...</h4>
       Bis das geschehen ist, kann man im <a href="http://blog.flopp-caching.de/category/karte/">Blog</a> nützliche Informationen finden.
   </div>
   <div class="modal-footer">
-    <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Ok</button>
+      <button type="button" data-dismiss="modal" class="btn">Ok</button>
   </div>
 </div> <!-- dialog -->
+<script> function showDlgHelp() { $("#dlgHelp").modal({ "backdrop" : "static", "keyboard" : true, "show" : true }); } </script>
+
 
 <!-- the info dialog -->
-<div id="dlgInfo" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="kontaktDialogLabel" aria-hidden="true">
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3 id="kontaktDialogLabel">Kontakt/Info</h3>
-  </div>
-  <div class="modal-body">
-    <img class="img-polaroid" width="100ps" height="100px" style="float: right" src="avatar.jpg" alt="Flopp">
-    <h4>Kontakt</h4>
-    <p>Neuigkeiten und aktuelle Informationen werden über das <a href="http://blog.flopp-caching.de/" alt="Blog">zugehörige Blog</a> verbreitet.</p>
-    <p>Fragen und Anregungen nehme ich gerne per <a href="mailto:mail@flopp-caching.de" target="_blank">Mail</a> oder <a href="https://twitter.com/floppgc" target="_blank">Twitter</a> entgegen. Außerdem gibt es Seiten bei <a href="https://plus.google.com/u/0/116067328889875491676" target="_blank">Google+</a> und bei <a href="https://www.facebook.com/FloppsTolleKarte" target="_blank">Facebook</a>.</p>
-    <p>Bugs können auch via <a href="https://github.com/flopp/FloppsTolleKarte" target="_blank">github</a> gemeldet werden.</p>
-    <p>Flopps Tolle Karte ist unter den URLs <a href="http://flopp-caching.de/">flopp-caching.de</a> und <a href="http://foomap.de/">foomap.de</a> erreichbar.</p>
-    <p>
-        <a href="mailto:mail@flopp-caching.de" target="_blank"><img src="img/email.png" alt="E-Mail"></a>
-        <a href="https://twitter.com/floppgc" target="_blank"><img src="img/twitter.png" alt="Twitter"></a>
-        <a href="https://plus.google.com/u/0/116067328889875491676" target="_blank"><img src="img/googleplus.png" alt="Google+"></a>
-        <a href="https://www.facebook.com/FloppsTolleKarte" target="_blank"><img src="img/facebook.png" alt="Facebook"></a>
-    </p>
-    
-    <hr />
-    <h4>Impressum</h4>
-    <p>Dies ist ein rein privates, werbe- und kostenfreies Informationsangebot
-zum Hobby Geocaching. Als nicht geschäftsmäßiges Angebot unterliegt diese
-Seite gemäß Telemediengesetz nicht der Impressumspflicht.</p>
-
-    <hr />
-    <h4>Hinter den Kulissen...</h4>
-    <p>
-        <b>Flopps Tolle Karte</b> benutzt <a href="https://developers.google.com/maps/" target="_blank">Google Maps</a> 
-        und <a href="http://openstreetmap.org/" target="_blank">OpenStreetMap</a> als Kartenlieferanten, 
-        <a href="http://twitter.github.com/bootstrap/index.html" target="_blank">Bootstrap</a> 
-        und <a href="http://jquery.com/" target="_blank">jQuery</a> für die Elemente des Userinterfaces,
-        die Icons von <a href="http://glyphicons.com/" target="_blank">Glyphicons</a> und <a href="http://www.awicons.com/" target="_blank">Lokas Software</a>,
-        sowie die Javascript-Version von <a href="http://geographiclib.sf.net/html/other.html#javascript" target="_blank">GeographicLib</a>
-        für die Distanz-/Winkelberechnungen und die Wegpunktprojektion.
-        <br />        
-        Der aktuelle Quellcode von <b>Flopps Toller Karte</b> ist auf <a href="https://github.com/flopp/FloppsTolleKarte" target="_blank">github</a> zu finden.
-    </p>
-    
-    <hr />
-<h4>Naturschutzgebiete</h4>
-<p>
-Informationen über deutsche Naturschutzgebiete werden vom <a href="http://www.nsg-atlas/" target="_blank">NSG-Atlas</a> freundlicherweise zur Verfügung gestellt. Danke dafür!
-<br />
-Die Informationen über die Naturschutzgebiete dürfen nicht kommerziell genutzt werden und nicht
-auf Seiten verwendet werden, die Werbung beinhalten.
-<br />
-Das Datenmaterial der NSG gehört den einzelnen Ämtern der Länder.
-Die bereitgestellten Daten haben keine Rechtsverbindlichkeit.
-Details zum Datenmaterial sind auf den <a href="http://www.nsg-atlas.de/Datenmaterial.html" target="_blank">Seiten vom NSG-Atlas</a> zu finden.
-</p>
-
-<hr />
-<h4>Datenschutz</h4>
-<p>
-Diese Seite erhebt keine personenbezogenen Daten.
-</p>
-
-<hr />
-<h4>Cookies</h4>
-<p>
-Diese Seite verwendet Cookies, um die aktuelle Ansicht der Karte (Zentrum, Position der Marker, gewählter Kartentyp) abzuspeichern und beim erneuten Besuch der Seite wieder zu laden. Selbstverständlich ist das Löschen dieser Cookies bzw. das Unterbinden dieser Cookies in den Browsereinstellungen möglich.
-</p>
-
-<hr />
-<h4>Google Analytics</h4>
-<p>
-Diese Website benutzt Google Analytics, einen Webanalysedienst der Google Inc. ("Google"). Google Analytics verwendet sog. "Cookies", Textdateien, die auf Ihrem Computer gespeichert werden und die eine Analyse der Benutzung der Website durch Sie ermöglichen. Die durch den Cookie erzeugten Informationen über Ihre Benutzung dieser Website werden in der Regel an einen Server von Google in den USA übertragen und dort gespeichert. Im Falle der Aktivierung der IP-Anonymisierung auf dieser Webseite wird Ihre IP-Adresse von Google jedoch innerhalb von Mitgliedstaaten der Europäischen Union oder in anderen Vertragsstaaten des Abkommens über den Europäischen Wirtschaftsraum zuvor gekürzt.
-
-Nur in Ausnahmefällen wird die volle IP-Adresse an einen Server von Google in den USA übertragen und dort gekürzt. Im Auftrag des Betreibers dieser Website wird Google diese Informationen benutzen, um Ihre Nutzung der Website auszuwerten, um Reports über die Websiteaktivitäten zusammenzustellen und um weitere mit der Websitenutzung und der Internetnutzung verbundene Dienstleistungen gegenüber dem Websitebetreiber zu erbringen. Die im Rahmen von Google Analytics von Ihrem Browser übermittelte IP-Adresse wird nicht mit anderen Daten von Google zusammengeführt.
-
-Sie können die Speicherung der Cookies durch eine entsprechende Einstellung Ihrer Browser-Software verhindern; wir weisen Sie jedoch darauf hin, dass Sie in diesem Fall gegebenenfalls nicht sämtliche Funktionen dieser Website vollumfänglich werden nutzen können. Sie können darüber hinaus die Erfassung der durch das Cookie erzeugten und auf Ihre Nutzung der Website bezogenen Daten (inkl. Ihrer IP-Adresse) an Google sowie die Verarbeitung dieser Daten durch Google verhindern, indem sie das unter dem folgenden Link verfügbare Browser-Plugin herunterladen und installieren: <a href="http://tools.google.com/dlpage/gaoptout?hl=de">http://tools.google.com/dlpage/gaoptout?hl=de</a>.
-</p>
-  </div>
-  <div class="modal-footer">
-    <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Ok</button>
-  </div>
-</div> <!-- dialog -->
+<div id="dlgInfoAjax" class="modal hide" tabindex="-1" role="dialog" aria-hidden="true"></div>
+<script> 
+function showDlgInfoAjax() {
+    var $modal = $('#dlgInfoAjax');
+    $modal.load('info-dialog.html', '', function(){ $modal.modal({ "backdrop" : "static", "keyboard" : true, "show" : true }); }); 
+} 
+</script>
 
 <!-- the welcome dialog -->
-<div id="dlgWelcome" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="welcomeDialogLabel" aria-hidden="true">
+<div id="dlgWelcome" class="modal hide" tabindex="-1" role="dialog">
   <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3 id="welcomeDialogLabel">Willkommen!</h3>
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+    <h3>Willkommen!</h3>
   </div>
   <div class="modal-body">
 <p>
@@ -380,7 +298,7 @@ Sie können die Speicherung der Cookies durch eine entsprechende Einstellung Ihr
 </p>
   </div>
   <div class="modal-footer">
-    <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Ok</button>
+    <button class="btn btn-primary" data-dismiss="modal">Ok</button>
   </div>
 </div> <!-- dialog -->
 
