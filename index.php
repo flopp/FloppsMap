@@ -276,7 +276,7 @@ nach
 -->
 
 <!-- the info dialog -->
-<div id="dlgInfoAjax" class="modal hide" tabindex="-1" role="dialog" aria-hidden="true"></div>
+<div id="dlgInfoAjax" class="modal hide container" tabindex="-1" role="dialog" aria-hidden="true"></div>
 <script> 
 function showDlgInfoAjax() {
     var $modal = $('#dlgInfoAjax');
