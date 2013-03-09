@@ -56,11 +56,14 @@ _gaq.push(['_trackPageview']);
 
 <style type="text/css">
     html, body { height: 100%; overflow: hidden}
-    #map-wrapper { position: absolute; left: 0; right:274px; top: 40px; bottom: 0; float: left; }
+    #map-wrapper { position: absolute; left: 0; right:264px; top: 40px; bottom: 0; float: left; }
     #themap { width: 100%; height: 100%;}
     #themap img { max-width: none; }
-    #sidebar { overflow: auto; position: absolute; padding: 4px; width: 264px; right: 0; top: 40px; bottom: 0px; float: right; }
-    #sidebartoggle { position: absolute; display: block; right: 274px; width: 20px; height: 60px; top: 50%; background-color: white; 
+    #sidebar { overflow: auto; position: absolute; padding: 4px; width: 254px; right: 0; top: 40px; bottom: 0px; float: right; }
+    #sidebartoggle { position: absolute; display: block; right: 264px; width: 24px; height: 60px; top: 50%; background-color: white; 
+    border-top: 1px solid #ddd;
+    border-left: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
     webkit-border-radius: 8px 0 0 8px;
      -moz-border-radius: 8px 0 0 8px;
           border-radius: 8px 0 0 8px;
@@ -160,9 +163,9 @@ echo "<body onload=\"initialize( '$cntr', '$zoom', '$maptype', '$markers' )\">";
             else
             {
                 $('#sidebar').show();
-                $('#sidebartoggle').css( "right", "274px" );
+                $('#sidebartoggle').css( "right", "264px" );
                 $('#sidebartogglebutton').html( "<i class=\"icon-chevron-right\"></i>" );
-                $('#map-wrapper').css("right", "274px");
+                $('#map-wrapper').css("right", "264px");
                 google.maps.event.trigger(map, "resize");
             }
         });
