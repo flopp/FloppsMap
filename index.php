@@ -4,15 +4,13 @@
     <meta charset="utf-8">
     <meta name="description" content="Vollbildkarte mit Koordinatenbestimmung, Wegpunktprojektion, Abstandsberechnung und Anzeige von Naturschutzgebieten">
     <meta http-equiv="content-language" content="de">
-    <meta name="viewport" content="
-    height = device-height,
+    <meta name="viewport" content="height = device-height,
     width = device-width,
     initial-scale = 1.0,
     minimum-scale = 1.0,
     maximum-scale = 1.0,
     user-scalable = no,
-    target-densitydpi = device-dpi
-    ">
+    target-densitydpi = device-dpi">
     <meta name="expires" content="604800"> <!-- force reload after 1 week -->
     <title>Flopps Tolle Karte: Wegpunktprojektion, Koordinaten, Abstand</title>
     <link rel="author" href="https://plus.google.com/100782631618812527586" />

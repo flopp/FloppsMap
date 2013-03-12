@@ -943,7 +943,7 @@ function searchLocation()
     { 
         //console.log( "fail: using geocoder" );
         
-        geocoder.geocode( { 'address': address}, function(results, status) {
+        geocoder.geocode( { address: address, region: 'de' }, function(results, status) {
           if (status == google.maps.GeocoderStatus.OK) {
             map.setCenter(results[0].geometry.location);
           } else {
