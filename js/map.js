@@ -380,13 +380,14 @@ function newMarker( coordinates, theid, radius )
     var parent = document.getElementById("dynMarkerDiv");
     var div = document.createElement("div" );
     div.setAttribute( "id", "dyn" + m.id );
-    div.innerHTML = "<div><h4>Marker "+m.alpha + "</h4>" +
-    "<div class=\"btn-group\" style=\"padding-bottom: 4px\">" +
+    div.innerHTML = "<div>" +
+    "<div style=\"white-space: nowrap; height: "+iconh+"px; padding-top: 12px; padding-bottom: 4px; width: 225px\">"+
+    "<span style=\"width:"+iconw+"px; height:"+iconh+"px; float: left; display: block; background-image: url(img/base.png); background-repeat: no-repeat; background-position: -"+offsetx+"px -"+offsety+"px;\">&nbsp;</span><div class=\"btn-group\" style=\"padding-bottom: 2px; padding-top: 2px; float: right\">" +
     "<button class=\"btn btn-danger\" title=\"Entferne Marker\" type=\"button\" onClick=\"removeMarker(" + m.id + ")\"><i class=\"icon-trash\"></i></button>" +
     "<button class=\"btn btn-info\" title=\"Bewege Karte zu Marker\" type=\"button\" onClick=\"gotoMarker(" + m.id + ")\"><i class=\"icon-search\"></i></button>" +
     "<button class=\"btn btn-warning\" title=\"Setze Marker auf Kartenmitte\" type=\"button\" onClick=\"centerMarker(" + m.id + ")\"><i class=\"icon-screenshot\"></i></button>" +
     "<button class=\"btn btn-success\" title=\"Projektion ausgehend vom Marker\" type=\"button\" onClick=\"projectFromMarker(" + m.id + ")\"><i class=\"icon-arrow-right\"></i></button>" +
-    "</div></div>" +
+    "</div></div></div>" +
     "<div class=\"input-append\">" + 
     "<span id=\"coordinates" + m.alpha + "\" class=\"add-on\" style=\"width: 173px; text-align: left\">n/a</span>" +
     "<button class=\"btn btn-warning\" title=\"Ändere Koordinaten des Markers\" type=\"button\" style=\"width: 44px\" onClick=\"editMarker(" + m.id + ")\"><i class=\"icon-pencil\"></i></button>" +
