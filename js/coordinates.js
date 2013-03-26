@@ -3,13 +3,10 @@ function string2coords( coordstring )
     coordstring = coordstring.trim()
 
     var matches;
+    var pattern;
     
-    // DM: N 48° 00.123 E 7° 51.678
-    // DM2: N 48 00.123 E 7 51.678
-    var dm_pattern = /^([ns])\s*(\d+)°\s+([\d\.]+)\s+([we])\s*(\d+)°\s+([\d\.]+)$/i;
-    var dm2_pattern = /^([ns])\s*(\d+)\s+([\d\.]+)\s+([we])\s*(\d+)\s+([\d\.]+)$/i;
-    matches = coordstring.match( dm_pattern );
-    if( !matches ) matches = coordstring.match( dm2_pattern );
+    pattern = /^[^A-Za-z0-9.-]*([ns])[^A-Za-z0-9.-]*(\d+)[^A-Za-z0-9.-]+([\d\.]+)[^A-Za-z0-9.-]+([we])[^A-Za-z0-9.-]*(\d+)[^A-Za-z0-9.-]+([\d\.]+)[^A-Za-z0-9.-]*$/i;
+    matches = coordstring.match( pattern );
     if( matches )
     {
         var lat_sign = ( matches[1] == 's' || matches[1] == 'S' ) ? -1 : 1;
@@ -27,10 +24,8 @@ function string2coords( coordstring )
         return new google.maps.LatLng( lat, lng );
     }
     
-    var d_pattern = /^([ns])\s*([\d\.]+)°\s+([we])\s*([\d\.]+)°$/i;
-    var d2_pattern = /^([ns])\s*([\d\.]+)\s+([we])\s*([\d\.]+)$/i;
-    matches = coordstring.match( d_pattern );
-    if( !matches ) matches = coordstring.match( d2_pattern );
+    pattern = /^[^A-Za-z0-9.-]*([ns])[^A-Za-z0-9.-]*([\d\.]+)[^A-Za-z0-9.-]+([we])[^A-Za-z0-9.-]*([\d\.]+)[^A-Za-z0-9.-]*$/i;
+    matches = coordstring.match( pattern );
     if( matches )
     {
         var lat_sign = ( matches[1] == 's' || matches[1] == 'S' ) ? -1 : 1;
@@ -42,10 +37,8 @@ function string2coords( coordstring )
         return new google.maps.LatLng( lat, lng );
     }
     
-    var dsign_pattern = /^(-?)([\d\.]+)°\s+(-?)([\d\.]+)°$/i;
-    var dsign2_pattern = /^(-?)([\d\.]+)\s+(-?)([\d\.]+)$/i;
-    matches = coordstring.match( dsign_pattern );
-    if( !matches ) matches = coordstring.match( dsign2_pattern );
+    pattern = /^[^A-Za-z0-9.-]*(-?)([\d\.]+)[^A-Za-z0-9.-]+(-?)([\d\.]+)[^A-Za-z0-9.-]*$/i;
+    matches = coordstring.match( pattern );
     if( matches )
     {
         var lat_sign = ( matches[1] == '-' ) ? -1 : 1;
