@@ -28,8 +28,8 @@
     <script type="text/javascript" src="js/map.js"></script>
     <!-- jquery -->
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
-    <link type="text/css" rel="stylesheet" href="ext/jquery-dropdown/jquery.dropdown.css" />`
-    <script type="text/javascript" src="ext/jquery-dropdown/jquery.dropdown.js"></script>`
+    <link type="text/css" rel="stylesheet" href="ext/jquery-dropdown/jquery.dropdown.css" />
+    <script type="text/javascript" src="ext/jquery-dropdown/jquery.dropdown.js"></script>
     <!-- bootstrap -->
     <link href="ext/bootstrap/css/bootstrap.min.css" rel="stylesheet"></link>
     <script type="text/javascript" src="ext/bootstrap/js/bootstrap.min.js"></script>
@@ -54,11 +54,11 @@ _gaq.push(['_trackPageview']);
 
 <style type="text/css">
     html, body { height: 100%; overflow: hidden}
-    #map-wrapper { position: absolute; left: 0; right:264px; top: 40px; bottom: 0; float: left; }
+    #map-wrapper { position: absolute; left: 0; right:274px; top: 40px; bottom: 0; float: left; }
     #themap { width: 100%; height: 100%;}
     #themap img { max-width: none; }
-    #sidebar { overflow: auto; position: absolute; padding: 4px; width: 254px; right: 0; top: 40px; bottom: 0px; float: right; }
-    #sidebartoggle { position: absolute; display: block; right: 264px; width: 24px; height: 60px; top: 50%; background-color: white; 
+    #sidebar { overflow: auto; position: absolute; padding: 4px; width: 264px; right: 0; top: 40px; bottom: 0px; float: right; }
+    #sidebartoggle { position: absolute; display: block; right: 274px; width: 24px; height: 60px; top: 50%; background-color: white; 
     border-top: 1px solid #ddd;
     border-left: 1px solid #ddd;
     border-bottom: 1px solid #ddd;
@@ -139,7 +139,6 @@ echo "<body onload=\"initialize( '$cntr', '$zoom', '$maptype', '$markers' )\">";
             <ul class="nav">
                 <li class="hidden-phone"><a role="button" class="brand" href="javascript:"><span class="only-large">Flopps Tolle Karte</span><span class="only-small">FTK</span></a></li>
                 <li><a role="button" href="http://blog.flopp-caching.de/" rel="tooltip" title="Hier geht es zu 'Flopps Tolles Blog'"><span class="only-large">Blog <i class="icon-star icon-white"></i></span><span class="only-small">Blog</span></a></li>
-                <!--<li><a role="button" href="javascript:showDlgHelp()" rel="tooltip" title="Anleitung für die Karte"><span class="only-large">Hilfe <i class="icon-question-sign icon-white"></i></span><span class="only-small">Hilfe</span></a></li>-->
                 <li><a role="button" href="javascript:showDlgInfoAjax()" rel="tooltip" title="Rechtliche Hinweise, Kontaktinformationen, usw."><span class="only-large">Info/Impressum <i class="icon-info-sign icon-white"></i></span><span class="only-small">Info/Impressum</span></a></li>
             </ul>
         </div>
@@ -161,9 +160,9 @@ echo "<body onload=\"initialize( '$cntr', '$zoom', '$maptype', '$markers' )\">";
             else
             {
                 $('#sidebar').show();
-                $('#sidebartoggle').css( "right", "264px" );
+                $('#sidebartoggle').css( "right", "274px" );
                 $('#sidebartogglebutton').html( "<i class=\"icon-chevron-right\"></i>" );
-                $('#map-wrapper').css("right", "264px");
+                $('#map-wrapper').css("right", "274px");
                 google.maps.event.trigger(map, "resize");
             }
         });
@@ -266,23 +265,6 @@ nach
 
 </div> <!-- sidebar -->
 
-<!-- the help dialog -->
-<!--
-<div id="dlgHelp" class="modal hide" tabindex="-1" aria-hidden="true">
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal">&times;</button>
-    <h3 >Wie funktioniert die Karte?</h3>
-  </div>
-  <div class="modal-body">
-      <h4>Hier muss alles neu geschrieben werden...</h4>
-      Bis das geschehen ist, kann man im <a href="http://blog.flopp-caching.de/category/karte/">Blog</a> nützliche Informationen finden.
-  </div>
-  <div class="modal-footer">
-      <button type="button" data-dismiss="modal" class="btn">Ok</button>
-  </div>
-</div>
-<script> function showDlgHelp() { $("#dlgHelp").modal({ "backdrop" : "static", "keyboard" : true, "show" : true }); } </script>
--->
 
 <!-- the info dialog -->
 <div id="dlgInfoAjax" class="modal hide container" tabindex="-1" role="dialog" aria-hidden="true"></div>
@@ -292,27 +274,6 @@ function showDlgInfoAjax() {
     $modal.load('info-dialog.html', '', function(){ $modal.modal({ "backdrop" : "static", "keyboard" : true, "show" : true }); }); 
 } 
 </script>
-
-<!-- the welcome dialog -->
-<!--
-<div id="dlgWelcome" class="modal hide" tabindex="-1" role="dialog">
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal">&times;</button>
-    <h3>Willkommen!</h3>
-  </div>
-  <div class="modal-body">
-<p>
-    <h4>Willkommen bei <i>Flopps Toller Karte</i>!</h4>
-</p>
-<p>
-    Wie man diese Online-Karte benutzt und welche Möglichkeiten man hat, erfährst du mit einem Klick auf <i>Hilfe</i> in der Titelleiste. Viel Spaß!
-</p>
-  </div>
-  <div class="modal-footer">
-    <button class="btn btn-primary" data-dismiss="modal">Ok</button>
-  </div>
-</div>
--->
 
 
 <div id="sourcelist" class="dropdown-menu has-tip">

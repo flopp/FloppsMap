@@ -131,8 +131,8 @@ function updateMarker( m )
     m.circle.setCenter( pos );
     
     set_cookie( 'marker' + m.id, pos.lat().toFixed(6) + ":" + pos.lng().toFixed(6) + ":" + r );
-    $('#coordinates' + m.alpha ).html( coords2string( pos ) ); 
-    $('#radius' + m.alpha ).html( r );
+    $('#coordinates' + m.alpha ).val( coords2string( pos ) ); 
+    $('#radius' + m.alpha ).val( r );
     
     if( m.id == sourceid || m.id == targetid )
     {
@@ -266,60 +266,11 @@ function gotoMarker( id )
     updateLinks();
 }
 
-function editMarker( id )
-{
-    var m = getMarkerById( id );
-    
-    showSingleInputDialog( 
-        "Koordinaten ändern", 
-        "Neue Koordinaten für Marker %1".replace(/%1/, m.alpha), 
-        coords2string( m.marker.getPosition() ), 
-        function(data)
-        {
-            var c = string2coords( data );
-            if( c != null )
-            {
-                m.marker.setPosition( c );
-                updateMarker( m );
-            }
-            else
-            {
-                showAlert( "Fehler", "Ungültiges Koordinatenformat: \"%1\".".replace( /%1/, r ) );
-            }
-        }
-    );
-}
-
 function centerMarker( id )
 {
     var m = getMarkerById( id );
     m.marker.setPosition( map.getCenter() );
     updateMarker( m );
-}
-
-function editRadius( id )
-{
-    var m = getMarkerById( id );
-    
-    showSingleInputDialog( 
-        "Radius ändern", 
-        "Neuer Radius für den Kreis um Marker %1 in Meter".replace(/%1/, m.alpha), 
-        m.circle.getRadius(), 
-        function(data)
-        {
-            var rr = getInteger( data, 0, 100000000000 );
-     
-            if( rr == null )
-            {
-                showAlert( "Fehler", "Ungültiger Wert für den Radius: \"%1\".<br />Erlaubt sind ganzzahlige Werte größer gleich 0.".replace( /%1/, data ) );
-            }
-            else
-            {
-                setRadius( m, rr );
-                updateMarker( m );
-            }
-        }
-    );
 }
 
 function newMarker( coordinates, theid, radius )
@@ -381,7 +332,7 @@ function newMarker( coordinates, theid, radius )
     var div = document.createElement("div" );
     div.setAttribute( "id", "dyn" + m.id );
     div.innerHTML = "<div>" +
-    "<div style=\"white-space: nowrap; height: "+iconh+"px; padding-top: 12px; padding-bottom: 4px; width: 225px\">"+
+    "<div style=\"white-space: nowrap; height: "+iconh+"px; padding-top: 12px; padding-bottom: 4px; width: 236px\">"+
     "<span style=\"width:"+iconw+"px; height:"+iconh+"px; float: left; display: block; background-image: url(img/base.png); background-repeat: no-repeat; background-position: -"+offsetx+"px -"+offsety+"px;\">&nbsp;</span><div class=\"btn-group\" style=\"padding-bottom: 2px; padding-top: 2px; float: right\">" +
     "<button class=\"btn btn-danger\" title=\"Entferne Marker\" type=\"button\" onClick=\"removeMarker(" + m.id + ")\"><i class=\"icon-trash\"></i></button>" +
     "<button class=\"btn btn-info\" title=\"Bewege Karte zu Marker\" type=\"button\" onClick=\"gotoMarker(" + m.id + ")\"><i class=\"icon-search\"></i></button>" +
@@ -389,16 +340,17 @@ function newMarker( coordinates, theid, radius )
     "<button class=\"btn btn-success\" title=\"Projektion ausgehend vom Marker\" type=\"button\" onClick=\"projectFromMarker(" + m.id + ")\"><i class=\"icon-arrow-right\"></i></button>" +
     "</div></div></div>" +
     "<div class=\"input-append\">" + 
-    "<span id=\"coordinates" + m.alpha + "\" class=\"add-on\" style=\"width: 173px; text-align: left\">n/a</span>" +
-    "<button class=\"btn btn-warning\" title=\"Ändere Koordinaten des Markers\" type=\"button\" style=\"width: 44px\" onClick=\"editMarker(" + m.id + ")\"><i class=\"icon-pencil\"></i></button>" +
+    "<input id=\"coordinates" + m.alpha +"\" style=\"width: 173px\" type=\"text\" title=\"Koordinaten des Markers\" placeholder=\"Koordinaten\" value=\"n/a\" >" +
+    "<button id=\"btnCancelCoords" + m.alpha + "\" class=\"btn btn-danger disabled\" type=\"submit\" style=\"width: 27px; padding-left: 4px; padding-right: 4px\" type=\"button\"><i class=\"icon-remove\"></i></button>" +
+    "<button id=\"btnOkCoords" + m.alpha + "\" class=\"btn btn-success disabled\" type=\"submit\" style=\"width: 24px; padding-left: 4px; padding-right: 4px\" type=\"button\"><i class=\"icon-ok\"></i></button>" +
     "</div>" +
     "<div class=\"input-prepend input-append\">" +
-    "<span class=\"add-on\" style=\"width: 24px\"><i class=\"icon-circle-blank\"></i></span>" +
-    "<span id=\"radius" + m.alpha + "\" class=\"add-on\" style=\"width: 114px; text-align: left\">n/a</span>" +
-    "<span class=\"add-on\" style=\"width: 16px\">m</span>" +
-    "<button class=\"btn btn-warning\" title=\"Ändere Radius des Kreises um den Marker\" type=\"button\" style=\"width: 44px\" onClick=\"editRadius(" + m.id + ")\"><i class=\"icon-pencil\"></i></button>" +
+    "<span class=\"add-on\" style=\"width: 24px; padding-left: 4px; padding-right: 4px\"><i class=\"icon-circle-blank\"></i></span>" +
+    "<input id=\"radius" + m.alpha +"\" style=\"width: 142px\" type=\"text\" title=\"Radius (m) der Kreises um den Marker\" placeholder=\"Radius (m)\" value=\"n/a\" >" +
+    "<button id=\"btnCancelRadius" + m.alpha + "\" class=\"btn btn-danger disabled\" type=\"submit\" style=\"width: 27px; padding-left: 4px; padding-right: 4px\" type=\"button\"><i class=\"icon-remove\"></i></button>" +
+    "<button id=\"btnOkRadius" + m.alpha + "\" class=\"btn btn-success disabled\" type=\"submit\" style=\"width: 24px; padding-left: 4px; padding-right: 4px\" type=\"button\"><i class=\"icon-ok\"></i></button>" +
     "</div>";
-
+    
     if( nextid == markers.length )
     {
         parent.appendChild( div );
@@ -408,7 +360,67 @@ function newMarker( coordinates, theid, radius )
         var nextdiv = document.getElementById( "dyn" + nextid );
         parent.insertBefore( div, nextdiv );
     }
-     
+    
+    /* coordinates */
+    $('#coordinates' + m.alpha).bind('blur keyup', function() {
+        $('#btnCancelCoords' + m.alpha).removeClass("disabled");
+        $('#btnOkCoords' + m.alpha).removeClass("disabled");
+    });
+
+    $('#btnCancelCoords' + m.alpha).click(function(){
+        updateMarker( m );
+        
+        $('#btnCancelCoords' + m.alpha).addClass("disabled");
+        $('#btnOkCoords' + m.alpha).addClass("disabled");
+    });
+    
+    $('#btnOkCoords' + m.alpha).click(function(){
+        var s = $('#coordinates' + m.alpha).val();
+        var rr = string2coords( s );
+        if( rr == null )
+        {
+            showAlert( "Fehler", "Ungültiges Koordinatenformat: \"%1\".".replace( /%1/, s ) );
+        }
+        else
+        {
+            $('#btnCancelCoords' + m.alpha).addClass("disabled");
+            $('#btnOkCoords' + m.alpha).addClass("disabled");
+            
+            m.marker.setPosition( rr );
+            updateMarker( m );
+        }
+    });
+    
+    /* radius */
+    $('#radius' + m.alpha).bind('blur keyup', function() {
+        $('#btnCancelRadius' + m.alpha).removeClass("disabled");
+        $('#btnOkRadius' + m.alpha).removeClass("disabled");
+    });
+
+    $('#btnCancelRadius' + m.alpha).click(function(){
+        updateMarker( m );
+        
+        $('#btnCancelRadius' + m.alpha).addClass("disabled");
+        $('#btnOkRadius' + m.alpha).addClass("disabled");
+    });
+    
+    $('#btnOkRadius' + m.alpha).click(function(){
+        var s = $('#radius' + m.alpha).val();
+        var rr = getInteger( s, 0, 100000000000 );
+        if( rr == null )
+        {
+            showAlert( "Fehler", "Ungültiger Wert für den Radius: \"%1\".<br />Erlaubt sind ganzzahlige Werte größer gleich 0.".replace( /%1/, s ) );
+        }
+        else
+        {
+            $('#btnCancelRadius' + m.alpha).addClass("disabled");
+            $('#btnOkRadius' + m.alpha).addClass("disabled");
+            
+            setRadius( m, rr );
+            updateMarker( m );
+        }
+    });
+    
     updateMarker( m );
     updateLists();
     updateLinks();
