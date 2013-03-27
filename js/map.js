@@ -273,6 +273,37 @@ function centerMarker( id )
     updateMarker( m );
 }
 
+function toggleOkButton( id, t )
+{
+    if( t ) 
+    {
+        $(id).removeClass("disabled");
+        $(id).removeClass("btn-inverse");
+        $(id).addClass("btn-success");
+    }
+    else
+    {
+        $(id).removeClass("btn-success");
+        $(id).addClass("disabled");
+        $(id).addClass("btn-inverse");
+    }
+}
+
+function toggleCancelButton( id, t )
+{
+    if( t ) 
+    {
+        $(id).removeClass("disabled");
+        $(id).removeClass("btn-inverse");
+        $(id).addClass("btn-danger");
+    }
+    else
+    {
+        $(id).removeClass("btn-danger");
+        $(id).addClass("disabled");
+        $(id).addClass("btn-inverse");
+    }
+}
 function newMarker( coordinates, theid, radius )
 {
     if( radius < 0 ) radius = RADIUS_DEFAULT;
@@ -341,14 +372,14 @@ function newMarker( coordinates, theid, radius )
     "</div></div></div>" +
     "<div class=\"input-append\">" + 
     "<input id=\"coordinates" + m.alpha +"\" style=\"width: 173px\" type=\"text\" title=\"Koordinaten des Markers\" placeholder=\"Koordinaten\" value=\"n/a\" >" +
-    "<button id=\"btnCancelCoords" + m.alpha + "\" class=\"btn btn-danger disabled\" type=\"submit\" style=\"width: 27px; padding-left: 4px; padding-right: 4px\" type=\"button\"><i class=\"icon-remove\"></i></button>" +
-    "<button id=\"btnOkCoords" + m.alpha + "\" class=\"btn btn-success disabled\" type=\"submit\" style=\"width: 24px; padding-left: 4px; padding-right: 4px\" type=\"button\"><i class=\"icon-ok\"></i></button>" +
+    "<button id=\"btnCancelCoords" + m.alpha + "\" class=\"btn btn-inverse disabled\" type=\"submit\" style=\"width: 27px; padding-left: 4px; padding-right: 4px\" type=\"button\"><i class=\"icon-remove\"></i></button>" +
+    "<button id=\"btnOkCoords" + m.alpha + "\" class=\"btn btn-inverse disabled\" type=\"submit\" style=\"width: 24px; padding-left: 4px; padding-right: 4px\" type=\"button\"><i class=\"icon-ok\"></i></button>" +
     "</div>" +
     "<div class=\"input-prepend input-append\">" +
     "<span class=\"add-on\" style=\"width: 24px; padding-left: 4px; padding-right: 4px\"><i class=\"icon-circle-blank\"></i></span>" +
     "<input id=\"radius" + m.alpha +"\" style=\"width: 142px\" type=\"text\" title=\"Radius (m) der Kreises um den Marker\" placeholder=\"Radius (m)\" value=\"n/a\" >" +
-    "<button id=\"btnCancelRadius" + m.alpha + "\" class=\"btn btn-danger disabled\" type=\"submit\" style=\"width: 27px; padding-left: 4px; padding-right: 4px\" type=\"button\"><i class=\"icon-remove\"></i></button>" +
-    "<button id=\"btnOkRadius" + m.alpha + "\" class=\"btn btn-success disabled\" type=\"submit\" style=\"width: 24px; padding-left: 4px; padding-right: 4px\" type=\"button\"><i class=\"icon-ok\"></i></button>" +
+    "<button id=\"btnCancelRadius" + m.alpha + "\" class=\"btn btn-inverse disabled\" type=\"submit\" style=\"width: 27px; padding-left: 4px; padding-right: 4px\" type=\"button\"><i class=\"icon-remove\"></i></button>" +
+    "<button id=\"btnOkRadius" + m.alpha + "\" class=\"btn btn-inverse disabled\" type=\"submit\" style=\"width: 24px; padding-left: 4px; padding-right: 4px\" type=\"button\"><i class=\"icon-ok\"></i></button>" +
     "</div>";
     
     if( nextid == markers.length )
@@ -363,15 +394,15 @@ function newMarker( coordinates, theid, radius )
     
     /* coordinates */
     $('#coordinates' + m.alpha).bind('blur keyup', function() {
-        $('#btnCancelCoords' + m.alpha).removeClass("disabled");
-        $('#btnOkCoords' + m.alpha).removeClass("disabled");
+        toggleCancelButton( '#btnCancelCoords' + m.alpha, true );
+        toggleOkButton( '#btnOkCoords' + m.alpha, true );
     });
 
     $('#btnCancelCoords' + m.alpha).click(function(){
         updateMarker( m );
         
-        $('#btnCancelCoords' + m.alpha).addClass("disabled");
-        $('#btnOkCoords' + m.alpha).addClass("disabled");
+        toggleCancelButton( '#btnCancelCoords' + m.alpha, false );
+        toggleOkButton( '#btnOkCoords' + m.alpha, false );
     });
     
     $('#btnOkCoords' + m.alpha).click(function(){
@@ -383,8 +414,8 @@ function newMarker( coordinates, theid, radius )
         }
         else
         {
-            $('#btnCancelCoords' + m.alpha).addClass("disabled");
-            $('#btnOkCoords' + m.alpha).addClass("disabled");
+            toggleCancelButton( '#btnCancelCoords' + m.alpha, false );
+            toggleOkButton( '#btnOkCoords' + m.alpha, false );
             
             m.marker.setPosition( rr );
             updateMarker( m );
@@ -393,15 +424,15 @@ function newMarker( coordinates, theid, radius )
     
     /* radius */
     $('#radius' + m.alpha).bind('blur keyup', function() {
-        $('#btnCancelRadius' + m.alpha).removeClass("disabled");
-        $('#btnOkRadius' + m.alpha).removeClass("disabled");
+        toggleCancelButton( '#btnCancelRadius' + m.alpha, true );
+        toggleOkButton( '#btnOkRadius' + m.alpha, true );
     });
 
     $('#btnCancelRadius' + m.alpha).click(function(){
         updateMarker( m );
         
-        $('#btnCancelRadius' + m.alpha).addClass("disabled");
-        $('#btnOkRadius' + m.alpha).addClass("disabled");
+        toggleCancelButton( '#btnCancelRadius' + m.alpha, false );
+        toggleOkButton( '#btnOkRadius' + m.alpha, false );
     });
     
     $('#btnOkRadius' + m.alpha).click(function(){
@@ -413,8 +444,8 @@ function newMarker( coordinates, theid, radius )
         }
         else
         {
-            $('#btnCancelRadius' + m.alpha).addClass("disabled");
-            $('#btnOkRadius' + m.alpha).addClass("disabled");
+            toggleCancelButton( '#btnCancelRadius' + m.alpha, false );
+            toggleOkButton( '#btnOkRadius' + m.alpha, false );
             
             setRadius( m, rr );
             updateMarker( m );
