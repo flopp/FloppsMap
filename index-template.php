@@ -21,11 +21,11 @@
     <!-- google maps -->
     <script type="text/javascript" src="https://maps.google.com/maps/api/js?key=AIzaSyC_KjqwiB6tKCcrq2aa8B3z-c7wNN8CTA0&sensor=false"></script>
     <!-- my own stuff -->
-    <script type="text/javascript" src="js/conversion.js"></script>
-    <script type="text/javascript" src="js/cookies.js"></script>
-    <script type="text/javascript" src="js/geographiclib.js"></script>
-    <script type="text/javascript" src="js/coordinates.js"></script>
-    <script type="text/javascript" src="js/map.js"></script>
+    <script type="text/javascript" src="js/conversion.js?t=TSTAMP"></script>
+    <script type="text/javascript" src="js/cookies.js?t=TSTAMP"></script>
+    <script type="text/javascript" src="js/geographiclib.js?t=TSTAMP"></script>
+    <script type="text/javascript" src="js/coordinates.js?t=TSTAMP"></script>
+    <script type="text/javascript" src="js/map.js?t=TSTAMP"></script>
     <!-- jquery -->
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
     <link type="text/css" rel="stylesheet" href="ext/jquery-dropdown/jquery.dropdown.css" />
