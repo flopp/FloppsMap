@@ -393,21 +393,22 @@ function newMarker( coordinates, theid, radius )
     }
     
     /* coordinates */
-    $('#coordinates' + m.alpha).bind('blur paste keyup', function() {
+    function editCoordinates() {
         toggleCancelButton( '#btnCancelCoords' + m.alpha, true );
         toggleOkButton( '#btnOkCoords' + m.alpha, true );
-    });
-
-    $('#btnCancelCoords' + m.alpha).click(function(){
+    }
+    
+    function cancelCoordinates() {
         updateMarker( m );
         
         toggleCancelButton( '#btnCancelCoords' + m.alpha, false );
         toggleOkButton( '#btnOkCoords' + m.alpha, false );
-    });
+    }
     
-    $('#btnOkCoords' + m.alpha).click(function(){
+    function acceptCoordinates() {
         var s = $('#coordinates' + m.alpha).val();
         var rr = string2coords( s );
+        
         if( rr == null )
         {
             showAlert( "Fehler", "Ungültiges Koordinatenformat: \"%1\".".replace( /%1/, s ) );
@@ -420,22 +421,31 @@ function newMarker( coordinates, theid, radius )
             m.marker.setPosition( rr );
             updateMarker( m );
         }
+    }
+    
+    $('#coordinates' + m.alpha).bind('blur paste', editCoordinates );
+    $('#coordinates' + m.alpha).keydown(function(e){
+        if(e.which == 27) { cancelCoordinates(); }
+        else if(e.which == 13) { acceptCoordinates(); }
+        else { editCoordinates(); }
     });
+    $('#btnCancelCoords' + m.alpha).click( cancelCoordinates );
+    $('#btnOkCoords' + m.alpha).click( acceptCoordinates );
     
     /* radius */
-    $('#radius' + m.alpha).bind('blur paste keyup', function() {
+    function editRadius() {
         toggleCancelButton( '#btnCancelRadius' + m.alpha, true );
         toggleOkButton( '#btnOkRadius' + m.alpha, true );
-    });
-
-    $('#btnCancelRadius' + m.alpha).click(function(){
+    }
+    
+    function cancelRadius() {
         updateMarker( m );
         
         toggleCancelButton( '#btnCancelRadius' + m.alpha, false );
         toggleOkButton( '#btnOkRadius' + m.alpha, false );
-    });
+    }
     
-    $('#btnOkRadius' + m.alpha).click(function(){
+    function acceptRadius() {
         var s = $('#radius' + m.alpha).val();
         var rr = getInteger( s, 0, 100000000000 );
         if( rr == null )
@@ -450,7 +460,18 @@ function newMarker( coordinates, theid, radius )
             setRadius( m, rr );
             updateMarker( m );
         }
+    }
+    
+    $('#radius' + m.alpha).bind('blur paste', editRadius );
+    $('#radius' + m.alpha).keydown(function(e){
+        if(e.which == 27) { cancelRadius(); }
+        else if(e.which == 13) { acceptRadius(); }
+        else { editRadius(); }
     });
+    $('#btnCancelRadius' + m.alpha).click( cancelRadius );
+    $('#btnOkRadius' + m.alpha).click( acceptRadius );
+    
+    
     
     updateMarker( m );
     updateLists();
