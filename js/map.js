@@ -393,7 +393,7 @@ function newMarker( coordinates, theid, radius )
     }
     
     /* coordinates */
-    $('#coordinates' + m.alpha).bind('blur keyup', function() {
+    $('#coordinates' + m.alpha).bind('blur paste keyup', function() {
         toggleCancelButton( '#btnCancelCoords' + m.alpha, true );
         toggleOkButton( '#btnOkCoords' + m.alpha, true );
     });
@@ -423,7 +423,7 @@ function newMarker( coordinates, theid, radius )
     });
     
     /* radius */
-    $('#radius' + m.alpha).bind('blur keyup', function() {
+    $('#radius' + m.alpha).bind('blur paste keyup', function() {
         toggleCancelButton( '#btnCancelRadius' + m.alpha, true );
         toggleOkButton( '#btnOkRadius' + m.alpha, true );
     });
