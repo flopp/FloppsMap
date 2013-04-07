@@ -40,18 +40,6 @@
     <!-- additional button icons -->
     <link rel="stylesheet" href="ext/font-awesome/css/font-awesome.min.css"> 
 
-<!-- Google Analytics -->
-<script type="text/javascript">
-var _gaq = _gaq || [];
-_gaq.push(['_setAccount', 'UA-27729857-4']);
-_gaq.push(['_trackPageview']);
-(function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-})();
-</script>
-
 <style type="text/css">
     html, body { height: 100%; overflow: hidden}
     #map-wrapper { position: absolute; left: 0; right:274px; top: 40px; bottom: 0; float: left; }
@@ -199,7 +187,7 @@ echo "<body onload=\"initialize( '$cntr', '$zoom', '$maptype', '$markers' )\">";
     <div>
 <form action="javascript:searchLocation()">
 <div class="input-append">
-<input id="txtSearch" style="width: 173px" type="text" placeholder="Koordinaten oder Ort" title="Nach einem Ort oder Koordinaten suchen und die Karte auf dem Suchergebnis zentrieren">
+<input id="txtSearch" style="width: 179px" type="text" placeholder="Koordinaten oder Ort" title="Nach einem Ort oder Koordinaten suchen und die Karte auf dem Suchergebnis zentrieren">
 <button class="btn btn-info" type="submit" style="width: 44px" type="button" title="Nach einem Ort oder Koordinaten suchen und die Karte auf dem Suchergebnis zentrieren"><i class="icon-search"></i></button>
 </div>
 </form>
@@ -229,12 +217,12 @@ nach
 <div>
 <div class="input-prepend input-append" title="Abstand des Markers A vom Marker B in Metern">
 <span class="add-on" style="width: 52px">Abstand</span>
-<span id="txtDistance" class="add-on" style="width: 128px; text-align: left">n/a</span>
+<span id="txtDistance" class="add-on" style="width: 137px; text-align: left">n/a</span>
 <span class="add-on" style="width: 16px">m</span>
 </div>
 <div class="input-prepend input-append" title="Peilungswinkel von Marker A nach Marker B">
 <span class="add-on" style="width: 52px">Winkel</span>
-<span id="txtBearing" class="add-on" style="width: 128px; text-align: left">n/a</span>
+<span id="txtBearing" class="add-on" style="width: 137px; text-align: left">n/a</span>
 <span class="add-on" style="width: 16px">°</span>
 </div>
 </div>          
@@ -257,7 +245,7 @@ nach
 </ul>
 <b>Externe Links</b>
 <div class="input-append" title="Externer Link">
-<select id="externallinks" style="width: 185px" title="Externen Dienst an Kartenposition öffnen"></select>
+<select id="externallinks" style="width: 193px" title="Externen Dienst an Kartenposition öffnen"></select>
 <button class="btn btn-info" style="width: 44px" type="button" onClick="gotoExternalLink()" title="Externen Dienst an Kartenposition öffnen"><i class="icon-play"></i></button>
 </div>
     </div>
