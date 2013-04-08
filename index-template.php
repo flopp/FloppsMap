@@ -28,8 +28,6 @@
     <script type="text/javascript" src="js/map.js?t=TSTAMP"></script>
     <!-- jquery -->
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
-    <link type="text/css" rel="stylesheet" href="ext/jquery-dropdown/jquery.dropdown.css" />
-    <script type="text/javascript" src="ext/jquery-dropdown/jquery.dropdown.js"></script>
     <!-- bootstrap -->
     <link href="ext/bootstrap/css/bootstrap.min.css" rel="stylesheet"></link>
     <script type="text/javascript" src="ext/bootstrap/js/bootstrap.min.js"></script>
@@ -39,6 +37,23 @@
     <script src="ext/bootstrap-modal/js/bootstrap-modal.js"></script>
     <!-- additional button icons -->
     <link rel="stylesheet" href="ext/font-awesome/css/font-awesome.min.css"> 
+
+<!-- Piwik -->
+<script type="text/javascript"> 
+  var _paq = _paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u=(("https:" == document.location.protocol) ? "https" : "http") + "://flopp-caching.de/piwik//";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', 1]);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0]; g.type='text/javascript';
+    g.defer=true; g.async=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+
+</script>
+<noscript><p><img src="http://flopp-caching.de/piwik/piwik.php?idsite=1" style="border:0" alt="" /></p></noscript>
+<!-- End Piwik Code -->
 
 <style type="text/css">
     html, body { height: 100%; overflow: hidden}
@@ -209,9 +224,9 @@ echo "<body onload=\"initialize( '$cntr', '$zoom', '$maptype', '$markers' )\">";
     <div>
 <div style="padding:4px">
 Von
-<button id="sourcebtn" class="btn btn-small btn-info" title="Wähle Marker" type="button" href="#" data-dropdown="#sourcelist">?</button>
+<select id="sourcelist" style="width: 50px" title="Quelle" onchange="selectSource()"></select>
 nach
-<button id="targetbtn" class="btn btn-small btn-info" title="Wähle Marker" type="button" href="#" data-dropdown="#targetlist">?</button>
+<select id="targetlist" style="width: 50px" title="Ziel" onchange="selectTarget()"></select>
 </div>
 
 <div>
@@ -262,19 +277,6 @@ function showDlgInfoAjax() {
     $modal.load('info-dialog.html', '', function(){ $modal.modal({ "backdrop" : "static", "keyboard" : true, "show" : true }); }); 
 } 
 </script>
-
-
-<div id="sourcelist" class="dropdown-menu has-tip">
-    <ul>
-        <li>Keine Marker :(</li>
-    </ul>
-</div>
-
-<div id="targetlist" class="dropdown-menu has-tip">
-    <ul>
-        <li>Keine Marker :(</li>
-    </ul>
-</div>
 
 
 <!-- the alert dialog -->
@@ -354,6 +356,7 @@ function showDoubleInputDialog( title, msg1, data1, msg2, data2, callback ) {
     $("#dlgDoubleInput").modal({ "backdrop" : "static", "keyboard" : true, "show" : true });
 }
 </script>
+
 
   </body>
 

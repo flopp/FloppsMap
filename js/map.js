@@ -165,61 +165,79 @@ function getMarkerById( id )
     return markers[id];
 }
 
-function selectSource( id )
+function selectSourceById( id )
 {
-    set_cookie( 'source', id );
-    
     if( id != sourceid )
     {
         sourceid = id;
-        var m = getMarkerById( id );
-        $("#sourcebtn").html( m.alpha );
-        
         updateDistance();
+        set_cookie( 'source', id );
+        $("#sourcelist > option[value=" + id + "]").attr("selected", "selected");
     }
 }
 
-function selectTarget( id )
+function selectTargetById( id )
 {
-    set_cookie( 'target', id );
-    
     if( id != targetid )
     {
         targetid = id;
-        var m = getMarkerById( id );
-        $("#targetbtn").html( m.alpha );
-        
         updateDistance();
+        set_cookie( 'target', id );
+        $("#targetlist > option[value=" + id + "]").attr("selected", "selected");
+    }
+}
+
+function selectSource()
+{
+    var opt = $("#sourcelist option:selected");
+    if( opt )
+    {
+        selectSourceById( opt.val() );
+    }
+    else
+    {
+        selectSourceById( -1 );
+    }
+}
+
+function selectTarget()
+{
+    var opt = $("#targetlist option:selected");
+    if( opt )
+    {
+        selectTargetById( opt.val() );
+    }
+    else
+    {
+        selectTargetById( -1 );
     }
 }
 
 function updateLists()
 {
-    var s1 = "";
-    var s2 = "";
     var lst = "";
     
+    $("#sourcelist").empty();
+    $("#targetlist").empty();
+    
+    $('#sourcelist').append('<option value="-1">?</option>');
+    $('#targetlist').append('<option value="-1">?</option>');
+
     for( var i = 0; i < markers.length; ++i )
     {
         var m = markers[i];
         if( !m.free )
-        {
-            s1 = s1 + "<li><a href=\"#\" onClick=\"selectSource(" + m.id + ")\">" + m.alpha + "</a></li>";
-            s2 = s2 + "<li><a href=\"#\" onClick=\"selectTarget(" + m.id + ")\">" + m.alpha + "</a></li>";
+        {   
+            $('#sourcelist').append('<option value="'+m.id+'">'+m.alpha+'</option>');
+            $('#targetlist').append('<option value="'+m.id+'">'+m.alpha+'</option>');
             lst = lst + ":" + m.id;
         }
     }
     
+    $("#sourcelist > option[value=" + sourceid + "]").attr("selected", "selected");
+    $("#targetlist > option[value=" + targetid + "]").attr("selected", "selected");
+    
     set_cookie( 'markers', lst );
-    
-    if( s1 == "" || s2 == "" )
-    {
-        s1 = "<li>keine Marker :(</li>";
-        s2 = s1;
-    }
-    
-    $("#sourcelist").html( s1 );
-    $("#targetlist").html( s2 );
 }
 
 function removeMarker( id )
@@ -959,7 +977,7 @@ function initialize( xcenter, xzoom, xmap, xmarkers )
             var id = parseInt(raw_source);
             if( id != null && id >= 0 && id < 26 && markers[id].free == false )
             {
-                selectSource( id );
+                selectSourceById( id );
             }
         }
         
@@ -969,7 +987,7 @@ function initialize( xcenter, xzoom, xmap, xmarkers )
             var id = parseInt(raw_target);
             if( id != null && id >= 0 && id < 26 && markers[id].free == false )
             {
-                selectTarget( id );
+                selectTargetById( id );
             }
         }
     }
