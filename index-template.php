@@ -26,6 +26,7 @@
     <script type="text/javascript" src="js/geographiclib.js?t=TSTAMP"></script>
     <script type="text/javascript" src="js/coordinates.js?t=TSTAMP"></script>
     <script type="text/javascript" src="js/map.js?t=TSTAMP"></script>
+    <script type="text/javascript" src="js/okapi.js?t=TSTAMP"></script>
     <!-- jquery -->
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
     <!-- bootstrap -->
@@ -252,6 +253,17 @@ nach
 <label class="checkbox" title="Deutsche Naturschutzgebiete in der Karte markieren">
     <input id="showNSG" type="checkbox"> Zeige Naturschutzgebiete
 </label>
+</form>
+
+<b>Geocaches (<a href="http://www.opencaching.de/">Opencaching.de</a>)</b>
+<form>
+<div class="btn-group" style=\"padding-bottom: 2px; padding-top: 2px;">
+<button class="btn btn-success" title="Geocaches hinzufügen" type="button" onClick="getCachesBBOX()"><i class="icon-plus"></i> Hinzufügen</button>
+<button class="btn btn-danger" title="Geocaches entfernen" type="button" onClick="removeCaches()"><i class="icon-trash"></i> Entfernen</button>
+</div>
+<div style="font-size: smaller">
+Die angezeigten Geocache-Daten werden über die <a href="http://www.opencaching.de/okapi/introduction.html">OKAPI-Schnittstelle</a> von <a href="http://www.opencaching.de/">Opencaching.de</a> geholt und stehen unter der <a href="http://www.opencaching.de/articles.php?page=impressum#datalicense">Datenlizenz von Opencaching.de</a>.
+</div>
 </form>
 
 <b>Permalinks</b>
