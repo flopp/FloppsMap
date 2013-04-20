@@ -173,7 +173,7 @@ function okapi_load_caches_bbox()
                 
                 okapi_markers[cache.code] = m;
                 
-                var content = '<a href="' + cache.url + '">' + cache.code + '</a> (' + cache.type +')<br />'+cache.name;
+                var content = '<a href="' + cache.url + '" target="_blank">' + cache.code + '</a> (' + cache.type +')<br />'+cache.name;
                 okapi_register_popup( m, content );
             }
             
