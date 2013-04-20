@@ -182,6 +182,18 @@ echo "<body onload=\"initialize( '$cntr', '$zoom', '$maptype', '$markers' )\">";
                 showNSGLayer( false );
             }
         });
+        
+        $("#showCaches").click(
+        function() {
+            if( $('#showCaches').is(':checked') )
+            {
+                okapi_toggle_load_caches( true );
+            }
+            else
+            {
+                okapi_toggle_load_caches( false );
+            }
+        });
 });
 </script>
 
@@ -257,10 +269,9 @@ nach
 
 <b>Geocaches (<a href="http://www.opencaching.de/">Opencaching.de</a>)</b>
 <form>
-<div class="btn-group" style=\"padding-bottom: 2px; padding-top: 2px;">
-<button class="btn btn-success" title="Geocaches hinzufügen" type="button" onClick="getCachesBBOX()"><i class="icon-plus"></i> Hinzufügen</button>
-<button class="btn btn-danger" title="Geocaches entfernen" type="button" onClick="removeCaches()"><i class="icon-trash"></i> Entfernen</button>
-</div>
+    <label class="checkbox" title="Geocaches auf der Karte anzeigen">
+        <input id="showCaches" type="checkbox"> Zeige Geocaches
+    </label> 
 <div style="font-size: smaller">
 Die angezeigten Geocache-Daten werden über die <a href="http://www.opencaching.de/okapi/introduction.html">OKAPI-Schnittstelle</a> von <a href="http://www.opencaching.de/">Opencaching.de</a> geholt und stehen unter der <a href="http://www.opencaching.de/articles.php?page=impressum#datalicense">Datenlizenz von Opencaching.de</a>.
 </div>

@@ -936,8 +936,8 @@ function initialize( xcenter, xzoom, xmap, xmarkers )
     
     map.setCenter(center, zoom);
    
-    google.maps.event.addListener( map, "center_changed", function() { storeZoom(); storeCenter(); updateNSGLayer(); } );
-    google.maps.event.addListener( map, "zoom_changed", function() { storeZoom(); storeCenter(); updateNSGLayer(); } );
+    google.maps.event.addListener( map, "center_changed", function() { storeZoom(); storeCenter(); updateNSGLayer(); okapi_schedule_load_caches(); } );
+    google.maps.event.addListener( map, "zoom_changed", function() { storeZoom(); storeCenter(); updateNSGLayer(); okapi_schedule_load_caches(); } );
     google.maps.event.addListener( map, "maptypeid_changed", function(){ updateCopyrights()});
     
     geocoder = new google.maps.Geocoder();
