@@ -6,8 +6,9 @@ Flopps Tolle Karte
 *  Verschiebbare Marker zum Bestimmen von Koordinaten, Distanzen und Winkeln
 *  Wegpunktprojektion/Peilung
 *  Anzeige von deutschen Naturschutzgebieten
+*  Anzeige von Geocaches des Opencaching-Networks via OKAPI
 
-Die Online-Version ist unter http://www.flopp-caching.de/ bzw. http://www.foomap.de/ zu finden.
+Die Online-Version ist unter http://flopp-caching.de/ zu finden.
 
 Autor
 -----
