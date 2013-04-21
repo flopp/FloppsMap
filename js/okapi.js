@@ -1,8 +1,28 @@
 var ocde_okapi_url = "http://www.opencaching.de/okapi";
 var ocde_okapi_key = "YSqPufH82encfJ67ZxV2";
+var ocde_request_finished = true;
+var ocde_markers = {};
 
-var okapi_request_finished = true;
-var okapi_markers = {};
+var ocpl_okapi_url = "http://www.opencaching.pl/okapi";
+var ocpl_okapi_key = "jhRyc6rGmT6XEvxva29B";
+var ocpl_request_finished = true;
+var ocpl_markers = {};
+
+var ocnl_okapi_url = "http://www.opencaching.nl/okapi";
+var ocnl_okapi_key = "gcwaesuq3REu8RtCgLDj";
+var ocnl_request_finished = true;
+var ocnl_markers = {};
+
+var ocuk_okapi_url = "http://www.opencaching.org.uk/okapi";
+var ocuk_okapi_key = "7t7VfpkCd4HuxPabfbHd";
+var ocuk_request_finished = true;
+var ocuk_markers = {};
+
+var ocus_okapi_url = "http://www.opencaching.us/okapi";
+var ocus_okapi_key = "GvgyCMvwfH42GqJGL494";
+var ocus_request_finished = true;
+var ocus_markers = {};
+
 var okapi_popup = null;
 var okapi_icon_unknown     = null;
 var okapi_icon_traditional = null;
@@ -90,7 +110,7 @@ function okapi_get_icon( type )
     }
     else
     {
-        console.log( "unknown type: " + type );
+        //console.log( "unknown type: " + type );
         return okapi_icon_unknown;
     }
 }
@@ -108,7 +128,7 @@ function okapi_register_popup( m, contentString )
     });
 }
 
-function removeCaches()
+function okapi_remove_caches_site( okapi_markers )
 {
     if( okapi_markers != null )
     {
@@ -121,7 +141,17 @@ function removeCaches()
     okapi_markers = {};
 }
 
-function okapi_load_caches_bbox()
+function okapi_remove_caches()
+{
+    okapi_remove_caches_site( ocde_markers );
+    okapi_remove_caches_site( ocpl_markers );
+    okapi_remove_caches_site( ocnl_markers );
+    okapi_remove_caches_site( ocuk_markers );
+    okapi_remove_caches_site( ocus_markers );
+}
+
+
+function okapi_load_caches_bbox_site( okapi_url, okapi_key, okapi_request_finished, okapi_markers )
 {
     if( !okapi_load_caches_enabled )
     {
@@ -140,10 +170,10 @@ function okapi_load_caches_bbox()
     var bbox = b.getSouthWest().lat() + "|" + b.getSouthWest().lng() + "|" + b.getNorthEast().lat() + "|" + b.getNorthEast().lng();
     
     $.ajax({
-        url: ocde_okapi_url + '/services/caches/shortcuts/search_and_retrieve',
+        url: okapi_url + '/services/caches/shortcuts/search_and_retrieve',
         dataType: 'json',
         data: {
-            'consumer_key': ocde_okapi_key,
+            'consumer_key': okapi_key,
             'search_method': 'services/caches/search/bbox',
             'search_params': '{"bbox" : "' + bbox + '", "limit" : "500"}',
             'retr_method': 'services/caches/geocaches',
@@ -189,12 +219,20 @@ function okapi_load_caches_bbox()
         },
         error: function() {
             console.log( "okapi request failed!" );
-            removeCaches();
+            okapi_remove_caches();
             okapi_request_finished = true;
         }
     });
 }
 
+function okapi_load_caches_bbox()
+{
+    okapi_load_caches_bbox_site( ocde_okapi_url, ocde_okapi_key, ocde_request_finished, ocde_markers );
+    okapi_load_caches_bbox_site( ocpl_okapi_url, ocpl_okapi_key, ocpl_request_finished, ocpl_markers );
+    okapi_load_caches_bbox_site( ocnl_okapi_url, ocnl_okapi_key, ocnl_request_finished, ocnl_markers );
+    okapi_load_caches_bbox_site( ocuk_okapi_url, ocuk_okapi_key, ocuk_request_finished, ocuk_markers );
+    okapi_load_caches_bbox_site( ocus_okapi_url, ocus_okapi_key, ocus_request_finished, ocus_markers );
+}
 
 var okapi_load_timer = null;
 function okapi_unschedule_load_caches()
@@ -225,7 +263,7 @@ function okapi_toggle_load_caches( t )
         else
         {
             okapi_unschedule_load_caches();
-            removeCaches();
+            okapi_remove_caches();
         }
     }
 }

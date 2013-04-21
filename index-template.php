@@ -267,13 +267,19 @@ nach
 </label>
 </form>
 
-<b>Geocaches (<a href="http://www.opencaching.de/">Opencaching.de</a>)</b>
+<b>Geocaches (<a href="http://www.opencaching.eu/">Opencaching-Network</a>)</b>
 <form>
     <label class="checkbox" title="Geocaches auf der Karte anzeigen">
         <input id="showCaches" type="checkbox"> Zeige Geocaches
-    </label> 
+    </label>
 <div style="font-size: smaller">
-Die angezeigten Geocache-Daten werden über die <a href="http://www.opencaching.de/okapi/introduction.html">OKAPI-Schnittstelle</a> von <a href="http://www.opencaching.de/">Opencaching.de</a> geholt und stehen unter der <a href="http://www.opencaching.de/articles.php?page=impressum#datalicense">Datenlizenz von Opencaching.de</a>.
+Die angezeigten Geocache-Daten werden über die <a href="http://www.opencaching.de/okapi/introduction.html">OKAPI-Schnittstelle</a> 
+von den nationalen Opencaching-Seiten 
+<a href="http://www.opencaching.de/">Opencaching.de</a>, 
+<a href="http://www.opencaching.pl/">Opencaching.pl</a>, 
+<a href="http://www.opencaching.nl/">Opencaching.nl</a>,
+<a href="http://www.opencaching.org.uk/">Opencaching.org.uk</a>, 
+<a href="http://www.opencaching.us/">Opencaching.us</a> geholt.
 </div>
 </form>
 
