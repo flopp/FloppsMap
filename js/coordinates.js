@@ -56,20 +56,25 @@ function string2coords( coordstring )
 
 function coords2string( coord )
 {
-    lat = coord.lat();
+    var lat = coord.lat();
     
-    lat_string = "N";
+    var lat_string = "N";
     if( lat < 0 )
     {
         lat_string = "S";
         lat = -lat;
     }
     
-    lat_deg = parseInt( lat );
-    lat_rest = lat - lat_deg;
-    lat_min = parseInt( lat_rest * 60 );
+    var lat_deg = 0 | lat;
+    var lat_rest = lat - lat_deg;
+    var lat_min = 0 | ( lat_rest * 60 );
     lat_rest = lat_rest * 60 - lat_min;
-    lat_mmin = parseInt( Math.round( lat_rest * 1000 ) );
+    var lat_mmin = 0 | Math.round( lat_rest * 1000 );
+    while( lat_mmin >= 1000 )
+    {
+		lat_mmin -= 1000;
+		lat_min += 1;
+	}
 
     lat_string += " ";
     if( lat_deg < 10 ) lat_string += "0";
@@ -85,20 +90,25 @@ function coords2string( coord )
     lat_string += lat_mmin;
 
     
-    lng = coord.lng();
+    var lng = coord.lng();
     
-    lng_string = "E";
+    var lng_string = "E";
     if( lng < 0 )
     {
         lng_string = "W";
         lng = -lng;
     }
     
-    lng_deg = parseInt( lng );
-    lng_rest = lng - lng_deg;
-    lng_min = parseInt( lng_rest * 60 );
+    var lng_deg = 0 | lng;
+    var lng_rest = lng - lng_deg;
+    var lng_min = 0 | ( lng_rest * 60 );
     lng_rest = lng_rest * 60 - lng_min;
-    lng_mmin = parseInt( Math.round( lng_rest * 1000 ) );
+    var lng_mmin = 0 | Math.round( lng_rest * 1000 );
+    while( lng_mmin >= 1000 )
+    {
+		lng_mmin -= 1000;
+		lng_min += 1;
+	}
 
     lng_string += " ";
     if( lng_deg < 100 ) lng_string += "0";
