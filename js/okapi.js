@@ -1,27 +1,55 @@
-var ocde_okapi_url = "http://www.opencaching.de/okapi";
-var ocde_okapi_key = "YSqPufH82encfJ67ZxV2";
-var ocde_request_finished = true;
-var ocde_markers = {};
+var okapi_keys = {
+    "Opencaching.DE" : "YSqPufH82encfJ67ZxV2",
+    "Opencaching.PL" : "jhRyc6rGmT6XEvxva29B",
+    "Opencaching.NL" : "gcwaesuq3REu8RtCgLDj",
+    "Opencaching.US" : "GvgyCMvwfH42GqJGL494",
+    "Opencaching.ORG.UK" : "7t7VfpkCd4HuxPabfbHd"
+};
+    
+var okapi_sites = null;
 
-var ocpl_okapi_url = "http://www.opencaching.pl/okapi";
-var ocpl_okapi_key = "jhRyc6rGmT6XEvxva29B";
-var ocpl_request_finished = true;
-var ocpl_markers = {};
-
-var ocnl_okapi_url = "http://www.opencaching.nl/okapi";
-var ocnl_okapi_key = "gcwaesuq3REu8RtCgLDj";
-var ocnl_request_finished = true;
-var ocnl_markers = {};
-
-var ocuk_okapi_url = "http://www.opencaching.org.uk/okapi";
-var ocuk_okapi_key = "7t7VfpkCd4HuxPabfbHd";
-var ocuk_request_finished = true;
-var ocuk_markers = {};
-
-var ocus_okapi_url = "http://www.opencaching.us/okapi";
-var ocus_okapi_key = "GvgyCMvwfH42GqJGL494";
-var ocus_request_finished = true;
-var ocus_markers = {};
+function okapi_setup_sites()
+{
+    if( okapi_sites != null )
+    {
+        console.log( "okapi_sites already initialized" );
+        return;
+    }
+    
+    okapi_sites = {};
+    
+    var okapi_main_url = "http://www.opencaching.pl/okapi/services/apisrv/installations";
+    
+    $.ajax({
+        url: okapi_main_url,
+        dataType: 'json',
+        success: function(response) {
+            for( index in response )
+            {
+                var site = response[index];
+                if( site.site_name in okapi_keys )
+                {
+                    console.log( "adding OC site: " + site.site_name );
+                    var data = {
+                        siteid: index,
+                        name: site.site_name,
+                        site_url: site.site_url,
+                        url: site.okapi_base_url,
+                        key: okapi_keys[site.site_name],
+                        markers: {},
+                        finished: true
+                    };
+                    
+                    okapi_sites[index] = data;
+                }
+                else
+                {
+                    console.log( "skipping OC site (no key): " + site.site_name );
+                }
+            }
+        }
+    });
+}
 
 var okapi_popup = null;
 var okapi_icon_unknown     = null;
@@ -115,7 +143,7 @@ function okapi_get_icon( type )
     }
 }
 
-function okapi_register_popup( m, contentString )
+function okapi_register_popup2( m, code, siteid )
 {
     google.maps.event.addListener( m, 'click', function() {
         if( okapi_popup == null )
@@ -123,10 +151,32 @@ function okapi_register_popup( m, contentString )
             okapi_popup = new google.maps.InfoWindow();
         }
         
-        okapi_popup.setContent(contentString);
-        okapi_popup.open( map, m );
+        var okapi_url = okapi_sites[siteid].url;
+        var okapi_key = okapi_sites[siteid].key;
+            
+        $.ajax({
+            url: okapi_url + 'services/caches/geocache',
+            dataType: 'json',
+            data: {
+                'consumer_key': okapi_key,
+                'cache_code': code,
+                'fields' : 'name|type|url|owner|founds|size2|difficulty|terrain'
+            },
+            success: function(response) {
+                var content = 
+                    '<a href="' + response.url + '" target="_blank">' + code + '</a> (' + response.type +')<br />'
+                    + '<b><i>' + response.name + '</i></b><br />'
+                    + 'by <a href="' + response.owner.profile_url + '" target="_blank"><i>' + response.owner.username + '</i></a><br />'
+                    + 'size: <i>' + response.size2 + '</i> diff.: <i>' + response.difficulty + '/5</i> terr.: <i>' + response.terrain + '/5</i><br />'
+                    + '#found: <i>' + response.founds + '</i>';
+                     
+                okapi_popup.setContent( content );
+                okapi_popup.open( map, m );
+            }
+        });
     });
 }
+
 
 function okapi_remove_caches_site( okapi_markers )
 {
@@ -143,37 +193,40 @@ function okapi_remove_caches_site( okapi_markers )
 
 function okapi_remove_caches()
 {
-    okapi_remove_caches_site( ocde_markers );
-    okapi_remove_caches_site( ocpl_markers );
-    okapi_remove_caches_site( ocnl_markers );
-    okapi_remove_caches_site( ocuk_markers );
-    okapi_remove_caches_site( ocus_markers );
+    for( var siteid in okapi_sites )
+    {
+        okapi_remove_caches_site( okapi_sites[siteid].markers );
+    }
 }
 
 
-function okapi_load_caches_bbox_site( okapi_url, okapi_key, okapi_request_finished, okapi_markers )
+function okapi_load_caches_bbox_site( siteid )
 {
+    var site = okapi_sites[siteid];
+    
     if( !okapi_load_caches_enabled )
     {
-        okapi_request_finished = true;
+        site.finished = true;
         return;
     }
     
-    if( !okapi_request_finished )
+    var site = okapi_sites[siteid];
+    
+    if( !site.finished )
     {
         return;
     }
     
-    okapi_request_finished = false;
+    site.finished = false;
     
     var b = map.getBounds();
     var bbox = b.getSouthWest().lat() + "|" + b.getSouthWest().lng() + "|" + b.getNorthEast().lat() + "|" + b.getNorthEast().lng();
     
     $.ajax({
-        url: okapi_url + '/services/caches/shortcuts/search_and_retrieve',
+        url: site.url + 'services/caches/shortcuts/search_and_retrieve',
         dataType: 'json',
         data: {
-            'consumer_key': okapi_key,
+            'consumer_key': site.key,
             'search_method': 'services/caches/search/bbox',
             'search_params': '{"bbox" : "' + bbox + '", "limit" : "500"}',
             'retr_method': 'services/caches/geocaches',
@@ -188,7 +241,7 @@ function okapi_load_caches_bbox_site( okapi_url, okapi_key, okapi_request_finish
                 
                 if( cache.status != "Available" ) continue;
                 addedCaches[cache.code] = true;
-                if( cache.code in okapi_markers ) 
+                if( cache.code in site.markers ) 
                 {
                     continue;
                 }
@@ -201,37 +254,34 @@ function okapi_load_caches_bbox_site( okapi_url, okapi_key, okapi_request_finish
                     icon: okapi_get_icon( cache.type )
                 });
                 
-                okapi_markers[cache.code] = m;
-                
-                var content = '<a href="' + cache.url + '" target="_blank">' + cache.code + '</a> (' + cache.type +')<br />'+cache.name;
-                okapi_register_popup( m, content );
+                site.markers[cache.code] = m;
+                okapi_register_popup2( m, cache_code, siteid );
             }
             
-            for( m in okapi_markers )
+            for( m in site.markers )
             {
                 if( !( m in addedCaches ) )
                 {
-                    okapi_markers[m].setMap(null);
-                    delete( okapi_markers[m] );
+                    site.markers[m].setMap(null);
+                    delete( site.markers[m] );
                 }
             }
-            okapi_request_finished = true;
+            site.finished = true;
         },
         error: function() {
-            console.log( "okapi request failed!" );
-            okapi_remove_caches();
-            okapi_request_finished = true;
+            console.log( "okapi request failed: " + site.name );
+            okapi_remove_caches_site( site.markers );
+            site.finished = true;
         }
     });
 }
 
 function okapi_load_caches_bbox()
 {
-    okapi_load_caches_bbox_site( ocde_okapi_url, ocde_okapi_key, ocde_request_finished, ocde_markers );
-    okapi_load_caches_bbox_site( ocpl_okapi_url, ocpl_okapi_key, ocpl_request_finished, ocpl_markers );
-    okapi_load_caches_bbox_site( ocnl_okapi_url, ocnl_okapi_key, ocnl_request_finished, ocnl_markers );
-    okapi_load_caches_bbox_site( ocuk_okapi_url, ocuk_okapi_key, ocuk_request_finished, ocuk_markers );
-    okapi_load_caches_bbox_site( ocus_okapi_url, ocus_okapi_key, ocus_request_finished, ocus_markers );
+    for( var siteid in okapi_sites )
+    {
+        okapi_load_caches_bbox_site( siteid );
+    }
 }
 
 var okapi_load_timer = null;

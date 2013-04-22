@@ -132,7 +132,7 @@ if(!empty($_GET))
     }
 }
 
-echo "<body onload=\"initialize( '$cntr', '$zoom', '$maptype', '$markers' )\">";
+echo "<body onload=\"okapi_setup_sites(); initialize( '$cntr', '$zoom', '$maptype', '$markers' )\">";
 ?>
 
 
