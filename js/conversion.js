@@ -21,7 +21,8 @@ function getInteger( s, min, max )
     var pattern = /^[+-]?[0-9]+$/;
     if( s.match( pattern ) )
     {
-        var v = parseInt( s );
+		/* specify radix=10, otherwise numbers with leading zeros are interpreted as octal numbers */
+        var v = parseInt( s, 10 );
         if( v == null || v == NaN ) return null;
         if( v < min || v > max ) return null;
         return v;
