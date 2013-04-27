@@ -5,7 +5,7 @@ var okapi_keys = {
     "Opencaching.US" : "GvgyCMvwfH42GqJGL494",
     "Opencaching.ORG.UK" : "7t7VfpkCd4HuxPabfbHd"
 };
-    
+
 var okapi_sites = null;
 
 function okapi_setup_sites()
@@ -36,6 +36,7 @@ function okapi_setup_sites()
                         site_url: site.site_url,
                         url: site.okapi_base_url,
                         key: okapi_keys[site.site_name],
+                        ignore_user: null,
                         markers: {},
                         finished: true
                     };
@@ -52,98 +53,48 @@ function okapi_setup_sites()
 }
 
 var okapi_popup = null;
-var okapi_icon_unknown     = null;
-var okapi_icon_traditional = null;
-var okapi_icon_multi       = null;
-var okapi_icon_virtual     = null;
-var okapi_icon_webcam      = null;
-var okapi_icon_event       = null;
-var okapi_icon_quiz        = null; 
-var okapi_icon_math        = null;
-var okapi_icon_moving      = null;
-var okapi_icon_drivein     = null;
+var okapi_icons = null;
 
 var okapi_load_caches_enabled = false;
 
+function load_icon( url )
+{
+    return new google.maps.MarkerImage( url );
+}
 
 function okapi_create_icons()
 {
-    if( okapi_icon_unknown != null ) return;
+    if( okapi_icons != null ) return;
+    okapi_icons = {};
+    var base = "http://www.flopp-caching.de/img/caches/";
     
-    okapi_icon_unknown = new google.maps.MarkerImage( 
-            "img/caches/cachetype-1.png" );
-    okapi_icon_traditional = new google.maps.MarkerImage( 
-            "img/caches/cachetype-2.png" );
-    okapi_icon_multi = new google.maps.MarkerImage( 
-            "img/caches/cachetype-3.png" );
-    okapi_icon_virtual = new google.maps.MarkerImage( 
-            "img/caches/cachetype-4.png" );
-    okapi_icon_webcam = new google.maps.MarkerImage( 
-            "img/caches/cachetype-5.png" );
-    okapi_icon_event = new google.maps.MarkerImage( 
-            "img/caches/cachetype-6.png" );
-    okapi_icon_quiz = new google.maps.MarkerImage( 
-            "img/caches/cachetype-7.png" );
-    okapi_icon_math = new google.maps.MarkerImage( 
-            "img/caches/cachetype-8.png" );
-    okapi_icon_moving = new google.maps.MarkerImage( 
-            "img/caches/cachetype-9.png" );
-    okapi_icon_drivein = new google.maps.MarkerImage( 
-            "img/caches/cachetype-10.png" );
+    okapi_icons["Other"] = load_icon( base + "cachetype-1.png" );
+    okapi_icons["Traditional"] = load_icon( base + "cachetype-2.png" );
+    okapi_icons["Multi"] = load_icon( base + "cachetype-3.png" );
+    okapi_icons["Virtual"] = load_icon( base + "cachetype-4.png" );
+    okapi_icons["Webcam"] = load_icon( base + "cachetype-5.png" );
+    okapi_icons["Event"] = load_icon( base + "cachetype-6.png" );
+    okapi_icons["Quiz"] = load_icon( base + "cachetype-7.png" );
+    okapi_icons["Math/Physics"] = load_icon( base + "cachetype-8.png" );
+    okapi_icons["Moving"] = load_icon( base + "cachetype-9.png" );
+    okapi_icons["Drive-In"] = load_icon( base + "cachetype-10.png" );
 }
 
 function okapi_get_icon( type )
 {
     okapi_create_icons();
     
-    if( type == "Other" )
+    if( type in okapi_icons )
     {
-        return okapi_icon_unknown;
-    }
-    else if( type == "Traditional" )
-    {
-        return okapi_icon_traditional;
-    }
-    else if( type == "Multi" )
-    {
-        return okapi_icon_multi;
-    }
-    else if( type == "Virtual" )
-    {
-        return okapi_icon_virtual;
-    }
-    else if( type == "Webcam" )
-    {
-        return okapi_icon_webcam;
-    }
-    else if( type == "Event" )
-    {
-        return okapi_icon_event;
-    }
-    else if( type == "Quiz" )
-    {
-        return okapi_icon_quiz;
-    }
-    else if( type == "Math/Physics" )
-    {
-        return okapi_icon_math;
-    }
-    else if( type == "Moving" )
-    {
-        return okapi_icon_moving;
-    }
-    else if( type == "Drive-In" )
-    {
-        return okapi_icon_drivein;
+        return okapi_icons[type];
     }
     else
     {
-        //console.log( "unknown type: " + type );
-        return okapi_icon_unknown;
+        return okapi_icons["Other"];
     }
 }
 
-function okapi_register_popup2( m, code, siteid )
+function okapi_register_popup( m, code, siteid )
 {
     google.maps.event.addListener( m, 'click', function() {
         if( okapi_popup == null )
@@ -151,24 +102,23 @@ function okapi_register_popup2( m, code, siteid )
             okapi_popup = new google.maps.InfoWindow();
         }
         
-        var okapi_url = okapi_sites[siteid].url;
-        var okapi_key = okapi_sites[siteid].key;
-            
+        var site = okapi_sites[siteid];
+                    
         $.ajax({
-            url: okapi_url + 'services/caches/geocache',
+            url: site.url + 'services/caches/geocache',
             dataType: 'json',
             data: {
-                'consumer_key': okapi_key,
+                'consumer_key': site.key,
                 'cache_code': code,
                 'fields' : 'name|type|url|owner|founds|size2|difficulty|terrain'
             },
             success: function(response) {
                 var content = 
-                    '<a href="' + response.url + '" target="_blank">' + code + '</a> (' + response.type +')<br />'
-                    + '<b><i>' + response.name + '</i></b><br />'
-                    + 'by <a href="' + response.owner.profile_url + '" target="_blank"><i>' + response.owner.username + '</i></a><br />'
-                    + 'size: <i>' + response.size2 + '</i> diff.: <i>' + response.difficulty + '/5</i> terr.: <i>' + response.terrain + '/5</i><br />'
-                    + '#found: <i>' + response.founds + '</i>';
+                    '<a href="' + response.url + '" target="_blank">' + code + ' <b>' + response.name + '</b></a><br />'
+                    + 'by <a href="' + response.owner.profile_url + '" target="_blank"><b>' + response.owner.username + '</b></a><br />'
+                    + response.type + ' (' + response.size2 + ')<br />'
+                    + 'difficulty: <i>' + response.difficulty + '/5</i> terrain: <i>' + response.terrain + '/5</i><br />'
+                    + '#finds: <i>' + response.founds + '</i>';
                      
                 okapi_popup.setContent( content );
                 okapi_popup.open( map, m );
@@ -176,7 +126,6 @@ function okapi_register_popup2( m, code, siteid )
         });
     });
 }
-
 
 function okapi_remove_caches_site( okapi_markers )
 {
@@ -255,7 +204,7 @@ function okapi_load_caches_bbox_site( siteid )
                 });
                 
                 site.markers[cache.code] = m;
-                okapi_register_popup2( m, cache_code, siteid );
+                okapi_register_popup( m, cache_code, siteid );
             }
             
             for( m in site.markers )

@@ -142,7 +142,9 @@ echo "<body onload=\"okapi_setup_sites(); initialize( '$cntr', '$zoom', '$maptyp
         <div class="container-fluid">
             <ul class="nav">
                 <li class="hidden-phone"><a role="button" class="brand" href="javascript:"><span class="only-large">Flopps Tolle Karte</span><span class="only-small">FTK</span></a></li>
-                <li><a role="button" href="http://blog.flopp-caching.de/" rel="tooltip" title="Hier geht es zu 'Flopps Tolles Blog'"><span class="only-large">Blog <i class="icon-star icon-white"></i></span><span class="only-small">Blog</span></a></li>
+                <li><a role="button" href="http://blog.flopp-caching.de/" rel="tooltip" title="Hier geht es zu 'Flopps Tolles Blog'"><span class="only-large">Blog <i class="icon-star icon-white"></i></span><span class="only-small">Blog
+                </span></a></li>
+                <li><a role="button" href="http://blog.flopp-caching.de/benutzung-der-karte/" rel="tooltip" title="Hier geht es zu den Hilfeseiten"><span class="only-large">Hilfe <i class="icon-question-sign icon-white"></i></span><span class="only-small">Hilfe</span></a></li>
                 <li><a role="button" href="javascript:showDlgInfoAjax()" rel="tooltip" title="Rechtliche Hinweise, Kontaktinformationen, usw."><span class="only-large">Info/Impressum <i class="icon-info-sign icon-white"></i></span><span class="only-small">Info/Impressum</span></a></li>
             </ul>
         </div>
@@ -268,20 +270,20 @@ nach
 </form>
 
 <b>Geocaches (<a href="http://www.opencaching.eu/">Opencaching-Network</a>)</b>
-<form>
+<div>
     <label class="checkbox" title="Geocaches auf der Karte anzeigen">
         <input id="showCaches" type="checkbox"> Zeige Geocaches
     </label>
-<div style="font-size: smaller">
-Die angezeigten Geocache-Daten werden über die <a href="http://www.opencaching.de/okapi/introduction.html">OKAPI-Schnittstelle</a> 
-von den nationalen Opencaching-Seiten 
-<a href="http://www.opencaching.de/">Opencaching.de</a>, 
-<a href="http://www.opencaching.pl/">Opencaching.pl</a>, 
-<a href="http://www.opencaching.nl/">Opencaching.nl</a>,
-<a href="http://www.opencaching.org.uk/">Opencaching.org.uk</a>, 
-<a href="http://www.opencaching.us/">Opencaching.us</a> geholt.
+    <div style="font-size: smaller">
+        Die angezeigten Geocache-Daten werden über die <a href="http://www.opencaching.de/okapi/introduction.html">OKAPI-Schnittstelle</a> 
+        von den nationalen Opencaching-Seiten 
+        <a href="http://www.opencaching.de/">Opencaching.de</a>, 
+        <a href="http://www.opencaching.pl/">Opencaching.pl</a>, 
+        <a href="http://www.opencaching.nl/">Opencaching.nl</a>,
+        <a href="http://www.opencaching.org.uk/">Opencaching.org.uk</a>, 
+        <a href="http://www.opencaching.us/">Opencaching.us</a> geholt.
+    </div>
 </div>
-</form>
 
 <b>Permalinks</b>
 <ul>
