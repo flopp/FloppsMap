@@ -302,7 +302,7 @@ nach
 <script> 
 function showDlgInfoAjax() {
     var $modal = $('#dlgInfoAjax');
-    $modal.load('info-dialog.html', '', function(){ $modal.modal({ "backdrop" : "static", "keyboard" : true, "show" : true }); }); 
+    $modal.load('info-dialog.html?t=TSTAMP', '', function(){ $modal.modal({ "backdrop" : "static", "keyboard" : true, "show" : true }); }); 
 } 
 </script>
 
