@@ -175,26 +175,17 @@ echo "<body onload=\"okapi_setup_sites(); initialize( '$cntr', '$zoom', '$maptyp
         
         $("#showNSG").click(
         function() {
-            if( $('#showNSG').is(':checked') )
-            {
-                showNSGLayer( true );
-            }
-            else
-            {
-                showNSGLayer( false );
-            }
+            showNSGLayer( $('#showNSG').is(':checked') );
+        });
+        
+        $("#showKreisgrenzen").click(
+        function() {
+            toggleBoundaryLayer( $('#showKreisgrenzen').is(':checked') );
         });
         
         $("#showCaches").click(
         function() {
-            if( $('#showCaches').is(':checked') )
-            {
-                okapi_toggle_load_caches( true );
-            }
-            else
-            {
-                okapi_toggle_load_caches( false );
-            }
+            okapi_toggle_load_caches( $('#showCaches').is(':checked') );
         });
 });
 </script>
@@ -266,6 +257,9 @@ nach
 <form>
 <label class="checkbox" title="Deutsche Naturschutzgebiete in der Karte markieren">
     <input id="showNSG" type="checkbox"> Zeige Naturschutzgebiete
+</label>
+<label class="checkbox" title="Kreisgrenzen anzeigen">
+    <input id="showKreisgrenzen" type="checkbox"> Zeige Kreisgrenzen
 </label>
 </form>
 

@@ -3,6 +3,7 @@ var geocoder;
 var sourceid = -1;
 var targetid = -1;
 var markers = null;
+var boundary_layer = null;
 
 var nsgLayer = null;
 var nsgLayerShown = false;
@@ -552,20 +553,6 @@ function storeZoom()
     updateLinks();
 }
 
-/*
-function showWelcomePopup()
-{
-    var welcome = get_cookie('welcome') != null ? parseInt(get_cookie('welcome')) : ( 0 );
-    
-    if( welcome == 0 )
-    {
-        $('#dlgWelcome').modal( {show: true});
-    }
-    
-    set_cookie( 'welcome', 1 );
-}
-*/
- 
 function updateLinks()
 {
     lat = map.getCenter().lat();
@@ -583,7 +570,7 @@ function updateLinks()
         
         s = s + m.alpha + ":" + p.lat().toFixed(6) + ":" + p.lng().toFixed(6) + ":" + m.circle.getRadius() + "|";
     }
-    ftklink = "http://foomap.de/?c=" + lat.toFixed(6) + ":" + lng.toFixed(6) + "&z=" + zoom + "&t=" + map.getMapTypeId() + s;
+    ftklink = "http://www.flopp.net/?c=" + lat.toFixed(6) + ":" + lng.toFixed(6) + "&z=" + zoom + "&t=" + map.getMapTypeId() + s;
     $( "#permalink" ).attr( "href", ftklink );
 }
 
@@ -678,6 +665,23 @@ function updateNSGLayer()
                 nsgLayer.setUrl( url );
             }
         }, 1000 );
+}
+
+function toggleBoundaryLayer( t )
+{
+    if( t )
+    {
+        boundary_layer = new google.maps.FusionTablesLayer( 2913780, 
+        {
+            suppressInfoWindows: true,
+            map: map
+        });
+    }
+    else
+    {
+        boundary_layer.setMap( null );
+        boundary_layer = null;
+    }
 }
 
 function repairLat( x, d )
@@ -916,13 +920,18 @@ function initialize( xcenter, xzoom, xmap, xmarkers )
         name: "MQ",
         alt: "MapQuest (OSM)",
         maxZoom: 19 });
-        
+    
+    
     map.mapTypes.set("OSM", osm_type );
     map.mapTypes.set("OSM/DE", osmde_type );
     map.mapTypes.set("OCM", ocm_type );
     map.mapTypes.set("MQ", mq_type );
     
     map.setMapTypeId( maptype );
+    
+    boundary_layer = null;
+    //boundary_layer.setMap( map );
+    
     
     // Create div for showing copyrights.
     copyrightDiv = document.createElement("div");
