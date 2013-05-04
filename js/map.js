@@ -4,6 +4,7 @@ var sourceid = -1;
 var targetid = -1;
 var markers = null;
 var boundary_layer = null;
+var boundary_layer_fusion_table = "1Fg-gWjzai7awzjO30BFP_i_67zaRwrCCoMBRJ5Y";
 
 var nsgLayer = null;
 var nsgLayerShown = false;
@@ -671,7 +672,7 @@ function toggleBoundaryLayer( t )
 {
     if( t )
     {
-        boundary_layer = new google.maps.FusionTablesLayer( 2913780, 
+        boundary_layer = new google.maps.FusionTablesLayer( boundary_layer_fusion_table,
         {
             suppressInfoWindows: true,
             map: map
