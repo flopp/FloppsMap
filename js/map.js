@@ -672,8 +672,21 @@ function toggleBoundaryLayer( t )
 {
     if( t )
     {
-        boundary_layer = new google.maps.FusionTablesLayer( boundary_layer_fusion_table,
-        {
+        boundary_layer = new google.maps.FusionTablesLayer( {
+            query: {
+                select: 'geometry',
+                from: boundary_layer_fusion_table
+            },
+            styles: [{
+                polygonOptions: {
+                    fillColor: '#0000FF',
+                    fillOpacity: 0.1,
+                    strokeColor: '#0000FF',
+                    strokeOpacity: 1,
+                    strokeWeight: 2
+                }
+            }],
+            clickable: false,
             suppressInfoWindows: true,
             map: map
         });

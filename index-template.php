@@ -261,9 +261,6 @@ nach
 <label class="checkbox" title="Kreisgrenzen anzeigen">
     <input id="showKreisgrenzen" type="checkbox"> Zeige Kreisgrenzen
 </label>
-    <div style="font-size: smaller">
-    <a href="http://www.bkg.bund.de">© GeoBasis-DE / BKG 2013</a>
-    </div>
 </form>
 
 <b>Geocaches (<a href="http://www.opencaching.eu/">Opencaching-Network</a>)</b>
