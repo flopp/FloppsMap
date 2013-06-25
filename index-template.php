@@ -172,12 +172,12 @@ echo "<body onload=\"okapi_setup_sites(); initialize( '$cntr', '$zoom', '$maptyp
                 google.maps.event.trigger(map, "resize");
             }
         });
-        
+/*        
         $("#showNSG").click(
         function() {
             showNSGLayer( $('#showNSG').is(':checked') );
         });
-        
+*/        
         $("#showKreisgrenzen").click(
         function() {
             toggleBoundaryLayer( $('#showKreisgrenzen').is(':checked') );
@@ -255,9 +255,11 @@ nach
     <div class="my-section-header">Sonstiges/Links</div>
     <div>
 <form>
+<!--
 <label class="checkbox" title="Deutsche Naturschutzgebiete in der Karte markieren">
     <input id="showNSG" type="checkbox"> Zeige Naturschutzgebiete
 </label>
+-->
 <label class="checkbox" title="Kreisgrenzen anzeigen">
     <input id="showKreisgrenzen" type="checkbox"> Zeige Kreisgrenzen
 </label>
