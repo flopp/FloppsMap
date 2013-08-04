@@ -1,17 +1,15 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8">
-    <meta name="description" content="Vollbildkarte mit Koordinatenbestimmung, Wegpunktprojektion, Abstandsberechnung und Anzeige von Naturschutzgebieten">
-    <meta http-equiv="content-language" content="de">
+    <meta charset="utf-8" />
+    <meta name="description" content="Vollbildkarte mit Koordinatenbestimmung, Wegpunktprojektion, Abstandsberechnung und Anzeige von Naturschutzgebieten" />
     <meta name="viewport" content="height = device-height,
     width = device-width,
     initial-scale = 1.0,
     minimum-scale = 1.0,
     maximum-scale = 1.0,
     user-scalable = no,
-    target-densitydpi = device-dpi">
-    <meta name="expires" content="604800"> <!-- force reload after 1 week -->
+    target-densitydpi = device-dpi" />
     <title>Flopps Tolle Karte: Wegpunktprojektion, Koordinaten, Abstand</title>
     <link rel="author" href="https://plus.google.com/100782631618812527586" />
     <link rel="icon" href="img/favicon.png" type="image/png" />
@@ -19,7 +17,7 @@
     <link rel="image_src" href="img/screenshot.png" />
     
     <!-- google maps -->
-    <script type="text/javascript" src="https://maps.google.com/maps/api/js?key=AIzaSyC_KjqwiB6tKCcrq2aa8B3z-c7wNN8CTA0&sensor=false"></script>
+    <script type="text/javascript" src="https://maps.google.com/maps/api/js?key=AIzaSyC_KjqwiB6tKCcrq2aa8B3z-c7wNN8CTA0&amp;sensor=false"></script>
     <!-- my own stuff -->
     <script type="text/javascript" src="js/conversion.js?t=TSTAMP"></script>
     <script type="text/javascript" src="js/cookies.js?t=TSTAMP"></script>
@@ -30,14 +28,14 @@
     <!-- jquery -->
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
     <!-- bootstrap -->
-    <link href="ext/bootstrap/css/bootstrap.min.css" rel="stylesheet"></link>
+    <link href="ext/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
     <script type="text/javascript" src="ext/bootstrap/js/bootstrap.min.js"></script>
     <!-- bootstrap modal -->
-    <link  href="ext/bootstrap-modal/css/bootstrap-modal.css" rel="stylesheet"></link>
+    <link  href="ext/bootstrap-modal/css/bootstrap-modal.css" rel="stylesheet" />
     <script src="ext/bootstrap-modal/js/bootstrap-modalmanager.js"></script>
     <script src="ext/bootstrap-modal/js/bootstrap-modal.js"></script>
     <!-- additional button icons -->
-    <link rel="stylesheet" href="ext/font-awesome/css/font-awesome.min.css"> 
+    <link rel="stylesheet" href="ext/font-awesome/css/font-awesome.min.css" /> 
 
 <!-- Piwik -->
 <script type="text/javascript"> 
@@ -53,7 +51,6 @@
   })();
 
 </script>
-<noscript><p><img src="http://flopp-caching.de/piwik/piwik.php?idsite=1" style="border:0" alt="" /></p></noscript>
 <!-- End Piwik Code -->
 
 <style type="text/css">
@@ -209,7 +206,7 @@ echo "<body onload=\"okapi_setup_sites(); initialize( '$cntr', '$zoom', '$maptyp
 <form action="javascript:searchLocation()">
 <div class="input-append">
 <input id="txtSearch" style="width: 179px" type="text" placeholder="Koordinaten oder Ort" title="Nach einem Ort oder Koordinaten suchen und die Karte auf dem Suchergebnis zentrieren">
-<button class="btn btn-info" type="submit" style="width: 44px" type="button" title="Nach einem Ort oder Koordinaten suchen und die Karte auf dem Suchergebnis zentrieren"><i class="icon-search"></i></button>
+<button class="btn btn-info" type="submit" style="width: 44px" title="Nach einem Ort oder Koordinaten suchen und die Karte auf dem Suchergebnis zentrieren"><i class="icon-search"></i></button>
 </div>
 </form>
     </div>
@@ -332,7 +329,7 @@ function showAlert( title, msg ) {
         <input class="xlarge" id="dlgSingleInputData" type="text" />
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn" data-dismiss="modal" aria-hidden="true">Abbruch</a>
+        <button type="button" class="btn" data-dismiss="modal" aria-hidden="true">Abbruch</button>
         <button id="dlgSingleInputOk" type="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">OK</button>
     </div>
 </div>
@@ -363,7 +360,7 @@ function showSingleInputDialog( title, msg, data, callback ) {
         <input class="xlarge" id="dlgDoubleInputData2" type="text" />
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn" data-dismiss="modal" aria-hidden="true">Abbruch</a>
+        <button type="button" class="btn" data-dismiss="modal" aria-hidden="true">Abbruch</button>
         <button id="dlgDoubleInputOk" type="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">OK</button>
     </div>
 </div>
