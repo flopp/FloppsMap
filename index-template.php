@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="description" content="Vollbildkarte mit Koordinatenbestimmung, Wegpunktprojektion, Abstandsberechnung und Anzeige von Naturschutzgebieten" />
+    <meta name="description" content="Vollbildkarte mit Koordinatenbestimmung, Wegpunktprojektion, Abstandsberechnung; Anzeige von Geocaches" />
     <meta name="viewport" content="height = device-height,
     width = device-width,
     initial-scale = 1.0,
@@ -26,16 +26,19 @@
     <script type="text/javascript" src="js/map.js?t=TSTAMP"></script>
     <script type="text/javascript" src="js/okapi.js?t=TSTAMP"></script>
     <!-- jquery -->
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <!-- bootstrap -->
-    <link href="ext/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
-    <script type="text/javascript" src="ext/bootstrap/js/bootstrap.min.js"></script>
+    <!--<link href="ext/bootstrap/css/bootstrap.min.css" rel="stylesheet" />-->
+    <!--<script type="text/javascript" src="ext/bootstrap/js/bootstrap.min.js"></script>-->
+    <script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+    <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet" />
     <!-- bootstrap modal -->
     <link  href="ext/bootstrap-modal/css/bootstrap-modal.css" rel="stylesheet" />
     <script src="ext/bootstrap-modal/js/bootstrap-modalmanager.js"></script>
     <script src="ext/bootstrap-modal/js/bootstrap-modal.js"></script>
     <!-- additional button icons -->
-    <link rel="stylesheet" href="ext/font-awesome/css/font-awesome.min.css" /> 
+    <!--<link rel="stylesheet" href="ext/font-awesome/css/font-awesome.min.css" />-->
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/3.2.0/css/font-awesome.min.css" />
 
 <!-- Piwik -->
 <script type="text/javascript"> 
@@ -169,6 +172,12 @@ echo "<body onload=\"okapi_setup_sites(); initialize( '$cntr', '$zoom', '$maptyp
                 google.maps.event.trigger(map, "resize");
             }
         });
+        
+       
+        $("#hillshading").click(
+        function() {
+            toggleHillshadingLayer( $('#hillshading').is(':checked') );
+        });        
 /*        
         $("#showNSG").click(
         function() {
@@ -257,6 +266,9 @@ nach
     <input id="showNSG" type="checkbox"> Zeige Naturschutzgebiete
 </label>
 -->
+<label class="checkbox" title="Hillshading aktivieren">
+    <input id="hillshading" type="checkbox"> Hillshading
+</label>
 <label class="checkbox" title="Kreisgrenzen anzeigen">
     <input id="showKreisgrenzen" type="checkbox"> Zeige Kreisgrenzen
 </label>

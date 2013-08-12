@@ -4,12 +4,13 @@ var sourceid = -1;
 var targetid = -1;
 var markers = null;
 var boundary_layer = null;
-var boundary_layer_fusion_table = "1Fg-gWjzai7awzjO30BFP_i_67zaRwrCCoMBRJ5Y";
-
+var boundary_layer_fusion_table = "1Fg-gWjzai7awzjO30BFP_i_67zaRwrCCoMBRJ5Y"; // GADM.org
+//var boundary_layer_fusion_table = "14CNp_bLGOQTmtR-8vMxInDZdtHXvAGE3ZbMrF_w"; // GSAK
 var nsgLayer = null;
 var nsgLayerShown = false;
 var nsgLayerUpdateTimeout = null;
-
+var hillshadingLayer = null;
+var hillshadingLayerShown = false;
 var map;
 var copyrightDiv;
 
@@ -614,7 +615,7 @@ function showNSGLayer( t )
     
     nsgLayerShown = t;
     $( '#showNSG' ).attr( 'checked', nsgLayerShown );
-    set_cookie( 'maptype', nsgLayerShown ? 1 : 0 );
+    set_cookie( 'nsg', nsgLayerShown ? 1 : 0 );
     
     if( nsgLayerShown )
     {
@@ -696,6 +697,25 @@ function toggleBoundaryLayer( t )
         boundary_layer.setMap( null );
         boundary_layer = null;
     }
+}
+
+function toggleHillshadingLayer( t )
+{
+    if( hillshadingLayerShown == t ) return;
+    
+    hillshadingLayerShown = t;
+    
+    if( t )
+    {
+        map.overlayMapTypes.setAt( 0, hillshadingLayer );
+    }
+    else
+    {
+        map.overlayMapTypes.setAt( 0, null );
+    }
+    
+    $( '#hillshading' ).attr( 'checked', hillshadingLayerShown );
+    set_cookie( 'hillshading', hillshadingLayerShown ? 1 : 0 );
 }
 
 function repairLat( x, d )
@@ -946,6 +966,13 @@ function initialize( xcenter, xzoom, xmap, xmarkers )
     boundary_layer = null;
     //boundary_layer.setMap( map );
     
+    hillshadingLayer = new google.maps.ImageMapType({
+        getTileUrl: function(coord, zoom) { return "http://toolserver.org/~cmarqu/hill/" + zoom + "/" + coord.x + "/" + coord.y + ".png"; },
+        tileSize: new google.maps.Size(256, 256),
+        name: "hill",
+        alt: "Hillshading",
+        maxZoom: 17 });
+    map.overlayMapTypes.push( null );
     
     // Create div for showing copyrights.
     copyrightDiv = document.createElement("div");
@@ -1029,7 +1056,9 @@ function initialize( xcenter, xzoom, xmap, xmarkers )
         
     showNSGLayer( nsg != 0 );
     updateNSGLayer();
-
+    
+    toggleHillshadingLayer( true );
+    
     setupExternalLinkTargets();
         
     updateLinks();
