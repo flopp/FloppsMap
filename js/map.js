@@ -570,7 +570,7 @@ function updateLinks()
         if( m.free ) continue;
         var p = m.marker.getPosition();
         
-        s = s + m.alpha + ":" + p.lat().toFixed(6) + ":" + p.lng().toFixed(6) + ":" + m.circle.getRadius() + "|";
+        s = s + m.alpha + ":" + p.lat().toFixed(6) + ":" + p.lng().toFixed(6) + ":" + m.circle.getRadius() + "*";
     }
     ftklink = "http://www.flopp.net/?c=" + lat.toFixed(6) + ":" + lng.toFixed(6) + "&z=" + zoom + "&t=" + map.getMapTypeId() + s;
     $( "#permalink" ).attr( "href", ftklink );
@@ -814,7 +814,16 @@ function initialize( xcenter, xzoom, xmap, xmarkers )
         
         // ID:COODS:R|ID:COORDS:R
         // COORDS=LAT:LON or DEG or DMMM
-        var data = xmarkers.split('|');
+        var data;
+        if( xmarkers.indexOf("*") != -1 )
+        {
+            data = xmarkers.split('*');
+        }
+        else /*if( xmarkers.indexOf("|") != -1 )*/
+        {
+            data = xmarkers.split('|');
+        }
+        
         for( var i = 0; i != data.length; ++i )
         {
             var data2 = data[i].split(':');
