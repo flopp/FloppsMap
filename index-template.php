@@ -226,8 +226,9 @@ echo "<body onload=\"okapi_setup_sites(); initialize( '$cntr', '$zoom', '$maptyp
 <div class="my-section">
     <div class="my-section-header">Marker</div>
     <div>
-<button class="btn btn-success"  title="Erzeuge einen neuen Marker" type="button" onClick="newMarker( map.getCenter(), -1, -1 )">Neuer Marker</button>
+<button id="btnnewmarker1" class="btn btn-success" title="Erzeuge einen neuen Marker" type="button" onClick="newMarker( map.getCenter(), -1, -1 )">Neuer Marker</button>
 <div id="dynMarkerDiv"></div>
+<button id="btnnewmarker2" class="btn btn-success" style="display:none;" title="Erzeuge einen neuen Marker" type="button" onClick="newMarker( map.getCenter(), -1, -1 )">Neuer Marker</button>
     </div>
 </div> <!-- section -->
   

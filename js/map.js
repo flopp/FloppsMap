@@ -216,6 +216,18 @@ function selectTarget()
     }
 }
 
+function visibleMarkers()
+{
+    var count = 0;
+    
+    for( var i = 0; i < markers.length; ++i )
+    {
+        var m = markers[i];
+        if( !m.free ) count++;
+    }
+    return count;
+}
+
 function updateLists()
 {
     var lst = "";
@@ -260,6 +272,11 @@ function removeMarker( id )
     var parent = document.getElementById("dynMarkerDiv");
     var div = document.getElementById("dyn" + m.id );
     parent.removeChild( div );
+    
+    if( visibleMarkers() == 0 )
+    {
+        $('#btnnewmarker2').hide();
+    }
     
     if( id == sourceid )
     {
@@ -492,7 +509,7 @@ function newMarker( coordinates, theid, radius )
     $('#btnCancelRadius' + m.alpha).click( cancelRadius );
     $('#btnOkRadius' + m.alpha).click( acceptRadius );
     
-    
+    $('#btnnewmarker2').show();
     
     updateMarker( m );
     updateLists();
