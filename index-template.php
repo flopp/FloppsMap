@@ -58,10 +58,10 @@
 
 <style type="text/css">
     html, body { height: 100%; overflow: hidden}
-    #map-wrapper { position: absolute; left: 0; right:274px; top: 40px; bottom: 0; float: left; }
+    #map-wrapper { position: absolute; left: 0; right:274px; top: 41px; bottom: 0; float: left; }
     #themap { width: 100%; height: 100%;}
     #themap img { max-width: none; }
-    #sidebar { overflow: auto; position: absolute; padding: 4px; width: 264px; right: 0; top: 40px; bottom: 0px; float: right; }
+    #sidebar { overflow: auto; position: absolute; padding: 4px; width: 264px; right: 0; top: 41px; bottom: 0px; float: right; }
     #sidebartoggle { position: absolute; display: block; right: 274px; width: 24px; height: 60px; top: 50%; background-color: white; 
     border-top: 1px solid #ddd;
     border-left: 1px solid #ddd;
@@ -137,7 +137,7 @@ echo "<body onload=\"okapi_setup_sites(); initialize( '$cntr', '$zoom', '$maptyp
 
 
 <!-- the menu -->
-<div class="navbar navbar-inverse navbar-fixed-top">
+<div class="navbar navbar-inverse navbar-static-top">
     <div class="navbar-inner">
         <div class="container-fluid">
             <ul class="nav">
