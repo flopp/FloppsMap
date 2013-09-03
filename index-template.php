@@ -66,9 +66,9 @@
     border-top: 1px solid #ddd;
     border-left: 1px solid #ddd;
     border-bottom: 1px solid #ddd;
-    webkit-border-radius: 8px 0 0 8px;
-     -moz-border-radius: 8px 0 0 8px;
-          border-radius: 8px 0 0 8px;
+    -webkit-border-radius: 8px 0 0 8px;
+       -moz-border-radius: 8px 0 0 8px;
+            border-radius: 8px 0 0 8px;
     }
     #sidebartogglebutton { position: absolute; display: block; width: 14px; height: 14px; top: 50%; left: 50%; margin-left: -5px; margin-top: -10px; }
     
@@ -110,6 +110,7 @@ $cntr = "";
 $zoom = "";
 $maptype = "";
 $markers = "";
+$markersAB = "";
 
 if(!empty($_GET)) 
 {
@@ -130,9 +131,13 @@ if(!empty($_GET))
     {
         $markers = $_GET['m'];
     }
+    if(isset($_GET['d']))
+    {
+        $markersAB = $_GET['d'];
+    }
 }
 
-echo "<body onload=\"okapi_setup_sites(); initialize( '$cntr', '$zoom', '$maptype', '$markers' )\">";
+echo "<body onload=\"okapi_setup_sites(); initialize( '$cntr', '$zoom', '$maptype', '$markers', '$markersAB' )\">";
 ?>
 
 

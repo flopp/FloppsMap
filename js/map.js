@@ -6,9 +6,9 @@ var markers = null;
 var boundary_layer = null;
 var boundary_layer_fusion_table = "1Fg-gWjzai7awzjO30BFP_i_67zaRwrCCoMBRJ5Y"; // GADM.org
 //var boundary_layer_fusion_table = "14CNp_bLGOQTmtR-8vMxInDZdtHXvAGE3ZbMrF_w"; // GSAK
-var nsgLayer = null;
-var nsgLayerShown = false;
-var nsgLayerUpdateTimeout = null;
+//var nsgLayer = null;
+//var nsgLayerShown = false;
+//var nsgLayerUpdateTimeout = null;
 var hillshadingLayer = null;
 var hillshadingLayerShown = false;
 var map;
@@ -81,6 +81,8 @@ function gotoExternalLink()
 
 function updateDistance()
 {
+    updateLinks();
+    
     if( sourceid == -1 || targetid == -1 )
     {
         if( lineAB != null )
@@ -590,6 +592,12 @@ function updateLinks()
         s = s + m.alpha + ":" + p.lat().toFixed(6) + ":" + p.lng().toFixed(6) + ":" + m.circle.getRadius() + "*";
     }
     ftklink = "http://www.flopp.net/?c=" + lat.toFixed(6) + ":" + lng.toFixed(6) + "&z=" + zoom + "&t=" + map.getMapTypeId() + s;
+    
+    if( sourceid != -1 && targetid != -1 )
+    {
+        ftklink = ftklink + "&d=" + markers[sourceid].alpha + ":" + markers[targetid].alpha;
+    }
+    
     $( "#permalink" ).attr( "href", ftklink );
 }
 
@@ -623,6 +631,7 @@ function updateCopyrights()
     updateLinks();
 }
 
+/*
 function showNSGLayer( t )
 {
     if( t == nsgLayerShown )
@@ -685,6 +694,7 @@ function updateNSGLayer()
             }
         }, 1000 );
 }
+*/
 
 function toggleBoundaryLayer( t )
 {
@@ -803,11 +813,11 @@ function repairMaptype( t, d )
     }
 }
 
-function initialize( xcenter, xzoom, xmap, xmarkers )
+function initialize( xcenter, xzoom, xmap, xmarkers, xmarkersAB )
 {
     var center = null;
-    var zoom = parseInt( xzoom );;
-    var maptype = xmap;    
+    var zoom = parseInt( xzoom );
+    var maptype = xmap;
     
     markers = new Array();
     for( var i = 0; i != 26; i++ )
@@ -945,7 +955,7 @@ function initialize( xcenter, xzoom, xmap, xmarkers )
     zoom = repairZoom( zoom, ZOOM_DEFAULT );
     maptype = repairMaptype( maptype, MAPTYPE_DEFAULT );
        
-    var nsg = get_cookie('nsg') != null ? parseInt( get_cookie('nsg') ) : 0;
+    //var nsg = get_cookie('nsg') != null ? parseInt( get_cookie('nsg') ) : 0;
     
     var myOptions = {
         zoom: zoom,
@@ -1012,8 +1022,8 @@ function initialize( xcenter, xzoom, xmap, xmarkers )
     
     map.setCenter(center, zoom);
    
-    google.maps.event.addListener( map, "center_changed", function() { storeZoom(); storeCenter(); updateNSGLayer(); okapi_schedule_load_caches(); } );
-    google.maps.event.addListener( map, "zoom_changed", function() { storeZoom(); storeCenter(); updateNSGLayer(); okapi_schedule_load_caches(); } );
+    google.maps.event.addListener( map, "center_changed", function() { storeZoom(); storeCenter(); /*updateNSGLayer();*/ okapi_schedule_load_caches(); } );
+    google.maps.event.addListener( map, "zoom_changed", function() { storeZoom(); storeCenter(); /*updateNSGLayer();*/ okapi_schedule_load_caches(); } );
     google.maps.event.addListener( map, "maptypeid_changed", function(){ updateCopyrights()});
     
     geocoder = new google.maps.Geocoder();
@@ -1073,15 +1083,50 @@ function initialize( xcenter, xzoom, xmap, xmarkers )
         {
             newMarker( markerdata[i].coords, markerdata[i].id, markerdata[i].r );
         }
+        
+        if( xmarkersAB != "" )
+        {
+            var data;
+            if( xmarkersAB.indexOf("*") != -1 )
+            {
+                data = xmarkersAB.split('*');
+            }
+            else
+            {
+                data = xmarkersAB.split(':');
+            }
+            
+            if( data.length == 2 )
+            {
+                var source = -1;
+                var target = -1;
+                
+                if( data[0].length == 1 )
+                { 
+                    if( data[0][0] >= 'A' && data[0][0] <= 'Z' ) source = data[0].charCodeAt(0) - 'A'.charCodeAt(0); 
+                    if( data[0][0] >= 'a' && data[0][0] <= 'z' ) source = data[0].charCodeAt(0) - 'a'.charCodeAt(0); 
+                }
+                if( data[0].length == 1 )
+                { 
+                    if( data[1][0] >= 'A' && data[1][0] <= 'Z' ) target = data[1].charCodeAt(0) - 'A'.charCodeAt(0); 
+                    if( data[1][0] >= 'a' && data[1][0] <= 'z' ) target = data[1].charCodeAt(0) - 'a'.charCodeAt(0); 
+                }
+                
+                if( source != -1 && markers[source].free == false && target != -1 && markers[target].free == false )
+                {
+                    selectSourceById( source );
+                    selectTargetById( target );
+                }
+            } 
+        }
     }
-    
     
     updateDistance();
     
     updateCopyrights();
-        
-    showNSGLayer( nsg != 0 );
-    updateNSGLayer();
+    
+    //showNSGLayer( nsg != 0 );
+    //updateNSGLayer();
     
     toggleHillshadingLayer( true );
     
