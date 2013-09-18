@@ -18,6 +18,7 @@
     
     <!-- google maps -->
     <script type="text/javascript" src="https://maps.google.com/maps/api/js?key=AIzaSyC_KjqwiB6tKCcrq2aa8B3z-c7wNN8CTA0&amp;sensor=false"></script>
+
     <!-- my own stuff -->
     <script type="text/javascript" src="js/conversion.js?t=TSTAMP"></script>
     <script type="text/javascript" src="js/cookies.js?t=TSTAMP"></script>
@@ -25,20 +26,19 @@
     <script type="text/javascript" src="js/coordinates.js?t=TSTAMP"></script>
     <script type="text/javascript" src="js/map.js?t=TSTAMP"></script>
     <script type="text/javascript" src="js/okapi.js?t=TSTAMP"></script>
+
     <!-- jquery -->
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-    <!-- bootstrap -->
-    <!--<link href="ext/bootstrap/css/bootstrap.min.css" rel="stylesheet" />-->
-    <!--<script type="text/javascript" src="ext/bootstrap/js/bootstrap.min.js"></script>-->
-    <script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
-    <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet" />
+
+    <!-- bootstrap + font-awesome -->
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet" />
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet" />
+
     <!-- bootstrap modal -->
     <link  href="ext/bootstrap-modal/css/bootstrap-modal.css" rel="stylesheet" />
     <script src="ext/bootstrap-modal/js/bootstrap-modalmanager.js"></script>
     <script src="ext/bootstrap-modal/js/bootstrap-modal.js"></script>
-    <!-- additional button icons -->
-    <!--<link rel="stylesheet" href="ext/font-awesome/css/font-awesome.min.css" />-->
-    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/3.2.0/css/font-awesome.min.css" />
 
 <!-- Piwik -->
 <script type="text/javascript"> 
