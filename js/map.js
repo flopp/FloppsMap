@@ -135,9 +135,13 @@ function updateMarker( m )
     
     m.circle.setCenter( pos );
     
-    set_cookie( 'marker' + m.id, pos.lat().toFixed(6) + ":" + pos.lng().toFixed(6) + ":" + r );
-    $('#coordinates' + m.alpha ).val( coords2string( pos ) ); 
-    $('#radius' + m.alpha ).val( r );
+    set_cookie( 'marker' + m.id, pos.lat().toFixed(6) + ":" + pos.lng().toFixed(6) + ":" + r + ":" + m.name );
+    $('#view_name' + m.alpha ).html( m.name ); 
+    $('#view_coordinates' + m.alpha ).html( coords2string( pos ) ); 
+    $('#view_circle' + m.alpha ).html( r );
+    $('#edit_name' + m.alpha ).val( m.name ); 
+    $('#edit_coordinates' + m.alpha ).val( coords2string( pos ) ); 
+    $('#edit_circle' + m.alpha ).val( r );
     
     if( m.id == sourceid || m.id == targetid )
     {
@@ -145,6 +149,13 @@ function updateMarker( m )
     }
     
     updateLinks();
+}
+
+function setName( id, name )
+{
+    var m = getMarkerById( id )
+    m.name = name;
+    updateMarker( m );
 }
 
 function setRadius( m, r )
@@ -271,9 +282,7 @@ function removeMarker( id )
     m.marker = null;
     m.circle = null;
     
-    var parent = document.getElementById("dynMarkerDiv");
-    var div = document.getElementById("dyn" + m.id );
-    parent.removeChild( div );
+    $('#dyn' + m.id).remove();
     
     if( visibleMarkers() == 0 )
     {
@@ -313,38 +322,71 @@ function centerMarker( id )
     updateMarker( m );
 }
 
-function toggleOkButton( id, t )
+function enterEditMode( id )
 {
-    if( t ) 
+    var m = getMarkerById( id );
+    
+    $('#edit_name' + m.alpha ).val( m.name ); 
+    $('#edit_coordinates' + m.alpha ).val( coords2string( m.marker.getPosition() ) ); 
+    $('#edit_circle' + m.alpha ).val( m.circle.getRadius() );
+    
+    $('#dynview' + id).hide();
+    $('#dynedit' + id).show();    
+}
+
+function leaveEditMode( id, takenew )
+{
+    if( takenew )
     {
-        $(id).removeClass("disabled");
-        $(id).removeClass("btn-inverse");
-        $(id).addClass("btn-success");
+        var m = getMarkerById( id );
+        
+        var name = $('#edit_name' + m.alpha).val();
+        var name_ok = /^([a-zA-Z0-9-_]*)$/.test( name );
+        
+        var s_coordinates = $('#edit_coordinates' + m.alpha).val();
+        var coordinates = string2coords( s_coordinates );
+        
+        var s_circle = $('#edit_circle' + m.alpha).val();
+        var circle = getInteger( s_circle, 0, 100000000000 );
+        
+        var errors = Array();
+        
+        if( !name_ok )
+        {
+            errors.push( "Ungültige Zeichen im Name: \"%1\".<br />Erlaubte Zeichen: a-z, A-Z, 0-9, - und _.".replace( /%1/, name ) );
+        }
+        if( coordinates == null )
+        {
+            errors.push( "Ungültiges Koordinatenformat: \"%1\".".replace( /%1/, s_coordinates ) );
+        }
+        if( circle == null )
+        {
+            errors.push( "Ungültiger Wert für den Radius: \"%1\".<br />Erlaubt sind ganzzahlige Werte größer gleich 0.".replace( /%1/, s_circle ) );
+        }
+        
+        if( errors.length > 0 ) 
+        {
+            showAlert( "Fehler", errors.join( "<br /><br />" ) );
+        }
+        else
+        {
+            m.name = name;
+            m.marker.setPosition( coordinates );
+            setRadius( m, circle );
+            
+            updateMarker( m );
+            $('#dynview' + id).show();
+            $('#dynedit' + id).hide();
+        }
     }
     else
     {
-        $(id).removeClass("btn-success");
-        $(id).addClass("disabled");
-        $(id).addClass("btn-inverse");
+        $('#dynview' + id).show();
+        $('#dynedit' + id).hide();
     }
 }
 
-function toggleCancelButton( id, t )
-{
-    if( t ) 
-    {
-        $(id).removeClass("disabled");
-        $(id).removeClass("btn-inverse");
-        $(id).addClass("btn-danger");
-    }
-    else
-    {
-        $(id).removeClass("btn-danger");
-        $(id).addClass("disabled");
-        $(id).addClass("btn-inverse");
-    }
-}
-function newMarker( coordinates, theid, radius )
+function newMarker( coordinates, theid, radius, name )
 {
     if( radius < 0 ) radius = RADIUS_DEFAULT;
     
@@ -368,6 +410,14 @@ function newMarker( coordinates, theid, radius )
     
     var m = markers[id];
     m.free = false;
+    if( name == null )
+    {
+        m.name = "Marker_" + m.alpha;
+    }
+    else
+    {
+        m.name = name;
+    }
     
     // base.png is 7x4 icons (each: 32px x 37px)
     var iconw = 32;
@@ -402,25 +452,54 @@ function newMarker( coordinates, theid, radius )
     var parent = document.getElementById("dynMarkerDiv");
     var div = document.createElement("div" );
     div.setAttribute( "id", "dyn" + m.id );
-    div.innerHTML = "<div>" +
-    "<div style=\"white-space: nowrap; height: "+iconh+"px; padding-top: 12px; padding-bottom: 4px; width: 236px\">"+
-    "<span style=\"width:"+iconw+"px; height:"+iconh+"px; float: left; display: block; background-image: url(img/base.png); background-repeat: no-repeat; background-position: -"+offsetx+"px -"+offsety+"px;\">&nbsp;</span><div class=\"btn-group\" style=\"padding-bottom: 2px; padding-top: 2px; float: right\">" +
-    "<button class=\"btn btn-danger\" title=\"Entferne Marker\" type=\"button\" onClick=\"removeMarker(" + m.id + ")\"><i class=\"icon-trash\"></i></button>" +
-    "<button class=\"btn btn-info\" title=\"Bewege Karte zu Marker\" type=\"button\" onClick=\"gotoMarker(" + m.id + ")\"><i class=\"icon-search\"></i></button>" +
-    "<button class=\"btn btn-warning\" title=\"Setze Marker auf Kartenmitte\" type=\"button\" onClick=\"centerMarker(" + m.id + ")\"><i class=\"icon-screenshot\"></i></button>" +
-    "<button class=\"btn btn-success\" title=\"Projektion ausgehend vom Marker\" type=\"button\" onClick=\"projectFromMarker(" + m.id + ")\"><i class=\"icon-location-arrow\"></i></button>" +
-    "</div></div></div>" +
-    "<div class=\"input-append\">" + 
-    "<input id=\"coordinates" + m.alpha +"\" style=\"width: 173px\" type=\"text\" title=\"Koordinaten des Markers\" placeholder=\"Koordinaten\" value=\"n/a\" >" +
-    "<button id=\"btnCancelCoords" + m.alpha + "\" class=\"btn btn-inverse disabled\" type=\"submit\" style=\"width: 27px; padding-left: 4px; padding-right: 4px\" type=\"button\"><i class=\"icon-remove\"></i></button>" +
-    "<button id=\"btnOkCoords" + m.alpha + "\" class=\"btn btn-inverse disabled\" type=\"submit\" style=\"width: 24px; padding-left: 4px; padding-right: 4px\" type=\"button\"><i class=\"icon-ok\"></i></button>" +
-    "</div>" +
-    "<div class=\"input-prepend input-append\">" +
-    "<span class=\"add-on\" style=\"width: 24px; padding-left: 4px; padding-right: 4px\"><i class=\"icon-circle-blank\"></i></span>" +
-    "<input id=\"radius" + m.alpha +"\" style=\"width: 142px\" type=\"text\" title=\"Radius (m) der Kreises um den Marker\" placeholder=\"Radius (m)\" value=\"n/a\" >" +
-    "<button id=\"btnCancelRadius" + m.alpha + "\" class=\"btn btn-inverse disabled\" type=\"submit\" style=\"width: 27px; padding-left: 4px; padding-right: 4px\" type=\"button\"><i class=\"icon-remove\"></i></button>" +
-    "<button id=\"btnOkRadius" + m.alpha + "\" class=\"btn btn-inverse disabled\" type=\"submit\" style=\"width: 24px; padding-left: 4px; padding-right: 4px\" type=\"button\"><i class=\"icon-ok\"></i></button>" +
-    "</div>";
+    div.innerHTML = 
+    "<table id=\"dynview" + m.id + "\" style=\"width: 100%; vertical-align: middle;\">\n" +
+    "    <tr>\n" +
+    "        <td rowspan=\"3\" style=\"vertical-align: top\">\n" +
+    "            <span style=\"width:" + iconw + "px; height:" + iconh + "px; float: left; display: block; background-image: url(img/base.png); background-repeat: no-repeat; background-position: -" + offsetx + "px -" + offsety + "px;\">&nbsp;</span>\n" +
+    "        </td>\n" +
+    "        <td style=\"text-align: center\"><i class=\"icon-map-marker\"></i></td>\n" +
+    "        <td id=\"view_name" + m.alpha +"\" colspan=\"2\">Toller Marker</td>\n" +
+    "    </tr>\n" +
+    "    <tr>\n" +
+    "        <td style=\"text-align: center\"><i class=\"icon-globe\"></i></td>\n" +
+    "        <td id=\"view_coordinates" + m.alpha +"\" colspan=\"2\">N 48° 00.123 E 007° 51.456</td>\n" +
+    "    </tr>\n" +
+    "    <tr>\n" +
+    "        <td style=\"text-align: center\"><i class=\"icon-circle-blank\"></i></td>\n" +
+    "        <td id=\"view_circle" + m.alpha +"\">16100 m</td>\n" +
+    "        <td>\n" +
+    "            <div class=\"btn-group\" style=\"padding-bottom: 2px; padding-top: 2px; float: right\">\n" +
+    "            <button class=\"btn btn-mini btn-warning\" title=\"Marker bearbeiten\" type=\"button\"  onclick=\"enterEditMode(" + m.id + ");\"><i class=\"icon-edit\"></i></button>\n" +
+    "            <button class=\"btn btn-mini btn-danger\" title=\"Maker entfernen\" type=\"button\" onClick=\"removeMarker(" + m.id + ")\"><i class=\"icon-trash\"></i></button>\n" +
+    "            <button class=\"btn btn-mini btn-info\" title=\"Bewege Karte zu Marker\" type=\"button\" onClick=\"gotoMarker(" + m.id + ")\"><i class=\"icon-search\"></i></button>\n" +
+    "            <button class=\"btn btn-mini btn-warning\" title=\"Setze Marker auf Kartenmitte\" type=\"button\" onClick=\"centerMarker(" + m.id + ")\"><i class=\"icon-screenshot\"></i></button>\n" +
+    "            <button class=\"btn btn-mini btn-success\" title=\"Projektion ausgehend vom Marker\" type=\"button\" onClick=\"projectFromMarker(" + m.id + ")\"><i class=\"icon-location-arrow\"></i></button>\n" +
+    "            </div>\n" +
+    "        </td>\n" +
+    "    </tr>\n" +
+    "</table>\n" +
+    "<table id=\"dynedit" + m.id + "\" style=\"display: none; width: 100%; vertical-align: middle;\">\n" +
+    "    <tr>\n" +
+    "        <td rowspan=\"4\" style=\"vertical-align: top\"><span style=\"width:" + iconw + "px; height:" + iconh + "px; float: left; display: block; background-image: url(img/base.png); background-repeat: no-repeat; background-position: -" + offsetx + "px -" + offsety + "px;\">&nbsp;</span>\n" +
+    "        <td style=\"text-align: center; vertical-align: middle;\"><i class=\"icon-map-marker\"></i></td>\n" +
+    "        <td><input id=\"edit_name" + m.alpha + "\" title=\"Name des Markers\" placeholder=\"Name\" class=\"input-block-level\" type=\"text\" style=\"margin-bottom: 0px;\" value=\"n/a\" /></td>\n" +
+    "    </tr>\n" +
+    "    <tr>\n" +
+    "        <td style=\"text-align: center; vertical-align: middle;\"><i class=\"icon-globe\"></i></td>\n" +
+    "        <td><input id=\"edit_coordinates" + m.alpha +"\" title=\"Koordinaten des Markers\" placeholder=\"Koordinaten\" class=\"input-block-level\" type=\"text\" style=\"margin-bottom: 0px;\" value=\"n/a\" /></td>\n" +
+    "    </tr>\n" +
+    "    <tr>\n" +
+    "        <td style=\"text-align: center; vertical-align: middle;\"><i class=\"icon-circle-blank\"></i></td>\n" +
+    "        <td><input id=\"edit_circle" + m.alpha +"\" title=\"Radius (m) der Kreises um den Marker\" placeholder=\"Radius (m)\" class=\"input-block-level\" type=\"text\" style=\"margin-bottom: 0px;\" value=\"n/a\" /></td>\n" +
+    "    </tr>\n" +
+    "    <tr>\n" +
+    "        <td colspan=\"2\" style=\"text-align: right\">\n" +
+    "            <button class=\"btn btn-small btn-primary\" type=\"button\" onclick=\"javascript: leaveEditMode(" + m.id + ", true );\">Ok</button>\n" +
+    "            <button class=\"btn btn-small\" type=\"button\" onclick=\"leaveEditMode(" + m.id + ", false );\">Abbrechen</button>\n" +
+    "        </td>\n" +
+    "    </tr>\n" +
+    "</table>";
     
     if( nextid == markers.length )
     {
@@ -432,84 +511,20 @@ function newMarker( coordinates, theid, radius )
         parent.insertBefore( div, nextdiv );
     }
     
-    /* coordinates */
-    function editCoordinates() {
-        toggleCancelButton( '#btnCancelCoords' + m.alpha, true );
-        toggleOkButton( '#btnOkCoords' + m.alpha, true );
-    }
+    $('#edit_name' + m.alpha).keydown( function( e ) {
+        if( e.which == 27 ) { leaveEditMode( m.id, false ); }
+        else if( e.which == 13 ) { leaveEditMode( m.id, true ); }
+    } );
     
-    function cancelCoordinates() {
-        updateMarker( m );
-        
-        toggleCancelButton( '#btnCancelCoords' + m.alpha, false );
-        toggleOkButton( '#btnOkCoords' + m.alpha, false );
-    }
+    $('#edit_coordinates' + m.alpha).keydown( function( e ) {
+        if( e.which == 27 ) { leaveEditMode( m.id, false ); }
+        else if( e.which == 13 ) { leaveEditMode( m.id, true ); }
+    } );
     
-    function acceptCoordinates() {
-        var s = $('#coordinates' + m.alpha).val();
-        var rr = string2coords( s );
-        
-        if( rr == null )
-        {
-            showAlert( "Fehler", "Ungültiges Koordinatenformat: \"%1\".".replace( /%1/, s ) );
-        }
-        else
-        {
-            toggleCancelButton( '#btnCancelCoords' + m.alpha, false );
-            toggleOkButton( '#btnOkCoords' + m.alpha, false );
-            
-            m.marker.setPosition( rr );
-            updateMarker( m );
-        }
-    }
-    
-    $('#coordinates' + m.alpha).bind('blur paste', editCoordinates );
-    $('#coordinates' + m.alpha).keydown(function(e){
-        if(e.which == 27) { cancelCoordinates(); }
-        else if(e.which == 13) { acceptCoordinates(); }
-        else { editCoordinates(); }
-    });
-    $('#btnCancelCoords' + m.alpha).click( cancelCoordinates );
-    $('#btnOkCoords' + m.alpha).click( acceptCoordinates );
-    
-    /* radius */
-    function editRadius() {
-        toggleCancelButton( '#btnCancelRadius' + m.alpha, true );
-        toggleOkButton( '#btnOkRadius' + m.alpha, true );
-    }
-    
-    function cancelRadius() {
-        updateMarker( m );
-        
-        toggleCancelButton( '#btnCancelRadius' + m.alpha, false );
-        toggleOkButton( '#btnOkRadius' + m.alpha, false );
-    }
-    
-    function acceptRadius() {
-        var s = $('#radius' + m.alpha).val();
-        var rr = getInteger( s, 0, 100000000000 );
-        if( rr == null )
-        {
-            showAlert( "Fehler", "Ungültiger Wert für den Radius: \"%1\".<br />Erlaubt sind ganzzahlige Werte größer gleich 0.".replace( /%1/, s ) );
-        }
-        else
-        {
-            toggleCancelButton( '#btnCancelRadius' + m.alpha, false );
-            toggleOkButton( '#btnOkRadius' + m.alpha, false );
-            
-            setRadius( m, rr );
-            updateMarker( m );
-        }
-    }
-    
-    $('#radius' + m.alpha).bind('blur paste', editRadius );
-    $('#radius' + m.alpha).keydown(function(e){
-        if(e.which == 27) { cancelRadius(); }
-        else if(e.which == 13) { acceptRadius(); }
-        else { editRadius(); }
-    });
-    $('#btnCancelRadius' + m.alpha).click( cancelRadius );
-    $('#btnOkRadius' + m.alpha).click( acceptRadius );
+    $('#edit_circle' + m.alpha).keydown( function( e ) {
+        if( e.which == 27 ) { leaveEditMode( m.id, false ); }
+        else if( e.which == 13 ) { leaveEditMode( m.id, true ); }
+    } );
     
     $('#btnnewmarker2').show();
     
@@ -549,7 +564,7 @@ function projectFromMarker( id )
             }
 
             var newpos = projection_geodesic( oldpos, angle, dist );
-            var m = newMarker( newpos, -1, RADIUS_DEFAULT );
+            var m = newMarker( newpos, -1, RADIUS_DEFAULT, null );
             if( m != null )
             {
                 showAlert( "Information", "Es wurde ein neuer Marker erzeugt: %1.".replace( /%1/, m.alpha ) );
@@ -589,9 +604,9 @@ function updateLinks()
         if( m.free ) continue;
         var p = m.marker.getPosition();
         
-        s = s + m.alpha + ":" + p.lat().toFixed(6) + ":" + p.lng().toFixed(6) + ":" + m.circle.getRadius() + "*";
+        s = s + m.alpha + ":" + p.lat().toFixed(6) + ":" + p.lng().toFixed(6) + ":" + m.circle.getRadius() + ":" + m.name + "*";
     }
-    ftklink = "http://www.flopp.net/?c=" + lat.toFixed(6) + ":" + lng.toFixed(6) + "&z=" + zoom + "&t=" + map.getMapTypeId() + s;
+    ftklink = "http://flopp.net/?c=" + lat.toFixed(6) + ":" + lng.toFixed(6) + "&z=" + zoom + "&t=" + map.getMapTypeId() + s;
     
     if( sourceid != -1 && targetid != -1 )
     {
@@ -826,6 +841,7 @@ function initialize( xcenter, xzoom, xmap, xmarkers, xmarkersAB )
         m.id = i;
         m.alpha = String.fromCharCode('A'.charCodeAt()+m.id);
         m.free = true;
+        m.name = "";
         m.marker = null;
         m.circle = null;
         markers.push( m );
@@ -839,7 +855,7 @@ function initialize( xcenter, xzoom, xmap, xmarkers, xmarkersAB )
         var clat = 0;
         var clon = 0;
         
-        // ID:COODS:R|ID:COORDS:R
+        // ID:COODS:R(:NAME)?|ID:COORDS:R(:NAME)?
         // COORDS=LAT:LON or DEG or DMMM
         var data;
         if( xmarkers.indexOf("*") != -1 )
@@ -853,7 +869,10 @@ function initialize( xcenter, xzoom, xmap, xmarkers, xmarkersAB )
         
         for( var i = 0; i != data.length; ++i )
         {
+            console.log( "parsing2: " + data[i] );
             var data2 = data[i].split(':');
+            
+            if( data2.length < 3 || data2.length > 5 ) continue;
             
             var m = new Object();
             
@@ -864,36 +883,38 @@ function initialize( xcenter, xzoom, xmap, xmarkers, xmarkersAB )
             if( m.alpha[0] >= 'a' && m.alpha[0] <= 'z' ) m.id = m.alpha.charCodeAt(0) - 'a'.charCodeAt(0); 
             if( m.id == null || m.id < 0 || m.id >= 26 ) continue;
             
-            // LAT:LON
-            if( data2.length == 4 )
+            m.name = null;
+                        
+            var index = 1;
+            
+            var lat = parseFloat( data2[index] );
+            var lon = parseFloat( data2[index+1] );
+            if( lat != null && lon != null && -90 <= lat && lat <= 90 && -180 <= lon && lon <= 180 )
             {
-                var lat = parseFloat( data2[1] );
-                if( lat < -90 || lat > 90 ) continue;
-                var lon = parseFloat( data2[2] );
-                if( lon < -180 || lon > 180 ) continue; 
-                
-                var r = parseFloat( data2[3] );
-                if( r < 0 || r > 100000000000 ) continue;
-                
+                index = index + 2;
                 m.coords = new google.maps.LatLng( lat, lon );
-                m.r = r;
-            }
-            // DEG, DMMM, ...
-            else if( data2.length == 3 )
-            {                
-                m.coords = string2coords( data2[1] ); 
-                if( m.coords == null ) continue;
-                
-                var r = parseFloat( data2[2] );
-                if( r < 0 || r > 100000000000 ) continue;
-                
-                m.r = r;
             }
             else
             {
-                continue;
-            }
+                m.coords = string2coords( data2[index] ); 
+                if( m.coords == null ) continue;
+                
+                index = index + 1;
+            }            
             
+            var circle = parseFloat( data2[index] );
+            if( circle < 0 || circle > 100000000000 ) continue;
+            m.r = circle;
+            index = index + 1;
+            
+            if( index < data2.length )
+            {
+                if( /^([a-zA-Z0-9-_]*)$/.test( data2[index] ) )
+                {
+                    m.name = data2[index];
+                }
+            }
+
             count += 1;
             clat += m.coords.lat();
             clon += m.coords.lng();
@@ -1044,7 +1065,7 @@ function initialize( xcenter, xzoom, xmap, xmarkers, xmarkersAB )
                 if( raw_data == null ) continue;
                 
                 var data = raw_data.split(':')
-                if( data.length != 3 ) continue;
+                if( data.length != 3 && data.length != 4 ) continue;
                 
                 var lat = parseFloat( data[0] );
                 if( lat < -90 || lat > 90 ) continue;
@@ -1053,7 +1074,17 @@ function initialize( xcenter, xzoom, xmap, xmarkers, xmarkersAB )
                 var r = parseFloat( data[2] );
                 if( r < 0 || r > 100000000000 ) continue; 
                 
-                newMarker( new google.maps.LatLng( lat, lon ), id, r );
+                var name = null;
+                
+                if( data.length == 4 )
+                {
+                    if( /^([a-zA-Z0-9-_]*)$/.test( data[3] ) )
+                    {
+                        name = data[3];
+                    }
+                }
+                
+                newMarker( new google.maps.LatLng( lat, lon ), id, r, name );
             }
         }
         
@@ -1081,7 +1112,7 @@ function initialize( xcenter, xzoom, xmap, xmarkers, xmarkersAB )
     {
         for( var i = 0; i != markerdata.length; ++i )
         {
-            newMarker( markerdata[i].coords, markerdata[i].id, markerdata[i].r );
+            newMarker( markerdata[i].coords, markerdata[i].id, markerdata[i].r, markerdata[i].name );
         }
         
         if( xmarkersAB != "" )

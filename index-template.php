@@ -217,7 +217,7 @@ echo "<body onload=\"okapi_setup_sites(); initialize( '$cntr', '$zoom', '$maptyp
 <div class="my-section">
     <div class="my-section-header">Suche</div>
     <div>
-<form action="javascript:searchLocation()">
+<form style="margin: 0" action="javascript:searchLocation()">
 <div class="input-append">
 <input id="txtSearch" style="width: 179px" type="text" placeholder="Koordinaten oder Ort" title="Nach einem Ort oder Koordinaten suchen und die Karte auf dem Suchergebnis zentrieren">
 <button class="btn btn-info" type="submit" style="width: 44px" title="Nach einem Ort oder Koordinaten suchen und die Karte auf dem Suchergebnis zentrieren"><i class="icon-search"></i></button>
@@ -226,14 +226,12 @@ echo "<body onload=\"okapi_setup_sites(); initialize( '$cntr', '$zoom', '$maptyp
     </div>
 </div> <!-- section -->
 
-
-
 <div class="my-section">
     <div class="my-section-header">Marker</div>
     <div>
-<button id="btnnewmarker1" class="btn btn-success" title="Erzeuge einen neuen Marker" type="button" onClick="newMarker( map.getCenter(), -1, -1 )">Neuer Marker</button>
+<button id="btnnewmarker1" class="btn btn-success" title="Erzeuge einen neuen Marker" type="button" onClick="newMarker( map.getCenter(), -1, -1, null )">Neuer Marker</button>
 <div id="dynMarkerDiv"></div>
-<button id="btnnewmarker2" class="btn btn-success" style="display:none;" title="Erzeuge einen neuen Marker" type="button" onClick="newMarker( map.getCenter(), -1, -1 )">Neuer Marker</button>
+<button id="btnnewmarker2" class="btn btn-success" style="display:none;" title="Erzeuge einen neuen Marker" type="button" onClick="newMarker( map.getCenter(), -1, -1, null )">Neuer Marker</button>
     </div>
 </div> <!-- section -->
   
@@ -266,7 +264,7 @@ nach
 <div class="my-section">
     <div class="my-section-header">Sonstiges/Links</div>
     <div>
-<form>
+<b>Karten-Ebenen</b>
 <!--
 <label class="checkbox" title="Deutsche Naturschutzgebiete in der Karte markieren">
     <input id="showNSG" type="checkbox"> Zeige Naturschutzgebiete
@@ -278,22 +276,12 @@ nach
 <label class="checkbox" title="Kreisgrenzen anzeigen">
     <input id="showKreisgrenzen" type="checkbox"> Zeige Kreisgrenzen
 </label>
-</form>
 
 <b>Geocaches (<a href="http://www.opencaching.eu/">Opencaching-Network</a>)</b>
 <div>
     <label class="checkbox" title="Geocaches auf der Karte anzeigen">
         <input id="showCaches" type="checkbox"> Zeige Geocaches
     </label>
-    <div style="font-size: smaller">
-        Die angezeigten Geocache-Daten werden über die <a href="http://www.opencaching.de/okapi/introduction.html">OKAPI-Schnittstelle</a> 
-        von den nationalen Opencaching-Seiten 
-        <a href="http://www.opencaching.de/">Opencaching.de</a>, 
-        <a href="http://www.opencaching.pl/">Opencaching.pl</a>, 
-        <a href="http://www.opencaching.nl/">Opencaching.nl</a>,
-        <a href="http://www.opencaching.org.uk/">Opencaching.org.uk</a>, 
-        <a href="http://www.opencaching.us/">Opencaching.us</a> geholt.
-    </div>
 </div>
 
 <b>Permalinks</b>
@@ -316,7 +304,7 @@ nach
 <script> 
 function showDlgInfoAjax() {
     var $modal = $('#dlgInfoAjax');
-    $modal.load('info-dialog.html?t=TSTAMP', '', function(){ $modal.modal({ "backdrop" : "static", "keyboard" : true, "show" : true }); }); 
+    $modal.load('info-dialog.html?t=1379569428', '', function(){ $modal.modal({ "backdrop" : "static", "keyboard" : true, "show" : true }); }); 
 } 
 </script>
 
