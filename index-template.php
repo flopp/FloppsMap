@@ -264,6 +264,11 @@ nach
 <div class="my-section">
     <div class="my-section-header">Sonstiges/Links</div>
     <div>
+<b>Permalinks</b>
+<div>
+    <a id="permalink" href="https://foomap.de/" target="_blank"><i class="icon-external-link-sign"></i> Flopps Tolle Karte</a>
+</div>
+
 <b>Karten-Ebenen</b>
 <!--
 <label class="checkbox" title="Deutsche Naturschutzgebiete in der Karte markieren">
@@ -277,17 +282,13 @@ nach
     <input id="showKreisgrenzen" type="checkbox"> Zeige Kreisgrenzen
 </label>
 
-<b>Geocaches (<a href="http://www.opencaching.eu/">Opencaching-Network</a>)</b>
+<b>Geocaches (<a href="http://www.opencaching.eu/">Opencaching</a>)</b>
 <div>
     <label class="checkbox" title="Geocaches auf der Karte anzeigen">
         <input id="showCaches" type="checkbox"> Zeige Geocaches
     </label>
 </div>
 
-<b>Permalinks</b>
-<ul>
-<li><a id="permalink" href="https://foomap.de/" target="_blank">Flopps Tolle Karte</a></li>
-</ul>
 <b>Externe Links</b>
 <div class="input-append" title="Externer Link">
 <select id="externallinks" style="width: 193px" title="Externen Dienst an Kartenposition öffnen"></select>
