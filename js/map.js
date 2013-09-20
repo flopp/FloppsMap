@@ -165,7 +165,6 @@ function getLineIndex( id )
         }
     }
     
-    console.log( "getLineIndex: line not found; " + id );
     return -1;
 }
 
@@ -306,14 +305,11 @@ function updateLinesMarkerRemoved( markerid )
 {
     for( var index = 0; index < lines.length; ++index )
     {
-        console.log( "updateLinesMarkerRemoved " + markerid + " at " + index + "/" + lines.length );
         var line = lines[index];
         if( line == null ) continue;
         
-        console.log( "updateLinesMarkerRemoved " + markerid + " at lines[" + index + "].id=" + line.id );
         if( line.source == markerid )
         {
-            console.log( "updateLinesMarkerRemoved " + markerid + " source matches" );
             line.source = -1;
             if( line.line != null )
             {
@@ -324,7 +320,6 @@ function updateLinesMarkerRemoved( markerid )
         
         if( line.target == markerid )
         {
-            console.log( "updateLinesMarkerRemoved " + markerid + " target matches" );
             line.target = -1;
             if( line.line != null )
             {
@@ -364,7 +359,6 @@ function updateLineIndex( index, id )
     var line = lines[index];
     if( line == null )
     {
-        console.log( "updateLineIndex: line is null; " + index + " " + id );
         return;
     }
     
