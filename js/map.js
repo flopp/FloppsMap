@@ -638,6 +638,10 @@ function updateCopyrights()
     {
         copyrightDiv.innerHTML = "Map data (C) by <a href=\"http://www.openstreetmap.org/\">OpenStreetMap.org</a> and its contributors; <a href=\"http://opendatacommons.org/licenses/odbl/\">Open Database License</a>, tiles (C) by <a href=\"http://mapquest.com\">MapQuest</a>";
     }
+    else if( newMapType == "OUTD" )
+    {
+        copyrightDiv.innerHTML = "Map data (C) by <a href=\"http://www.openstreetmap.org/\">OpenStreetMap.org</a> and its contributors; <a href=\"http://opendatacommons.org/licenses/odbl/\">Open Database License</a>, tiles (C) by <a href=\"http://www.thunderforest.com/outdoors/\">Thunderforest</a>";
+    }
     else
     {
         copyrightDiv.innerHTML = "";
@@ -818,6 +822,10 @@ function repairMaptype( t, d )
     {
         return t;
     }
+    else if( t == "OUTD" )
+    {
+        return t;
+    }
     else if( t == "satellite" || t == "hybrid" || t == "roadmap" || t == "terrain" )
     {
         return t;
@@ -826,6 +834,12 @@ function repairMaptype( t, d )
     {
         return d;
     }
+}
+
+function randomString( strings, number )
+{
+    var index = number % strings.length;
+    return strings[index];
 }
 
 function initialize( xcenter, xzoom, xmap, xmarkers, xmarkersAB )
@@ -982,41 +996,47 @@ function initialize( xcenter, xzoom, xmap, xmarkers, xmarkersAB )
         zoom: zoom,
         center: center,
         scaleControl: true,
-        mapTypeControlOptions: { mapTypeIds: ['OSM', 'OSM/DE', 'OCM', 'MQ', google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.SATELLITE, google.maps.MapTypeId.HYBRID, google.maps.MapTypeId.TERRAIN] },
+        mapTypeControlOptions: { mapTypeIds: ['OSM', 'OSM/DE', 'OCM', 'MQ', 'OUTD', google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.SATELLITE, google.maps.MapTypeId.HYBRID, google.maps.MapTypeId.TERRAIN] },
         mapTypeId: google.maps.MapTypeId.ROADMAP };
         
     map = new google.maps.Map(document.getElementById("themap"), myOptions);
     
     osm_type = new google.maps.ImageMapType({
-        getTileUrl: function(coord, zoom) { return "http://tile.openstreetmap.org/" + zoom + "/" + coord.x + "/" + coord.y + ".png"; },
+        getTileUrl: function(coord, zoom) { return "http://" + randomString( ["a", "b", "c"], coord.x + coord.y ) + ".tile.openstreetmap.org/" + zoom + "/" + coord.x + "/" + coord.y + ".png"; },
         tileSize: new google.maps.Size(256, 256),
         name: "OSM",
         alt: "OpenStreetMap",
         maxZoom: 18 });
     osmde_type = new google.maps.ImageMapType({
-        getTileUrl: function(coord, zoom) { return "http://a.tile.openstreetmap.de/tiles/osmde/" + zoom + "/" + coord.x + "/" + coord.y + ".png"; },
+        getTileUrl: function(coord, zoom) { return "http://" + randomString( ["a", "b", "c"], coord.x + coord.y ) + ".tile.openstreetmap.de/tiles/osmde/" + zoom + "/" + coord.x + "/" + coord.y + ".png"; },
         tileSize: new google.maps.Size(256, 256),
         name: "OSM/DE",
         alt: "OpenStreetMap (german style)",
         maxZoom: 18 });
     ocm_type = new google.maps.ImageMapType({
-        getTileUrl: function(coord, zoom) { return "http://tile.opencyclemap.org/cycle/" + zoom + "/" + coord.x + "/" + coord.y + ".png"; },
+        getTileUrl: function(coord, zoom) { return "http://" + randomString( ["a", "b", "c"], coord.x + coord.y ) + ".tile.opencyclemap.org/cycle/" + zoom + "/" + coord.x + "/" + coord.y + ".png"; },
         tileSize: new google.maps.Size(256, 256),
         name: "OCM",
         alt: "OpenCycleMap",
-        maxZoom: 18 });
+        maxZoom: 17 });
     mq_type = new google.maps.ImageMapType({
-        getTileUrl: function(coord, zoom) { return "http://otile1.mqcdn.com/tiles/1.0.0/osm/" + zoom + "/" + coord.x + "/" + coord.y + ".png"; },
+        getTileUrl: function(coord, zoom) { return "http://otile" + randomString( ["1", "2", "3", "4"], coord.x + coord.y ) + ".mqcdn.com/tiles/1.0.0/osm/" + zoom + "/" + coord.x + "/" + coord.y + ".png"; },
         tileSize: new google.maps.Size(256, 256),
         name: "MQ",
         alt: "MapQuest (OSM)",
-        maxZoom: 19 });
-    
+        maxZoom: 18 });
+    outdoors_type = new google.maps.ImageMapType({
+        getTileUrl: function(coord, zoom) { return "http://" + randomString( ["a", "b", "c"], coord.x + coord.y ) + ".tile.thunderforest.com/outdoors/" + zoom + "/" + coord.x + "/" + coord.y + ".png"; },
+        tileSize: new google.maps.Size(256, 256),
+        name: "OUTD",
+        alt: "Thunderforest Outdoors",
+        maxZoom: 18 });
     
     map.mapTypes.set("OSM", osm_type );
     map.mapTypes.set("OSM/DE", osmde_type );
     map.mapTypes.set("OCM", ocm_type );
     map.mapTypes.set("MQ", mq_type );
+    map.mapTypes.set("OUTD", outdoors_type );
     
     map.setMapTypeId( maptype );
     
@@ -1024,11 +1044,11 @@ function initialize( xcenter, xzoom, xmap, xmarkers, xmarkersAB )
     //boundary_layer.setMap( map );
     
     hillshadingLayer = new google.maps.ImageMapType({
-        getTileUrl: function(coord, zoom) { return "http://toolserver.org/~cmarqu/hill/" + zoom + "/" + coord.x + "/" + coord.y + ".png"; },
+        getTileUrl: function(coord, zoom) { if( zoom <= 16 ) { return "http://toolserver.org/~cmarqu/hill/" + zoom + "/" + coord.x + "/" + coord.y + ".png"; } else { return null; } },
         tileSize: new google.maps.Size(256, 256),
         name: "hill",
         alt: "Hillshading",
-        maxZoom: 17 });
+        maxZoom: 16 });
     map.overlayMapTypes.push( null );
     
     // Create div for showing copyrights.
