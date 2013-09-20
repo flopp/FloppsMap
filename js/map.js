@@ -1,4 +1,5 @@
 var geocoder;
+var geocoder;
 var markers = null;
 var boundary_layer = null;
 var boundary_layer_fusion_table = "1Fg-gWjzai7awzjO30BFP_i_67zaRwrCCoMBRJ5Y"; // GADM.org
@@ -48,7 +49,7 @@ function setupExternalLinkTargets()
     e["Wikimapia.org"] = "http://wikimapia.org/#lat=%lat%&lon=%lon%&z=%zoom%";
     e["YAPIS"] = "http://yapis.eu/?id=9&lat=%lat%&lon=%lon%&zoom=%zoom%";
     
-    for( index in e ) 
+    for( var index in e ) 
     {
         $('#externallinks').append('<option value="'+index+'">'+index+'</option>');
     }
@@ -113,7 +114,7 @@ function newLine()
     m.line = null;
     m.source = -1;
     m.target = -1;
-    lines[m.id] = m;
+    lines.push( m );
     
     var parent = document.getElementById( "dynLineDiv" );
     var div = document.createElement( "div" );
@@ -137,7 +138,7 @@ function newLine()
     
     $('#dynLineDiv').append( div );
     
-    for( i = 0; i != markers.length; ++i )
+    for( var i = 0; i < markers.length; ++i )
     {
         if( !markers[i].free )
         {
@@ -151,12 +152,38 @@ function newLine()
     return m.id;
 }
 
+function getLineIndex( id )
+{
+    for( var index = 0; index < lines.length; ++index )
+    {
+        var line = lines[index];
+        if( line == null ) continue;
+        
+        if( line.id == id )
+        {
+            return index;
+        }
+    }
+    
+    console.log( "getLineIndex: line not found; " + id );
+    return -1;
+}
+
+
+function getLineById( id )
+{
+    return lines[getLineIndex( id )];
+}
+
 function getLinesText()
 {
     var a = Array();
-    for( id in lines )
+    for( var index = 0; index < lines.length; ++index )
     {
-        a.push( id2alpha( lines[id].source ) + ":" + id2alpha( lines[id].target ) );
+        var line = lines[index];
+        if( line == null ) continue;
+        
+        a.push( id2alpha( line.source ) + ":" + id2alpha( line.target ) );
     }
     
     return a.join("*");
@@ -169,12 +196,13 @@ function saveLinesCookie()
 
 function selectLineSourceById( id, markerid )
 {
-    var line = lines[id];
+    var index = getLineIndex( id );
+    var line = lines[index];
        
     if( markerid != line.source )
     {
         line.source = markerid;
-        updateLine( id );
+        updateLineIndex( index, id );
         $("#dynlinesource" + id + " > option[value=" + markerid + "]").attr("selected", "selected");
     }
     
@@ -184,7 +212,7 @@ function selectLineSourceById( id, markerid )
 
 function selectLineSource( id )
 {
-    var line = lines[id];
+    var line = getLineById( id );
     
     var markerid = -1;
     var opt = $("#dynlinesource" + id +" option:selected");
@@ -197,13 +225,14 @@ function selectLineSource( id )
 }
 
 function selectLineTargetById( id, markerid )
-{    
-    var line = lines[id];
+{
+    var index = getLineIndex( id );
+    var line = lines[index];
     
     if( markerid != line.target )
     {
         line.target = markerid;
-        updateLine( id );
+        updateLineIndex( index, id );
         $("#dynlinetarget" + id + " > option[value=" + markerid + "]").attr("selected", "selected");
     }
     
@@ -225,11 +254,14 @@ function selectLineTarget( id )
 
 function updateLinesMarkerMoved( markerId )
 {
-    for( id in lines )
+    for( var index = 0; index < lines.length; ++index )
     {
-        if( lines[id].source == markerId || lines[id].target == markerId )
+        var line = lines[index];
+        if( line == null ) continue;
+        
+        if( line.source == markerId || line.target == markerId )
         {
-            updateLine( id );
+            updateLineIndex( index, line.id );
         }
     }
 }
@@ -261,38 +293,48 @@ function updateLineMarkerAdded( id, markerId )
 
 function updateLinesMarkerAdded( markerId )
 {
-    for( id in lines )
+    for( var index = 0; index < lines.length; ++index )
     {
-        updateLineMarkerAdded( id, markerId );
+        var line = lines[index];
+        if( line == null ) continue;
+        
+        updateLineMarkerAdded( line.id, markerId );
     }
 }
 
-function updateLinesMarkerRemoved( markerId )
+function updateLinesMarkerRemoved( markerid )
 {
-    for( id in lines )
+    for( var index = 0; index < lines.length; ++index )
     {
-        if( lines[id].source == markerId )
+        console.log( "updateLinesMarkerRemoved " + markerid + " at " + index + "/" + lines.length );
+        var line = lines[index];
+        if( line == null ) continue;
+        
+        console.log( "updateLinesMarkerRemoved " + markerid + " at lines[" + index + "].id=" + line.id );
+        if( line.source == markerid )
         {
-            lines[id].source = -1;
-            if( lines[id].line != null )
+            console.log( "updateLinesMarkerRemoved " + markerid + " source matches" );
+            line.source = -1;
+            if( line.line != null )
             {
-                lines[id].line.setMap( null );
-                lines[id].line = null;
+                line.line.setMap( null );
+                line.line = null;
             }
         }
         
-        if( lines[id].target == markerId )
+        if( line.target == markerid )
         {
-            lines[id].target = -1;
-            if( lines[id].line != null )
+            console.log( "updateLinesMarkerRemoved " + markerid + " target matches" );
+            line.target = -1;
+            if( line.line != null )
             {
-                lines[id].line.setMap( null );
-                lines[id].line = null;
+                line.line.setMap( null );
+                line.line = null;
             }
         }
         
-        var source = $( '#dynlinesource' + id );
-        var target = $( '#dynlinetarget' + id );
+        var source = $( '#dynlinesource' + line.id );
+        var target = $( '#dynlinetarget' + line.id );
         
         source.empty();
         target.empty();
@@ -310,16 +352,21 @@ function updateLinesMarkerRemoved( markerId )
             }
         }
         
-        $("#dynlinesource" + id + " > option[value=" + lines[id].source + "]").attr("selected", "selected");
-        $("#dynlinetarget" + id + " > option[value=" + lines[id].target + "]").attr("selected", "selected");
+        $("#dynlinesource" + line.id + " > option[value=" + line.source + "]").attr("selected", "selected");
+        $("#dynlinetarget" + line.id + " > option[value=" + line.target + "]").attr("selected", "selected");
     }
     
     saveLinesCookie();
 }
 
-function updateLine( id )
+function updateLineIndex( index, id )
 {
-    var line = lines[id];
+    var line = lines[index];
+    if( line == null )
+    {
+        console.log( "updateLineIndex: line is null; " + index + " " + id );
+        return;
+    }
     
     if( line.source == -1 || line.target == -1 )
     {
@@ -375,17 +422,26 @@ function updateLine( id )
     }
 }
 
+function updateLine( id )
+{
+    var index = getLineIndex( id );
+    updateLineIndex( index, id );
+}
+
 function deleteLine( id )
 {
     $('#dynLine' + id).remove();
     
-    if( lines[id].line != null )
+    var index = getLineIndex( id );
+    var line = lines[index];
+    
+    if( line.line != null )
     {
-        lines[id].line.setMap( null );
-        lines[id].line = null;
+        line.line.setMap( null );
+        line.line = null;
     }
     
-    lines[id] = null;
+    lines[index] = null;
     
     updateLinks();
     saveLinesCookie();
@@ -412,7 +468,7 @@ function updateMarker( m )
 
 function setName( id, name )
 {
-    var m = getMarkerById( id )
+    var m = getMarkerById( id );
     m.name = name;
     updateMarker( m );
 }
@@ -452,7 +508,7 @@ function visibleMarkers()
     return count;
 }
 
-function updateLists()
+function updateMarkerList()
 {
     var lst = Array();
     
@@ -489,7 +545,7 @@ function removeMarker( id )
         $('#btnnewmarker2').hide();
     }
 
-    updateLists();
+    updateMarkerList();
     updateLinesMarkerRemoved( id );
     updateLinks();
 }
@@ -609,6 +665,7 @@ function newMarker( coordinates, theid, radius, name )
     var iconw = 32;
     var iconh = 37;
     var offsetx = (m.id % 7)*iconw;
+    var offsetx = (m.id % 7)*iconw;
     var offsety = Math.floor(m.id / 7)*iconh;
     m.marker = new google.maps.Marker( {
         position: coordinates, 
@@ -715,7 +772,7 @@ function newMarker( coordinates, theid, radius, name )
     $('#btnnewmarker2').show();
     
     updateMarker( m );
-    updateLists();
+    updateMarkerList();
     updateLinesMarkerAdded( m.id );
     updateLinks();
     
@@ -785,7 +842,7 @@ function updateLinks()
     zoom = map.getZoom();
     
     var s = "&m=";
-    for( i = 0; i != markers.length; ++i )
+    for( var i = 0; i != markers.length; ++i )
     {
         var m = markers[i];
         if( m.free ) continue;
@@ -1025,6 +1082,15 @@ function randomString( strings, number )
     return strings[index];
 }
 
+function tileUrl( template, servers, coord, zoom )
+{
+    var limit = Math.pow( 2, zoom );
+    var x = ( ( coord.x % limit ) + limit ) % limit;
+    var y = coord.y;
+    var s = servers[ ( Math.abs( x + y ) ) % servers.length ];
+    return template.replace( /%s/, s ).replace( /%x/, x ).replace( /%y/, y ).replace( /%z/, zoom );
+}
+
 function initialize( xcenter, xzoom, xmap, xmarkers, xlines )
 {
     var center = null;
@@ -1181,31 +1247,41 @@ function initialize( xcenter, xzoom, xmap, xmarkers, xlines )
     map = new google.maps.Map(document.getElementById("themap"), myOptions);
     
     osm_type = new google.maps.ImageMapType({
-        getTileUrl: function(coord, zoom) { return "http://" + randomString( ["a", "b", "c"], coord.x + coord.y ) + ".tile.openstreetmap.org/" + zoom + "/" + coord.x + "/" + coord.y + ".png"; },
+        getTileUrl: function(coord, zoom) { 
+            return tileUrl( "http://%s.tile.openstreetmap.org/%z/%x/%y.png", ["a","b","c"], coord, zoom );
+        },
         tileSize: new google.maps.Size(256, 256),
         name: "OSM",
         alt: "OpenStreetMap",
         maxZoom: 18 });
     osmde_type = new google.maps.ImageMapType({
-        getTileUrl: function(coord, zoom) { return "http://" + randomString( ["a", "b", "c"], coord.x + coord.y ) + ".tile.openstreetmap.de/tiles/osmde/" + zoom + "/" + coord.x + "/" + coord.y + ".png"; },
+        getTileUrl: function(coord, zoom) { 
+            return tileUrl( "http://%s.tile.openstreetmap.de/tiles/osmde/%z/%x/%y.png", ["a","b","c"], coord, zoom );
+        },
         tileSize: new google.maps.Size(256, 256),
         name: "OSM/DE",
         alt: "OpenStreetMap (german style)",
         maxZoom: 18 });
     ocm_type = new google.maps.ImageMapType({
-        getTileUrl: function(coord, zoom) { return "http://" + randomString( ["a", "b", "c"], coord.x + coord.y ) + ".tile.opencyclemap.org/cycle/" + zoom + "/" + coord.x + "/" + coord.y + ".png"; },
+        getTileUrl: function(coord, zoom) { 
+            return tileUrl( "http://%s.tile.opencyclemap.org/%z/%x/%y.png", ["a","b","c"], coord, zoom );
+        },
         tileSize: new google.maps.Size(256, 256),
         name: "OCM",
         alt: "OpenCycleMap",
         maxZoom: 17 });
     mq_type = new google.maps.ImageMapType({
-        getTileUrl: function(coord, zoom) { return "http://otile" + randomString( ["1", "2", "3", "4"], coord.x + coord.y ) + ".mqcdn.com/tiles/1.0.0/osm/" + zoom + "/" + coord.x + "/" + coord.y + ".png"; },
+        getTileUrl: function(coord, zoom) { 
+            return tileUrl( "http://otile%s.mqcdn.com/tiles/1.0.0/osm/%z/%x/%y.png", ["1","2","3","4"], coord, zoom );
+        },
         tileSize: new google.maps.Size(256, 256),
         name: "MQ",
         alt: "MapQuest (OSM)",
         maxZoom: 18 });
     outdoors_type = new google.maps.ImageMapType({
-        getTileUrl: function(coord, zoom) { return "http://" + randomString( ["a", "b", "c"], coord.x + coord.y ) + ".tile.thunderforest.com/outdoors/" + zoom + "/" + coord.x + "/" + coord.y + ".png"; },
+        getTileUrl: function(coord, zoom) { 
+            return tileUrl( "http://%s.tile.thunderforest.com/outdoors/%z/%x/%y.png", ["a","b","c"], coord, zoom );
+        },
         tileSize: new google.maps.Size(256, 256),
         name: "OUTD",
         alt: "Thunderforest Outdoors",
@@ -1220,10 +1296,18 @@ function initialize( xcenter, xzoom, xmap, xmarkers, xlines )
     map.setMapTypeId( maptype );
     
     boundary_layer = null;
-    //boundary_layer.setMap( map );
     
     hillshadingLayer = new google.maps.ImageMapType({
-        getTileUrl: function(coord, zoom) { if( 6 <= zoom && zoom <= 16 ) { return "http://toolserver.org/~cmarqu/hill/" + zoom + "/" + coord.x + "/" + coord.y + ".png"; } else { return null; } },
+        getTileUrl: function(coord, zoom) { 
+            if( 6 <= zoom && zoom <= 16 ) 
+            {
+                return tileUrl( "http://toolserver.org/~cmarqu/hill/%z/%x/%y.png", ["dummy"], coord, zoom );
+            }
+            else 
+            { 
+                return null; 
+            } 
+        },
         tileSize: new google.maps.Size(256, 256),
         name: "hill",
         alt: "Hillshading",
@@ -1290,10 +1374,10 @@ function initialize( xcenter, xzoom, xmap, xmarkers, xlines )
         var raw_lines = get_cookie('lines');
         if( raw_lines != null )
         {
-            var lines = raw_lines.split( '*' );
-            for( i = 0; i != lines.length; ++i )
+            var linesarray = raw_lines.split( '*' );
+            for( var i = 0; i < linesarray.length; ++i )
             {
-                var line = lines[i].split( ':' );
+                var line = linesarray[i].split( ':' );
                 if( line.length != 2 ) continue;
                 
                 var id = newLine();
@@ -1313,7 +1397,7 @@ function initialize( xcenter, xzoom, xmap, xmarkers, xlines )
     }
     else
     {
-        for( var i = 0; i != markerdata.length; ++i )
+        for( var i = 0; i < markerdata.length; ++i )
         {
             newMarker( markerdata[i].coords, markerdata[i].id, markerdata[i].r, markerdata[i].name );
         }
@@ -1330,10 +1414,10 @@ function initialize( xcenter, xzoom, xmap, xmarkers, xlines )
                 raw_lines = raw_lines[0] + ':' + raw_lines[2];
             }
             
-            var lines = raw_lines.split( '*' );
-            for( i = 0; i != lines.length; ++i )
+            var linesarray = raw_lines.split( '*' );
+            for( var i = 0; i < linesarray.length; ++i )
             {
-                var line = lines[i].split( ':' );
+                var line = linesarray[i].split( ':' );
                 if( line.length != 2 ) continue;
                 
                 var id = newLine();
@@ -1371,13 +1455,10 @@ function searchLocation()
     address = document.getElementById( 'txtSearch' ).value;
 
     var str = new String( address );
-    //console.log( "trying to parse " + address );
     
     var coords = string2coords( str );
     if( !coords )
     { 
-        //console.log( "fail: using geocoder" );
-        
         geocoder.geocode( { address: address, region: 'de' }, function(results, status) {
           if (status == google.maps.GeocoderStatus.OK) {
             map.setCenter(results[0].geometry.location);
@@ -1388,7 +1469,6 @@ function searchLocation()
     }
     else
     {
-        //console.log( "ok: coordinates" );
         map.setCenter( coords, 13 );
         updateLinks();
     }
