@@ -1223,7 +1223,7 @@ function initialize( xcenter, xzoom, xmap, xmarkers, xlines )
     //boundary_layer.setMap( map );
     
     hillshadingLayer = new google.maps.ImageMapType({
-        getTileUrl: function(coord, zoom) { if( zoom <= 16 ) { return "http://toolserver.org/~cmarqu/hill/" + zoom + "/" + coord.x + "/" + coord.y + ".png"; } else { return null; } },
+        getTileUrl: function(coord, zoom) { if( 6 <= zoom && zoom <= 16 ) { return "http://toolserver.org/~cmarqu/hill/" + zoom + "/" + coord.x + "/" + coord.y + ".png"; } else { return null; } },
         tileSize: new google.maps.Size(256, 256),
         name: "hill",
         alt: "Hillshading",
