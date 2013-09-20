@@ -627,7 +627,7 @@ function newMarker( coordinates, theid, radius, name )
     if( radius < 0 ) radius = RADIUS_DEFAULT;
     
     var id = theid;
-    if( id == -1 || id < 0 || id >= 26 || markers[id].free == true ) id = getFreeId();
+    if( id == -1 || id < 0 || id >= 26 || markers[id].free == false ) id = getFreeId();
     if( id == -1 )
     {
         showAlert( "Fehler", "Es sind keine weiteren Marker verfügbar." );
