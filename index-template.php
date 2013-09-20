@@ -91,7 +91,11 @@
   position: absolute;
   top: -1px;
   left: -1px;
-  padding: 3px 7px;
+  height: 22px;
+  padding-left: 6px;
+  padding-right: 6px;
+  padding-top: 5px;
+  padding-bottom: 3px;
   font-size: 16px;
   font-weight: bold;
   background-color: #f5f5f5;
@@ -100,6 +104,22 @@
   -webkit-border-radius: 4px 0 4px 0;
      -moz-border-radius: 4px 0 4px 0;
           border-radius: 4px 0 4px 0;
+}
+.my-section-header-button {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  padding: 3px 7px;
+}
+
+.my-small-select {
+    width: 40px; 
+    height:26px; 
+    padding-left: 2px;
+    padding-right: 2px;
+    padding-top: 1px; 
+    padding-bottom: 1px; 
+    margin-bottom: 4px;
 }
 </style>
 
@@ -228,37 +248,14 @@ echo "<body onload=\"okapi_setup_sites(); initialize( '$cntr', '$zoom', '$maptyp
 
 <div class="my-section">
     <div class="my-section-header">Marker</div>
-    <div>
-<button id="btnnewmarker1" class="btn btn-success" title="Erzeuge einen neuen Marker" type="button" onClick="newMarker( map.getCenter(), -1, -1, null )">Neuer Marker</button>
-<div id="dynMarkerDiv"></div>
-<button id="btnnewmarker2" class="btn btn-success" style="display:none;" title="Erzeuge einen neuen Marker" type="button" onClick="newMarker( map.getCenter(), -1, -1, null )">Neuer Marker</button>
-    </div>
+    <button id="btnnewmarker1" class="my-section-header-button btn btn-small btn-success" title="Erzeuge einen neuen Marker" type="button" onClick="newMarker( map.getCenter(), -1, -1, null )">Neuer Marker</button>
+    <div id="dynMarkerDiv"></div>
 </div> <!-- section -->
   
 <div class="my-section">
-    <div class="my-section-header">Abstand/Winkel</div>
-    <div>
-<div style="padding:4px">
-Von
-<select id="sourcelist" style="width: 50px" title="Quelle" onchange="selectSource()"></select>
-nach
-<select id="targetlist" style="width: 50px" title="Ziel" onchange="selectTarget()"></select>
-</div>
-
-<div>
-<div class="input-prepend input-append" title="Abstand des Markers A vom Marker B in Metern">
-<span class="add-on" style="width: 52px">Abstand</span>
-<span id="txtDistance" class="add-on" style="width: 137px; text-align: left">n/a</span>
-<span class="add-on" style="width: 16px">m</span>
-</div>
-<div class="input-prepend input-append" title="Peilungswinkel von Marker A nach Marker B">
-<span class="add-on" style="width: 52px">Winkel</span>
-<span id="txtBearing" class="add-on" style="width: 137px; text-align: left">n/a</span>
-<span class="add-on" style="width: 16px">°</span>
-</div>
-</div>          
-
-    </div>
+    <div class="my-section-header">Linien</div>
+    <button class="my-section-header-button btn btn-small btn-success" title="Erzeuge eine neue Linie" type="button" onClick="newLine()">Neue Linie</button>
+    <div id="dynLineDiv"></div>
 </div> <!-- section -->
 
 <div class="my-section">
@@ -388,7 +385,5 @@ function showDoubleInputDialog( title, msg1, data1, msg2, data2, callback ) {
 }
 </script>
 
-
   </body>
-
 </html>
