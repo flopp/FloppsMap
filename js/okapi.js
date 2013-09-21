@@ -2,7 +2,7 @@ var okapi_keys = {
     "Opencaching.DE" : "YSqPufH82encfJ67ZxV2",
     "Opencaching.PL" : "jhRyc6rGmT6XEvxva29B",
     "Opencaching.NL" : "gcwaesuq3REu8RtCgLDj",
-    "Opencaching.US" : "GvgyCMvwfH42GqJGL494",
+//    "Opencaching.US" : "GvgyCMvwfH42GqJGL494",
     "Opencaching.ORG.UK" : "7t7VfpkCd4HuxPabfbHd"
 };
 
