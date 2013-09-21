@@ -1258,7 +1258,7 @@ function initialize( xcenter, xzoom, xmap, xmarkers, xlines )
         maxZoom: 18 });
     ocm_type = new google.maps.ImageMapType({
         getTileUrl: function(coord, zoom) { 
-            return tileUrl( "http://%s.tile.opencyclemap.org/%z/%x/%y.png", ["a","b","c"], coord, zoom );
+            return tileUrl( "http://%s.tile.opencyclemap.org/cycle/%z/%x/%y.png", ["a","b","c"], coord, zoom );
         },
         tileSize: new google.maps.Size(256, 256),
         name: "OCM",

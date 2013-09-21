@@ -130,7 +130,7 @@ $cntr = "";
 $zoom = "";
 $maptype = "";
 $markers = "";
-$markersAB = "";
+$lines = "";
 
 if(!empty($_GET)) 
 {
@@ -153,11 +153,11 @@ if(!empty($_GET))
     }
     if(isset($_GET['d']))
     {
-        $markersAB = $_GET['d'];
+        $lines = $_GET['d'];
     }
 }
 
-echo "<body onload=\"okapi_setup_sites(); initialize( '$cntr', '$zoom', '$maptype', '$markers', '$markersAB' )\">";
+echo "<body onload=\"initialize( '$cntr', '$zoom', '$maptype', '$markers', '$lines' )\">";
 ?>
 
 
