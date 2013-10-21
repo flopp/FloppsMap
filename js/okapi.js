@@ -274,6 +274,8 @@ function okapi_schedule_load_caches()
 
 function okapi_toggle_load_caches( t )
 {
+    $.cookie("load_caches", t ? "1" : "0", { expires: 30 });
+    
     if( okapi_load_caches_enabled != t )
     {
         okapi_load_caches_enabled = t;

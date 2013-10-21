@@ -29,6 +29,9 @@
 
     <!-- jquery -->
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    
+    <!-- jquery.cookie -->
+    <script src="ext/jquery-cookie/jquery.cookie.js"></script>
 
     <!-- bootstrap + font-awesome -->
     <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>

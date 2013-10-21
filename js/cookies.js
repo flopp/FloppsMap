@@ -1,37 +1,17 @@
-function set_cookie( c_key, c_val ) 
+function get_cookie_string(key, default_value)
 {
-    // cookie expires in 30 days
-    var dt = new Date();
-    dt.setTime( dt.getTime() + ( 30 * 24 * 60 * 60 * 1000 ) );
-    
-    var c = c_key + '=' + c_val + '; expires=' + dt.toGMTString() + '; path=/';
-    document.cookie = c;
+    var stringval = $.cookie(key);
+    return (stringval != undefined) ? stringval : default_value;
 }
 
-function get_cookie( c_key ) 
+function get_cookie_int(key, default_value)
 {
-    var cookies = document.cookie.split( ';' );
-    var eq_pos, x, y;
-    
-    for( var i = 0; i < cookies.length; i++ ) 
-    {
-        // find '='
-        eq_pos = cookies[i].indexOf( '=' );
-        
-        // extract key
-        x = cookies[i].substr( 0, eq_pos );
-        x = x.replace( /^\s+|\s+$/g, '' );
-        
-        // check if key matches
-        if( x == c_key )
-        {
-            // extract value
-            y = cookies[i].substr( eq_pos + 1 );
-            y = y.replace( /^\s+|\s+$/g, '' );
-            
-            return y;
-        }
-    }
-    
-    return null;
+    var stringval = $.cookie(key);
+    return (stringval != undefined) ? parseInt(stringval) : default_value;
+}
+
+function get_cookie_float(key, default_value)
+{
+    var stringval = $.cookie(key);
+    return (stringval != undefined) ? parseFloat(stringval) : default_value;
 }

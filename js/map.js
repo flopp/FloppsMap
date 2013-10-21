@@ -4,9 +4,6 @@ var markers = null;
 var boundary_layer = null;
 var boundary_layer_fusion_table = "1Fg-gWjzai7awzjO30BFP_i_67zaRwrCCoMBRJ5Y"; // GADM.org
 //var boundary_layer_fusion_table = "14CNp_bLGOQTmtR-8vMxInDZdtHXvAGE3ZbMrF_w"; // GSAK
-//var nsgLayer = null;
-//var nsgLayerShown = false;
-//var nsgLayerUpdateTimeout = null;
 var hillshadingLayer = null;
 var hillshadingLayerShown = false;
 var map;
@@ -190,7 +187,7 @@ function getLinesText()
 
 function saveLinesCookie()
 {
-    set_cookie( "lines", getLinesText() );
+    $.cookie("lines", getLinesText(), {expires: 30});
 }
 
 function selectLineSourceById( id, markerid )
@@ -448,7 +445,7 @@ function updateMarker( m )
     
     m.circle.setCenter( pos );
     
-    set_cookie( 'marker' + m.id, pos.lat().toFixed(6) + ":" + pos.lng().toFixed(6) + ":" + r + ":" + m.name );
+    $.cookie('marker' + m.id, pos.lat().toFixed(6) + ":" + pos.lng().toFixed(6) + ":" + r + ":" + m.name, {expires:30});
     $('#view_name' + m.alpha ).html( m.name ); 
     $('#view_coordinates' + m.alpha ).html( coords2string( pos ) ); 
     $('#view_circle' + m.alpha ).html( r );
@@ -515,7 +512,7 @@ function updateMarkerList()
         }
     }
     
-    set_cookie( 'markers', lst.join( ":" ) );
+    $.cookie('markers', lst.join( ":" ), {expires:30});
 }
 
 function removeMarker( id )
@@ -814,15 +811,15 @@ function projectFromMarker( id )
 function storeCenter()
 {
     c = map.getCenter();
-    set_cookie( 'clat', c.lat() );
-    set_cookie( 'clon', c.lng() );
+    $.cookie( 'clat', c.lat(), {expires:30});
+    $.cookie( 'clon', c.lng(), {expires:30});
     
     updateLinks();
 }
 
 function storeZoom()
 {
-    set_cookie( 'zoom', map.getZoom() );
+    $.cookie('zoom', map.getZoom(), {expires:30});
     
     updateLinks();
 }
@@ -858,7 +855,7 @@ function updateCopyrights()
     }
     
     newMapType = map.getMapTypeId();
-    set_cookie( 'maptype', newMapType );
+    $.cookie('maptype', newMapType, {expires:30});
     
     if( newMapType == "OSM" || newMapType == "OSM/DE" )
     {
@@ -883,71 +880,6 @@ function updateCopyrights()
     
     updateLinks();
 }
-
-/*
-function showNSGLayer( t )
-{
-    if( t == nsgLayerShown )
-    {
-        return;
-    }
-    
-    nsgLayerShown = t;
-    $( '#showNSG' ).attr( 'checked', nsgLayerShown );
-    set_cookie( 'nsg', nsgLayerShown ? 1 : 0 );
-    
-    if( nsgLayerShown )
-    {
-        updateNSGLayer();
-    }
-    else
-    {
-        if( nsgLayerUpdateTimeout != null )
-        {
-            clearTimeout( nsgLayerUpdateTimeout );
-            nsgLayerUpdateTimeout = null;
-        }
-        
-        nsgLayer.setMap( null );
-        nsgLayer = null;
-    }
-}
-
-function updateNSGLayer()
-{
-    if( !nsgLayerShown )
-    {
-        return;
-    }
-    
-    if( nsgLayerUpdateTimeout != null )
-    {
-        clearTimeout( nsgLayerUpdateTimeout );
-    }
-    
-    nsgLayerUpdateTimeout = setTimeout( 
-        function()
-        {
-            b = map.getBounds();
-            z = map.getZoom();
-            
-            url = "http://www.nsg-atlas.de/genkml.php?S=" + b.getSouthWest().lat() + "&N=" + b.getNorthEast().lat() + "&W=" + b.getSouthWest().lng() + "&E=" + b.getNorthEast().lng() + "&ZOOM=" + z;
-            
-            if( nsgLayer == null )
-            {
-                nsgLayer = new google.maps.KmlLayer(
-                    url, 
-                    { suppressInfoWindows: false, preserveViewport: true }
-                );
-                nsgLayer.setMap( map );
-            }
-            else
-            {
-                nsgLayer.setUrl( url );
-            }
-        }, 1000 );
-}
-*/
 
 function toggleBoundaryLayer( t )
 {
@@ -995,7 +927,7 @@ function toggleHillshadingLayer( t )
     }
     
     $( '#hillshading' ).attr( 'checked', hillshadingLayerShown );
-    set_cookie( 'hillshading', hillshadingLayerShown ? 1 : 0 );
+    $.cookie('hillshading', hillshadingLayerShown ? 1 : 0, {expires:30});
 }
 
 function repairLat( x, d )
@@ -1211,14 +1143,14 @@ function initialize( xcenter, xzoom, xmap, xmarkers, xlines )
         loadfromcookies = true;
         
         /* try to read coordinats from cookie */
-        clat = get_cookie('clat') != null ? parseFloat(get_cookie('clat')) : CLAT_DEFAULT;
-        clon = get_cookie('clon') != null ? parseFloat(get_cookie('clon')) : CLON_DEFAULT;
+        clat = get_cookie_float('clat', CLAT_DEFAULT);
+        clon = get_cookie_float('clon', CLON_DEFAULT);
         clat = repairLat( clat, CLAT_DEFAULT );
         clon = repairLon( clon, CLON_DEFAULT );
         center = new google.maps.LatLng( clat, clon );
         
-        zoom = get_cookie('zoom') != null ? parseInt(get_cookie('zoom')) : ZOOM_DEFAULT;
-        maptype = get_cookie('maptype') != null ? get_cookie('maptype') : MAPTYPE_DEFAULT;        
+        zoom = get_cookie_int('zoom', ZOOM_DEFAULT);
+        maptype = get_cookie_string('maptype', MAPTYPE_DEFAULT);
     }
     
     if( center == null )
@@ -1228,8 +1160,6 @@ function initialize( xcenter, xzoom, xmap, xmarkers, xlines )
     
     zoom = repairZoom( zoom, ZOOM_DEFAULT );
     maptype = repairMaptype( maptype, MAPTYPE_DEFAULT );
-       
-    //var nsg = get_cookie('nsg') != null ? parseInt( get_cookie('nsg') ) : 0;
     
     var myOptions = {
         zoom: zoom,
@@ -1320,8 +1250,8 @@ function initialize( xcenter, xzoom, xmap, xmarkers, xlines )
     
     map.setCenter(center, zoom);
    
-    google.maps.event.addListener( map, "center_changed", function() { storeZoom(); storeCenter(); /*updateNSGLayer();*/ okapi_schedule_load_caches(); } );
-    google.maps.event.addListener( map, "zoom_changed", function() { storeZoom(); storeCenter(); /*updateNSGLayer();*/ okapi_schedule_load_caches(); } );
+    google.maps.event.addListener( map, "center_changed", function() { storeZoom(); storeCenter(); okapi_schedule_load_caches(); } );
+    google.maps.event.addListener( map, "zoom_changed", function() { storeZoom(); storeCenter(); okapi_schedule_load_caches(); } );
     google.maps.event.addListener( map, "maptypeid_changed", function(){ updateCopyrights()});
     
     geocoder = new google.maps.Geocoder();
@@ -1329,8 +1259,8 @@ function initialize( xcenter, xzoom, xmap, xmarkers, xlines )
     
     if( loadfromcookies )
     {
-        raw_ids = get_cookie('markers');
-        if( raw_ids != null )
+        raw_ids = $.cookie('markers');
+        if( raw_ids != undefined )
         {
             ids = raw_ids.split(':');
             for( var i = 0; i != ids.length; ++i )
@@ -1338,8 +1268,8 @@ function initialize( xcenter, xzoom, xmap, xmarkers, xlines )
                 var id = parseInt(ids[i]);
                 if( id == null || id < 0 || id >=26 ) continue;
                 
-                var raw_data = get_cookie( 'marker' + id );
-                if( raw_data == null ) continue;
+                var raw_data = $.cookie( 'marker' + id );
+                if( raw_data == undefined ) continue;
                 
                 var data = raw_data.split(':')
                 if( data.length != 3 && data.length != 4 ) continue;
@@ -1365,8 +1295,8 @@ function initialize( xcenter, xzoom, xmap, xmarkers, xlines )
             }
         }
         
-        var raw_lines = get_cookie('lines');
-        if( raw_lines != null )
+        var raw_lines = $.cookie('lines');
+        if( raw_lines != undefined )
         {
             var linesarray = raw_lines.split( '*' );
             for( var i = 0; i < linesarray.length; ++i )
@@ -1432,14 +1362,15 @@ function initialize( xcenter, xzoom, xmap, xmarkers, xlines )
     
     updateCopyrights();
     
-    //showNSGLayer( nsg != 0 );
-    //updateNSGLayer();
-    
     toggleHillshadingLayer( true );
     
     setupExternalLinkTargets();
         
     updateLinks();
+    
+    var load_caches = get_cookie_int("load_caches", 1);
+    $("#showCaches").prop('checked', load_caches == 1);
+    okapi_toggle_load_caches( $('#showCaches').is(':checked') );
     
     //showWelcomePopup();
 }
