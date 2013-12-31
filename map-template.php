@@ -34,15 +34,14 @@
     <script src="ext/jquery-cookie/jquery.cookie.js"></script>
 
     <!-- bootstrap + font-awesome -->
-    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
-    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet" />
-    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet" />
-
-    <!-- bootstrap modal -->
-    <link  href="ext/bootstrap-modal/css/bootstrap-modal.css" rel="stylesheet" />
-    <script src="ext/bootstrap-modal/js/bootstrap-modalmanager.js"></script>
-    <script src="ext/bootstrap-modal/js/bootstrap-modal.js"></script>
-
+    <link rel="stylesheet"  href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" />
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" />
+ 
+ 
+    <!-- fonts --> 
+    <link type="text/css" rel="stylesheet" href="//fonts.googleapis.com/css?family=Norican">
+    
 <!-- Piwik -->
 <script type="text/javascript"> 
   var _paq = _paq || [];
@@ -61,10 +60,18 @@
 
 <style type="text/css">
     html, body { height: 100%; overflow: hidden}
-    #map-wrapper { position: absolute; left: 0; right:274px; top: 41px; bottom: 0; float: left; }
+    #map-wrapper { position: absolute; left: 0; right:274px; top: 50px; bottom: 0; float: left; }
     #themap { width: 100%; height: 100%;}
     #themap img { max-width: none; }
-    #sidebar { overflow: auto; position: absolute; padding: 4px; width: 264px; right: 0; top: 41px; bottom: 0px; float: right; }
+    
+    .navbar-brand {
+        font-size: 24px;
+        font-family: 'Norican', serif;
+        font-weight: bold;
+        color: white;
+      }
+      
+    #sidebar { overflow: auto; position: absolute; padding: 4px; width: 264px; right: 0; top: 50px; bottom: 0px; float: right; }
     #sidebartoggle { position: absolute; display: block; right: 274px; width: 24px; height: 60px; top: 50%; background-color: white; 
     border-top: 1px solid #ddd;
     border-left: 1px solid #ddd;
@@ -78,16 +85,25 @@
     @media(max-width:599px){.only-small{display:inherit!important}.only-large{display:none!important}}
     @media(min-width:600px){.only-small{display:none!important}.only-large{display:inherit!important}}
    
+.my-button {
+  width: 26px;
+  height: 26px;
+  padding: 2px;
+}
+
 .my-section {
   position: relative;
   margin: 4px 0;
-  padding: 39px 6px 6px;
-  *padding-top: 19px;
+  padding: 39px 6px 6px 6px;
   background-color: #fff;
   border: 1px solid #ddd;
   -webkit-border-radius: 4px;
      -moz-border-radius: 4px;
           border-radius: 4px;
+}
+
+.my-section-with-footer {
+  padding: 39px 6px 39px 6px;
 }
 
 .my-section-header {
@@ -97,8 +113,8 @@
   height: 22px;
   padding-left: 6px;
   padding-right: 6px;
-  padding-top: 5px;
-  padding-bottom: 3px;
+  padding-top: 1px;
+  padding-bottom: 1px;
   font-size: 16px;
   font-weight: bold;
   background-color: #f5f5f5;
@@ -108,9 +124,17 @@
      -moz-border-radius: 4px 0 4px 0;
           border-radius: 4px 0 4px 0;
 }
+
 .my-section-header-button {
   position: absolute;
   top: 2px;
+  right: 2px;
+  padding: 3px 7px;
+}
+
+.my-section-footer-button {
+  position: absolute;
+  bottom: 2px;
   right: 2px;
   padding: 3px 7px;
 }
@@ -168,12 +192,12 @@ echo "<body onload=\"initialize( '$cntr', '$zoom', '$maptype', '$markers', '$lin
 <div class="navbar navbar-inverse navbar-static-top">
     <div class="navbar-inner">
         <div class="container-fluid">
-            <ul class="nav">
-                <li class="hidden-phone"><a role="button" class="brand" href="javascript:"><span class="only-large">Flopps Tolle Karte</span><span class="only-small">FTK</span></a></li>
-                <li><a role="button" href="http://blog.flopp-caching.de/" rel="tooltip" title="Hier geht es zu 'Flopps Tolles Blog'"><span class="only-large">Blog <i class="icon-star icon-white"></i></span><span class="only-small">Blog
+            <ul class="nav navbar-nav">
+                <li class="hidden-phone"><a role="button" class="navbar-brand" href="javascript:"><span class="only-large">Flopps Tolle Karte</span><span class="only-small">FTK</span></a></li>
+                <li><a role="button" href="http://blog.flopp-caching.de/" rel="tooltip" title="Hier geht es zu 'Flopps Tolles Blog'"><span class="only-large">Blog <i class="fa fa-star"></i></span><span class="only-small">Blog
                 </span></a></li>
-                <li><a role="button" href="http://blog.flopp-caching.de/benutzung-der-karte/" rel="tooltip" title="Hier geht es zu den Hilfeseiten"><span class="only-large">Hilfe <i class="icon-question-sign icon-white"></i></span><span class="only-small">Hilfe</span></a></li>
-                <li><a role="button" href="javascript:showDlgInfoAjax()" rel="tooltip" title="Rechtliche Hinweise, Kontaktinformationen, usw."><span class="only-large">Info/Impressum <i class="icon-info-sign icon-white"></i></span><span class="only-small">Info/Impressum</span></a></li>
+                <li><a role="button" href="http://blog.flopp-caching.de/benutzung-der-karte/" rel="tooltip" title="Hier geht es zu den Hilfeseiten"><span class="only-large">Hilfe <i class="fa fa-question"></i></span><span class="only-small">Hilfe</span></a></li>
+                <li><a role="button" href="javascript:showDlgInfoAjax()" rel="tooltip" title="Rechtliche Hinweise, Kontaktinformationen, usw."><span class="only-large">Info/Impressum <i class="fa fa-info"></i></span><span class="only-small">Info/Impressum</span></a></li>
             </ul>
         </div>
     </div>
@@ -187,7 +211,7 @@ echo "<body onload=\"initialize( '$cntr', '$zoom', '$maptype', '$markers', '$lin
             {
                 $('#sidebar').hide();
                 $('#sidebartoggle').css( "right", "0px" );
-                $('#sidebartogglebutton').html( "<i class=\"icon-chevron-left\"></i>" );
+                $('#sidebartogglebutton').html( "<i class=\"fa fa-chevron-left\"></i>" );
                 $('#map-wrapper').css("right", "0px");
                 google.maps.event.trigger(map, "resize");
             }
@@ -195,7 +219,7 @@ echo "<body onload=\"initialize( '$cntr', '$zoom', '$maptype', '$markers', '$lin
             {
                 $('#sidebar').show();
                 $('#sidebartoggle').css( "right", "274px" );
-                $('#sidebartogglebutton').html( "<i class=\"icon-chevron-right\"></i>" );
+                $('#sidebartogglebutton').html( "<i class=\"fa fa-chevron-right\"></i>" );
                 $('#map-wrapper').css("right", "274px");
                 google.maps.event.trigger(map, "resize");
             }
@@ -232,7 +256,7 @@ echo "<body onload=\"initialize( '$cntr', '$zoom', '$maptype', '$markers', '$lin
   
 
 <a id="sidebartoggle" href="javascript:">
-<span id="sidebartogglebutton"><i class="icon-chevron-right"></i></span>
+<span id="sidebartogglebutton"><i class="fa fa-chevron-right"></i></span>
 </a>
 <!-- the control widget -->
 <div id="sidebar">
@@ -243,16 +267,17 @@ echo "<body onload=\"initialize( '$cntr', '$zoom', '$maptype', '$markers', '$lin
 <form style="margin: 0" action="javascript:searchLocation()">
 <div class="input-append">
 <input id="txtSearch" style="width: 179px" type="text" placeholder="Koordinaten oder Ort" title="Nach einem Ort oder Koordinaten suchen und die Karte auf dem Suchergebnis zentrieren">
-<button class="btn btn-info" type="submit" style="width: 44px" title="Nach einem Ort oder Koordinaten suchen und die Karte auf dem Suchergebnis zentrieren"><i class="icon-search"></i></button>
+<button class="my-button btn btn-info" type="submit" title="Nach einem Ort oder Koordinaten suchen und die Karte auf dem Suchergebnis zentrieren"><i class="fa fa-search"></i></button>
 </div>
 </form>
     </div>
 </div> <!-- section -->
 
-<div class="my-section">
+<div class="my-section-with-footer my-section">
     <div class="my-section-header">Marker</div>
     <button id="btnnewmarker1" class="my-section-header-button btn btn-small btn-success" title="Erzeuge einen neuen Marker" type="button" onClick="newMarker( map.getCenter(), -1, -1, null )">Neuer Marker</button>
     <div id="dynMarkerDiv"></div>
+    <button id="btnnewmarker2" class="my-section-footer-button btn btn-small btn-success" title="Erzeuge einen neuen Marker" type="button" onClick="newMarker( map.getCenter(), -1, -1, null )">Neuer Marker</button>
 </div> <!-- section -->
   
 <div class="my-section">
@@ -266,7 +291,7 @@ echo "<body onload=\"initialize( '$cntr', '$zoom', '$maptype', '$markers', '$lin
     <div>
 <b>Permalinks</b>
 <div>
-    <a id="permalink" href="https://foomap.de/" target="_blank"><i class="icon-external-link-sign"></i> Flopps Tolle Karte</a>
+    <a id="permalink" href="https://foomap.de/" target="_blank"><i class="fa fa-external-link-square"></i> Flopps Tolle Karte</a>
 </div>
 
 <b>Karten-Ebenen</b>
@@ -292,7 +317,7 @@ echo "<body onload=\"initialize( '$cntr', '$zoom', '$maptype', '$markers', '$lin
 <b>Externe Links</b>
 <div class="input-append" title="Externer Link">
 <select id="externallinks" style="width: 193px" title="Externen Dienst an Kartenposition öffnen"></select>
-<button class="btn btn-info" style="width: 44px" type="button" onClick="gotoExternalLink()" title="Externen Dienst an Kartenposition öffnen"><i class="icon-play"></i></button>
+<button class="my-button btn btn-info" type="button" onClick="gotoExternalLink()" title="Externen Dienst an Kartenposition öffnen"><i class="fa fa-play"></i></button>
 </div>
     </div>
 </div> <!-- section -->
@@ -301,62 +326,117 @@ echo "<body onload=\"initialize( '$cntr', '$zoom', '$maptype', '$markers', '$lin
 
 
 <!-- the info dialog -->
-<div id="dlgInfoAjax" class="modal hide container" tabindex="-1" role="dialog" aria-hidden="true"></div>
+<div id="dlgInfoAjax" class="modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+    <h3>Kontakt/Info</h3>
+  </div>
+  <div class="modal-body">
+    <img class="img-polaroid" width="100ps" height="100px" style="float: right" src="avatar.jpg" alt="Flopp">
+    <h4>Kontakt</h4>
+    <p>Neuigkeiten und aktuelle Informationen werden über das <a href="http://blog.flopp-caching.de/" alt="Blog">zugehörige Blog <i class="fa fa-globe"></i></a> verbreitet.</p>
+    <p>Fragen und Anregungen nehme ich gerne per <a href="mailto:mail@flopp-caching.de" target="_blank">Mail <i class="fa fa-envelope"></i></a> oder <a href="https://twitter.com/floppgc" target="_blank">Twitter <i class="fa fa-twitter-square"></i></a> entgegen. Außerdem gibt es Seiten bei <a href="https://plus.google.com/u/0/116067328889875491676" target="_blank">Google+ <i class="fa fa-google-plus-square"></i></a> und bei <a href="https://www.facebook.com/FloppsTolleKarte" target="_blank">Facebook <i class="fa fa-facebook-square"></i></a>.</p>
+    <p>Bugs können auch via <a href="https://github.com/flopp/FloppsTolleKarte" target="_blank">github <i class="fa fa-github-square"></i></a> gemeldet werden.</p>
+    <p>Flopps Tolle Karte ist unter den URLs <a href="http://flopp-caching.de/">flopp-caching.de</a>, <a href="http://flopp.net/">flopp.net</a> und <a href="http://foomap.de/">foomap.de</a> erreichbar.</p>
+    
+    <hr />
+    <h4>Impressum</h4>
+    <p>Dies ist ein rein privates, werbe- und kostenfreies Informationsangebot
+zum Hobby Geocaching. Als nicht geschäftsmäßiges Angebot unterliegt diese
+Seite gemäß Telemediengesetz nicht der Impressumspflicht.</p>
+
+    <hr />
+    <h4>Hinter den Kulissen...</h4>
+    <p>
+        <b>Flopps Tolle Karte</b> benutzt <a href="https://developers.google.com/maps/" target="_blank">Google Maps</a>, <a href="http://openstreetmap.org/" target="_blank">OpenStreetMap</a>, <a href="http://opencyclemap.org/" target="_blank">OpenCycleMap</a> und <a href="http://mapquest.com/" target="_blank">MapQuest</a> als Kartenlieferanten, 
+        <a href="http://getbootstrap.com/" target="_blank">Bootstrap</a> 
+        und <a href="http://jquery.com/" target="_blank">jQuery</a> für die Elemente des Userinterfaces,
+        die Icons von <a href="http://fontawesome.io//" target="_blank">Font Awesome</a>,
+        sowie die Javascript-Version von <a href="http://geographiclib.sf.net/html/other.html#javascript" target="_blank">GeographicLib</a>
+        für die Distanz-/Winkelberechnungen und die Wegpunktprojektion.
+        <br />        
+        Der aktuelle Quellcode von <b>Flopps Toller Karte</b> ist auf <a href="https://github.com/flopp/FloppsTolleKarte" target="_blank">github</a> zu finden.
+    </p>
+    
+    <hr />
+<!--
+<h4>Naturschutzgebiete</h4>
+<p>
+Informationen über deutsche Naturschutzgebiete werden vom <a href="http://www.nsg-atlas/" target="_blank">NSG-Atlas</a> freundlicherweise zur Verfügung gestellt. Danke dafür!
+<br />
+Die Informationen über die Naturschutzgebiete dürfen nicht kommerziell genutzt werden und nicht
+auf Seiten verwendet werden, die Werbung beinhalten.
+<br />
+Das Datenmaterial der NSG gehört den einzelnen Ämtern der Länder.
+Die bereitgestellten Daten haben keine Rechtsverbindlichkeit.
+Details zum Datenmaterial sind auf den <a href="http://www.nsg-atlas.de/Datenmaterial.html" target="_blank">Seiten vom NSG-Atlas</a> zu finden.
+</p>
+-->
+
+<h4>Kreisgrenzen</h4>
+<p>
+Die Informationen über die Kreisgrenzen Deutschlands stammen von <a href="http://www.gadm.org/" target="_blank">GADM database of Global Administrative Areas</a> und dürfen für private, nicht-kommerzielle Zwecke entgeltfrei genutzt werden.
+</p>
+
+<h4>Geocaching-Daten</h4>
+<p>
+Die angezeigten Geocache-Daten werden über die <a href="http://www.opencaching.de/okapi/introduction.html">OKAPI-Schnittstelle</a> von den nationalen Opencaching-Seiten 
+<a href="http://www.opencaching.de/">Opencaching.de</a>, 
+<a href="http://www.opencaching.pl/">Opencaching.pl</a>, 
+<a href="http://www.opencaching.nl/">Opencaching.nl</a>,
+<a href="http://www.opencaching.org.uk/">Opencaching.org.uk</a>, 
+<a href="http://www.opencaching.us/">Opencaching.us</a> geholt und unterliegen den Datenlizenzen der jeweiligen Opencaching-Sites.
+</p>
+<hr />
+<h4>Datenschutz</h4>
+<p>
+Diese Seite erhebt keine personenbezogenen Daten.
+</p>
+
+<hr />
+<h4>Cookies</h4>
+<p>
+Diese Seite verwendet Cookies, um die aktuelle Ansicht der Karte (Zentrum, Position der Marker, gewählter Kartentyp) abzuspeichern und beim erneuten Besuch der Seite wieder zu laden. Selbstverständlich ist das Löschen dieser Cookies bzw. das Unterbinden dieser Cookies in den Browsereinstellungen möglich.
+</p>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary" data-dismiss="modal">Ok</button>
+  </div>
+  </div></div>
+
+</div>
 <script> 
 function showDlgInfoAjax() {
-    var $modal = $('#dlgInfoAjax');
-    $modal.load('info-dialog.html?t=1379569428', '', function(){ $modal.modal({ "backdrop" : "static", "keyboard" : true, "show" : true }); }); 
+  $('#dlgInfoAjax').modal({show : true, backdrop: "static", keyboard: true});
 } 
 </script>
 
 
 <!-- the alert dialog -->
-<div id="dlgAlert" class="modal hide">
+<div id="dlgAlert" class="modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
     <div class="modal-header">
         <h3 id="dlgAlertHeader">Modal header</h3>
     </div>
     <div id="dlgAlertMessage" class="modal-body">Modal body</div>
-    <div class="modal-footer"><button type="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">OK</button></div>
+    <div class="modal-footer"><button type="button" class="btn btn-primary" data-dismiss="modal">OK</button></div>
 </div>
+</div></div>
 <script>
 function showAlert( title, msg ) {
     $("#dlgAlertHeader").html( title );
     $("#dlgAlertMessage").html( msg );
-    $("#dlgAlert").modal({ "backdrop" : "static", "keyboard" : true, "show" : true });
-}
-</script>
-
-<!-- the single input dialog -->
-<div id="dlgSingleInput" class="modal hide">
-    <div class="modal-header">
-        <h3 id="dlgSingleInputHeader">Modal header</h3>
-    </div>
-    <div class="modal-body">
-        <div id="dlgSingleInputMessage">Message</div>
-        <input class="xlarge" id="dlgSingleInputData" type="text" />
-    </div>
-    <div class="modal-footer">
-        <button type="button" class="btn" data-dismiss="modal" aria-hidden="true">Abbruch</button>
-        <button id="dlgSingleInputOk" type="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">OK</button>
-    </div>
-</div>
-
-<script>
-function showSingleInputDialog( title, msg, data, callback ) {
-    $("#dlgSingleInputHeader").html( title );
-    $("#dlgSingleInputMessage").html( msg );
-    $("#dlgSingleInputData").val( data );
-    $('#dlgSingleInputOk').off( 'click' );
-    $('#dlgSingleInputOk').click(function(){
-        $('#dlgSingleInput').modal('hide');
-        if (callback) callback($("#dlgSingleInputData").val());
-    });
-    $("#dlgSingleInput").modal({ "backdrop" : "static", "keyboard" : true, "show" : true });
+    $("#dlgAlert").modal({show : true, backdrop: "static", keyboard: true});
 }
 </script>
 
 <!-- the double input dialog -->
-<div id="dlgDoubleInput" class="modal hide">
+<div id="dlgDoubleInput" class="modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
     <div class="modal-header">
         <h3 id="dlgDoubleInputHeader">Modal header</h3>
     </div>
@@ -367,9 +447,11 @@ function showSingleInputDialog( title, msg, data, callback ) {
         <input class="xlarge" id="dlgDoubleInputData2" type="text" />
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn" data-dismiss="modal" aria-hidden="true">Abbruch</button>
-        <button id="dlgDoubleInputOk" type="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">OK</button>
+        <button type="button" class="btn" data-dismiss="modal">Abbruch</button>
+        <button id="dlgDoubleInputOk" type="button" class="btn btn-primary">OK</button>
     </div>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -381,10 +463,16 @@ function showDoubleInputDialog( title, msg1, data1, msg2, data2, callback ) {
     $("#dlgDoubleInputData2").val( data2 );
     $('#dlgDoubleInputOk').off( 'click' );
     $('#dlgDoubleInputOk').click(function(){
-        $('#dlgDoubleInput').modal('hide');
-        if (callback) callback($("#dlgDoubleInputData1").val(), $("#dlgDoubleInputData2").val());
+      $('body').removeClass('modal-open');
+      $('.modal-backdrop').remove();
+      $('#dlgDoubleInput').modal('hide');
+      if (callback) 
+      {
+        console.log("timeout");
+        setTimeout(function(){callback($("#dlgDoubleInputData1").val(), $("#dlgDoubleInputData2").val());}, 10);
+      }
     });
-    $("#dlgDoubleInput").modal({ "backdrop" : "static", "keyboard" : true, "show" : true });
+    $("#dlgDoubleInput").modal({show : true, backdrop: "static", keyboard: true});
 }
 </script>
 

@@ -125,12 +125,12 @@ function newLine()
     "<select id=\"dynlinetarget" + m.id + "\" class=\"my-small-select\" title=\"Ziel\" onchange=\"selectLineTarget("+m.id+")\"></select>" +
     "</td>" +
     "<td>" +
-    "<button class=\"btn btn-mini btn-danger\" style=\"float: right\" title=\"Linie entfernen\" type=\"button\" onClick=\"deleteLine(" + m.id + ")\"><i class=\"icon-trash\"></i></button>" +
+    "<button class=\"my-button btn btn-mini btn-danger\" style=\"float: right\" title=\"Linie entfernen\" type=\"button\" onClick=\"deleteLine(" + m.id + ")\"><i class=\"fa fa-trash-o\"></i></button>" +
     "<div>" +
     "</div>" +
     "</td>" +
     "</tr>" +
-    "<tr><td colspan=\"2\"><i class=\"icon-resize-full\"></i> <span id=\"dynlinedist" + m.id + "\">n/a</span> <i class=\"icon-compass\"></i> <span id=\"dynlineangle" + m.id + "\">n/a</span></td></tr>" +
+    "<tr><td colspan=\"2\"><i class=\"fa fa-arrows-h\"></i> <span id=\"dynlinedist" + m.id + "\">n/a</span> <i class=\"fa fa-compass\"></i> <span id=\"dynlineangle" + m.id + "\">n/a</span></td></tr>" +
     "</table>";
     
     $('#dynLineDiv').append( div );
@@ -692,23 +692,23 @@ function newMarker( coordinates, theid, radius, name )
     "        <td rowspan=\"3\" style=\"vertical-align: top\">\n" +
     "            <span style=\"width:" + iconw + "px; height:" + iconh + "px; float: left; display: block; background-image: url(img/base.png); background-repeat: no-repeat; background-position: -" + offsetx + "px -" + offsety + "px;\">&nbsp;</span>\n" +
     "        </td>\n" +
-    "        <td style=\"text-align: center\"><i class=\"icon-map-marker\"></i></td>\n" +
+    "        <td style=\"text-align: center\"><i class=\"fa fa-map-marker\"></i></td>\n" +
     "        <td id=\"view_name" + m.alpha +"\" colspan=\"2\">Toller Marker</td>\n" +
     "    </tr>\n" +
     "    <tr>\n" +
-    "        <td style=\"text-align: center\"><i class=\"icon-globe\"></i></td>\n" +
+    "        <td style=\"text-align: center\"><i class=\"fa fa-globe\"></i></td>\n" +
     "        <td id=\"view_coordinates" + m.alpha +"\" colspan=\"2\">N 48° 00.123 E 007° 51.456</td>\n" +
     "    </tr>\n" +
     "    <tr>\n" +
-    "        <td style=\"text-align: center\"><i class=\"icon-circle-blank\"></i></td>\n" +
+    "        <td style=\"text-align: center\"><i class=\"fa fa-circle-blank\"></i></td>\n" +
     "        <td id=\"view_circle" + m.alpha +"\">16100 m</td>\n" +
     "        <td>\n" +
     "            <div class=\"btn-group\" style=\"padding-bottom: 2px; padding-top: 2px; float: right\">\n" +
-    "            <button class=\"btn btn-mini btn-warning\" title=\"Marker bearbeiten\" type=\"button\"  onclick=\"enterEditMode(" + m.id + ");\"><i class=\"icon-edit\"></i></button>\n" +
-    "            <button class=\"btn btn-mini btn-danger\" title=\"Maker entfernen\" type=\"button\" onClick=\"removeMarker(" + m.id + ")\"><i class=\"icon-trash\"></i></button>\n" +
-    "            <button class=\"btn btn-mini btn-info\" title=\"Bewege Karte zu Marker\" type=\"button\" onClick=\"gotoMarker(" + m.id + ")\"><i class=\"icon-search\"></i></button>\n" +
-    "            <button class=\"btn btn-mini btn-warning\" title=\"Setze Marker auf Kartenmitte\" type=\"button\" onClick=\"centerMarker(" + m.id + ")\"><i class=\"icon-screenshot\"></i></button>\n" +
-    "            <button class=\"btn btn-mini btn-success\" title=\"Projektion ausgehend vom Marker\" type=\"button\" onClick=\"projectFromMarker(" + m.id + ")\"><i class=\"icon-location-arrow\"></i></button>\n" +
+    "            <button class=\"my-button btn btn-mini btn-warning\" title=\"Marker bearbeiten\" type=\"button\"  onclick=\"enterEditMode(" + m.id + ");\"><i class=\"fa fa-edit\"></i></button>\n" +
+    "            <button class=\"my-button btn btn-mini btn-danger\" title=\"Maker entfernen\" type=\"button\" onClick=\"removeMarker(" + m.id + ")\"><i class=\"fa fa-trash-o\"></i></button>\n" +
+    "            <button class=\"my-button btn btn-mini btn-info\" title=\"Bewege Karte zu Marker\" type=\"button\" onClick=\"gotoMarker(" + m.id + ")\"><i class=\"fa fa-search\"></i></button>\n" +
+    "            <button class=\"my-button btn btn-mini btn-warning\" title=\"Setze Marker auf Kartenmitte\" type=\"button\" onClick=\"centerMarker(" + m.id + ")\"><i class=\"fa fa-crosshairs\"></i></button>\n" +
+    "            <button class=\"my-button btn btn-mini btn-success\" title=\"Projektion ausgehend vom Marker\" type=\"button\" onClick=\"projectFromMarker(" + m.id + ")\"><i class=\"fa fa-location-arrow\"></i></button>\n" +
     "            </div>\n" +
     "        </td>\n" +
     "    </tr>\n" +

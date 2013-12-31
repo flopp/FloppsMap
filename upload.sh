@@ -21,7 +21,5 @@ else
 fi
 ncftpput -u $LOGIN -p $PASSWD -m -R $SERVER $BASE/ext/jquery-cookie ext/jquery-cookie/jquery.cookie.js
 
-
-
 rm map.php
 
