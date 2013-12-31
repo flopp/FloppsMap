@@ -72,9 +72,9 @@ function coords2string( coord )
     var lat_mmin = 0 | Math.round( lat_rest * 1000 );
     while( lat_mmin >= 1000 )
     {
-		lat_mmin -= 1000;
-		lat_min += 1;
-	}
+        lat_mmin -= 1000;
+        lat_min += 1;
+    }
 
     lat_string += " ";
     if( lat_deg < 10 ) lat_string += "0";
@@ -88,7 +88,6 @@ function coords2string( coord )
     if( lat_mmin < 10 ) lat_string += "00";
     else if( lat_mmin < 100 ) lat_string += "0";
     lat_string += lat_mmin;
-
     
     var lng = coord.lng();
     
@@ -106,9 +105,9 @@ function coords2string( coord )
     var lng_mmin = 0 | Math.round( lng_rest * 1000 );
     while( lng_mmin >= 1000 )
     {
-		lng_mmin -= 1000;
-		lng_min += 1;
-	}
+        lng_mmin -= 1000;
+        lng_min += 1;
+    }
 
     lng_string += " ";
     if( lng_deg < 100 ) lng_string += "0";
@@ -124,7 +123,6 @@ function coords2string( coord )
     else if( lng_mmin < 100 ) lng_string += "0";
     lng_string += lng_mmin;
 
-    
     return lat_string + " " + lng_string;
 }
 

@@ -700,7 +700,7 @@ function newMarker( coordinates, theid, radius, name )
     "        <td id=\"view_coordinates" + m.alpha +"\" colspan=\"2\">N 48° 00.123 E 007° 51.456</td>\n" +
     "    </tr>\n" +
     "    <tr>\n" +
-    "        <td style=\"text-align: center\"><i class=\"fa fa-circle-blank\"></i></td>\n" +
+    "        <td style=\"text-align: center\"><i class=\"fa fa-circle-o\"></i></td>\n" +
     "        <td id=\"view_circle" + m.alpha +"\">16100 m</td>\n" +
     "        <td>\n" +
     "            <div class=\"btn-group\" style=\"padding-bottom: 2px; padding-top: 2px; float: right\">\n" +
