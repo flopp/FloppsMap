@@ -191,13 +191,21 @@ echo "<body onload=\"initialize( '$cntr', '$zoom', '$maptype', '$markers', '$lin
 <!-- the menu -->
 <div class="navbar navbar-inverse navbar-static-top">
     <div class="navbar-inner">
-        <div class="container-fluid">
+      <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Flopps Tolle Karte</a>
+        </div>
+        
+        <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li class="hidden-phone"><a role="button" class="navbar-brand" href="javascript:"><span class="only-large">Flopps Tolle Karte</span><span class="only-small">FTK</span></a></li>
-                <li><a role="button" href="http://blog.flopp-caching.de/" rel="tooltip" title="Hier geht es zu 'Flopps Tolles Blog'"><span class="only-large">Blog <i class="fa fa-star"></i></span><span class="only-small">Blog
-                </span></a></li>
-                <li><a role="button" href="http://blog.flopp-caching.de/benutzung-der-karte/" rel="tooltip" title="Hier geht es zu den Hilfeseiten"><span class="only-large">Hilfe <i class="fa fa-question"></i></span><span class="only-small">Hilfe</span></a></li>
-                <li><a role="button" href="javascript:showDlgInfoAjax()" rel="tooltip" title="Rechtliche Hinweise, Kontaktinformationen, usw."><span class="only-large">Info/Impressum <i class="fa fa-info"></i></span><span class="only-small">Info/Impressum</span></a></li>
+                <li><a role="button" href="http://blog.flopp-caching.de/" rel="tooltip" title="Hier geht es zu 'Flopps Tolles Blog'">Blog <i class="fa fa-star"></i></a></li>
+                <li><a role="button" href="http://blog.flopp-caching.de/benutzung-der-karte/" rel="tooltip" title="Hier geht es zu den Hilfeseiten">Hilfe <i class="fa fa-question"></i></a></li>
+                <li><a role="button" href="javascript:showDlgInfoAjax()" rel="tooltip" title="Rechtliche Hinweise, Kontaktinformationen, usw.">Info/Impressum <i class="fa fa-info"></i></a></li>
             </ul>
         </div>
     </div>
