@@ -17,7 +17,7 @@
     <link rel="image_src" href="img/screenshot.png" />
     
     <!-- google maps -->
-    <script type="text/javascript" src="https://maps.google.com/maps/api/js?key=AIzaSyC_KjqwiB6tKCcrq2aa8B3z-c7wNN8CTA0&amp;sensor=false"></script>
+    <script type="text/javascript" src="https://maps.google.com/maps/api/js?key=AIzaSyC_KjqwiB6tKCcrq2aa8B3z-c7wNN8CTA0&amp;sensor=true"></script>
 
     <!-- my own stuff -->
     <script type="text/javascript" src="js/conversion.js?t=TSTAMP"></script>
@@ -125,18 +125,18 @@
           border-radius: 4px 0 4px 0;
 }
 
-.my-section-header-button {
+.my-section-buttons-top {
   position: absolute;
-  top: 2px;
-  right: 2px;
-  padding: 3px 7px;
+  top: 1px;
+  right: 1px;
+  padding: 2px 5px;
 }
 
-.my-section-footer-button {
+.my-section-buttons-bottom {
   position: absolute;
-  bottom: 2px;
-  right: 2px;
-  padding: 3px 7px;
+  bottom: 1px;
+  right: 1px;
+  padding: 2px 5px;
 }
 
 .my-small-select {
@@ -212,7 +212,7 @@ echo "<body onload=\"initialize( '$cntr', '$zoom', '$maptype', '$markers', '$lin
 </div>
 
 <script type="text/javascript">
-    jQuery(document).ready(function() {
+    $(document).ready(function() {
         $("#sidebartoggle").click(
         function() {
             if( $('#sidebar').is(':visible') )
@@ -270,62 +270,82 @@ echo "<body onload=\"initialize( '$cntr', '$zoom', '$maptype', '$markers', '$lin
 <div id="sidebar">
 
 <div class="my-section">
-    <div class="my-section-header">Suche</div>
+    <div class="my-section-header">Search</div>
     <div>
-<form style="margin: 0" action="javascript:searchLocation()">
-<div class="input-append">
-<input id="txtSearch" style="width: 179px" type="text" placeholder="Koordinaten oder Ort" title="Nach einem Ort oder Koordinaten suchen und die Karte auf dem Suchergebnis zentrieren">
-<button class="my-button btn btn-info" type="submit" title="Nach einem Ort oder Koordinaten suchen und die Karte auf dem Suchergebnis zentrieren"><i class="fa fa-search"></i></button>
+
+<form action="javascript:searchLocation()">
+<div class="input-group" style="margin-bottom: 5px">
+  <input class="form-control" id="txtSearch" type="text" placeholder="Coordinates of place" title="Search for coordinates or a place and center the map on the result">
+  <span class="input-group-btn">
+    <button class="btn btn-info" type="submit" title="Search for coordinates or a place and center the map on the result"><i class="fa fa-search"></i></button>
+  </span>
 </div>
+<button class="btn btn-info btn-block" title="Move map to current location" type="button" onClick="whereAmI()"><i class="fa fa-crosshairs"></i> Where am I?</button>
 </form>
+
     </div>
 </div> <!-- section -->
 
 <div class="my-section-with-footer my-section">
-    <div class="my-section-header">Marker</div>
-    <button id="btnnewmarker1" class="my-section-header-button btn btn-small btn-success" title="Erzeuge einen neuen Marker" type="button" onClick="newMarker( map.getCenter(), -1, -1, null )">Neuer Marker</button>
-    <div id="dynMarkerDiv"></div>
-    <button id="btnnewmarker2" class="my-section-footer-button btn btn-small btn-success" title="Erzeuge einen neuen Marker" type="button" onClick="newMarker( map.getCenter(), -1, -1, null )">Neuer Marker</button>
+  <div class="my-section-header">Markers</div>
+  <div id="btnmarkers1" class="btn-group btn-group-sm my-section-buttons-top">
+    <button class="btn btn-small btn-success" title="Create a new marker at the current map position" type="button" onClick="newMarker( map.getCenter(), -1, -1, null )"><i class="fa fa-map-marker"></i> New</button>
+    <button id="btnmarkersdelete1" class="btn btn-small btn-danger" title="Delete all markers" type="button" onClick="deleteAllMarkers()"><i class="fa fa-trash-o"></i> Delete all</button>
+  </div>
+  <div id="dynMarkerDiv"></div>
+  <div id="btnmarkers2" class="btn-group btn-group-sm my-section-buttons-bottom" style="display: none">
+    <button class="btn btn-small btn-success" title="Create a new marker at the current map position" type="button" onClick="newMarker( map.getCenter(), -1, -1, null )"><i class="fa fa-map-marker"></i> New</button>
+    <button id="btnmarkersdelete2" class="btn btn-small btn-danger" title="Delete all markers" type="button" onClick="deleteAllMarkers()"><i class="fa fa-trash-o"></i> Delete all</button>
+  </div>
 </div> <!-- section -->
   
 <div class="my-section">
-    <div class="my-section-header">Linien</div>
-    <button class="my-section-header-button btn btn-small btn-success" title="Erzeuge eine neue Linie" type="button" onClick="newLine()">Neue Linie</button>
-    <div id="dynLineDiv"></div>
+  <div class="my-section-header">Lines</div>
+  <div class="btn-group btn-group-sm my-section-buttons-top">
+    <button class="btn btn-small btn-success" title="Create new line" type="button" onClick="newLine()"><i class="fa fa-minus"></i> New</button>
+    <button class="btn btn-small btn-danger" title="Delete all lines" type="button" onClick="deleteAllLines()"><i class="fa fa-trash-o"></i> Delete all</button>
+  </div>
+  <div id="dynLineDiv"></div>
 </div> <!-- section -->
 
 <div class="my-section">
-    <div class="my-section-header">Sonstiges/Links</div>
+    <div class="my-section-header">Misc</div>
     <div>
 <b>Permalinks</b>
-<div>
-    <a id="permalink" href="https://foomap.de/" target="_blank"><i class="fa fa-external-link-square"></i> Flopps Tolle Karte</a>
+<div style="margin-bottom: 10px">
+  <a id="permalink" href="http://flopp.net/" target="_blank"><i class="fa fa-external-link-square"></i> Flopps Tolle Karte</a>
 </div>
 
-<b>Karten-Ebenen</b>
+<b>Additional Layers</b>
+<div style="margin-bottom: 10px">
 <!--
 <label class="checkbox" title="Deutsche Naturschutzgebiete in der Karte markieren">
     <input id="showNSG" type="checkbox"> Zeige Naturschutzgebiete
 </label>
 -->
-<label class="checkbox" title="Hillshading aktivieren">
+  <label class="checkbox" title="Toggle hillshading">
     <input id="hillshading" type="checkbox"> Hillshading
-</label>
-<label class="checkbox" title="Kreisgrenzen anzeigen">
-    <input id="showKreisgrenzen" type="checkbox"> Zeige Kreisgrenzen
-</label>
-
-<b>Geocaches (<a href="http://www.opencaching.eu/">Opencaching</a>)</b>
-<div>
-    <label class="checkbox" title="Geocaches auf der Karte anzeigen">
-        <input id="showCaches" type="checkbox"> Zeige Geocaches
-    </label>
+  </label>
+  <label class="checkbox" title="Toggle administrative boundaries">
+    <input id="showKreisgrenzen" type="checkbox"> Show administrative boundaries
+  </label>
 </div>
 
-<b>Externe Links</b>
-<div class="input-append" title="Externer Link">
-<select id="externallinks" style="width: 193px" title="Externen Dienst an Kartenposition öffnen"></select>
-<button class="my-button btn btn-info" type="button" onClick="gotoExternalLink()" title="Externen Dienst an Kartenposition öffnen"><i class="fa fa-play"></i></button>
+<b>Geocaches (<a href="http://www.opencaching.eu/">Opencaching</a>)</b>
+<div style="margin-bottom: 10px">
+  <label class="checkbox" title="Geocaches auf der Karte anzeigen">
+    <input id="showCaches" type="checkbox"> Show geocaches
+  </label>
+</div>
+
+<b>External Services</b>
+<div>
+  <div class="input-group" title="Externer Link">
+    <select class="form-control" id="externallinks" title="Open external service"></select>
+    <span class="input-group-btn">
+      <button class="btn btn-info" type="button" onClick="gotoExternalLink()" title="Open external service"><i class="fa fa-play"></i></button>
+    </span>
+  </div>
 </div>
     </div>
 </div> <!-- section -->
