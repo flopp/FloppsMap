@@ -144,7 +144,6 @@ function newLine()
     }
     
     saveLinesCookie();
-    updateLinks();
     
     return m.id;
 }
@@ -203,7 +202,6 @@ function selectLineSourceById( id, markerid )
     }
     
     saveLinesCookie();
-    updateLinks();
 }
 
 function selectLineSource( id )
@@ -233,7 +231,6 @@ function selectLineTargetById( id, markerid )
     }
     
     saveLinesCookie();
-    updateLinks();
 }
 
 function selectLineTarget( id )
@@ -434,7 +431,6 @@ function deleteLine( id )
     
     lines[index] = null;
     
-    updateLinks();
     saveLinesCookie();
 }
 
@@ -464,7 +460,6 @@ function updateMarker( m )
     $('#edit_circle' + m.alpha ).val( r );
     
     updateLinesMarkerMoved( m.id );    
-    updateLinks();
 }
 
 function setName( id, name )
@@ -548,7 +543,6 @@ function removeMarker( id )
 
     updateMarkerList();
     updateLinesMarkerRemoved( id );
-    updateLinks();
 }
 
 function deleteAllMarkers()
@@ -565,7 +559,6 @@ function gotoMarker( id )
 {
     var m = getMarkerById( id );
     map.setCenter( m.marker.getPosition() );
-    updateLinks();
 }
 
 function centerMarker( id )
@@ -786,7 +779,6 @@ function newMarker( coordinates, theid, radius, name )
     updateMarker( m );
     updateMarkerList();
     updateLinesMarkerAdded( m.id );
-    updateLinks();
     
     return m;
 }
@@ -831,41 +823,44 @@ function projectFromMarker( id )
 
 function storeCenter()
 {
-    c = map.getCenter();
-    $.cookie( 'clat', c.lat(), {expires:30});
-    $.cookie( 'clon', c.lng(), {expires:30});
-    
-    updateLinks();
+  c = map.getCenter();
+  $.cookie('clat', c.lat(), {expires:30});
+  $.cookie('clon', c.lng(), {expires:30});
 }
 
 function storeZoom()
 {
-    $.cookie('zoom', map.getZoom(), {expires:30});
-    
-    updateLinks();
+  $.cookie('zoom', map.getZoom(), {expires:30});
 }
 
-function updateLinks()
+
+function getPermalink()
 {
-    lat = map.getCenter().lat();
-    lng = map.getCenter().lng();
-    latE6 = Math.round( lat * 1000000 );
-    lngE6 = Math.round( lng * 1000000 );
-    zoom = map.getZoom();
+  lat = map.getCenter().lat();
+  lng = map.getCenter().lng();
+  latE6 = Math.round(lat * 1000000);
+  lngE6 = Math.round(lng * 1000000);
+  zoom = map.getZoom();
     
-    var s = "&m=";
-    for( var i = 0; i != markers.length; ++i )
-    {
-        var m = markers[i];
-        if( m.free ) continue;
-        var p = m.marker.getPosition();
-        
-        s = s + m.alpha + ":" + p.lat().toFixed(6) + ":" + p.lng().toFixed(6) + ":" + m.circle.getRadius() + ":" + m.name + "*";
-    }
-    ftklink = "http://flopp.net/?c=" + lat.toFixed(6) + ":" + lng.toFixed(6) + "&z=" + zoom + "&t=" + map.getMapTypeId() + s;    
-    ftklink = ftklink + "&d=" + getLinesText();
+  var s = "&m=";
+  for (var i = 0; i != markers.length; ++i)
+  {
+    var m = markers[i];
+    if (m.free) continue;
+    var p = m.marker.getPosition();
     
-    $( "#permalink" ).attr( "href", ftklink );
+    s = s + m.alpha + ":" + p.lat().toFixed(6) + ":" + p.lng().toFixed(6) + ":" + m.circle.getRadius() + ":" + m.name + "*";
+  }
+  
+  var link = "http://flopp.net/?c=" + lat.toFixed(6) + ":" + lng.toFixed(6) + "&z=" + zoom + "&t=" + map.getMapTypeId() + s + "&d=" + getLinesText();
+
+  return link;
+}
+
+function generatePermalink()
+{
+  var link = getPermalink();
+  showLinkDialog(link);
 }
 
 function updateCopyrights() 
@@ -898,8 +893,6 @@ function updateCopyrights()
     {
         copyrightDiv.innerHTML = "";
     }
-    
-    updateLinks();
 }
 
 function toggleBoundaryLayer( t )
@@ -1386,8 +1379,6 @@ function initialize( xcenter, xzoom, xmap, xmarkers, xlines )
     toggleHillshadingLayer( true );
     
     setupExternalLinkTargets();
-        
-    updateLinks();
     
     var load_caches = get_cookie_int("load_caches", 1);
     $("#showCaches").prop('checked', load_caches == 1);
@@ -1405,7 +1396,6 @@ function searchLocation()
         geocoder.geocode( { address: address, region: 'de' }, function(results, status) {
           if (status == google.maps.GeocoderStatus.OK) {
             map.setCenter(results[0].geometry.location);
-            updateLinks();
           } else {
             showAlert( "Information", "Cannot find location of \"%1\".".replace( /%1/, address ) );
           }
@@ -1414,7 +1404,6 @@ function searchLocation()
     else
     {
         map.setCenter(coords);
-        updateLinks();
     }
 }
 
@@ -1428,7 +1417,6 @@ function whereAmI()
         var loc = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
         $('#txtSearch').val(coords2string(loc));
         map.setCenter(loc);
-        updateLinks();
       }, 
       function() 
       {

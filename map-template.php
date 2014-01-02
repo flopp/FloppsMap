@@ -18,6 +18,7 @@
     
     <!-- google maps -->
     <script type="text/javascript" src="https://maps.google.com/maps/api/js?key=AIzaSyC_KjqwiB6tKCcrq2aa8B3z-c7wNN8CTA0&amp;sensor=true"></script>
+    <script src="https://apis.google.com/js/client.js"></script>
 
     <!-- my own stuff -->
     <script type="text/javascript" src="js/conversion.js?t=TSTAMP"></script>
@@ -311,12 +312,10 @@ echo "<body onload=\"initialize( '$cntr', '$zoom', '$maptype', '$markers', '$lin
 </div> <!-- section -->
 
 <div class="my-section">
-    <div class="my-section-header">Misc</div>
-    <div>
-<b>Permalinks</b>
-<div style="margin-bottom: 10px">
-  <a id="permalink" href="http://flopp.net/" target="_blank"><i class="fa fa-external-link-square"></i> Flopps Tolle Karte</a>
-</div>
+  <div class="my-section-header">Misc</div>
+  <div style="margin-bottom: 10px">
+    <button class="btn btn-sm btn-info" title="Generate permalink" type="button" onClick="generatePermalink()">Create Permalink</button>
+  </div>
 
 <b>Additional Layers</b>
 <div style="margin-bottom: 10px">
@@ -472,9 +471,9 @@ function showAlert( title, msg ) {
     </div>
     <div class="modal-body">
         <div id="dlgDoubleInputMessage1">Message1</div>
-        <input class="xlarge" id="dlgDoubleInputData1" type="text" />
+        <input class="form-control" id="dlgDoubleInputData1" type="text" />
         <div id="dlgDoubleInputMessage2">Message2</div>
-        <input class="xlarge" id="dlgDoubleInputData2" type="text" />
+        <input class="form-control" id="dlgDoubleInputData2" type="text" />
     </div>
     <div class="modal-footer">
         <button type="button" class="btn" data-dismiss="modal">Abbruch</button>
@@ -503,6 +502,61 @@ function showDoubleInputDialog( title, msg1, data1, msg2, data2, callback ) {
       }
     });
     $("#dlgDoubleInput").modal({show : true, backdrop: "static", keyboard: true});
+}
+</script>
+
+<div id="linkDialog" class="modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Permalink</h3>
+      </div>
+      <div class="modal-body">
+        <div>The following URL links to the current view of Flopp's Map including all markers, lines and the selected map type. Copy (<tt>CTRL+C</tt>) the URL and share it with your friends!<br />
+        'Shorten' runs the long URL through an URL shortener (<a href="http://goo.gl/" target="_blank">goo.gl</a>) an produces a shortened URL.
+        </div>
+        <div class="input-group">
+          <input class="form-control" id="linkDialogLink" type="text" title="Permalink the the current map view">
+          <span class="input-group-btn">
+            <button class="btn btn-info" type="button" title="Shorten the permalink" onclick="linkDialogShortenLink()">Shorten</button>
+          </span>
+        </div>
+        <div id="linkDialogError"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function showLinkDialog(linkUrl)
+{
+  $('#linkDialogLink').val(linkUrl);
+  $('#linkDialog').modal({show : true, backdrop: "static", keyboard: true});
+  $('#linkDialogLink').select();
+}
+
+function linkDialogShortenLink()
+{
+  var longUrl = $('#linkDialogLink').val();
+  gapi.client.setApiKey('AIzaSyC_KjqwiB6tKCcrq2aa8B3z-c7wNN8CTA0');
+  
+  gapi.client.load('urlshortener', 'v1', function() {
+    var request = gapi.client.urlshortener.url.insert({'resource': {'longUrl': longUrl}});
+    var resp = request.execute(function(resp) {
+      if (resp.error) 
+      {
+        $('#linkDialogError').html('Error: ' + resp.error.message);
+      } 
+      else 
+      {
+        $('#linkDialogLink').val(resp.id);
+        $('#linkDialogLink').select();
+      }
+    });
+  });
 }
 </script>
 
