@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="description" content="Vollbildkarte mit Koordinatenbestimmung, Wegpunktprojektion, Abstandsberechnung; Anzeige von Geocaches" />
+    <meta name="description" content="Fullscreen map with coordinates, waypoint projection, distance/bearing calculation, display of geocaches" />
     <meta name="viewport" content="height = device-height,
     width = device-width,
     initial-scale = 1.0,
@@ -10,7 +10,7 @@
     maximum-scale = 1.0,
     user-scalable = no,
     target-densitydpi = device-dpi" />
-    <title>Flopps Tolle Karte: Wegpunktprojektion, Koordinaten, Abstand</title>
+    <title>Flopp's Map</title>
     <link rel="author" href="https://plus.google.com/100782631618812527586" />
     <link rel="icon" href="img/favicon.png" type="image/png" />
     <link rel="shortcut icon" href="img/favicon.png" type="image/png" />
@@ -198,7 +198,7 @@ echo "<body onload=\"initialize( '$cntr', '$zoom', '$maptype', '$markers', '$lin
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">Flopps Tolle Karte</a>
+          <a class="navbar-brand" href="#">Flopp's Map</a>
         </div>
         
         <div class="navbar-collapse collapse">
@@ -275,7 +275,7 @@ echo "<body onload=\"initialize( '$cntr', '$zoom', '$maptype', '$markers', '$lin
 
 <form action="javascript:searchLocation()">
 <div class="input-group" style="margin-bottom: 5px">
-  <input class="form-control" id="txtSearch" type="text" placeholder="Coordinates of place" title="Search for coordinates or a place and center the map on the result">
+  <input class="form-control" id="txtSearch" type="text" placeholder="Coordinates or place" title="Search for coordinates or a place and center the map on the result">
   <span class="input-group-btn">
     <button class="btn btn-info" type="submit" title="Search for coordinates or a place and center the map on the result"><i class="fa fa-search"></i></button>
   </span>
