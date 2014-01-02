@@ -60,7 +60,7 @@
 
 <style type="text/css">
     html, body { height: 100%; overflow: hidden}
-    #map-wrapper { position: absolute; left: 0; right:274px; top: 50px; bottom: 0; float: left; }
+    #map-wrapper { position: absolute; left: 0; right:264px; top: 50px; bottom: 0; float: left; }
     #themap { width: 100%; height: 100%;}
     #themap img { max-width: none; }
     
@@ -72,7 +72,7 @@
       }
       
     #sidebar { overflow: auto; position: absolute; padding: 4px; width: 264px; right: 0; top: 50px; bottom: 0px; float: right; }
-    #sidebartoggle { position: absolute; display: block; right: 274px; width: 24px; height: 60px; top: 50%; background-color: white; 
+    #sidebartoggle { position: absolute; display: block; right: 264px; width: 24px; height: 60px; top: 50%; background-color: white; 
     border-top: 1px solid #ddd;
     border-left: 1px solid #ddd;
     border-bottom: 1px solid #ddd;
@@ -266,11 +266,14 @@ echo "<body onload=\"initialize( '$cntr', '$zoom', '$maptype', '$markers', '$lin
 <a id="sidebartoggle" href="javascript:">
 <span id="sidebartogglebutton"><i class="fa fa-chevron-right"></i></span>
 </a>
-<!-- the control widget -->
+
+
 <div id="sidebar">
 
 <div class="my-section">
-    <div class="my-section-header">Search</div>
+  <div class="my-section-header">Search</div>
+  <button class="btn btn-info btn-sm my-section-buttons-top" title="Move map to current location" type="button" onClick="whereAmI()"><i class="fa fa-crosshairs"></i> Where am I?</button>
+    
     <div>
 
 <form action="javascript:searchLocation()">
@@ -280,7 +283,6 @@ echo "<body onload=\"initialize( '$cntr', '$zoom', '$maptype', '$markers', '$lin
     <button class="btn btn-info" type="submit" title="Search for coordinates or a place and center the map on the result"><i class="fa fa-search"></i></button>
   </span>
 </div>
-<button class="btn btn-info btn-block" title="Move map to current location" type="button" onClick="whereAmI()"><i class="fa fa-crosshairs"></i> Where am I?</button>
 </form>
 
     </div>
@@ -289,21 +291,21 @@ echo "<body onload=\"initialize( '$cntr', '$zoom', '$maptype', '$markers', '$lin
 <div class="my-section-with-footer my-section">
   <div class="my-section-header">Markers</div>
   <div id="btnmarkers1" class="btn-group btn-group-sm my-section-buttons-top">
-    <button class="btn btn-small btn-success" title="Create a new marker at the current map position" type="button" onClick="newMarker( map.getCenter(), -1, -1, null )"><i class="fa fa-map-marker"></i> New</button>
-    <button id="btnmarkersdelete1" class="btn btn-small btn-danger" title="Delete all markers" type="button" onClick="deleteAllMarkers()"><i class="fa fa-trash-o"></i> Delete all</button>
+    <button class="btn btn-sm btn-success" title="Create a new marker at the current map position" type="button" onClick="newMarker( map.getCenter(), -1, -1, null )"><i class="fa fa-map-marker"></i> New</button>
+    <button id="btnmarkersdelete1" class="btn btn-sm btn-danger" title="Delete all markers" type="button" onClick="deleteAllMarkers()"><i class="fa fa-trash-o"></i> Delete all</button>
   </div>
   <div id="dynMarkerDiv"></div>
   <div id="btnmarkers2" class="btn-group btn-group-sm my-section-buttons-bottom" style="display: none">
-    <button class="btn btn-small btn-success" title="Create a new marker at the current map position" type="button" onClick="newMarker( map.getCenter(), -1, -1, null )"><i class="fa fa-map-marker"></i> New</button>
-    <button id="btnmarkersdelete2" class="btn btn-small btn-danger" title="Delete all markers" type="button" onClick="deleteAllMarkers()"><i class="fa fa-trash-o"></i> Delete all</button>
+    <button class="btn btn-sm btn-success" title="Create a new marker at the current map position" type="button" onClick="newMarker( map.getCenter(), -1, -1, null )"><i class="fa fa-map-marker"></i> New</button>
+    <button id="btnmarkersdelete2" class="btn btn-sm btn-danger" title="Delete all markers" type="button" onClick="deleteAllMarkers()"><i class="fa fa-trash-o"></i> Delete all</button>
   </div>
 </div> <!-- section -->
   
 <div class="my-section">
   <div class="my-section-header">Lines</div>
   <div class="btn-group btn-group-sm my-section-buttons-top">
-    <button class="btn btn-small btn-success" title="Create new line" type="button" onClick="newLine()"><i class="fa fa-minus"></i> New</button>
-    <button class="btn btn-small btn-danger" title="Delete all lines" type="button" onClick="deleteAllLines()"><i class="fa fa-trash-o"></i> Delete all</button>
+    <button class="btn btn-sm btn-success" title="Create new line" type="button" onClick="newLine()"><i class="fa fa-minus"></i> New</button>
+    <button class="btn btn-sm btn-danger" title="Delete all lines" type="button" onClick="deleteAllLines()"><i class="fa fa-trash-o"></i> Delete all</button>
   </div>
   <div id="dynLineDiv"></div>
 </div> <!-- section -->

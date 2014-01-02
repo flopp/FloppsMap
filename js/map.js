@@ -1405,6 +1405,7 @@ function searchLocation()
         geocoder.geocode( { address: address, region: 'de' }, function(results, status) {
           if (status == google.maps.GeocoderStatus.OK) {
             map.setCenter(results[0].geometry.location);
+            updateLinks();
           } else {
             showAlert( "Information", "Cannot find location of \"%1\".".replace( /%1/, address ) );
           }
@@ -1412,7 +1413,7 @@ function searchLocation()
     }
     else
     {
-        map.setCenter( coords, 13 );
+        map.setCenter(coords);
         updateLinks();
     }
 }
@@ -1427,6 +1428,7 @@ function whereAmI()
         var loc = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
         $('#txtSearch').val(coords2string(loc));
         map.setCenter(loc);
+        updateLinks();
       }, 
       function() 
       {
