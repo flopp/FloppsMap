@@ -213,48 +213,47 @@ echo "<body onload=\"initialize( '$cntr', '$zoom', '$maptype', '$markers', '$lin
 </div>
 
 <script type="text/javascript">
-    $(document).ready(function() {
-        $("#sidebartoggle").click(
-        function() {
-            if( $('#sidebar').is(':visible') )
-            {
-                $('#sidebar').hide();
-                $('#sidebartoggle').css( "right", "0px" );
-                $('#sidebartogglebutton').html( "<i class=\"fa fa-chevron-left\"></i>" );
-                $('#map-wrapper').css("right", "0px");
-                google.maps.event.trigger(map, "resize");
-            }
-            else
-            {
-                $('#sidebar').show();
-                $('#sidebartoggle').css( "right", "274px" );
-                $('#sidebartogglebutton').html( "<i class=\"fa fa-chevron-right\"></i>" );
-                $('#map-wrapper').css("right", "274px");
-                google.maps.event.trigger(map, "resize");
-            }
-        });
-        
-       
-        $("#hillshading").click(
-        function() {
-            toggleHillshadingLayer( $('#hillshading').is(':checked') );
-        });        
+  function hideSidebar()
+  {
+    $.cookie("sidebar", "hidden", {expires: 30});
+    $('#sidebar').hide();
+    $('#sidebartoggle').css( "right", "0px" );
+    $('#sidebartogglebutton').html( "<i class=\"fa fa-chevron-left\"></i>" );
+    $('#map-wrapper').css("right", "0px");
+    google.maps.event.trigger(map, "resize");
+  }
+
+  function showSidebar()
+  {
+    $.cookie("sidebar", "shown", {expires: 30});
+    $('#sidebar').show();
+    $('#sidebartoggle').css( "right", "264px" );
+    $('#sidebartogglebutton').html( "<i class=\"fa fa-chevron-right\"></i>" );
+    $('#map-wrapper').css("right", "264px");
+    google.maps.event.trigger(map, "resize");
+  }
+  
+  function toggleSidebar(shown)
+  {
+    if (shown) showSidebar();
+    else       hideSidebar();
+  } 
+  
+  function restoreSidebar()
+  {
+    var state = get_cookie_string("sidebar", "shown");
+    toggleSidebar(state != "hidden");
+  }
+  
+  $(document).ready(function() {
+    $("#sidebartoggle").click(function() { if ($('#sidebar').is(':visible')) hideSidebar(); else showSidebar(); });      
+    $("#hillshading").click(function() { toggleHillshadingLayer($('#hillshading').is(':checked')); });        
+    $("#showKreisgrenzen").click(function() { toggleBoundaryLayer($('#showKreisgrenzen').is(':checked')); });
+    $("#showCaches").click(function() { okapi_toggle_load_caches($('#showCaches').is(':checked')); });
 /*        
-        $("#showNSG").click(
-        function() {
-            showNSGLayer( $('#showNSG').is(':checked') );
-        });
+    $("#showNSG").click(function() { showNSGLayer( $('#showNSG').is(':checked') ); });
 */        
-        $("#showKreisgrenzen").click(
-        function() {
-            toggleBoundaryLayer( $('#showKreisgrenzen').is(':checked') );
-        });
-        
-        $("#showCaches").click(
-        function() {
-            okapi_toggle_load_caches( $('#showCaches').is(':checked') );
-        });
-});
+  });
 </script>
 
 

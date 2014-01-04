@@ -1376,6 +1376,8 @@ function initialize( xcenter, xzoom, xmap, xmarkers, xlines )
     
     updateCopyrights();
     
+    restoreSidebar();
+    
     toggleHillshadingLayer( true );
     
     setupExternalLinkTargets();
