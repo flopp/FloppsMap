@@ -107,7 +107,8 @@ echo "<body onload=\"initialize( '$cntr', '$zoom', '$maptype', '$markers', '$lin
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#">Flopp's Map</a>
+      <img src="img/favicon.png" style="position: absolute; top: 9px; left:4px;">
+      <a class="navbar-brand" href="#" style="margin-left:32px;"><div style="width: 32px"></div>Flopp's Map</a>
     </div>
         
     <div class="navbar-collapse collapse">

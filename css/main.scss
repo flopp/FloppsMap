@@ -18,11 +18,16 @@ html, body { height: 100%; overflow: hidden}
   padding-left: 20px;
   padding-right: 20px;
 }
+
 .navbar-custom .navbar-nav > .active > a, .navbar-nav > .active > a:hover, .navbar-nav > .active > a:focus {
   color: $foreground;
   background-color: transparent;
 }
-      
+   
+.navbar-custom .icon-bar {
+  background-color: $foreground;
+}   
+
 .navbar-custom .navbar-nav > li > a:hover, .nav > li > a:focus {
   text-decoration: none;
   background-color: $highlighted;
