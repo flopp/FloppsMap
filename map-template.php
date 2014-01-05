@@ -39,9 +39,10 @@
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" />
  
- 
     <!-- fonts --> 
     <link type="text/css" rel="stylesheet" href="//fonts.googleapis.com/css?family=Norican">
+    
+    <link type="text/css" rel="stylesheet" href="css/main.css">
     
 <!-- Piwik -->
 <script type="text/javascript"> 
@@ -55,101 +56,8 @@
     var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0]; g.type='text/javascript';
     g.defer=true; g.async=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
   })();
-
 </script>
 <!-- End Piwik Code -->
-
-<style type="text/css">
-    html, body { height: 100%; overflow: hidden}
-    #map-wrapper { position: absolute; left: 0; right:264px; top: 50px; bottom: 0; float: left; }
-    #themap { width: 100%; height: 100%;}
-    #themap img { max-width: none; }
-    
-    .navbar-brand {
-        font-size: 24px;
-        font-family: 'Norican', serif;
-        font-weight: bold;
-        color: white;
-      }
-      
-    #sidebar { overflow: auto; position: absolute; padding: 4px; width: 264px; right: 0; top: 50px; bottom: 0px; float: right; }
-    #sidebartoggle { position: absolute; display: block; right: 264px; width: 24px; height: 60px; top: 50%; background-color: white; 
-    border-top: 1px solid #ddd;
-    border-left: 1px solid #ddd;
-    border-bottom: 1px solid #ddd;
-    -webkit-border-radius: 8px 0 0 8px;
-       -moz-border-radius: 8px 0 0 8px;
-            border-radius: 8px 0 0 8px;
-    }
-    #sidebartogglebutton { position: absolute; display: block; width: 14px; height: 14px; top: 50%; left: 50%; margin-left: -5px; margin-top: -10px; }
-    
-    @media(max-width:599px){.only-small{display:inherit!important}.only-large{display:none!important}}
-    @media(min-width:600px){.only-small{display:none!important}.only-large{display:inherit!important}}
-   
-.my-button {
-  width: 26px;
-  height: 26px;
-  padding: 2px;
-}
-
-.my-section {
-  position: relative;
-  margin: 4px 0;
-  padding: 39px 6px 6px 6px;
-  background-color: #fff;
-  border: 1px solid #ddd;
-  -webkit-border-radius: 4px;
-     -moz-border-radius: 4px;
-          border-radius: 4px;
-}
-
-.my-section-with-footer {
-  padding: 39px 6px 39px 6px;
-}
-
-.my-section-header {
-  position: absolute;
-  top: -1px;
-  left: -1px;
-  height: 22px;
-  padding-left: 6px;
-  padding-right: 6px;
-  padding-top: 1px;
-  padding-bottom: 1px;
-  font-size: 16px;
-  font-weight: bold;
-  background-color: #f5f5f5;
-  border: 1px solid #ddd;
-  color: #444;
-  -webkit-border-radius: 4px 0 4px 0;
-     -moz-border-radius: 4px 0 4px 0;
-          border-radius: 4px 0 4px 0;
-}
-
-.my-section-buttons-top {
-  position: absolute;
-  top: 1px;
-  right: 1px;
-  padding: 2px 5px;
-}
-
-.my-section-buttons-bottom {
-  position: absolute;
-  bottom: 1px;
-  right: 1px;
-  padding: 2px 5px;
-}
-
-.my-small-select {
-    width: 40px; 
-    height:26px; 
-    padding-left: 2px;
-    padding-right: 2px;
-    padding-top: 1px; 
-    padding-bottom: 1px; 
-    margin-bottom: 4px;
-}
-</style>
 
 </head>
   
