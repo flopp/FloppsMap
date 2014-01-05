@@ -47,19 +47,8 @@ function showAlert( title, msg )
 }
 
 /* projection dialog */
-function showProjectionDialog( title, msg1, data1, msg2, data2, callback ) 
+function showProjectionDialog(callback) 
 {
-  "Waypoint Projection", 
-        "Bearing in ° (0-360)",
-        0,
-        "Distance in meters (>0)",
-        0, 
-        
-  $("#projectionDialogHeader").html( title );
-  $("#projectionDialogMessage1").html( msg1 );
-  $("#projectionDialogMessage2").html( msg2 );
-  $("#projectionDialogData1").val( data1 );
-  $("#projectionDialogData2").val( data2 );
   $('#projectionDialogOk').off( 'click' );
   $('#projectionDialogOk').click(function(){
     $('body').removeClass('modal-open');
@@ -67,8 +56,7 @@ function showProjectionDialog( title, msg1, data1, msg2, data2, callback )
     $('#projectionDialog').modal('hide');
     if (callback) 
     {
-      console.log("timeout");
-      setTimeout(function(){callback($("#projectionDialogData1").val(), $("#projectionDialogData2").val());}, 10);
+      setTimeout(function(){callback($("#projectionBearing").val(), $("#projectionDistance").val());}, 10);
     }
   });
   $("#projectionDialog").modal({show : true, backdrop: "static", keyboard: true});

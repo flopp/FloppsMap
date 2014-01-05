@@ -43,7 +43,6 @@
     <script type="text/javascript" src="js/okapi.js?t=TSTAMP"></script>
     <script type="text/javascript" src="js/ui.js?t=TSTAMP"></script>
     <link type="text/css" rel="stylesheet" href="css/main.css?t=TSTAMP">
-    <link type="text/css" rel="stylesheet" href="css/my.css?t=TSTAMP">
     
 <!-- Piwik -->
 <script type="text/javascript"> 
