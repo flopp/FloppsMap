@@ -27,6 +27,7 @@
     <script type="text/javascript" src="js/coordinates.js?t=TSTAMP"></script>
     <script type="text/javascript" src="js/map.js?t=TSTAMP"></script>
     <script type="text/javascript" src="js/okapi.js?t=TSTAMP"></script>
+    <link type="text/css" rel="stylesheet" href="css/main.css?t=TSTAMP">
 
     <!-- jquery -->
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
@@ -41,8 +42,6 @@
  
     <!-- fonts --> 
     <link type="text/css" rel="stylesheet" href="//fonts.googleapis.com/css?family=Norican">
-    
-    <link type="text/css" rel="stylesheet" href="css/main.css">
     
 <!-- Piwik -->
 <script type="text/javascript"> 
