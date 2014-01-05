@@ -1,16 +1,45 @@
+$background: #2c3e50;
+$highlighted: #34495e;
+$foreground: #ffffff;
+
 html, body { height: 100%; overflow: hidden}
 #map-wrapper { position: absolute; left: 0; right:264px; top: 50px; bottom: 0; float: left; }
 #themap { width: 100%; height: 100%;}
 #themap img { max-width: none; }
 
-.navbar-brand {
+.navbar-custom {
+  background-color: $background;
+  color: $foreground;
+  border-radius: 0;
+}
+  
+.navbar-custom .navbar-nav > li > a {
+  color: $foreground;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+.navbar-custom .navbar-nav > .active > a, .navbar-nav > .active > a:hover, .navbar-nav > .active > a:focus {
+  color: $foreground;
+  background-color: transparent;
+}
+      
+.navbar-custom .navbar-nav > li > a:hover, .nav > li > a:focus {
+  text-decoration: none;
+  background-color: $highlighted;
+}
+      
+.navbar-custom .navbar-brand {
+  color: $foreground;
   font-size: 24px;
   font-family: 'Norican', serif;
-  font-weight: bold;
-  color: white;
+}
+
+.navbar-custom .navbar-toggle {
+  background-color: $highlighted;
 }
 
 #sidebar { 
+  background-color: $background;
   overflow: auto; 
   position: absolute; 
   padding: 4px; 
@@ -22,13 +51,14 @@ html, body { height: 100%; overflow: hidden}
 }
 
 #sidebartoggle { 
+  background-color: $background;
+  color: $foreground;
   position: absolute; 
   display: block; 
   right: 264px; 
   width: 24px; 
   height: 60px; 
   top: 50%; 
-  background-color: white; 
   border-top: 1px solid #ddd;
   border-left: 1px solid #ddd;
   border-bottom: 1px solid #ddd;

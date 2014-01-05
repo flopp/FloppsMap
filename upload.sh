@@ -5,6 +5,8 @@
 S=$(date +%s)
 sed "s/TSTAMP/$S/g" map-template.php > map.php
 
+sass css/main.scss > css/main.css
+
 ncftpput -u $LOGIN -p $PASSWD $SERVER $BASE/ $(cat files.root)
 ncftpput -u $LOGIN -p $PASSWD $SERVER $BASE/js/ $(cat files.js)
 ncftpput -u $LOGIN -p $PASSWD $SERVER $BASE/img/ $(cat files.img)

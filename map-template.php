@@ -20,15 +20,6 @@
     <script type="text/javascript" src="https://maps.google.com/maps/api/js?key=AIzaSyC_KjqwiB6tKCcrq2aa8B3z-c7wNN8CTA0&amp;sensor=true"></script>
     <script src="https://apis.google.com/js/client.js"></script>
 
-    <!-- my own stuff -->
-    <script type="text/javascript" src="js/conversion.js?t=TSTAMP"></script>
-    <script type="text/javascript" src="js/cookies.js?t=TSTAMP"></script>
-    <script type="text/javascript" src="js/geographiclib.js?t=TSTAMP"></script>
-    <script type="text/javascript" src="js/coordinates.js?t=TSTAMP"></script>
-    <script type="text/javascript" src="js/map.js?t=TSTAMP"></script>
-    <script type="text/javascript" src="js/okapi.js?t=TSTAMP"></script>
-    <link type="text/css" rel="stylesheet" href="css/main.css?t=TSTAMP">
-
     <!-- jquery -->
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     
@@ -42,6 +33,17 @@
  
     <!-- fonts --> 
     <link type="text/css" rel="stylesheet" href="//fonts.googleapis.com/css?family=Norican">
+    
+    <!-- my own stuff -->
+    <script type="text/javascript" src="js/conversion.js?t=TSTAMP"></script>
+    <script type="text/javascript" src="js/cookies.js?t=TSTAMP"></script>
+    <script type="text/javascript" src="js/geographiclib.js?t=TSTAMP"></script>
+    <script type="text/javascript" src="js/coordinates.js?t=TSTAMP"></script>
+    <script type="text/javascript" src="js/map.js?t=TSTAMP"></script>
+    <script type="text/javascript" src="js/okapi.js?t=TSTAMP"></script>
+    <script type="text/javascript" src="js/ui.js?t=TSTAMP"></script>
+    <link type="text/css" rel="stylesheet" href="css/main.css?t=TSTAMP">
+    <link type="text/css" rel="stylesheet" href="css/my.css?t=TSTAMP">
     
 <!-- Piwik -->
 <script type="text/javascript"> 
@@ -69,27 +71,27 @@ $lines = "";
 
 if(!empty($_GET)) 
 {
-    // center: c=LAT:LON or c=DEG or c=DMMM or ...
-    if(isset($_GET['c']))
-    {
-        $cntr = $_GET['c'];
-    }
-    if(isset($_GET['z']))
-    {
-        $zoom = $_GET['z'];
-    }
-    if(isset($_GET['t']))
-    {
-        $maptype = $_GET['t'];
-    }    
-    if(isset($_GET['m']))
-    {
-        $markers = $_GET['m'];
-    }
-    if(isset($_GET['d']))
-    {
-        $lines = $_GET['d'];
-    }
+  // center: c=LAT:LON or c=DEG or c=DMMM or ...
+  if(isset($_GET['c'])) 
+  {
+    $cntr = $_GET['c'];
+  }
+  if(isset($_GET['z'])) 
+  {
+    $zoom = $_GET['z'];
+  }
+  if(isset($_GET['t']))
+  {
+    $maptype = $_GET['t'];
+  }    
+  if(isset($_GET['m']))
+  {
+    $markers = $_GET['m'];
+  }
+  if(isset($_GET['d']))
+  {
+    $lines = $_GET['d'];
+  }
 }
 
 echo "<body onload=\"initialize( '$cntr', '$zoom', '$maptype', '$markers', '$lines' )\">";
@@ -97,83 +99,37 @@ echo "<body onload=\"initialize( '$cntr', '$zoom', '$maptype', '$markers', '$lin
 
 
 <!-- the menu -->
-<div class="navbar navbar-inverse navbar-static-top">
-    <div class="navbar-inner">
-      <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">Flopp's Map</a>
-        </div>
-        
-        <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-                <li><a role="button" href="http://blog.flopp-caching.de/" rel="tooltip" title="Hier geht es zu 'Flopps Tolles Blog'">Blog <i class="fa fa-star"></i></a></li>
-                <li><a role="button" href="http://blog.flopp-caching.de/benutzung-der-karte/" rel="tooltip" title="Hier geht es zu den Hilfeseiten">Hilfe <i class="fa fa-question"></i></a></li>
-                <li><a role="button" href="javascript:showDlgInfoAjax()" rel="tooltip" title="Rechtliche Hinweise, Kontaktinformationen, usw.">Info/Impressum <i class="fa fa-info"></i></a></li>
-            </ul>
-        </div>
+<div class="navbar navbar-custom navbar-static-top">
+  <div class="navbar-inner">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">Flopp's Map</a>
     </div>
+        
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li><a role="button" href="http://blog.flopp-caching.de/" target="_blank" rel="tooltip" title="Hier geht es zu 'Flopps Tolles Blog'">Blog <i class="fa fa-star"></i></a></li>
+        <li><a role="button" href="http://blog.flopp-caching.de/benutzung-der-karte/" target="_blank" rel="tooltip" title="Hier geht es zu den Hilfeseiten">Hilfe <i class="fa fa-question"></i></a></li>
+        <li><a role="button" href="javascript:showInfoDialog()" rel="tooltip" title="Rechtliche Hinweise, Kontaktinformationen, usw.">Info/Impressum <i class="fa fa-info"></i></a></li>
+      </ul>
+    </div>
+  </div>
 </div>
-
-<script type="text/javascript">
-  function hideSidebar()
-  {
-    $.cookie("sidebar", "hidden", {expires: 30});
-    $('#sidebar').hide();
-    $('#sidebartoggle').css( "right", "0px" );
-    $('#sidebartogglebutton').html( "<i class=\"fa fa-chevron-left\"></i>" );
-    $('#map-wrapper').css("right", "0px");
-    google.maps.event.trigger(map, "resize");
-  }
-
-  function showSidebar()
-  {
-    $.cookie("sidebar", "shown", {expires: 30});
-    $('#sidebar').show();
-    $('#sidebartoggle').css( "right", "264px" );
-    $('#sidebartogglebutton').html( "<i class=\"fa fa-chevron-right\"></i>" );
-    $('#map-wrapper').css("right", "264px");
-    google.maps.event.trigger(map, "resize");
-  }
-  
-  function toggleSidebar(shown)
-  {
-    if (shown) showSidebar();
-    else       hideSidebar();
-  } 
-  
-  function restoreSidebar()
-  {
-    var state = get_cookie_string("sidebar", "shown");
-    toggleSidebar(state != "hidden");
-  }
-  
-  $(document).ready(function() {
-    $("#sidebartoggle").click(function() { if ($('#sidebar').is(':visible')) hideSidebar(); else showSidebar(); });      
-    $("#hillshading").click(function() { toggleHillshadingLayer($('#hillshading').is(':checked')); });        
-    $("#showKreisgrenzen").click(function() { toggleBoundaryLayer($('#showKreisgrenzen').is(':checked')); });
-    $("#showCaches").click(function() { okapi_toggle_load_caches($('#showCaches').is(':checked')); });
-/*        
-    $("#showNSG").click(function() { showNSGLayer( $('#showNSG').is(':checked') ); });
-*/        
-  });
-</script>
-
 
 <!-- the map -->
 <div id="map-wrapper">
-    <div id="themap"></div>
+  <div id="themap"></div>
 </div>
   
 
 <a id="sidebartoggle" href="javascript:">
-<span id="sidebartogglebutton"><i class="fa fa-chevron-right"></i></span>
+  <span id="sidebartogglebutton"><i class="fa fa-chevron-right"></i></span>
 </a>
-
 
 <div id="sidebar">
 
@@ -342,74 +298,52 @@ Diese Seite verwendet Cookies, um die aktuelle Ansicht der Karte (Zentrum, Posit
   </div></div>
 
 </div>
-<script> 
-function showDlgInfoAjax() {
-  $('#dlgInfoAjax').modal({show : true, backdrop: "static", keyboard: true});
-} 
-</script>
-
 
 <!-- the alert dialog -->
 <div id="dlgAlert" class="modal">
   <div class="modal-dialog">
     <div class="modal-content">
-    <div class="modal-header">
+      <div class="modal-header">
         <h3 id="dlgAlertHeader">Modal header</h3>
-    </div>
-    <div id="dlgAlertMessage" class="modal-body">Modal body</div>
-    <div class="modal-footer"><button type="button" class="btn btn-primary" data-dismiss="modal">OK</button></div>
-</div>
-</div></div>
-<script>
-function showAlert( title, msg ) {
-    $("#dlgAlertHeader").html( title );
-    $("#dlgAlertMessage").html( msg );
-    $("#dlgAlert").modal({show : true, backdrop: "static", keyboard: true});
-}
-</script>
-
-<!-- the double input dialog -->
-<div id="dlgDoubleInput" class="modal">
-  <div class="modal-dialog">
-    <div class="modal-content">
-    <div class="modal-header">
-        <h3 id="dlgDoubleInputHeader">Modal header</h3>
-    </div>
-    <div class="modal-body">
-        <div id="dlgDoubleInputMessage1">Message1</div>
-        <input class="form-control" id="dlgDoubleInputData1" type="text" />
-        <div id="dlgDoubleInputMessage2">Message2</div>
-        <input class="form-control" id="dlgDoubleInputData2" type="text" />
-    </div>
-    <div class="modal-footer">
-        <button type="button" class="btn" data-dismiss="modal">Abbruch</button>
-        <button id="dlgDoubleInputOk" type="button" class="btn btn-primary">OK</button>
-    </div>
+      </div>
+      <div id="dlgAlertMessage" class="modal-body">Modal body</div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+      </div>
     </div>
   </div>
 </div>
 
-<script>
-function showDoubleInputDialog( title, msg1, data1, msg2, data2, callback ) {
-    $("#dlgDoubleInputHeader").html( title );
-    $("#dlgDoubleInputMessage1").html( msg1 );
-    $("#dlgDoubleInputMessage2").html( msg2 );
-    $("#dlgDoubleInputData1").val( data1 );
-    $("#dlgDoubleInputData2").val( data2 );
-    $('#dlgDoubleInputOk').off( 'click' );
-    $('#dlgDoubleInputOk').click(function(){
-      $('body').removeClass('modal-open');
-      $('.modal-backdrop').remove();
-      $('#dlgDoubleInput').modal('hide');
-      if (callback) 
-      {
-        console.log("timeout");
-        setTimeout(function(){callback($("#dlgDoubleInputData1").val(), $("#dlgDoubleInputData2").val());}, 10);
-      }
-    });
-    $("#dlgDoubleInput").modal({show : true, backdrop: "static", keyboard: true});
-}
-</script>
+<div id="projectionDialog" class="modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Waypoint Projection</h3>
+      </div>
+      <div class="modal-body">
+   
+<img src="img/projection.png" style="float: right">
+<div  style="margin-right: 150px">
+<p>Waypoint projection creates a new marker 'd' meters away from the source marker with a bearing angle of '&beta;'.</p>
+<form role="form">
+  <div class="form-group">
+    <label for="projectionBearing" class="control-label">Bearing &beta;</label>
+    <input type="text" class="form-control" id="projectionBearing" placeholder="Bearing angle in °; 0-360">
+  </div>
+  <div class="form-group">
+    <label for="projectionDistance" class="control-label">Distance d</label>
+    <input type="text" class="form-control" id="projectionDistance" placeholder="Projection distance in meters">
+  </div>
+</form>
+</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn" data-dismiss="modal">Cancel</button>
+      <button id="projectionDialogOk" type="button" class="btn btn-primary">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <div id="linkDialog" class="modal">
   <div class="modal-dialog">
@@ -435,36 +369,6 @@ function showDoubleInputDialog( title, msg1, data1, msg2, data2, callback ) {
     </div>
   </div>
 </div>
-
-<script>
-function showLinkDialog(linkUrl)
-{
-  $('#linkDialogLink').val(linkUrl);
-  $('#linkDialog').modal({show : true, backdrop: "static", keyboard: true});
-  $('#linkDialogLink').select();
-}
-
-function linkDialogShortenLink()
-{
-  var longUrl = $('#linkDialogLink').val();
-  gapi.client.setApiKey('AIzaSyC_KjqwiB6tKCcrq2aa8B3z-c7wNN8CTA0');
-  
-  gapi.client.load('urlshortener', 'v1', function() {
-    var request = gapi.client.urlshortener.url.insert({'resource': {'longUrl': longUrl}});
-    var resp = request.execute(function(resp) {
-      if (resp.error) 
-      {
-        $('#linkDialogError').html('Error: ' + resp.error.message);
-      } 
-      else 
-      {
-        $('#linkDialogLink').val(resp.id);
-        $('#linkDialogLink').select();
-      }
-    });
-  });
-}
-</script>
 
   </body>
 </html>

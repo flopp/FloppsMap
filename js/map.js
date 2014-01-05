@@ -785,40 +785,35 @@ function newMarker( coordinates, theid, radius, name )
 
 function projectFromMarker( id )
 {
-    var mm = getMarkerById( id );
-    var oldpos = mm.marker.getPosition();
-    
-    showDoubleInputDialog( 
-        "Waypoint Projection", 
-        "Bearing in ° (0-360)",
-        0,
-        "Distance in meters (>0)",
-        0, 
-        function(data1, data2)
-        {
-            var angle = getFloat( data1, 0, 360 );
-            var dist = getFloat( data2, 0, 100000000000 );
-            
-            if( angle == null )
-            {
-                showAlert( "Error", "Bad 'bearing' value: \"%1\".<br />Allowed values: floating point numbers between 0 and 360.".replace( /%1/, data1 ) );
-                return;
-            }
-            
-            if( dist == null )
-            {
-                showAlert( "Error", "Bad 'distance' value: \"%1\".<br />Allowed values: floating point numbers &geq; 0.".replace( /%1/, data2 ) );
-                return;
-            }
+  var mm = getMarkerById( id );
+  var oldpos = mm.marker.getPosition();
+  
+  showProjectionDialog(
+    function(data1, data2)
+    {
+      var angle = getFloat( data1, 0, 360 );
+      var dist = getFloat( data2, 0, 100000000000 );
+      
+      if( angle == null )
+      {
+        showAlert( "Error", "Bad 'bearing' value: \"%1\".<br />Allowed values: floating point numbers between 0 and 360.".replace( /%1/, data1 ) );
+        return;
+      }
+      
+      if( dist == null )
+      {
+        showAlert( "Error", "Bad 'distance' value: \"%1\".<br />Allowed values: floating point numbers &geq; 0.".replace( /%1/, data2 ) );
+        return;
+      }
 
-            var newpos = projection_geodesic( oldpos, angle, dist );
-            var m = newMarker( newpos, -1, RADIUS_DEFAULT, null );
-            if( m != null )
-            {
-                showAlert( "Information", "Created new marker: %1.".replace( /%1/, m.alpha ) );
-            }        
-        }
-    );
+      var newpos = projection_geodesic( oldpos, angle, dist );
+      var m = newMarker( newpos, -1, RADIUS_DEFAULT, null );
+      if( m != null )
+      {
+        showAlert( "Information", "Created new marker: %1.".replace( /%1/, m.alpha ) );
+      }        
+    }
+  );
 }
 
 function storeCenter()
