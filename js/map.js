@@ -897,55 +897,6 @@ function updateCopyrights()
     }
 }
 
-function toggleBoundaryLayer( t )
-{
-    if( t )
-    {
-        boundary_layer = new google.maps.FusionTablesLayer( {
-            query: {
-                select: 'geometry',
-                from: boundary_layer_fusion_table
-            },
-            styles: [{
-                polygonOptions: {
-                    fillColor: '#0000FF',
-                    fillOpacity: 0.1,
-                    strokeColor: '#0000FF',
-                    strokeOpacity: 1,
-                    strokeWeight: 2
-                }
-            }],
-            clickable: false,
-            suppressInfoWindows: true,
-            map: map
-        });
-    }
-    else
-    {
-        boundary_layer.setMap( null );
-        boundary_layer = null;
-    }
-}
-
-function toggleHillshadingLayer( t )
-{
-    if( hillshadingLayerShown == t ) return;
-    
-    hillshadingLayerShown = t;
-    
-    if( t )
-    {
-        map.overlayMapTypes.setAt( 0, hillshadingLayer );
-    }
-    else
-    {
-        map.overlayMapTypes.setAt( 0, null );
-    }
-    
-    $( '#hillshading' ).attr( 'checked', hillshadingLayerShown );
-    $.cookie('hillshading', hillshadingLayerShown ? 1 : 0, {expires:30});
-}
-
 function repairLat( x, d )
 {
     if( x == null || x == NaN || x < -90 || x > +90 )
@@ -1378,17 +1329,18 @@ function initialize( xcenter, xzoom, xmap, xmarkers, xlines )
     
     updateCopyrights();
     
-    restoreSidebar();
-    
-    toggleHillshadingLayer( true );
+    restoreSidebar(true);
+    restoreHillshading(true);
+    restoreBoundaryLayer(false);
+    restoreGeocaches(true);
     
     setupExternalLinkTargets();
     
+    /*
     var load_caches = get_cookie_int("load_caches", 1);
     $("#showCaches").prop('checked', load_caches == 1);
     okapi_toggle_load_caches( $('#showCaches').is(':checked') );
-    
-    //showWelcomePopup();
+    */ 
 }
 
 function searchLocation()

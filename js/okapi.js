@@ -272,23 +272,47 @@ function okapi_schedule_load_caches()
     okapi_load_timer = window.setTimeout( 'okapi_load_caches_bbox()', 500 );
 }
 
-function okapi_toggle_load_caches( t )
+function okapi_toggle_load_caches(t)
 {
-    $.cookie("load_caches", t ? "1" : "0", { expires: 30 });
+  $.cookie('load_caches', t ? "1" : "0", {expires:30});
+  
+  if ($('#showCaches').is(':checked') != t)
+  {
+    $('#showCaches').attr('checked', t);
+  }
+  
+  if (okapi_load_caches_enabled != t)
+  {
+    okapi_load_caches_enabled = t;
+  }
     
-    if( okapi_load_caches_enabled != t )
-    {
-        okapi_load_caches_enabled = t;
-    }
-    
-    if( okapi_load_caches_enabled )
-    {
-        okapi_setup_sites();
-        okapi_schedule_load_caches();
-    }
-    else
-    {
-        okapi_unschedule_load_caches();
-        okapi_remove_caches();
-    }
+  if (okapi_load_caches_enabled)
+  {
+    okapi_setup_sites();
+    okapi_schedule_load_caches();
+  }
+  else
+  {
+    okapi_unschedule_load_caches();
+    okapi_remove_caches();
+  }
 }
+
+function restoreGeocaches(defaultValue)
+{
+  var state = get_cookie_string("load_caches", "invalid");
+  
+  if (state == "0")
+  {
+    okapi_toggle_load_caches(false);
+  }
+  else if (state == "1")
+  {
+    okapi_toggle_load_caches(true);
+  }
+  else
+  {
+    okapi_toggle_load_caches(defaultValue);
+  }
+}
+

@@ -26,10 +26,115 @@ function toggleSidebar(shown)
   else       hideSidebar();
 } 
 
-function restoreSidebar()
+function restoreSidebar(defaultValue)
 {
-  var state = get_cookie_string("sidebar", "shown");
-  toggleSidebar(state != "hidden");
+  var state = get_cookie_string("sidebar", "invalid");
+  if (state == "hidden" )
+  {
+    hideSidebar();
+  }
+  else if (state == "shown")
+  {
+    showSidebar();
+  }
+  else
+  {
+    toggleSidebar(defaultValue);
+  }
+}
+
+
+/* hillshading */
+function toggleHillshading(t)
+{
+  $.cookie('hillshading', t ? "1" : "0", {expires:30});
+  
+  if ($('#hillshading').is(':checked') != t)
+  {
+    $('#hillshading').attr('checked', t);
+  }
+  
+  if( hillshadingLayerShown == t ) return;
+  
+  hillshadingLayerShown = t;
+  map.overlayMapTypes.setAt(0, t ? hillshadingLayer : null);
+}
+
+function restoreHillshading(defaultValue)
+{
+  var state = get_cookie_string("hillshading", "invalid");
+  
+  if (state == "0")
+  {
+    toggleHillshading(false);
+  }
+  else if (state == "1")
+  {
+    toggleHillshading(true);
+  }
+  else
+  {
+    toggleHillshading(defaultValue);
+  }
+}
+
+/* boundary layer */
+function toggleBoundaryLayer(t)
+{
+  $.cookie('boundaries', t ? "1" : "0", {expires:30});
+  
+  if ($('#showKreisgrenzen').is(':checked') != t)
+  {
+    $('#showKreisgrenzen').attr('checked', t);
+  }
+  
+  if( t )
+  {
+    boundary_layer = new google.maps.FusionTablesLayer( {
+      query: {
+        select: 'geometry',
+        from: boundary_layer_fusion_table
+      },
+      styles: [{
+        polygonOptions: {
+          fillColor: '#0000FF',
+          fillOpacity: 0.01,
+          strokeColor: '#0000FF',
+          strokeOpacity: 1,
+          strokeWeight: 2
+        }
+      }],
+      clickable: false,
+      suppressInfoWindows: true,
+      map: map
+    });
+  }
+  else
+  {
+    if (boundary_layer != null) 
+    {
+      boundary_layer.setMap(null);
+      boundary_layer = null;
+    }
+  }
+}
+
+function restoreBoundaryLayer(defaultValue)
+{
+  var state = get_cookie_string("boundaries", "invalid");
+  
+  if (state == "0")
+  {
+    toggleBoundaryLayer(false);
+  }
+  else if (state == "1")
+  {
+    toggleBoundaryLayer(true);
+  }
+  else
+  {
+    toggleBoundaryLayer(defaultValue);
+  }
 }
 
 /* info dialog */
@@ -95,7 +200,7 @@ function linkDialogShortenLink()
 /* setup button events */
 $(document).ready(function() {
   $("#sidebartoggle").click(function() { if ($('#sidebar').is(':visible')) hideSidebar(); else showSidebar(); });      
-  $("#hillshading").click(function() { toggleHillshadingLayer($('#hillshading').is(':checked')); });        
+  $("#hillshading").click(function() { toggleHillshading($('#hillshading').is(':checked')); });        
   $("#showKreisgrenzen").click(function() { toggleBoundaryLayer($('#showKreisgrenzen').is(':checked')); });
   $("#showCaches").click(function() { okapi_toggle_load_caches($('#showCaches').is(':checked')); });
 /*        
