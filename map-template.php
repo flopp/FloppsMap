@@ -41,6 +41,7 @@
     <script type="text/javascript" src="js/coordinates.js?t=TSTAMP"></script>
     <script type="text/javascript" src="js/map.js?t=TSTAMP"></script>
     <script type="text/javascript" src="js/okapi.js?t=TSTAMP"></script>
+    <script type="text/javascript" src="js/tracking.js?t=TSTAMP"></script>
     <script type="text/javascript" src="js/ui.js?t=TSTAMP"></script>
     <link type="text/css" rel="stylesheet" href="css/main.css?t=TSTAMP">
     
@@ -113,9 +114,9 @@ echo "<body onload=\"initialize( '$cntr', '$zoom', '$maptype', '$markers', '$lin
         
     <div class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-        <li><a role="button" href="http://blog.flopp-caching.de/" target="_blank" rel="tooltip" title="Hier geht es zu 'Flopps Tolles Blog'">Blog <i class="fa fa-star"></i></a></li>
-        <li><a role="button" href="http://blog.flopp-caching.de/benutzung-der-karte/" target="_blank" rel="tooltip" title="Hier geht es zu den Hilfeseiten">Hilfe <i class="fa fa-question"></i></a></li>
-        <li><a role="button" href="javascript:showInfoDialog()" rel="tooltip" title="Rechtliche Hinweise, Kontaktinformationen, usw.">Info/Impressum <i class="fa fa-info"></i></a></li>
+        <li><a id="navbarBlog" role="button" href="http://blog.flopp-caching.de/" target="_blank" rel="tooltip" title="Hier geht es zu 'Flopps Tolles Blog'">Blog <i class="fa fa-star"></i></a></li>
+        <li><a id="navbarHelp" role="button" href="http://blog.flopp-caching.de/benutzung-der-karte/" target="_blank" rel="tooltip" title="Hier geht es zu den Hilfeseiten">Hilfe <i class="fa fa-question"></i></a></li>
+        <li><a id="navbarInfo" role="button" href="javascript:showInfoDialog()" rel="tooltip" title="Rechtliche Hinweise, Kontaktinformationen, usw.">Info/Impressum <i class="fa fa-info"></i></a></li>
       </ul>
     </div>
   </div>
@@ -135,7 +136,7 @@ echo "<body onload=\"initialize( '$cntr', '$zoom', '$maptype', '$markers', '$lin
 
 <div class="my-section">
   <div class="my-section-header">Search</div>
-  <button class="btn btn-info btn-sm my-section-buttons-top" title="Move map to current location" type="button" onClick="whereAmI()"><i class="fa fa-crosshairs"></i> Where am I?</button>
+  <button id="buttonWhereAmI" class="btn btn-info btn-sm my-section-buttons-top" title="Move map to current location" type="button" onClick="whereAmI()"><i class="fa fa-crosshairs"></i> Where am I?</button>
     
     <div>
 
@@ -154,21 +155,21 @@ echo "<body onload=\"initialize( '$cntr', '$zoom', '$maptype', '$markers', '$lin
 <div class="my-section-with-footer my-section">
   <div class="my-section-header">Markers</div>
   <div id="btnmarkers1" class="btn-group btn-group-sm my-section-buttons-top">
-    <button class="btn btn-sm btn-success" title="Create a new marker at the current map position" type="button" onClick="newMarker( map.getCenter(), -1, -1, null )"><i class="fa fa-map-marker"></i> New</button>
-    <button id="btnmarkersdelete1" class="btn btn-sm btn-danger" title="Delete all markers" type="button" onClick="deleteAllMarkers()"><i class="fa fa-trash-o"></i> Delete all</button>
+    <button id="buttonMarkersNew1" class="btn btn-sm btn-success" title="Create a new marker at the current map position" type="button" onClick="newMarker( map.getCenter(), -1, -1, null )"><i class="fa fa-map-marker"></i> New</button>
+    <button id="buttonMarkersDeleteAll1" class="btn btn-sm btn-danger" title="Delete all markers" type="button" onClick="deleteAllMarkers()"><i class="fa fa-trash-o"></i> Delete all</button>
   </div>
   <div id="dynMarkerDiv"></div>
   <div id="btnmarkers2" class="btn-group btn-group-sm my-section-buttons-bottom" style="display: none">
-    <button class="btn btn-sm btn-success" title="Create a new marker at the current map position" type="button" onClick="newMarker( map.getCenter(), -1, -1, null )"><i class="fa fa-map-marker"></i> New</button>
-    <button id="btnmarkersdelete2" class="btn btn-sm btn-danger" title="Delete all markers" type="button" onClick="deleteAllMarkers()"><i class="fa fa-trash-o"></i> Delete all</button>
+    <button id="buttonMarkersNew2" class="btn btn-sm btn-success" title="Create a new marker at the current map position" type="button" onClick="newMarker( map.getCenter(), -1, -1, null )"><i class="fa fa-map-marker"></i> New</button>
+    <button id="buttonMarkersDeleteAll2" class="btn btn-sm btn-danger" title="Delete all markers" type="button" onClick="deleteAllMarkers()"><i class="fa fa-trash-o"></i> Delete all</button>
   </div>
 </div> <!-- section -->
   
 <div class="my-section">
   <div class="my-section-header">Lines</div>
   <div class="btn-group btn-group-sm my-section-buttons-top">
-    <button class="btn btn-sm btn-success" title="Create new line" type="button" onClick="newLine()"><i class="fa fa-minus"></i> New</button>
-    <button class="btn btn-sm btn-danger" title="Delete all lines" type="button" onClick="deleteAllLines()"><i class="fa fa-trash-o"></i> Delete all</button>
+    <button id="buttonLinesNew" class="btn btn-sm btn-success" title="Create new line" type="button" onClick="newLine()"><i class="fa fa-minus"></i> New</button>
+    <button id="buttonLinesDeleteAll" class="btn btn-sm btn-danger" title="Delete all lines" type="button" onClick="deleteAllLines()"><i class="fa fa-trash-o"></i> Delete all</button>
   </div>
   <div id="dynLineDiv"></div>
 </div> <!-- section -->
@@ -176,7 +177,7 @@ echo "<body onload=\"initialize( '$cntr', '$zoom', '$maptype', '$markers', '$lin
 <div class="my-section">
   <div class="my-section-header">Misc</div>
   <div style="margin-bottom: 10px">
-    <button class="btn btn-sm btn-info" title="Generate permalink" type="button" onClick="generatePermalink()">Create Permalink</button>
+    <button id="buttonPermalink" class="btn btn-sm btn-info" title="Generate permalink" type="button" onClick="generatePermalink()">Create Permalink</button>
   </div>
 
 <b>Additional Layers</b>
@@ -358,7 +359,7 @@ Diese Seite verwendet Cookies, um die aktuelle Ansicht der Karte (Zentrum, Posit
         <div class="input-group">
           <input class="form-control" id="linkDialogLink" type="text" title="Permalink the the current map view">
           <span class="input-group-btn">
-            <button class="btn btn-info" type="button" title="Shorten the permalink" onclick="linkDialogShortenLink()">Shorten</button>
+            <button id="buttonPermalinkShorten" class="btn btn-info" type="button" title="Shorten the permalink" onclick="linkDialogShortenLink()">Shorten</button>
           </span>
         </div>
         <div id="linkDialogError"></div>
