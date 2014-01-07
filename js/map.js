@@ -125,7 +125,7 @@ function newLine()
     "<select id=\"dynlinetarget" + m.id + "\" class=\"my-small-select\" title=\"Target\" onchange=\"selectLineTarget("+m.id+")\"><option value=\"-1\">?</option></select>" +
     "</td>" +
     "<td>" +
-    "<button class=\"my-button btn btn-mini btn-danger\" style=\"float: right\" title=\"Delete line\" type=\"button\" onClick=\"trackLine('delete " + m.id +"'); deleteLine(" + m.id + ")\"><i class=\"fa fa-trash-o\"></i></button>" +
+    "<button class=\"my-button btn btn-mini btn-danger\" style=\"float: right\" title=\"Delete line\" type=\"button\" onClick=\"trackLine('delete'); deleteLine(" + m.id + ")\"><i class=\"fa fa-trash-o\"></i></button>" +
     "<div>" +
     "</div>" +
     "</td>" +
@@ -559,14 +559,14 @@ function deleteAllMarkers()
 
 function gotoMarker( id )
 {
-  trackMarker('goto ' + id);
+  trackMarker('goto');
     var m = getMarkerById( id );
     map.setCenter( m.marker.getPosition() );
 }
 
 function centerMarker( id )
 {
-  trackMarker('center ' + id);
+  trackMarker('center');
     var m = getMarkerById( id );
     m.marker.setPosition( map.getCenter() );
     updateMarker( m );
@@ -574,7 +574,7 @@ function centerMarker( id )
 
 function enterEditMode( id )
 {
-  trackMarker('edit ' + id);
+  trackMarker('edit');
     var m = getMarkerById( id );
     
     $('#edit_name' + m.alpha ).val( m.name ); 
@@ -790,7 +790,7 @@ function newMarker( coordinates, theid, radius, name )
 
 function projectFromMarker( id )
 {
-  trackMarker('project ' + id);
+  trackMarker('project');
   
   var mm = getMarkerById( id );
   var oldpos = mm.marker.getPosition();
