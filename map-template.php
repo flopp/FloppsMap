@@ -1,24 +1,5 @@
 <?php
-$lang = $_COOKIE["lang"];
-if (isset($lang) && ($lang == "de" || $lang == "en")) 
-{}
-else
-{
-  $lang = "en";
-}
-
-function TT($en, $de)
-{
-  global $lang;
-  if ($lang == "en")
-  {
-    echo $en;
-  }
-  else
-  {
-    echo $de;
-  }
-}
+require_once('lib/lang.php');
 ?>
 
 <!DOCTYPE html>
@@ -142,7 +123,7 @@ echo "<body onload=\"initialize( '$cntr', '$zoom', '$maptype', '$markers', '$lin
       <ul class="nav navbar-nav">
         <li><a id="navbarBlog" role="button" href="http://blog.flopp-caching.de/" target="_blank" rel="tooltip" title="<?php TT('Go to \'Flopps Tolles Blog\'', 'Hier geht es zu \'Flopps Tolles Blog\'');?>">Blog <i class="fa fa-star"></i></a></li>
         <li><a id="navbarHelp" role="button" href="http://blog.flopp-caching.de/benutzung-der-karte/" target="_blank" rel="tooltip" title="<?php TT('Go to the online help', 'Hier geht es zu den Hilfeseiten');?>"><?php TT('Help (in German)', 'Hilfe');?> <i class="fa fa-question"></i></a></li>
-        <li><a id="navbarInfo" role="button" href="javascript:showInfoDialog()" rel="tooltip" title="<?php TT('Legal information, contact information, ...', 'Rechtliche Hinweise, Kontaktinformationen, usw.');?>"><?php TT('Info/Impress (in German)', 'Info/Impressum');?> <i class="fa fa-info"></i></a></li>
+        <li><a id="navbarInfo" role="button" href="javascript:showInfoDialog()" rel="tooltip" title="<?php TT('Legal information, contact information, ...', 'Rechtliche Hinweise, Kontaktinformationen, usw.');?>"><?php TT('Info/Impress', 'Info/Impressum');?> <i class="fa fa-info"></i></a></li>
         <li></li>
       </ul>
       <form class="nav navbar-form navbar-right" style="margin:auto">
@@ -247,83 +228,20 @@ echo "<body onload=\"initialize( '$cntr', '$zoom', '$maptype', '$markers', '$lin
 <div id="dlgInfoAjax" class="modal">
   <div class="modal-dialog">
     <div class="modal-content">
-<div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal">&times;</button>
-    <h3>Kontakt/Info</h3>
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h3><?php TT('Info/Impress', 'Info/Impressum');?></h3>
+      </div>
+      <div class="modal-body">
+<?php 
+require('lang/info.' . $lang . '.html')
+?>    
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" data-dismiss="modal">Ok</button>
+      </div>
+    </div>
   </div>
-  <div class="modal-body">
-    <img class="img-polaroid" width="100ps" height="100px" style="float: right" src="avatar.jpg" alt="Flopp">
-    <h4>Kontakt</h4>
-    <p>Neuigkeiten und aktuelle Informationen werden über das <a href="http://blog.flopp-caching.de/" alt="Blog">zugehörige Blog <i class="fa fa-globe"></i></a> verbreitet.</p>
-    <p>Fragen und Anregungen nehme ich gerne per <a href="mailto:mail@flopp-caching.de" target="_blank">Mail <i class="fa fa-envelope"></i></a> oder <a href="https://twitter.com/floppgc" target="_blank">Twitter <i class="fa fa-twitter-square"></i></a> entgegen. Außerdem gibt es Seiten bei <a href="https://plus.google.com/u/0/116067328889875491676" target="_blank">Google+ <i class="fa fa-google-plus-square"></i></a> und bei <a href="https://www.facebook.com/FloppsTolleKarte" target="_blank">Facebook <i class="fa fa-facebook-square"></i></a>.</p>
-    <p>Bugs können auch via <a href="https://github.com/flopp/FloppsTolleKarte" target="_blank">github <i class="fa fa-github-square"></i></a> gemeldet werden.</p>
-    <p>Flopps Tolle Karte ist unter den URLs <a href="http://flopp-caching.de/">flopp-caching.de</a>, <a href="http://flopp.net/">flopp.net</a> und <a href="http://foomap.de/">foomap.de</a> erreichbar.</p>
-    
-    <hr />
-    <h4>Impressum</h4>
-    <p>Dies ist ein rein privates, werbe- und kostenfreies Informationsangebot
-zum Hobby Geocaching. Als nicht geschäftsmäßiges Angebot unterliegt diese
-Seite gemäß Telemediengesetz nicht der Impressumspflicht.</p>
-
-    <hr />
-    <h4>Hinter den Kulissen...</h4>
-    <p>
-        <b>Flopps Tolle Karte</b> benutzt <a href="https://developers.google.com/maps/" target="_blank">Google Maps</a>, <a href="http://openstreetmap.org/" target="_blank">OpenStreetMap</a>, <a href="http://opencyclemap.org/" target="_blank">OpenCycleMap</a> und <a href="http://mapquest.com/" target="_blank">MapQuest</a> als Kartenlieferanten, 
-        <a href="http://getbootstrap.com/" target="_blank">Bootstrap</a> 
-        und <a href="http://jquery.com/" target="_blank">jQuery</a> für die Elemente des Userinterfaces,
-        die Icons von <a href="http://fontawesome.io//" target="_blank">Font Awesome</a>,
-        sowie die Javascript-Version von <a href="http://geographiclib.sf.net/html/other.html#javascript" target="_blank">GeographicLib</a>
-        für die Distanz-/Winkelberechnungen und die Wegpunktprojektion.
-        <br />        
-        Der aktuelle Quellcode von <b>Flopps Toller Karte</b> ist auf <a href="https://github.com/flopp/FloppsTolleKarte" target="_blank">github</a> zu finden.
-    </p>
-    
-    <hr />
-<!--
-<h4>Naturschutzgebiete</h4>
-<p>
-Informationen über deutsche Naturschutzgebiete werden vom <a href="http://www.nsg-atlas/" target="_blank">NSG-Atlas</a> freundlicherweise zur Verfügung gestellt. Danke dafür!
-<br />
-Die Informationen über die Naturschutzgebiete dürfen nicht kommerziell genutzt werden und nicht
-auf Seiten verwendet werden, die Werbung beinhalten.
-<br />
-Das Datenmaterial der NSG gehört den einzelnen Ämtern der Länder.
-Die bereitgestellten Daten haben keine Rechtsverbindlichkeit.
-Details zum Datenmaterial sind auf den <a href="http://www.nsg-atlas.de/Datenmaterial.html" target="_blank">Seiten vom NSG-Atlas</a> zu finden.
-</p>
--->
-
-<h4>Kreisgrenzen</h4>
-<p>
-Die Informationen über die Kreisgrenzen Deutschlands stammen von <a href="http://www.gadm.org/" target="_blank">GADM database of Global Administrative Areas</a> und dürfen für private, nicht-kommerzielle Zwecke entgeltfrei genutzt werden.
-</p>
-
-<h4>Geocaching-Daten</h4>
-<p>
-Die angezeigten Geocache-Daten werden über die <a href="http://www.opencaching.de/okapi/introduction.html">OKAPI-Schnittstelle</a> von den nationalen Opencaching-Seiten 
-<a href="http://www.opencaching.de/">Opencaching.de</a>, 
-<a href="http://www.opencaching.pl/">Opencaching.pl</a>, 
-<a href="http://www.opencaching.nl/">Opencaching.nl</a>,
-<a href="http://www.opencaching.org.uk/">Opencaching.org.uk</a>, 
-<a href="http://www.opencaching.us/">Opencaching.us</a> geholt und unterliegen den Datenlizenzen der jeweiligen Opencaching-Sites.
-</p>
-<hr />
-<h4>Datenschutz</h4>
-<p>
-Diese Seite erhebt keine personenbezogenen Daten.
-</p>
-
-<hr />
-<h4>Cookies</h4>
-<p>
-Diese Seite verwendet Cookies, um die aktuelle Ansicht der Karte (Zentrum, Position der Marker, gewählter Kartentyp) abzuspeichern und beim erneuten Besuch der Seite wieder zu laden. Selbstverständlich ist das Löschen dieser Cookies bzw. das Unterbinden dieser Cookies in den Browsereinstellungen möglich.
-</p>
-  </div>
-  <div class="modal-footer">
-    <button class="btn btn-primary" data-dismiss="modal">Ok</button>
-  </div>
-  </div></div>
-
 </div>
 
 <!-- the alert dialog -->

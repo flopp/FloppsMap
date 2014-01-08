@@ -11,6 +11,8 @@ ncftpput -u $LOGIN -p $PASSWD $SERVER $BASE/ $(cat files.root)
 ncftpput -u $LOGIN -p $PASSWD $SERVER $BASE/js/ $(cat files.js)
 ncftpput -u $LOGIN -p $PASSWD $SERVER $BASE/img/ $(cat files.img)
 ncftpput -u $LOGIN -p $PASSWD $SERVER $BASE/css/ $(cat files.css)
+ncftpput -u $LOGIN -p $PASSWD $SERVER $BASE/lib/ $(cat files.lib)
+ncftpput -u $LOGIN -p $PASSWD $SERVER $BASE/lang/ $(cat files.lang)
 
 # jquery cookies
 if [ -d ext/jquery-cookie/.git ] ; then

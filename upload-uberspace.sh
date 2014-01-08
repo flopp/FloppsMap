@@ -9,6 +9,8 @@ mkdir -p deploy
 mkdir -p deploy/css
 mkdir -p deploy/img
 mkdir -p deploy/js
+mkdir -p deploy/lang
+mkdir -p deploy/lib
 mkdir -p deploy/ext/jquery-cookie
 
 S=$(date +%s)
@@ -18,6 +20,8 @@ sass css/main.scss > deploy/css/main.css
 cp .htaccess wartung.html google7caa54246d4da45f.html apple-touch-icon.png deploy
 cp js/conversion.js js/cookies.js js/coordinates.js js/geographiclib.js js/lang.js js/map.js js/okapi.js js/tracking.js js/ui.js deploy/js
 cp img/base.png img/favicon.png img/projection.png deploy/img
+cp lang/info.en.html lang/info.de.html deploy/lang
+cp lib/lang.php deploy/lib
 
 # jquery cookies
 if [ -d ext/jquery-cookie/.git ] ; then
