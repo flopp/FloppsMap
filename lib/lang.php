@@ -67,8 +67,8 @@ function getLang($source)
   return 'invalid';
 }
 
-
-$lang = getLang($_COOKIE['lang']);
+$lang = 'invalid';
+if (isset($_COOKIE['lang'])) $lang = getLang($_COOKIE['lang']);
 if ($lang == 'invalid') $lang = prefered_language(array('en', 'de'), $_SERVER['HTTP_ACCEPT_LANGUAGE']);
 setcookie('lang', $lang, time()+3600*24*30);
 
