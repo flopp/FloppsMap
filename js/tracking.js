@@ -16,13 +16,21 @@ function trackAction(action)
   _paq.push(['trackPageView']);
 }
 
+function trackSearch(query)
+{
+  _paq.push(['setCustomVariable', 4, 'search', query, 'page']);
+  _paq.push(['trackPageView']);
+}
+
 $(document).ready(function() {
   $("#navbarBlog").click(function() { trackAction("navbar.blog"); });
   $("#navbarHelp").click(function() { trackAction("navbar.help"); });
   $("#navbarInfo").click(function() { trackAction("navbar.info"); });
   
-  $("#buttonWhereAmI").click(function() { trackAction("search.whereami"); });
+  $("#buttonWhereAmI").click(function() { trackSearch("whereami"); });
   
+  $("#buttonExportGPX").click(function() { trackAction("export.gpx"); });
+
   $("#buttonPermalink").click(function() { trackAction("permalink.create"); });
   $("#buttonPermalinkShorten").click(function() { trackAction("permalink.shorten"); });
   

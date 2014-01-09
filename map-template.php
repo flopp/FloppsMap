@@ -189,7 +189,10 @@ echo "<body onload=\"initialize( '$cntr', '$zoom', '$maptype', '$markers', '$lin
 <div class="my-section">
   <div class="my-section-header"><?php TT('Misc', 'Verschiedenes');?></div>
   <div style="margin-bottom: 10px">
-    <button id="buttonPermalink" class="btn btn-sm btn-info" title="<?php TT('Create permalink', 'Erzeuge Permalink');?>" type="button" onClick="generatePermalink()"><?php TT('Create permalink', 'Erzeuge Permalink');?></button>
+    <a id="buttonExportGPX" class="btn btn-block btn-sm btn-info" title="<?php TT('Export markers as GPX file', 'Exportiere Marker als GPX-Datei');?>" role="button" href="download.php"><?php TT('Export GPX (&beta;eta)', 'GPX-Export (&beta;eta)');?></a>
+  </div>
+  <div style="margin-bottom: 10px">
+    <button id="buttonPermalink" class="btn btn-block btn-sm btn-info" title="<?php TT('Create permalink', 'Erzeuge Permalink');?>" type="button" onClick="generatePermalink()"><?php TT('Create permalink', 'Erzeuge Permalink');?></button>
   </div>
 
 <b><?php TT('Additional Layers', 'Zusätzliche Ebenen');?></b>

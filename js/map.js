@@ -1347,7 +1347,7 @@ function searchLocation()
 {
     var address = $('#txtSearch').val();
     
-    trackAction('search ' + address);
+    trackSearch(address);
     
     var coords = string2coords(new String(address));
     if (!coords)

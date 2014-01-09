@@ -17,7 +17,7 @@ S=$(date +%s)
 sed "s/TSTAMP/$S/g" map-template.php > deploy/map.php
 
 sass css/main.scss > deploy/css/main.css
-cp .htaccess wartung.html google7caa54246d4da45f.html apple-touch-icon.png deploy
+cp .htaccess download.php wartung.html google7caa54246d4da45f.html apple-touch-icon.png deploy
 cp js/conversion.js js/cookies.js js/coordinates.js js/geographiclib.js js/lang.js js/map.js js/okapi.js js/tracking.js js/ui.js deploy/js
 cp img/base.png img/favicon.png img/projection.png deploy/img
 cp lang/info.en.html lang/info.de.html deploy/lang
