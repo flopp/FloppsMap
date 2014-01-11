@@ -49,10 +49,10 @@ function okapi_setup_sites()
                     
                     okapi_sites[index] = data;
                 }
-                else
-                {
-                    console.log( "skipping OC site (no key): " + site.site_name );
-                }
+                //else
+                //{
+                //  console.log( "skipping OC site (no key): " + site.site_name );
+                //}
             }
             
             okapi_ready = true;

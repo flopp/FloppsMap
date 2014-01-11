@@ -11,3 +11,9 @@ function langDE()
   $.cookie("lang", "de", {expires:30});
   window.location.reload(true);
 }
+
+var lang = "en";
+function TT(en, de)
+{
+  return (lang == "en") ? en : de;
+}

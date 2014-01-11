@@ -1,7 +1,6 @@
 <?php
 require_once('lib/lang.php');
 ?>
-
 <!DOCTYPE html>
 <html>
   <head>
@@ -101,7 +100,7 @@ if(!empty($_GET))
   }
 }
 
-echo "<body onload=\"initialize( '$cntr', '$zoom', '$maptype', '$markers', '$lines' )\">";
+echo "<body onload=\"initialize('$lang', '$cntr', '$zoom', '$maptype', '$markers', '$lines')\">";
 ?>
 
 
@@ -127,8 +126,13 @@ echo "<body onload=\"initialize( '$cntr', '$zoom', '$maptype', '$markers', '$lin
         <li></li>
       </ul>
       <form class="nav navbar-form navbar-right" style="margin:auto">
-        <span class="btn btn-default btn-sm navbar-btn" onclick="langEN();"><?php TT('English <i class="fa fa-check"></i>', 'English');?></span>
-        <span class="btn btn-default btn-sm navbar-btn" onclick="langDE();"><?php TT('Deutsch', 'Deutsch <i class="fa fa-check"></i>');?></span>
+<!--
+        <a class="btn btn-default btn-sm navbar-btn" href="<?php getLangSwitchUrl($_SERVER, 'en'); ?>"><?php TT('English <i class="fa fa-check"></i>', 'English');?></a>
+        <a class="btn btn-default btn-sm navbar-btn" href="<?php getLangSwitchUrl($_SERVER, 'de'); ?>"><?php TT('Deutsch', 'Deutsch <i class="fa fa-check"></i>');?></a>
+-->
+         <span class="btn btn-default btn-sm navbar-btn" onclick="langEN();"><?php TT('English <i class="fa fa-check"></i>', 'English');?></span>
+         <span class="btn btn-default btn-sm navbar-btn" onclick="langDE();"><?php TT('Deutsch', 'Deutsch <i class="fa fa-check"></i>');?></span>
+
       </form>
     </div>
   </div>

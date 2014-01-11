@@ -1,5 +1,4 @@
 var geocoder;
-var geocoder;
 var markers = null;
 var boundary_layer = null;
 var boundary_layer_fusion_table = "1Fg-gWjzai7awzjO30BFP_i_67zaRwrCCoMBRJ5Y"; // GADM.org
@@ -22,249 +21,308 @@ var externalLinkTargets = null;
 
 function setupExternalLinkTargets()
 {
-    var e = new Array();
-    
-    e["★ Games ★"] = "";
-    e["Confluence.org"] = "http://www.confluence.org/confluence.php?lat=%lat%&lon=%lon%";
-    e["Geocaching.com"] = "http://coord.info/map?ll=%lat%,%lon%&z=%zoom%";
-    e["Geograph"] = "http://geo.hlipp.de/ommap.php?z=%zoom%&t=g&ll=%lat%,%lon%";
-    e["Ingress.com"] = "http://www.ingress.com/intel?latE6=%late6%&lngE6=%lone6%&z=%zoom%";
-    e["Lacita.org"] = "http://www.lacita.org/cgi_bin/bf.pl?Path=00&lat=%lat%&lng=%lon%&z=%zoom%";
-    e["Munzee (da-fi.de)"] = "http://da-fi.de/public/munzee/bbmap2.php?lat=%lat%&lon=%lon%&zoom=%zoom%";
-    e["Nachtcaches.de"] = "http://nachtcaches.de/#%lat%,%lon%,%zoom%";
-    e["Opencaching.de"] = "http://www.opencaching.de/map2.php?lat=%lat%&lon=%lon%&zoom=%zoom%";
-    e["Waymarking.com"] = "http://www.waymarking.com/wm/search.aspx?f=1&lat=%lat%&lon=%lon%";
-    
-    e["★ Maps ★"] = "";
-    e["Bing Maps"] = "http://www.bing.com/maps/?v=2&cp=%lat%~%lon%&lvl=%zoom%";
-    e["Cloudmade"] = "http://maps.cloudmade.com/?lat=%lat%&lng=%lon%&zoom=%zoom%";
-    e["Google Maps"] = "https://maps.google.com/maps?ll=%lat%,%lon%&z=%zoom%";
-    e["OpenStreetMap"] = "http://www.openstreetmap.org/?lat=%lat%&lon=%lon%&zoom=%zoom%";
-    e["OpenCycleMap"] = "http://www.opencyclemap.org/?zoom=%zoom%&lat=%lat%&lon=%lon%";
-    e["ÖPNV-Karte"] = "http://www.öpnvkarte.de/?zoom=%zoom%&lat=%lat%&lon=%lon%";
-    e["Wheelmap.org"] = "http://wheelmap.org/?zoom=%zoom%&lat=%lat%&lon=%lon%";
-    e["Wikimapia.org"] = "http://wikimapia.org/#lat=%lat%&lon=%lon%&z=%zoom%";
-    e["YAPIS"] = "http://yapis.eu/?id=9&lat=%lat%&lon=%lon%&zoom=%zoom%";
-    
-    for( var index in e ) 
-    {
-        $('#externallinks').append('<option value="'+index+'">'+index+'</option>');
-    }
-    
-    externalLinkTargets = e;
+  var e = new Array();
+  
+  e[TT("★ Games ★", "★ Spiele ★")] = "";
+  e["Confluence.org"] = "http://www.confluence.org/confluence.php?lat=%lat%&lon=%lon%";
+  e["Geocaching.com"] = "http://coord.info/map?ll=%lat%,%lon%&z=%zoom%";
+  e["Geograph"] = "http://geo.hlipp.de/ommap.php?z=%zoom%&t=g&ll=%lat%,%lon%";
+  e["Ingress.com"] = "http://www.ingress.com/intel?latE6=%late6%&lngE6=%lone6%&z=%zoom%";
+  e["Lacita.org"] = "http://www.lacita.org/cgi_bin/bf.pl?Path=00&lat=%lat%&lng=%lon%&z=%zoom%";
+  e["Munzee (da-fi.de)"] = "http://da-fi.de/public/munzee/bbmap2.php?lat=%lat%&lon=%lon%&zoom=%zoom%";
+  e["Nachtcaches.de"] = "http://nachtcaches.de/#%lat%,%lon%,%zoom%";
+  e["Opencaching.de"] = "http://www.opencaching.de/map2.php?lat=%lat%&lon=%lon%&zoom=%zoom%";
+  e["Waymarking.com"] = "http://www.waymarking.com/wm/search.aspx?f=1&lat=%lat%&lon=%lon%";
+  
+  e[TT("★ Maps ★", "★ Karten ★")] = "";
+  e["Bing Maps"] = "http://www.bing.com/maps/?v=2&cp=%lat%~%lon%&lvl=%zoom%";
+  e["Cloudmade"] = "http://maps.cloudmade.com/?lat=%lat%&lng=%lon%&zoom=%zoom%";
+  e["Google Maps"] = "https://maps.google.com/maps?ll=%lat%,%lon%&z=%zoom%";
+  e["OpenStreetMap"] = "http://www.openstreetmap.org/?lat=%lat%&lon=%lon%&zoom=%zoom%";
+  e["OpenCycleMap"] = "http://www.opencyclemap.org/?zoom=%zoom%&lat=%lat%&lon=%lon%";
+  e["ÖPNV-Karte"] = "http://www.öpnvkarte.de/?zoom=%zoom%&lat=%lat%&lon=%lon%";
+  e["Wheelmap.org"] = "http://wheelmap.org/?zoom=%zoom%&lat=%lat%&lon=%lon%";
+  e["Wikimapia.org"] = "http://wikimapia.org/#lat=%lat%&lon=%lon%&z=%zoom%";
+  e["YAPIS"] = "http://yapis.eu/?id=9&lat=%lat%&lon=%lon%&zoom=%zoom%";
+  
+  for( var index in e ) 
+  {
+    $('#externallinks').append('<option value="'+index+'">'+index+'</option>');
+  }
+  
+  externalLinkTargets = e;
 }
 
 function gotoExternalLink()
 {
-    var selected = $('#externallinks').find(":selected").text();
-    var url = externalLinkTargets[selected];
-    if( url == null || url == '' ) return;
-    
-    trackAction('external ' + selected);
-    
-    lat = map.getCenter().lat();
-    lon = map.getCenter().lng();
-    latE6 = Math.round( lat * 1000000 );
-    lonE6 = Math.round( lon * 1000000 );
-    lat = lat.toFixed(6);
-    lon = lon.toFixed(6);
-    zoom = map.getZoom();
-    
-    url = url.replace( /%lat%/g, lat );
-    url = url.replace( /%lon%/g, lon );
-    url = url.replace( /%late6%/g, latE6 );
-    url = url.replace( /%lone6%/g, lonE6 );
-    url = url.replace( /%zoom%/g, zoom );
-    
-    window.open(url, '_blank');
+  var selected = $('#externallinks').find(":selected").text();
+  var url = externalLinkTargets[selected];
+  if( url == null || url == '' ) return;
+  
+  trackAction('external ' + selected);
+  
+  lat = map.getCenter().lat();
+  lon = map.getCenter().lng();
+  latE6 = Math.round( lat * 1000000 );
+  lonE6 = Math.round( lon * 1000000 );
+  lat = lat.toFixed(6);
+  lon = lon.toFixed(6);
+  zoom = map.getZoom();
+  
+  url = url.replace( /%lat%/g, lat );
+  url = url.replace( /%lon%/g, lon );
+  url = url.replace( /%late6%/g, latE6 );
+  url = url.replace( /%lone6%/g, lonE6 );
+  url = url.replace( /%zoom%/g, zoom );
+  
+  window.open(url, '_blank');
 }
 
 function id2alpha( id )
 {
-    var s = "";
-    if( id >= 0 && id < 26 )
-    {
-        var code = 'A'.charCodeAt() + id;
-        s = String.fromCharCode( code );
-    }
-    return s;
+  var s = "";
+  if( id >= 0 && id < 26 )
+  {
+    var code = 'A'.charCodeAt() + id;
+    s = String.fromCharCode( code );
+  }
+  return s;
 }
 
 function alpha2id( alpha )
 {
-    if( alpha.length != 1 ) return -1;
-    
-    var id = -1;
- 
-    if( alpha[0] >= 'A' && alpha[0] <= 'Z' ) id = alpha.charCodeAt(0) - 'A'.charCodeAt(0); 
-    if( alpha[0] >= 'a' && alpha[0] <= 'z' ) id = alpha.charCodeAt(0) - 'a'.charCodeAt(0); 
-    
-    if( id < 0 || id >= 26 ) id = -1;
-    
-    return id;
+  if( alpha.length != 1 ) return -1;
+  
+  var id = -1;
+
+  if( alpha[0] >= 'A' && alpha[0] <= 'Z' ) id = alpha.charCodeAt(0) - 'A'.charCodeAt(0); 
+  if( alpha[0] >= 'a' && alpha[0] <= 'z' ) id = alpha.charCodeAt(0) - 'a'.charCodeAt(0); 
+  
+  if( id < 0 || id >= 26 ) id = -1;
+  
+  return id;
 }
 
 function newLine()
 {
-    var m = new Object();
-    m.id = nextLineId;
-    ++nextLineId;
-    
-    m.line = null;
-    m.source = -1;
-    m.target = -1;
-    lines.push( m );
-    
-    $('#dynLineDiv').append( 
-    "<div id=\"dynLine" + m.id + "\">" +
-    "<table style=\"width: 100%\">" +
-    "<tr>" +
-    "<td>" +
-    "<select id=\"dynlinesource" + m.id + "\" class=\"my-small-select\" title=\"Source\" onchange=\"selectLineSource("+m.id+")\"><option value=\"-1\">?</option></select>" +
-    "&nbsp;&rarr;&nbsp;" +
-    "<select id=\"dynlinetarget" + m.id + "\" class=\"my-small-select\" title=\"Target\" onchange=\"selectLineTarget("+m.id+")\"><option value=\"-1\">?</option></select>" +
-    "</td>" +
-    "<td>" +
-    "<button class=\"my-button btn btn-mini btn-danger\" style=\"float: right\" title=\"Delete line\" type=\"button\" onClick=\"trackLine('delete'); deleteLine(" + m.id + ")\"><i class=\"fa fa-trash-o\"></i></button>" +
-    "<div>" +
-    "</div>" +
-    "</td>" +
-    "</tr>" +
-    "<tr><td colspan=\"2\"><i class=\"fa fa-arrows-h\"></i> <span id=\"dynlinedist" + m.id + "\">n/a</span> <i class=\"fa fa-compass\"></i> <span id=\"dynlineangle" + m.id + "\">n/a</span></td></tr>" +
-    "</table>" +
-    "</div>"
-    );
-    
-    
-    
-    for( var i = 0; i < markers.length; ++i )
+  var m = new Object();
+  m.id = nextLineId;
+  ++nextLineId;
+  
+  m.line = null;
+  m.source = -1;
+  m.target = -1;
+  lines.push( m );
+  
+  $('#dynLineDiv').append( 
+  "<div id=\"dynLine" + m.id + "\">" +
+  "<table style=\"width: 100%\">" +
+  "<tr>" +
+  "<td>" +
+  "<select id=\"dynlinesource" + m.id + "\" class=\"my-small-select\" title=\"" + TT("Source", "Quelle") + "\" onchange=\"selectLineSource("+m.id+")\"><option value=\"-1\">?</option></select>" +
+  "&nbsp;&rarr;&nbsp;" +
+  "<select id=\"dynlinetarget" + m.id + "\" class=\"my-small-select\" title=\"" + TT("Target", "Ziel") + "\" onchange=\"selectLineTarget("+m.id+")\"><option value=\"-1\">?</option></select>" +
+  "</td>" +
+  "<td>" +
+  "<button class=\"my-button btn btn-mini btn-danger\" style=\"float: right\" title=\"" + TT("Delete line", "Lösche Linie") + "\" type=\"button\" onClick=\"trackLine('delete'); deleteLine(" + m.id + ")\"><i class=\"fa fa-trash-o\"></i></button>" +
+  "<div>" +
+  "</div>" +
+  "</td>" +
+  "</tr>" +
+  "<tr><td colspan=\"2\"><i class=\"fa fa-arrows-h\"></i> <span id=\"dynlinedist" + m.id + "\">n/a</span> <i class=\"fa fa-compass\"></i> <span id=\"dynlineangle" + m.id + "\">n/a</span></td></tr>" +
+  "</table>" +
+  "</div>"
+  );
+  
+  for( var i = 0; i < markers.length; ++i )
+  {
+    if( !markers[i].free )
     {
-        if( !markers[i].free )
-        {
-            updateLineMarkerAdded( m.id, markers[i].id );
-        }
+      updateLineMarkerAdded( m.id, markers[i].id );
     }
-    
-    saveLinesCookie();
-    
-    return m.id;
+  }
+  
+  saveLinesCookie();
+  
+  return m.id;
 }
 
 function getLineIndex( id )
 {
-    for( var index = 0; index < lines.length; ++index )
-    {
-        var line = lines[index];
-        if( line == null ) continue;
-        
-        if( line.id == id )
-        {
-            return index;
-        }
-    }
+  for( var index = 0; index < lines.length; ++index )
+  {
+    var line = lines[index];
+    if( line == null ) continue;
     
-    return -1;
+    if( line.id == id )
+    {
+      return index;
+    }
+  }
+  
+  return -1;
 }
 
 
 function getLineById( id )
 {
-    return lines[getLineIndex( id )];
+  return lines[getLineIndex( id )];
 }
 
 function getLinesText()
 {
-    var a = Array();
-    for( var index = 0; index < lines.length; ++index )
-    {
-        var line = lines[index];
-        if( line == null ) continue;
-        
-        a.push( id2alpha( line.source ) + ":" + id2alpha( line.target ) );
-    }
+  var a = Array();
+  for( var index = 0; index < lines.length; ++index )
+  {
+    var line = lines[index];
+    if( line == null ) continue;
     
-    return a.join("*");
+    a.push( id2alpha( line.source ) + ":" + id2alpha( line.target ) );
+  }
+  
+  return a.join("*");
 }
 
 function saveLinesCookie()
 {
-    $.cookie("lines", getLinesText(), {expires: 30});
+  $.cookie("lines", getLinesText(), {expires: 30});
 }
 
 function selectLineSourceById( id, markerid )
 {
-    var index = getLineIndex( id );
-    var line = lines[index];
-       
-    if( markerid != line.source )
-    {
-        line.source = markerid;
-        updateLineIndex( index, id );
-        $("#dynlinesource" + id + " > option[value=" + markerid + "]").attr("selected", "selected");
-    }
-    
-    saveLinesCookie();
+  var index = getLineIndex( id );
+  var line = lines[index];
+     
+  if( markerid != line.source )
+  {
+    line.source = markerid;
+    updateLineIndex( index, id );
+    $("#dynlinesource" + id + " > option[value=" + markerid + "]").attr("selected", "selected");
+  }
+  
+  saveLinesCookie();
 }
 
 function selectLineSource( id )
 {
-    var line = getLineById( id );
-    
-    var markerid = -1;
-    var opt = $("#dynlinesource" + id +" option:selected");
-    if( opt )
-    {
-        markerid = parseInt( opt.val() );
-    }
-    
-    selectLineSourceById( id, markerid );
+  var line = getLineById( id );
+  
+  var markerid = -1;
+  var opt = $("#dynlinesource" + id +" option:selected");
+  if( opt )
+  {
+    markerid = parseInt( opt.val() );
+  }
+  
+  selectLineSourceById( id, markerid );
 }
 
 function selectLineTargetById( id, markerid )
 {
-    var index = getLineIndex( id );
-    var line = lines[index];
-    
-    if( markerid != line.target )
-    {
-        line.target = markerid;
-        updateLineIndex( index, id );
-        $("#dynlinetarget" + id + " > option[value=" + markerid + "]").attr("selected", "selected");
-    }
-    
-    saveLinesCookie();
+  var index = getLineIndex( id );
+  var line = lines[index];
+  
+  if( markerid != line.target )
+  {
+    line.target = markerid;
+    updateLineIndex( index, id );
+    $("#dynlinetarget" + id + " > option[value=" + markerid + "]").attr("selected", "selected");
+  }
+  
+  saveLinesCookie();
 }
 
 function selectLineTarget( id )
 {
-    var markerid = -1;
-    var opt = $("#dynlinetarget" + id +" option:selected");
-    if( opt )
-    {
-        markerid = parseInt( opt.val() );
-    }
-    
-    selectLineTargetById( id, markerid );
+  var markerid = -1;
+  var opt = $("#dynlinetarget" + id +" option:selected");
+  if( opt )
+  {
+    markerid = parseInt( opt.val() );
+  }
+  
+  selectLineTargetById( id, markerid );
 }
 
 function updateLinesMarkerMoved( markerId )
 {
-    for( var index = 0; index < lines.length; ++index )
+  for( var index = 0; index < lines.length; ++index )
+  {
+    var line = lines[index];
+    if( line == null ) continue;
+    
+    if( line.source == markerId || line.target == markerId )
     {
-        var line = lines[index];
-        if( line == null ) continue;
-        
-        if( line.source == markerId || line.target == markerId )
-        {
-            updateLineIndex( index, line.id );
-        }
+      updateLineIndex( index, line.id );
     }
+  }
 }
 
 function updateLineMarkerAdded( id, markerId )
 {
-    var source = $('#dynlinesource' + id);
-    var target = $('#dynlinetarget' + id);
+  var source = $('#dynlinesource' + id);
+  var target = $('#dynlinetarget' + id);
+  
+  source.empty();
+  target.empty();
+
+  source.append('<option value="-1">?</option>');
+  target.append('<option value="-1">?</option>');
+
+  for( var i = 0; i < markers.length; ++i )
+  {
+    var m = markers[i];
+    if( !m.free )
+    {   
+      source.append('<option value="'+m.id+'">'+m.alpha+'</option>');
+      target.append('<option value="'+m.id+'">'+m.alpha+'</option>');
+    }
+  }
+  
+  $("#dynlinesource" + id + " > option[value=" + lines[id].source + "]").attr("selected", "selected");
+  $("#dynlinetarget" + id + " > option[value=" + lines[id].target + "]").attr("selected", "selected");
+}
+
+function updateLinesMarkerAdded( markerId )
+{
+  for( var index = 0; index < lines.length; ++index )
+  {
+    var line = lines[index];
+    if( line == null ) continue;
+    
+    updateLineMarkerAdded( line.id, markerId );
+  }
+}
+
+function updateLinesMarkerRemoved( markerid )
+{
+  for( var index = 0; index < lines.length; ++index )
+  {
+    var line = lines[index];
+    if( line == null ) continue;
+    
+    if( line.source == markerid )
+    {
+      line.source = -1;
+      if( line.line != null )
+      {
+        line.line.setMap( null );
+        line.line = null;
+      }
+    }
+    
+    if( line.target == markerid )
+    {
+      line.target = -1;
+      if( line.line != null )
+      {
+        line.line.setMap( null );
+        line.line = null;
+      }
+    }
+    
+    var source = $('#dynlinesource' + line.id);
+    var target = $('#dynlinetarget' + line.id);
     
     source.empty();
     target.empty();
@@ -274,80 +332,19 @@ function updateLineMarkerAdded( id, markerId )
 
     for( var i = 0; i < markers.length; ++i )
     {
-        var m = markers[i];
-        if( !m.free )
-        {   
-            source.append('<option value="'+m.id+'">'+m.alpha+'</option>');
-            target.append('<option value="'+m.id+'">'+m.alpha+'</option>');
-        }
+      var m = markers[i];
+      if( !m.free )
+      {   
+        source.append('<option value="'+m.id+'">'+m.alpha+'</option>');
+        target.append('<option value="'+m.id+'">'+m.alpha+'</option>');
+      }
     }
     
-    $("#dynlinesource" + id + " > option[value=" + lines[id].source + "]").attr("selected", "selected");
-    $("#dynlinetarget" + id + " > option[value=" + lines[id].target + "]").attr("selected", "selected");
-}
-
-function updateLinesMarkerAdded( markerId )
-{
-    for( var index = 0; index < lines.length; ++index )
-    {
-        var line = lines[index];
-        if( line == null ) continue;
-        
-        updateLineMarkerAdded( line.id, markerId );
-    }
-}
-
-function updateLinesMarkerRemoved( markerid )
-{
-    for( var index = 0; index < lines.length; ++index )
-    {
-        var line = lines[index];
-        if( line == null ) continue;
-        
-        if( line.source == markerid )
-        {
-            line.source = -1;
-            if( line.line != null )
-            {
-                line.line.setMap( null );
-                line.line = null;
-            }
-        }
-        
-        if( line.target == markerid )
-        {
-            line.target = -1;
-            if( line.line != null )
-            {
-                line.line.setMap( null );
-                line.line = null;
-            }
-        }
-        
-        var source = $('#dynlinesource' + line.id);
-        var target = $('#dynlinetarget' + line.id);
-        
-        source.empty();
-        target.empty();
-    
-        source.append('<option value="-1">?</option>');
-        target.append('<option value="-1">?</option>');
-    
-        for( var i = 0; i < markers.length; ++i )
-        {
-            var m = markers[i];
-            if( !m.free )
-            {   
-                source.append('<option value="'+m.id+'">'+m.alpha+'</option>');
-                target.append('<option value="'+m.id+'">'+m.alpha+'</option>');
-            }
-        }
-        
-        $("#dynlinesource" + line.id + " > option[value=" + line.source + "]").attr("selected", "selected");
-        $("#dynlinetarget" + line.id + " > option[value=" + line.target + "]").attr("selected", "selected");
-    }
-    
-    saveLinesCookie();
+    $("#dynlinesource" + line.id + " > option[value=" + line.source + "]").attr("selected", "selected");
+    $("#dynlinetarget" + line.id + " > option[value=" + line.target + "]").attr("selected", "selected");
+  }
+  
+  saveLinesCookie();
 }
 
 function updateLineIndex( index, id )
@@ -414,26 +411,26 @@ function updateLineIndex( index, id )
 
 function updateLine( id )
 {
-    var index = getLineIndex( id );
-    updateLineIndex( index, id );
+  var index = getLineIndex( id );
+  updateLineIndex( index, id );
 }
 
 function deleteLine( id )
 {
-    $('#dynLine' + id).remove();
-    
-    var index = getLineIndex( id );
-    var line = lines[index];
-    
-    if( line.line != null )
-    {
-        line.line.setMap( null );
-        line.line = null;
-    }
-    
-    lines[index] = null;
-    
-    saveLinesCookie();
+  $('#dynLine' + id).remove();
+  
+  var index = getLineIndex( id );
+  var line = lines[index];
+  
+  if( line.line != null )
+  {
+    line.line.setMap( null );
+    line.line = null;
+  }
+  
+  lines[index] = null;
+  
+  saveLinesCookie();
 }
 
 function deleteAllLines()
@@ -448,103 +445,103 @@ function deleteAllLines()
 
 function updateMarker( m )
 {
-    var pos = m.marker.getPosition();
-    var r = m.circle.getRadius();
-    
-    m.circle.setCenter( pos );
-    
-    $.cookie('marker' + m.id, pos.lat().toFixed(6) + ":" + pos.lng().toFixed(6) + ":" + r + ":" + m.name, {expires:30});
-    $('#view_name' + m.alpha ).html( m.name ); 
-    $('#view_coordinates' + m.alpha ).html( coords2string( pos ) ); 
-    $('#view_circle' + m.alpha ).html( r );
-    $('#edit_name' + m.alpha ).val( m.name ); 
-    $('#edit_coordinates' + m.alpha ).val( coords2string( pos ) ); 
-    $('#edit_circle' + m.alpha ).val( r );
-    
-    updateLinesMarkerMoved( m.id );    
+  var pos = m.marker.getPosition();
+  var r = m.circle.getRadius();
+  
+  m.circle.setCenter( pos );
+  
+  $.cookie('marker' + m.id, pos.lat().toFixed(6) + ":" + pos.lng().toFixed(6) + ":" + r + ":" + m.name, {expires:30});
+  $('#view_name' + m.alpha ).html( m.name ); 
+  $('#view_coordinates' + m.alpha ).html( coords2string( pos ) ); 
+  $('#view_circle' + m.alpha ).html( r );
+  $('#edit_name' + m.alpha ).val( m.name ); 
+  $('#edit_coordinates' + m.alpha ).val( coords2string( pos ) ); 
+  $('#edit_circle' + m.alpha ).val( r );
+  
+  updateLinesMarkerMoved( m.id );    
 }
 
 function setName( id, name )
 {
-    var m = getMarkerById( id );
-    m.name = name;
-    updateMarker( m );
+  var m = getMarkerById( id );
+  m.name = name;
+  updateMarker( m );
 }
 
 function setRadius( m, r )
 {
-    m.circle.setRadius( r );
-    updateMarker( m );
+  m.circle.setRadius( r );
+  updateMarker( m );
 }
 
 function getFreeId()
 {
-    for( var i = 0; i < markers.length; ++i )
+  for( var i = 0; i < markers.length; ++i )
+  {
+    if( markers[i].free )
     {
-        if( markers[i].free )
-        {
-            return i;
-        }
+      return i;
     }
-    return -1;
+  }
+  return -1;
 }
 
 function getMarkerById( id )
 {
-    return markers[id];
+  return markers[id];
 }
 
 function visibleMarkers()
 {
-    var count = 0;
-    
-    for( var i = 0; i < markers.length; ++i )
-    {
-        var m = markers[i];
-        if( !m.free ) count++;
-    }
-    return count;
+  var count = 0;
+  
+  for( var i = 0; i < markers.length; ++i )
+  {
+    var m = markers[i];
+    if( !m.free ) count++;
+  }
+  return count;
 }
 
 function updateMarkerList()
 {
-    var lst = Array();
-    
-    for( var i = 0; i < markers.length; ++i )
-    {
-        var m = markers[i];
-        if( !m.free )
-        {   
-            lst.push( m.id );
-        }
+  var lst = Array();
+  
+  for( var i = 0; i < markers.length; ++i )
+  {
+    var m = markers[i];
+    if( !m.free )
+    {   
+      lst.push( m.id );
     }
-    
-    $.cookie('markers', lst.join( ":" ), {expires:30});
+  }
+  
+  $.cookie('markers', lst.join( ":" ), {expires:30});
 }
 
 function removeMarker( id )
 {
-    var m = markers[id];
-    if( m.free )
-    {
-        return;
-    }
-    
-    m.free = true;
-    m.marker.setMap( null );
-    m.circle.setMap( null );
-    m.marker = null;
-    m.circle = null;
-    
-    $('#dyn' + m.id).remove();
-    
-    if( visibleMarkers() == 0 )
-    {
-      $('#btnmarkers2').hide();
-    }
+  var m = markers[id];
+  if( m.free )
+  {
+    return;
+  }
+  
+  m.free = true;
+  m.marker.setMap( null );
+  m.circle.setMap( null );
+  m.marker = null;
+  m.circle = null;
+  
+  $('#dyn' + m.id).remove();
+  
+  if( visibleMarkers() == 0 )
+  {
+    $('#btnmarkers2').hide();
+  }
 
-    updateMarkerList();
-    updateLinesMarkerRemoved( id );
+  updateMarkerList();
+  updateLinesMarkerRemoved( id );
 }
 
 function deleteAllMarkers()
@@ -560,81 +557,90 @@ function deleteAllMarkers()
 function gotoMarker( id )
 {
   trackMarker('goto');
-    var m = getMarkerById( id );
-    map.setCenter( m.marker.getPosition() );
+  var m = getMarkerById( id );
+  map.setCenter( m.marker.getPosition() );
 }
 
 function centerMarker( id )
 {
   trackMarker('center');
-    var m = getMarkerById( id );
-    m.marker.setPosition( map.getCenter() );
-    updateMarker( m );
+  var m = getMarkerById( id );
+  m.marker.setPosition( map.getCenter() );
+  updateMarker( m );
 }
 
 function enterEditMode( id )
 {
   trackMarker('edit');
-    var m = getMarkerById( id );
-    
-    $('#edit_name' + m.alpha ).val( m.name ); 
-    $('#edit_coordinates' + m.alpha ).val( coords2string( m.marker.getPosition() ) ); 
-    $('#edit_circle' + m.alpha ).val( m.circle.getRadius() );
-    
-    $('#dynview' + id).hide();
-    $('#dynedit' + id).show();    
+  var m = getMarkerById( id );
+  
+  $('#edit_name' + m.alpha ).val( m.name ); 
+  $('#edit_coordinates' + m.alpha ).val( coords2string( m.marker.getPosition() ) ); 
+  $('#edit_circle' + m.alpha ).val( m.circle.getRadius() );
+  
+  $('#dynview' + id).hide();
+  $('#dynedit' + id).show();    
 }
 
 function leaveEditMode( id, takenew )
 {
-    if( takenew )
+  if( takenew )
+  {
+    var m = getMarkerById( id );
+    
+    var name = $('#edit_name' + m.alpha).val();
+    var name_ok = /^([a-zA-Z0-9-_]*)$/.test( name );
+    
+    var s_coordinates = $('#edit_coordinates' + m.alpha).val();
+    var coordinates = string2coords( s_coordinates );
+    
+    var s_circle = $('#edit_circle' + m.alpha).val();
+    var circle = getInteger( s_circle, 0, 100000000000 );
+    
+    var errors = Array();
+    
+    if( !name_ok )
     {
-        var m = getMarkerById( id );
-        
-        var name = $('#edit_name' + m.alpha).val();
-        var name_ok = /^([a-zA-Z0-9-_]*)$/.test( name );
-        
-        var s_coordinates = $('#edit_coordinates' + m.alpha).val();
-        var coordinates = string2coords( s_coordinates );
-        
-        var s_circle = $('#edit_circle' + m.alpha).val();
-        var circle = getInteger( s_circle, 0, 100000000000 );
-        
-        var errors = Array();
-        
-        if( !name_ok )
-        {
-            errors.push( "Bad character in 'name': \"%1\".<br />Allowed characters: a-z, A-Z, 0-9, - and _.".replace( /%1/, name ) );
-        }
-        if( coordinates == null )
-        {
-            errors.push( "Bad coordinate format: \"%1\".".replace( /%1/, s_coordinates ) );
-        }
-        if( circle == null )
-        {
-            errors.push( "Bad value of 'radius': \"%1\".<br />Allowed values: integers &geq; 0".replace( /%1/, s_circle ) );
-        }
-        
-        if( errors.length > 0 ) 
-        {
-            showAlert( "Error", errors.join( "<br /><br />" ) );
-        }
-        else
-        {
-            m.name = name;
-            m.marker.setPosition( coordinates );
-            setRadius( m, circle );
-            
-            updateMarker( m );
-            $('#dynview' + id).show();
-            $('#dynedit' + id).hide();
-        }
+      errors.push(
+        TT("Bad character in 'name': \"%1\".<br />Allowed characters: a-z, A-Z, 0-9, - and _.", 
+           "Unerlaubte Zeichen in 'Name'.<br />Erlaubte Zeichen: a-z, A-Z, 0-9, - und _.")
+          .replace(/%1/, name));
+    }
+    if( coordinates == null )
+    {
+      errors.push( 
+        TT("Bad coordinate format: \"%1\".",
+           "Ungültiges Koordinatenformat: \"%1\".")
+          .replace(/%1/, s_coordinates));
+    }
+    if( circle == null )
+    {
+      errors.push(
+        TT("Bad value of 'radius': \"%1\".<br />Allowed values: integers &geq; 0.",
+           "Ungültiger Wert für 'Radius': \"%1\".<br />Erlaubte Werte: ganze Zahlen &geq; 0.")
+          .replace(/%1/, s_circle));
+    }
+    
+    if( errors.length > 0 ) 
+    {
+      showAlert(TT("ERROR", "Fehler"), errors.join("<br /><br />"));
     }
     else
     {
-        $('#dynview' + id).show();
-        $('#dynedit' + id).hide();
+      m.name = name;
+      m.marker.setPosition( coordinates );
+      setRadius( m, circle );
+      
+      updateMarker( m );
+      $('#dynview' + id).show();
+      $('#dynedit' + id).hide();
     }
+  }
+  else
+  {
+    $('#dynview' + id).show();
+    $('#dynedit' + id).hide();
+  }
 }
 
 function newMarker( coordinates, theid, radius, name )
@@ -645,8 +651,8 @@ function newMarker( coordinates, theid, radius, name )
     if( id == -1 || id < 0 || id >= 26 || markers[id].free == false ) id = getFreeId();
     if( id == -1 )
     {
-        showAlert("Error", "Maximum number of markers (26) reached.");
-        return null;
+      showAlert(TT("ERROR", "Fehler"), TT("Maximum number of markers (26) reached.", "Maximale Anzahl an Markers (26) erreicht."));
+      return null;
     }
     
     var nextid = markers.length;
@@ -720,11 +726,11 @@ function newMarker( coordinates, theid, radius, name )
     "        <td id=\"view_circle" + m.alpha +"\">16100 m</td>\n" +
     "        <td>\n" +
     "            <div class=\"btn-group\" style=\"padding-bottom: 2px; padding-top: 2px; float: right\">\n" +
-    "            <button class=\"my-button btn btn-mini btn-warning\" title=\"Edit marker\" type=\"button\"  onclick=\"enterEditMode(" + m.id + ");\"><i class=\"fa fa-edit\"></i></button>\n" +
-    "            <button class=\"my-button btn btn-mini btn-danger\" title=\"Remove marker\" type=\"button\" onClick=\"removeMarker(" + m.id + ")\"><i class=\"fa fa-trash-o\"></i></button>\n" +
-    "            <button class=\"my-button btn btn-mini btn-info\" title=\"Move map to marker\" type=\"button\" onClick=\"gotoMarker(" + m.id + ")\"><i class=\"fa fa-search\"></i></button>\n" +
-    "            <button class=\"my-button btn btn-mini btn-warning\" title=\"Put marker on center of map\" type=\"button\" onClick=\"centerMarker(" + m.id + ")\"><i class=\"fa fa-crosshairs\"></i></button>\n" +
-    "            <button class=\"my-button btn btn-mini btn-success\" title=\"Waypoint projection from marker\" type=\"button\" onClick=\"projectFromMarker(" + m.id + ")\"><i class=\"fa fa-location-arrow\"></i></button>\n" +
+    "            <button class=\"my-button btn btn-mini btn-warning\" title=\"" + TT("Edit marker", "Bearbeite Marker") + "\" type=\"button\"  onclick=\"enterEditMode(" + m.id + ");\"><i class=\"fa fa-edit\"></i></button>\n" +
+    "            <button class=\"my-button btn btn-mini btn-danger\" title=\"" + TT("Remove marker", "Entferne Marker") + "\" type=\"button\" onClick=\"removeMarker(" + m.id + ")\"><i class=\"fa fa-trash-o\"></i></button>\n" +
+    "            <button class=\"my-button btn btn-mini btn-info\" title=\"" + TT("Move map to marker", "Bewege Karte zu Marker") + "\" type=\"button\" onClick=\"gotoMarker(" + m.id + ")\"><i class=\"fa fa-search\"></i></button>\n" +
+    "            <button class=\"my-button btn btn-mini btn-warning\" title=\"" + TT("Put marker on center of map", "Verschiebe Marker ins Zentrum der Karte") + "\" type=\"button\" onClick=\"centerMarker(" + m.id + ")\"><i class=\"fa fa-crosshairs\"></i></button>\n" +
+    "            <button class=\"my-button btn btn-mini btn-success\" title=\"" + TT("Waypoint projection from marker", "Wegpunktprojektion vom Marker aus") + "\" type=\"button\" onClick=\"projectFromMarker(" + m.id + ")\"><i class=\"fa fa-location-arrow\"></i></button>\n" +
     "            </div>\n" +
     "        </td>\n" +
     "    </tr>\n" +
@@ -733,20 +739,20 @@ function newMarker( coordinates, theid, radius, name )
     "    <tr>\n" +
     "        <td rowspan=\"4\" style=\"vertical-align: top\"><span style=\"width:" + iconw + "px; height:" + iconh + "px; float: left; display: block; background-image: url(img/base.png); background-repeat: no-repeat; background-position: -" + offsetx + "px -" + offsety + "px;\">&nbsp;</span>\n" +
     "        <td style=\"text-align: center; vertical-align: middle;\"><i class=\"icon-map-marker\"></i></td>\n" +
-    "        <td><input id=\"edit_name" + m.alpha + "\" title=\"Name of the marker\" placeholder=\"Name\" class=\"form-control input-block-level\" type=\"text\" style=\"margin-bottom: 0px;\" value=\"n/a\" /></td>\n" +
+    "        <td><input id=\"edit_name" + m.alpha + "\" title=\"" + TT("Name of the marker", "Name des Markers") + "\" placeholder=\"" + TT("Name", "Name") + "\" class=\"form-control input-block-level\" type=\"text\" style=\"margin-bottom: 0px;\" value=\"n/a\" /></td>\n" +
     "    </tr>\n" +
     "    <tr>\n" +
     "        <td style=\"text-align: center; vertical-align: middle;\"><i class=\"icon-globe\"></i></td>\n" +
-    "        <td><input id=\"edit_coordinates" + m.alpha +"\" title=\"Coordinates of the marker\" placeholder=\"Coordinates\" class=\"form-control input-block-level\" type=\"text\" style=\"margin-bottom: 0px;\" value=\"n/a\" /></td>\n" +
+    "        <td><input id=\"edit_coordinates" + m.alpha +"\" title=\"" + TT("Coordinates of the marker", "Koordinaten des Markers") + "\" placeholder=\"" + TT("Coordinates", "Koordinaten") + "\" class=\"form-control input-block-level\" type=\"text\" style=\"margin-bottom: 0px;\" value=\"n/a\" /></td>\n" +
     "    </tr>\n" +
     "    <tr>\n" +
     "        <td style=\"text-align: center; vertical-align: middle;\"><i class=\"icon-circle-blank\"></i></td>\n" +
-    "        <td><input id=\"edit_circle" + m.alpha +"\" title=\"Radius (m) of circle around the marker\" placeholder=\"Radius (m)\" class=\"form-control input-block-level\" type=\"text\" style=\"margin-bottom: 0px;\" value=\"n/a\" /></td>\n" +
+    "        <td><input id=\"edit_circle" + m.alpha +"\" title=\"" + TT("Radius (m) of circle around the marker", "Radius (m) des Kreises um den Marker") + "\" placeholder=\"" + TT("Radius (m)", "Radius (m)") + "\" class=\"form-control input-block-level\" type=\"text\" style=\"margin-bottom: 0px;\" value=\"n/a\" /></td>\n" +
     "    </tr>\n" +
     "    <tr>\n" +
     "        <td colspan=\"2\" style=\"text-align: right\">\n" +
-    "            <button class=\"btn btn-small btn-primary\" type=\"button\" onclick=\"javascript: leaveEditMode(" + m.id + ", true );\">Ok</button>\n" +
-    "            <button class=\"btn btn-small\" type=\"button\" onclick=\"leaveEditMode(" + m.id + ", false );\">Cancel</button>\n" +
+    "            <button class=\"btn btn-small btn-primary\" type=\"button\" onclick=\"javascript: leaveEditMode(" + m.id + ", true );\">" + TT("Ok", "Ok") + "</button>\n" +
+    "            <button class=\"btn btn-small\" type=\"button\" onclick=\"leaveEditMode(" + m.id + ", false );\">" + TT("Cancel", "Abbrechen") + "</button>\n" +
     "        </td>\n" +
     "    </tr>\n" +
     "</table>" +
@@ -803,13 +809,13 @@ function projectFromMarker( id )
       
       if( angle == null )
       {
-        showAlert( "Error", "Bad 'bearing' value: \"%1\".<br />Allowed values: floating point numbers between 0 and 360.".replace( /%1/, data1 ) );
+        showAlert( TT("Error", "Fehler"), TT("Bad 'bearing' value: \"%1\".<br />Allowed values: floating point numbers between 0 and 360.", "Ungültiger Wert für 'Winkel': \"%1\".<br />Erlaubte Werte: Zahlen zwischen 0 und 360.").replace( /%1/, data1 ) );
         return;
       }
       
       if( dist == null )
       {
-        showAlert( "Error", "Bad 'distance' value: \"%1\".<br />Allowed values: floating point numbers &geq; 0.".replace( /%1/, data2 ) );
+        showAlert( TT("Error", "Fehler"), TT("Bad 'distance' value: \"%1\".<br />Allowed values: floating point numbers &geq; 0.", "Ungültiger Wert für 'Entfernung': \"%1\".<br />Erlaubte Werte: Zahlen &geq; 0.").replace( /%1/, data2 ) );
         return;
       }
 
@@ -817,7 +823,7 @@ function projectFromMarker( id )
       var m = newMarker( newpos, -1, RADIUS_DEFAULT, null );
       if( m != null )
       {
-        showAlert( "Information", "Created new marker: %1.".replace( /%1/, m.alpha ) );
+        showAlert( TT("Information", "Information"), TT("Created new marker: %1.", "Neuer Marker: %1").replace( /%1/, m.alpha ) );
       }        
     }
   );
@@ -984,8 +990,10 @@ function tileUrl( template, servers, coord, zoom )
     return template.replace( /%s/, s ).replace( /%x/, x ).replace( /%y/, y ).replace( /%z/, zoom );
 }
 
-function initialize( xcenter, xzoom, xmap, xmarkers, xlines )
+function initialize(xlang, xcenter, xzoom, xmap, xmarkers, xlines)
 {
+  lang = xlang;
+  
     var center = null;
     var zoom = parseInt( xzoom );
     var maptype = xmap;
@@ -1356,7 +1364,7 @@ function searchLocation()
           if (status == google.maps.GeocoderStatus.OK) {
             map.setCenter(results[0].geometry.location);
           } else {
-            showAlert( "Information", "Cannot find location of \"%1\".".replace( /%1/, address ) );
+            showAlert( TT("Information"), TT("Cannot find location of \"%1\".", "Kann Koordinaten von \"%1\" nicht bestimmen.").replace( /%1/, address ) );
           }
         });
     }
@@ -1379,12 +1387,12 @@ function whereAmI()
       }, 
       function() 
       {
-        showAlert("Failed to determine current location.");
+        showAlert(TT("Failed to determine current location.", "Kann aktuellen Aufenthaltsort nicht bestimmen."));
       }
     );
   }
   else
   {
-    showAlert("Failed to determine current location.");
+    showAlert(TT("Failed to determine current location.", "Kann aktuellen Aufenthaltsort nicht bestimmen."));
   }
 }
