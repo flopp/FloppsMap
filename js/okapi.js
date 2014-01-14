@@ -75,7 +75,7 @@ function okapi_create_icons()
 {
     if( okapi_icons != null ) return;
     okapi_icons = {};
-    var base = "http://www.flopp-caching.de/img/caches/";
+    var base = "img/caches/";
     
     okapi_icons["Other"] = load_icon( base + "cachetype-1.png" );
     okapi_icons["Traditional"] = load_icon( base + "cachetype-2.png" );

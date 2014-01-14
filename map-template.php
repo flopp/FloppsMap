@@ -126,13 +126,8 @@ echo "<body onload=\"initialize('$lang', '$cntr', '$zoom', '$maptype', '$markers
         <li></li>
       </ul>
       <form class="nav navbar-form navbar-right" style="margin:auto">
-<!--
-        <a class="btn btn-default btn-sm navbar-btn" href="<?php getLangSwitchUrl($_SERVER, 'en'); ?>"><?php TT('English <i class="fa fa-check"></i>', 'English');?></a>
-        <a class="btn btn-default btn-sm navbar-btn" href="<?php getLangSwitchUrl($_SERVER, 'de'); ?>"><?php TT('Deutsch', 'Deutsch <i class="fa fa-check"></i>');?></a>
--->
          <span class="btn btn-default btn-sm navbar-btn" onclick="langEN();"><?php TT('English <i class="fa fa-check"></i>', 'English');?></span>
          <span class="btn btn-default btn-sm navbar-btn" onclick="langDE();"><?php TT('Deutsch', 'Deutsch <i class="fa fa-check"></i>');?></span>
-
       </form>
     </div>
   </div>
@@ -152,20 +147,18 @@ echo "<body onload=\"initialize('$lang', '$cntr', '$zoom', '$maptype', '$markers
 
 <div class="my-section">
   <div class="my-section-header"><?php TT('Search', 'Suche');?></div>
-  <button id="buttonWhereAmI" class="btn btn-info btn-sm my-section-buttons-top" title="<?php TT('Move map to current location', 'Bewege die Karte zum aktuellen Aufenthaltsort');?>" type="button" onClick="whereAmI()"><i class="fa fa-crosshairs"></i> <?php TT('Where am I?', 'Wo bin ich?');?></button>
+  <button id="buttonWhereAmI" class="btn btn-info btn-sm my-section-buttons-top" title="<?php TT('Move map to current location', 'Bewege die Karte zum aktuellen Aufenthaltsort');?>" type="button" onClick="geolocation.whereAmI()"><i class="fa fa-crosshairs"></i> <?php TT('Where am I?', 'Wo bin ich?');?></button>
     
-    <div>
-
-<form action="javascript:searchLocation()">
-<div class="input-group" style="margin-bottom: 5px">
-  <input class="form-control" id="txtSearch" type="text" placeholder="<?php TT('Coordinates or place', 'Koordinaten oder Ort');?>" title="<?php TT('Search for coordinates or a place and center the map on the result', 'Suche nach Koordinaten oder einem Ort und zentriere die Karte auf dem Suchergebnis');?>">
-  <span class="input-group-btn">
-    <button class="btn btn-info" type="submit" title="<?php TT('Search for coordinates or a place and center the map on the result', 'Suche nach Koordinaten oder einem Ort und zentriere die Karte auf dem Suchergebnis');?>"><i class="fa fa-search"></i></button>
-  </span>
-</div>
-</form>
-
-    </div>
+  <div>
+    <form action="javascript:geolocation.search($('#txtSearch').val())">
+      <div class="input-group" style="margin-bottom: 5px">
+        <input class="form-control" id="txtSearch" type="text" placeholder="<?php TT('Coordinates or place', 'Koordinaten oder Ort');?>" title="<?php TT('Search for coordinates or a place and center the map on the result', 'Suche nach Koordinaten oder einem Ort und zentriere die Karte auf dem Suchergebnis');?>">
+        <span class="input-group-btn">
+          <button class="btn btn-info" type="submit" title="<?php TT('Search for coordinates or a place and center the map on the result', 'Suche nach Koordinaten oder einem Ort und zentriere die Karte auf dem Suchergebnis');?>"><i class="fa fa-search"></i></button>
+        </span>
+      </div>
+    </form>
+  </div>
 </div> <!-- section -->
 
 <div class="my-section-with-footer my-section">

@@ -67,8 +67,17 @@ function getLang($source)
   return 'invalid';
 }
 
+function getLangSwitchUrl($server, $lang)
+{
+  if (isset($server['SCRIPT_URI']))
+  {
+    echo $server['SCRIPT_URI'] . '?lang=' . $lang;
+  }
+}
+
 $lang = 'invalid';
-if (isset($_COOKIE['lang'])) $lang = getLang($_COOKIE['lang']);
+//if (isset($_GET['lang'])) $lang = getLang($_GET['lang']);
+if ($lang == 'invalid' && isset($_COOKIE['lang'])) $lang = getLang($_COOKIE['lang']);
 if ($lang == 'invalid') $lang = prefered_language(array('en', 'de'), $_SERVER['HTTP_ACCEPT_LANGUAGE']);
 setcookie('lang', $lang, time()+3600*24*30);
 

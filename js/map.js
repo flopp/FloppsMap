@@ -1,8 +1,6 @@
-var geocoder;
 var markers = null;
 var boundary_layer = null;
 var boundary_layer_fusion_table = "1Fg-gWjzai7awzjO30BFP_i_67zaRwrCCoMBRJ5Y"; // GADM.org
-//var boundary_layer_fusion_table = "14CNp_bLGOQTmtR-8vMxInDZdtHXvAGE3ZbMrF_w"; // GSAK
 var hillshadingLayer = null;
 var hillshadingLayerShown = false;
 var map;
@@ -1227,10 +1225,7 @@ function initialize(xlang, xcenter, xzoom, xmap, xmarkers, xlines)
    
     google.maps.event.addListener( map, "center_changed", function() { storeZoom(); storeCenter(); okapi_schedule_load_caches(); } );
     google.maps.event.addListener( map, "zoom_changed", function() { storeZoom(); storeCenter(); okapi_schedule_load_caches(); } );
-    google.maps.event.addListener( map, "maptypeid_changed", function(){ updateCopyrights()});
-    
-    geocoder = new google.maps.Geocoder();
-    
+    google.maps.event.addListener( map, "maptypeid_changed", function(){ updateCopyrights()});    
     
     if( loadfromcookies )
     {
@@ -1343,46 +1338,40 @@ function initialize(xlang, xcenter, xzoom, xmap, xmarkers, xlines)
     restoreGeocaches(true);
     
     setupExternalLinkTargets();
-    
-    /*
-    var load_caches = get_cookie_int("load_caches", 1);
-    $("#showCaches").prop('checked', load_caches == 1);
-    okapi_toggle_load_caches( $('#showCaches').is(':checked') );
-    */ 
 }
 
-function searchLocation()
-{
-    var address = $('#txtSearch').val();
-    
-    trackSearch(address);
-    
-    var coords = string2coords(new String(address));
-    if (!coords)
-    { 
-        geocoder.geocode( { address: address, region: 'de' }, function(results, status) {
-          if (status == google.maps.GeocoderStatus.OK) {
-            map.setCenter(results[0].geometry.location);
-          } else {
-            showAlert( TT("Information"), TT("Cannot find location of \"%1\".", "Kann Koordinaten von \"%1\" nicht bestimmen.").replace( /%1/, address ) );
-          }
-        });
-    }
-    else
-    {
-        map.setCenter(coords);
-    }
+
+function Geolocation() {
+  this.m_geocoder = new google.maps.Geocoder();
 }
 
-function whereAmI()
-{
+Geolocation.prototype.search = function (address) {
+  trackSearch(address);
+  
+  var coords = string2coords(new String(address));
+  if (!coords)
+  { 
+    this.m_geocoder.geocode( { address: address, region: 'de' }, function(results, status) {
+      if (status == google.maps.GeocoderStatus.OK) {
+        map.setCenter(results[0].geometry.location);
+      } else {
+        showAlert( TT("Information"), TT("Cannot find location of \"%1\".", "Kann Koordinaten von \"%1\" nicht bestimmen.").replace( /%1/, address ) );
+      }
+    });
+  }
+  else
+  {
+    map.setCenter(coords);
+  }
+}
+
+Geolocation.prototype.whereAmI = function () {
   if(navigator.geolocation) 
   {
     navigator.geolocation.getCurrentPosition(
       function(position) 
       {
         var loc = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-        $('#txtSearch').val(coords2string(loc));
         map.setCenter(loc);
       }, 
       function() 
@@ -1396,3 +1385,5 @@ function whereAmI()
     showAlert(TT("Failed to determine current location.", "Kann aktuellen Aufenthaltsort nicht bestimmen."));
   }
 }
+
+var geolocation = new Geolocation();

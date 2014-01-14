@@ -18,8 +18,7 @@ function trackAction(action)
 
 function trackSearch(query)
 {
-  _paq.push(['setCustomVariable', 4, 'search', query, 'page']);
-  _paq.push(['trackPageView']);
+  _paq.push(['trackSiteSearch', query, false, false]);
 }
 
 $(document).ready(function() {
