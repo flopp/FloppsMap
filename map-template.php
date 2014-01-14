@@ -48,6 +48,7 @@ require_once('lib/lang.php');
     <script type="text/javascript" src="js/okapi.js?t=TSTAMP"></script>
     <script type="text/javascript" src="js/tracking.js?t=TSTAMP"></script>
     <script type="text/javascript" src="js/ui.js?t=TSTAMP"></script>
+    <script type="text/javascript" src="js/user.js?t=TSTAMP"></script>
     <script type="text/javascript" src="js/lang.js?t=TSTAMP"></script>    
     <link type="text/css" rel="stylesheet" href="css/main.css?t=TSTAMP">
     
@@ -160,6 +161,42 @@ echo "<body onload=\"initialize('$lang', '$cntr', '$zoom', '$maptype', '$markers
     </form>
   </div>
 </div> <!-- section -->
+
+<div class="my-section">
+  <div class="my-section-header"><?php TT('Save/Load', 'Speichern/Laden');?></div>
+  <div id="loginForm">
+    <input id="loginLogin" type="text" class="form-control" placeholder="<?php TT('Username', 'Benutzer'); ?>">
+    <input id="loginPassword" type="password" class="form-control" placeholder="<?php TT('Password', 'Passwort'); ?>">
+    <button class="btn btn-sm" onclick="user.login($('#loginLogin').val(), $('#loginPassord').val());"><?php TT('Login', 'Einloggen'); ?></button>
+    <!--<a href=""><?php TT('Create new account', 'Neues Konto anlegen.'); ?></a>-->
+  </div>
+  <div id="loggedInForm">
+    <span id="loggedInMessage">Hallo Flopp!</span>
+    <div>
+      <button class="btn btn-sm" onclick="user.logout()"><?php TT('Logout', 'Ausloggen'); ?></button>
+    </div>
+    
+    <b><?php TT('Collections', 'Sammlungen'); ?></b>
+    <select id="loggedInCollections" class="form-control">
+      <option><?php TT('[New Collection]', '[Neue Sammlung]'); ?></option>
+    </select>
+    <button class="btn btn-sm" onclick="user.saveCollection();"><?php TT('Save', 'Speichern'); ?></button>
+    <button class="btn btn-sm" onclick="user.loadCollection();"><?php TT('Load', 'Laden'); ?></button>
+    <button class="btn btn-sm" onclick="user.renameCollection();"><?php TT('Rename', 'Umbenennen'); ?></button>
+    <button class="btn btn-sm" onclick="user.deleteCollection();"><?php TT('Delete', 'Löschen'); ?></button>
+  </div>
+  <!--
+  <div>
+    <select class="form-control">
+      <option><?php TT('[New Collection]', '[Neue Sammlung]'); ?></option>
+    </select>
+      <button class="btn btn-sm"><?php TT('Save', 'Speichern'); ?></button>
+      <button class="btn btn-sm"><?php TT('Load', 'Laden'); ?></button>
+      <button class="btn btn-sm"><?php TT('Rename', 'Umbenennen'); ?></button>
+      <button class="btn btn-sm"><?php TT('Delete', 'Löschen'); ?></button>
+  </div>
+  -->
+</div>
 
 <div class="my-section-with-footer my-section">
   <div class="my-section-header"><?php TT('Markers', 'Marker');?></div>

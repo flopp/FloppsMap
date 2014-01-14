@@ -7,3 +7,4 @@ js/map.js
 js/okapi.js
 js/tracking.js
 js/ui.js
+js/user.js
