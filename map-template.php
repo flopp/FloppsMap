@@ -229,6 +229,17 @@ echo "<body onload=\"initialize('$lang', '$cntr', '$zoom', '$maptype', '$markers
     <button id="buttonPermalink" class="btn btn-block btn-sm btn-info" title="<?php TT('Create permalink', 'Erzeuge Permalink');?>" type="button" onClick="generatePermalink()"><?php TT('Create permalink', 'Erzeuge Permalink');?></button>
   </div>
 
+<b><?php TT('Format of Coordinates', 'Koordinatenformat');?></b>
+<div>
+  <div class="input-group">
+    <select class="form-control" id="coordinatesFormat" title="<?php TT('Select display format of coordinates', 'Anzeigeformat für Koordinaten auswählen');?>">
+    <option value="1">DDD MM.MMM</option>
+    <option value="2">DDD MM SS.SS</option>
+    <option value="3">DDD.DDDDD</option>
+    </select>
+  </div>
+</div>
+
 <b><?php TT('Additional Layers', 'Zusätzliche Ebenen');?></b>
 <div style="margin-bottom: 10px">
   <label class="checkbox" title="<?php TT('Toggle hillshading', 'Aktiviere Hillshading');?>">
