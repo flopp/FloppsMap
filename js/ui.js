@@ -148,9 +148,7 @@ function setCoordinatesFormat(t)
     $('#coordinatesFormat').val(t);
   }
   
-  if( coordinatesFormat == t ) return;
-  
-  coordinatesFormat = t;
+  Coordinates.setFormat(t);
   
   updateMarkers();
 }

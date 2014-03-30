@@ -391,7 +391,7 @@ function updateLineIndex( index, id )
         }
         else
         {
-            var da = dist_angle_geodesic( m1.marker.getPosition(), m2.marker.getPosition() );
+            var da = Coordinates.dist_angle_geodesic( m1.marker.getPosition(), m2.marker.getPosition() );
             
             var dist = da.dist.toFixed();
             $("#dynlinedist" + id).html( dist + "m" );
@@ -450,10 +450,10 @@ function updateMarker( m )
   
   $.cookie('marker' + m.id, pos.lat().toFixed(6) + ":" + pos.lng().toFixed(6) + ":" + r + ":" + m.name, {expires:30});
   $('#view_name' + m.alpha ).html( m.name ); 
-  $('#view_coordinates' + m.alpha ).html( coords2string( pos ) ); 
+  $('#view_coordinates' + m.alpha ).html( Coordinates.toString( pos ) ); 
   $('#view_circle' + m.alpha ).html( r );
   $('#edit_name' + m.alpha ).val( m.name ); 
-  $('#edit_coordinates' + m.alpha ).val( coords2string( pos ) ); 
+  $('#edit_coordinates' + m.alpha ).val( Coordinates.toString( pos ) ); 
   $('#edit_circle' + m.alpha ).val( r );
   
   updateLinesMarkerMoved( m.id );    
@@ -587,7 +587,7 @@ function enterEditMode( id )
   var m = getMarkerById( id );
   
   $('#edit_name' + m.alpha ).val( m.name ); 
-  $('#edit_coordinates' + m.alpha ).val( coords2string( m.marker.getPosition() ) ); 
+  $('#edit_coordinates' + m.alpha ).val(Coordinates.toString(m.marker.getPosition())); 
   $('#edit_circle' + m.alpha ).val( m.circle.getRadius() );
   
   $('#dynview' + id).hide();
@@ -604,7 +604,7 @@ function leaveEditMode( id, takenew )
     var name_ok = /^([a-zA-Z0-9-_]*)$/.test( name );
     
     var s_coordinates = $('#edit_coordinates' + m.alpha).val();
-    var coordinates = string2coords( s_coordinates );
+    var coordinates = Coordinates.fromString(s_coordinates);
     
     var s_circle = $('#edit_circle' + m.alpha).val();
     var circle = getInteger( s_circle, 0, 100000000000 );
@@ -831,7 +831,7 @@ function projectFromMarker( id )
         return;
       }
 
-      var newpos = projection_geodesic( oldpos, angle, dist );
+      var newpos = Coordinates.projection_geodesic( oldpos, angle, dist );
       var m = newMarker( newpos, -1, RADIUS_DEFAULT, null );
       if( m != null )
       {
@@ -1068,7 +1068,7 @@ function initialize(xlang, xcenter, xzoom, xmap, xmarkers, xlines)
             }
             else
             {
-                m.coords = string2coords( data2[index] ); 
+                m.coords = Coordinates.fromString( data2[index] ); 
                 if( m.coords == null ) continue;
                 
                 index = index + 1;
@@ -1108,7 +1108,7 @@ function initialize(xlang, xcenter, xzoom, xmap, xmarkers, xlines)
         
         if( data.length == 1 )
         {
-            center = string2coords( xcenter ); 
+            center = Coordinates.fromString(xcenter); 
         }
         else
         {
@@ -1363,7 +1363,7 @@ function Geolocation() {
 Geolocation.prototype.search = function (address) {
   trackSearch(address);
   
-  var coords = string2coords(new String(address));
+  var coords = Coordinates.fromString(new String(address));
   if (!coords)
   { 
     this.m_geocoder.geocode( { address: address, region: 'de' }, function(results, status) {

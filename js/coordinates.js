@@ -1,7 +1,17 @@
-var coordinatesFormat = "DM";
+var Coordinates = {};
+Coordinates.m_format = "DM";
+Coordinates.m_geod = GeographicLib.Geodesic.WGS84;
 
-function string2coords( coordstring )
-{
+
+Coordinates.setFormat = function(format) {
+  if (format == "DM" || format == "DMS" || format == "D")
+  {
+    this.m_format = format;
+  }
+}
+
+
+Coordinates.fromString = function(coordsString){
     coordstring = coordstring.trim()
 
     var matches;
@@ -52,13 +62,11 @@ function string2coords( coordstring )
         return new google.maps.LatLng( lat, lng );
     }
     
-    return null;
+    return null;  
 }
 
-
-function coords2string_dm( coord )
-{
-    var lat = coord.lat();
+Coordinates.toStringDM = function(coords) {
+    var lat = coords.lat();
     
     var lat_string = "N";
     if( lat < 0 )
@@ -91,7 +99,7 @@ function coords2string_dm( coord )
     else if( lat_mmin < 100 ) lat_string += "0";
     lat_string += lat_mmin;
     
-    var lng = coord.lng();
+    var lng = coords.lng();
     
     var lng_string = "E";
     if( lng < 0 )
@@ -128,10 +136,8 @@ function coords2string_dm( coord )
     return lat_string + " " + lng_string;
 }
 
-
-function coords2string_dms( coord )
-{
-    var lat = coord.lat();
+Coordinates.toStringDMS = function(coords) {
+    var lat = coords.lat();
     
     var lat_string = "N";
     if( lat < 0 )
@@ -158,7 +164,7 @@ function coords2string_dms( coord )
     if( lat_sec < 10 ) lat_string += "0";
     lat_string += lat_sec.toFixed(2);
     
-    var lng = coord.lng();
+    var lng = coords.lng();
     
     var lng_string = "E";
     if( lng < 0 )
@@ -189,9 +195,8 @@ function coords2string_dms( coord )
 }
 
 
-function coords2string_d( coord )
-{
-    var lat = coord.lat();
+Coordinates.toStringD = function(coords) {
+    var lat = coords.lat();
     var lat_string = "N";
     if( lat < 0 )
     {
@@ -200,7 +205,7 @@ function coords2string_d( coord )
     }
     lat_string += " " + lat.toFixed(6);
     
-    var lng = coord.lng();
+    var lng = coords.lng();
     var lng_string = "E";
     if( lng < 0 )
     {
@@ -213,31 +218,28 @@ function coords2string_d( coord )
 }
 
 
-function coords2string(coord)
-{
-  if (coordinatesFormat == "DM")
+
+Coordinates.toString = function(coords) {
+  if (this.m_format == "DM")
   {
-    return coords2string_dm(coord);
+    return this.toStringDM(coords);
   }
-  else if (coordinatesFormat == "DMS")
+  else if (this.m_format == "DMS")
   {
-    return coords2string_dms(coord);
+    return this.toStringDMS(coords);
   }
-  else if (coordinatesFormat == "D")
+  else if (this.m_format == "D")
   {
-    return coords2string_d(coord);
+    return this.toStringD(coords);
   }
   else 
   {
-    return coords2string_dm(coord);
+    return this.toStringDM(coords);
   }
 }
 
-function dist_angle_geodesic( startpos, endpos )
-{   
-    var geod = GeographicLib.Geodesic.WGS84;
-    t = geod.Inverse( startpos.lat(), startpos.lng(), endpos.lat(), endpos.lng() );
-    
+Coordinates.dist_angle_geodesic = function( startpos, endpos ) {   
+    t = this.m_geod.Inverse( startpos.lat(), startpos.lng(), endpos.lat(), endpos.lng() );
     a = t.azi1;
     if( a < 0 )
     {
@@ -247,10 +249,7 @@ function dist_angle_geodesic( startpos, endpos )
     return { dist: t.s12, angle: a };
 }
 
-function projection_geodesic( startpos, angle, distance )
-{
-    var geod = GeographicLib.Geodesic.WGS84;
-    t = geod.Direct( startpos.lat(), startpos.lng(), angle, distance );
-    
+Coordinates.projection_geodesic = function( startpos, angle, distance ) {
+    t = this.m_geod.Direct( startpos.lat(), startpos.lng(), angle, distance );
     return new google.maps.LatLng( t.lat2, t.lon2 );
 }

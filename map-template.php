@@ -66,8 +66,7 @@ require_once('lib/lang.php');
 </script>
 <!-- End Piwik Code -->
 
-</head>
-  
+<script>
 <?php
 $cntr = "";
 $zoom = "";
@@ -77,32 +76,21 @@ $lines = "";
 
 if(!empty($_GET)) 
 {
-  // center: c=LAT:LON or c=DEG or c=DMMM or ...
-  if(isset($_GET['c'])) 
-  {
-    $cntr = $_GET['c'];
-  }
-  if(isset($_GET['z'])) 
-  {
-    $zoom = $_GET['z'];
-  }
-  if(isset($_GET['t']))
-  {
-    $maptype = $_GET['t'];
-  }    
-  if(isset($_GET['m']))
-  {
-    $markers = $_GET['m'];
-  }
-  if(isset($_GET['d']))
-  {
-    $lines = $_GET['d'];
-  }
+  if(isset($_GET['c'])) { $cntr = $_GET['c']; }
+  if(isset($_GET['z'])) { $zoom = $_GET['z']; }
+  if(isset($_GET['t'])) { $maptype = $_GET['t']; }    
+  if(isset($_GET['m'])) { $markers = $_GET['m']; }
+  if(isset($_GET['d'])) { $lines = $_GET['d']; }
 }
 
-echo "<body onload=\"initialize('$lang', '$cntr', '$zoom', '$maptype', '$markers', '$lines')\">";
+echo "\$(function() {";
+echo "initialize('$lang', '$cntr', '$zoom', '$maptype', '$markers', '$lines');";
+echo "})";
 ?>
+</script>
+</head>
 
+<body>
 
 <!-- the menu -->
 <div class="navbar navbar-custom navbar-static-top">
