@@ -6,8 +6,7 @@ var hillshadingLayerShown = false;
 var map;
 var copyrightDiv;
 
-var lines = new Array();
-var nextLineId = 0;
+var theLines = new Lines();
 
 var CLAT_DEFAULT = 51.163375;
 var CLON_DEFAULT = 10.447683;
@@ -101,345 +100,6 @@ function alpha2id( alpha )
   return id;
 }
 
-function newLine()
-{
-  var m = new Object();
-  m.id = nextLineId;
-  ++nextLineId;
-  
-  m.line = null;
-  m.source = -1;
-  m.target = -1;
-  lines.push( m );
-  
-  $('#dynLineDiv').append( 
-  "<div id=\"dynLine" + m.id + "\">" +
-  "<table style=\"width: 100%\">" +
-  "<tr>" +
-  "<td>" +
-  "<select id=\"dynlinesource" + m.id + "\" class=\"my-small-select\" title=\"" + TT("Source", "Quelle") + "\" onchange=\"selectLineSource("+m.id+")\"><option value=\"-1\">?</option></select>" +
-  "&nbsp;&rarr;&nbsp;" +
-  "<select id=\"dynlinetarget" + m.id + "\" class=\"my-small-select\" title=\"" + TT("Target", "Ziel") + "\" onchange=\"selectLineTarget("+m.id+")\"><option value=\"-1\">?</option></select>" +
-  "</td>" +
-  "<td>" +
-  "<button class=\"my-button btn btn-mini btn-danger\" style=\"float: right\" title=\"" + TT("Delete line", "Lösche Linie") + "\" type=\"button\" onClick=\"trackLine('delete'); deleteLine(" + m.id + ")\"><i class=\"fa fa-trash-o\"></i></button>" +
-  "<div>" +
-  "</div>" +
-  "</td>" +
-  "</tr>" +
-  "<tr><td colspan=\"2\"><i class=\"fa fa-arrows-h\"></i> <span id=\"dynlinedist" + m.id + "\">n/a</span> <i class=\"fa fa-compass\"></i> <span id=\"dynlineangle" + m.id + "\">n/a</span></td></tr>" +
-  "</table>" +
-  "</div>"
-  );
-  
-  for( var i = 0; i < markers.length; ++i )
-  {
-    if( !markers[i].free )
-    {
-      updateLineMarkerAdded( m.id, markers[i].id );
-    }
-  }
-  
-  saveLinesCookie();
-  
-  return m.id;
-}
-
-function getLineIndex( id )
-{
-  for( var index = 0; index < lines.length; ++index )
-  {
-    var line = lines[index];
-    if( line == null ) continue;
-    
-    if( line.id == id )
-    {
-      return index;
-    }
-  }
-  
-  return -1;
-}
-
-
-function getLineById( id )
-{
-  return lines[getLineIndex( id )];
-}
-
-function getLinesText()
-{
-  var a = Array();
-  for( var index = 0; index < lines.length; ++index )
-  {
-    var line = lines[index];
-    if( line == null ) continue;
-    
-    a.push( id2alpha( line.source ) + ":" + id2alpha( line.target ) );
-  }
-  
-  return a.join("*");
-}
-
-function saveLinesCookie()
-{
-  $.cookie("lines", getLinesText(), {expires: 30});
-}
-
-function selectLineSourceById( id, markerid )
-{
-  var index = getLineIndex( id );
-  var line = lines[index];
-     
-  if( markerid != line.source )
-  {
-    line.source = markerid;
-    updateLineIndex( index, id );
-    $("#dynlinesource" + id + " > option[value=" + markerid + "]").attr("selected", "selected");
-  }
-  
-  saveLinesCookie();
-}
-
-function selectLineSource( id )
-{
-  var line = getLineById( id );
-  
-  var markerid = -1;
-  var opt = $("#dynlinesource" + id +" option:selected");
-  if( opt )
-  {
-    markerid = parseInt( opt.val() );
-  }
-  
-  selectLineSourceById( id, markerid );
-}
-
-function selectLineTargetById( id, markerid )
-{
-  var index = getLineIndex( id );
-  var line = lines[index];
-  
-  if( markerid != line.target )
-  {
-    line.target = markerid;
-    updateLineIndex( index, id );
-    $("#dynlinetarget" + id + " > option[value=" + markerid + "]").attr("selected", "selected");
-  }
-  
-  saveLinesCookie();
-}
-
-function selectLineTarget( id )
-{
-  var markerid = -1;
-  var opt = $("#dynlinetarget" + id +" option:selected");
-  if( opt )
-  {
-    markerid = parseInt( opt.val() );
-  }
-  
-  selectLineTargetById( id, markerid );
-}
-
-function updateLinesMarkerMoved( markerId )
-{
-  for( var index = 0; index < lines.length; ++index )
-  {
-    var line = lines[index];
-    if( line == null ) continue;
-    
-    if( line.source == markerId || line.target == markerId )
-    {
-      updateLineIndex( index, line.id );
-    }
-  }
-}
-
-function updateLineMarkerAdded( id, markerId )
-{
-  var source = $('#dynlinesource' + id);
-  var target = $('#dynlinetarget' + id);
-  
-  source.empty();
-  target.empty();
-
-  source.append('<option value="-1">?</option>');
-  target.append('<option value="-1">?</option>');
-
-  for( var i = 0; i < markers.length; ++i )
-  {
-    var m = markers[i];
-    if( !m.free )
-    {   
-      source.append('<option value="'+m.id+'">'+m.alpha+'</option>');
-      target.append('<option value="'+m.id+'">'+m.alpha+'</option>');
-    }
-  }
-  
-  $("#dynlinesource" + id + " > option[value=" + lines[id].source + "]").attr("selected", "selected");
-  $("#dynlinetarget" + id + " > option[value=" + lines[id].target + "]").attr("selected", "selected");
-}
-
-function updateLinesMarkerAdded( markerId )
-{
-  for( var index = 0; index < lines.length; ++index )
-  {
-    var line = lines[index];
-    if( line == null ) continue;
-    
-    updateLineMarkerAdded( line.id, markerId );
-  }
-}
-
-function updateLinesMarkerRemoved( markerid )
-{
-  for( var index = 0; index < lines.length; ++index )
-  {
-    var line = lines[index];
-    if( line == null ) continue;
-    
-    if( line.source == markerid )
-    {
-      line.source = -1;
-      if( line.line != null )
-      {
-        line.line.setMap( null );
-        line.line = null;
-      }
-    }
-    
-    if( line.target == markerid )
-    {
-      line.target = -1;
-      if( line.line != null )
-      {
-        line.line.setMap( null );
-        line.line = null;
-      }
-    }
-    
-    var source = $('#dynlinesource' + line.id);
-    var target = $('#dynlinetarget' + line.id);
-    
-    source.empty();
-    target.empty();
-
-    source.append('<option value="-1">?</option>');
-    target.append('<option value="-1">?</option>');
-
-    for( var i = 0; i < markers.length; ++i )
-    {
-      var m = markers[i];
-      if( !m.free )
-      {   
-        source.append('<option value="'+m.id+'">'+m.alpha+'</option>');
-        target.append('<option value="'+m.id+'">'+m.alpha+'</option>');
-      }
-    }
-    
-    $("#dynlinesource" + line.id + " > option[value=" + line.source + "]").attr("selected", "selected");
-    $("#dynlinetarget" + line.id + " > option[value=" + line.target + "]").attr("selected", "selected");
-  }
-  
-  saveLinesCookie();
-}
-
-function updateLineIndex( index, id )
-{
-    var line = lines[index];
-    if( line == null )
-    {
-        return;
-    }
-    
-    if( line.source == -1 || line.target == -1 )
-    {
-        if( line.line != null )
-        {
-            line.line.setMap( null );
-            line.line = null;
-        }
-        
-        $("#dynlinedist" + id).html( "n/a" );
-        $("#dynlineangle" + id).html( "n/a" );
-    }
-    else
-    {
-        if( line.line == null )
-        {   
-            line.line = new google.maps.Polyline( { 
-                strokeColor: '#ff0000', 
-                strokeWeight: 2, 
-                strokeOpacity: 0.7, 
-                geodesic: true } );
-            line.line.setMap( map );
-        }
-        
-        var m1 = markers[line.source];
-        var m2 = markers[line.target];
-        
-        var path = new google.maps.MVCArray;
-        path.push( m1.marker.getPosition() );
-        path.push( m2.marker.getPosition() );
-        line.line.setPath( path ); 
-        
-        if( line.source == line.target )
-        {
-            $("#dynlinedist" + id).html( "0m" );
-            $("#dynlineangle" + id).html( "n/a" );
-        }
-        else
-        {
-            var da = Coordinates.dist_angle_geodesic( m1.marker.getPosition(), m2.marker.getPosition() );
-            
-            var dist = da.dist.toFixed();
-            $("#dynlinedist" + id).html( dist + "m" );
-            if( dist == 0 )
-            {
-                $("#dynlineangle" + id).html( "n/a" );
-            }
-            else
-            {
-                $("#dynlineangle" + id).html( da.angle.toFixed( 1 ) + "°" );
-            }
-        }
-    }
-}
-
-function updateLine( id )
-{
-  var index = getLineIndex( id );
-  updateLineIndex( index, id );
-}
-
-function deleteLine( id )
-{
-  $('#dynLine' + id).remove();
-  
-  var index = getLineIndex( id );
-  var line = lines[index];
-  
-  if( line.line != null )
-  {
-    line.line.setMap( null );
-    line.line = null;
-  }
-  
-  lines[index] = null;
-  
-  saveLinesCookie();
-}
-
-function deleteAllLines()
-{
-  for (var i = 0; i < lines.length; ++i)
-  {
-    var line = lines[i];
-    if (line == null) continue;
-    deleteLine(line.id);
-  }
-}
 
 function updateMarker( m )
 {
@@ -456,7 +116,7 @@ function updateMarker( m )
   $('#edit_coordinates' + m.alpha ).val( Coordinates.toString( pos ) ); 
   $('#edit_circle' + m.alpha ).val( r );
   
-  updateLinesMarkerMoved( m.id );    
+  theLines.updateLinesMarkerMoved( m.id );    
 }
 
 
@@ -553,7 +213,7 @@ function removeMarker( id )
   }
 
   updateMarkerList();
-  updateLinesMarkerRemoved( id );
+  theLines.updateLinesMarkerRemoved( id );
 }
 
 function deleteAllMarkers()
@@ -801,7 +461,7 @@ function newMarker( coordinates, theid, radius, name )
     
     updateMarker( m );
     updateMarkerList();
-    updateLinesMarkerAdded( m.id );
+    theLines.updateLinesMarkerAdded( m.id );
     
     return m;
 }
@@ -1288,17 +948,17 @@ function initialize(xlang, xcenter, xzoom, xmap, xmarkers, xlines)
                 var line = linesarray[i].split( ':' );
                 if( line.length != 2 ) continue;
                 
-                var id = newLine();
+                var id = theLines.newLine();
                 
                 var id1 = alpha2id( line[0] );
                 if( id1 != -1 && markers[id1].free == false )
                 {
-                    selectLineSourceById( id, id1 );
+                    theLines.selectLineSourceById( id, id1 );
                 }
                 var id2 = alpha2id( line[1] );
                 if( id2 != -1 && markers[id2].free == false )
                 {
-                    selectLineTargetById( id, id2 );
+                    theLines.selectLineTargetById( id, id2 );
                 }
             }
         }
@@ -1328,17 +988,17 @@ function initialize(xlang, xcenter, xzoom, xmap, xmarkers, xlines)
                 var line = linesarray[i].split( ':' );
                 if( line.length != 2 ) continue;
                 
-                var id = newLine();
+                var id = theLines.newLine();
                 
                 var id1 = alpha2id( line[0] );
                 if( id1 != -1 && markers[id1].free == false )
                 {
-                    selectLineSourceById( id, id1 );
+                    theLines.selectLineSourceById( id, id1 );
                 }
                 var id2 = alpha2id( line[1] );
                 if( id2 != -1 && markers[id2].free == false )
                 {
-                    selectLineTargetById( id, id2 );
+                    theLines.selectLineTargetById( id, id2 );
                 }
             }
         }
