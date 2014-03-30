@@ -1,9 +1,10 @@
 $background: #2c3e50;
 $highlighted: #34495e;
 $foreground: #ffffff;
+$sidebarwidth: 280px;
 
 html, body { height: 100%; overflow: hidden}
-#map-wrapper { position: absolute; left: 0; right:264px; top: 50px; bottom: 0; float: left; }
+#map-wrapper { position: absolute; left: 0; right: $sidebarwidth; top: 50px; bottom: 0; float: left; }
 #themap { width: 100%; height: 100%;}
 #themap img { max-width: none; }
 
@@ -48,7 +49,7 @@ html, body { height: 100%; overflow: hidden}
   overflow: auto; 
   position: absolute; 
   padding: 4px; 
-  width: 264px; 
+  width: $sidebarwidth; 
   right: 0; 
   top: 50px; 
   bottom: 0px; 
@@ -60,7 +61,7 @@ html, body { height: 100%; overflow: hidden}
   color: $foreground;
   position: absolute; 
   display: block; 
-  right: 264px; 
+  right: $sidebarwidth; 
   width: 24px; 
   height: 60px; 
   top: 50%; 

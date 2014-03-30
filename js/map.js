@@ -459,6 +459,20 @@ function updateMarker( m )
   updateLinesMarkerMoved( m.id );    
 }
 
+
+function updateMarkers()
+{
+  for( var i = 0; i < markers.length; ++i )
+  {
+    var m = markers[i];
+    if( !m.free )
+    {   
+      updateMarker(m);
+    }
+  }
+}
+
+
 function setName( id, name )
 {
   var m = getMarkerById( id );
@@ -1336,6 +1350,7 @@ function initialize(xlang, xcenter, xzoom, xmap, xmarkers, xlines)
     restoreHillshading(true);
     restoreBoundaryLayer(false);
     restoreGeocaches(true);
+    restoreCoordinatesFormat(0);
     
     setupExternalLinkTargets();
 }

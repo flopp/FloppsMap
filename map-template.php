@@ -196,9 +196,9 @@ echo "<body onload=\"initialize('$lang', '$cntr', '$zoom', '$maptype', '$markers
 <div>
   <div class="input-group">
     <select class="form-control" id="coordinatesFormat" title="<?php TT('Select display format of coordinates', 'Anzeigeformat für Koordinaten auswählen');?>">
-    <option value="1">DDD MM.MMM</option>
-    <option value="2">DDD MM SS.SS</option>
-    <option value="3">DDD.DDDDD</option>
+    <option value="DM">DDD MM.MMM</option>
+    <option value="DMS">DDD MM SS.SS</option>
+    <option value="D">DDD.DDDDD</option>
     </select>
   </div>
 </div>

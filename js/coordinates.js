@@ -1,3 +1,5 @@
+var coordinatesFormat = "DM";
+
 function string2coords( coordstring )
 {
     coordstring = coordstring.trim()
@@ -54,7 +56,7 @@ function string2coords( coordstring )
 }
 
 
-function coords2string( coord )
+function coords2string_dm( coord )
 {
     var lat = coord.lat();
     
@@ -124,6 +126,111 @@ function coords2string( coord )
     lng_string += lng_mmin;
 
     return lat_string + " " + lng_string;
+}
+
+
+function coords2string_dms( coord )
+{
+    var lat = coord.lat();
+    
+    var lat_string = "N";
+    if( lat < 0 )
+    {
+        lat_string = "S";
+        lat = -lat;
+    }
+    
+    var lat_deg = 0 | lat;
+    var lat_rest = lat - lat_deg;
+    var lat_min = 0 | ( lat_rest * 60 );
+    lat_rest = lat_rest * 60 - lat_min;
+    var lat_sec = lat_rest * 60.0;
+
+    lat_string += " ";
+    if( lat_deg < 10 ) lat_string += "0";
+    lat_string += lat_deg;
+    lat_string += " ";
+    
+    if( lat_min < 10 ) lat_string += "0";
+    lat_string += lat_min;
+    lat_string += " ";
+    
+    if( lat_sec < 10 ) lat_string += "0";
+    lat_string += lat_sec.toFixed(2);
+    
+    var lng = coord.lng();
+    
+    var lng_string = "E";
+    if( lng < 0 )
+    {
+        lng_string = "W";
+        lng = -lng;
+    }
+    
+    var lng_deg = 0 | lng;
+    var lng_rest = lng - lng_deg;
+    var lng_min = 0 | ( lng_rest * 60 );
+    lng_rest = lng_rest * 60 - lng_min;
+    var lng_sec = lng_rest * 60.0;
+
+    lng_string += " ";
+    if( lng_deg < 10 ) lng_string += "0";
+    lng_string += lng_deg;
+    lng_string += " ";
+    
+    if( lng_min < 10 ) lng_string += "0";
+    lng_string += lng_min;
+    lng_string += " ";
+    
+    if( lng_sec < 10 ) lng_string += "0";
+    lng_string += lng_sec.toFixed(2);
+    
+    return lat_string + " " + lng_string;
+}
+
+
+function coords2string_d( coord )
+{
+    var lat = coord.lat();
+    var lat_string = "N";
+    if( lat < 0 )
+    {
+        lat_string = "S";
+        lat = -lat;
+    }
+    lat_string += " " + lat.toFixed(6);
+    
+    var lng = coord.lng();
+    var lng_string = "E";
+    if( lng < 0 )
+    {
+        lng_string = "W";
+        lng = -lng;
+    }
+    lng_string += " " + lng.toFixed(6);
+    
+    return lat_string + " " + lng_string;
+}
+
+
+function coords2string(coord)
+{
+  if (coordinatesFormat == "DM")
+  {
+    return coords2string_dm(coord);
+  }
+  else if (coordinatesFormat == "DMS")
+  {
+    return coords2string_dms(coord);
+  }
+  else if (coordinatesFormat == "D")
+  {
+    return coords2string_d(coord);
+  }
+  else 
+  {
+    return coords2string_dm(coord);
+  }
 }
 
 function dist_angle_geodesic( startpos, endpos )

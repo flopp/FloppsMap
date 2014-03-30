@@ -14,9 +14,9 @@ function showSidebar()
 {
   $.cookie("sidebar", "shown", {expires: 30});
   $('#sidebar').show();
-  $('#sidebartoggle').css( "right", "264px" );
+  $('#sidebartoggle').css( "right", "280px" );
   $('#sidebartogglebutton').html( "<i class=\"fa fa-chevron-right\"></i>" );
-  $('#map-wrapper').css("right", "264px");
+  $('#map-wrapper').css("right", "280px");
   google.maps.event.trigger(map, "resize");
 }
 
@@ -137,6 +137,39 @@ function restoreBoundaryLayer(defaultValue)
   }
 }
 
+
+/* coordinate format */
+function setCoordinatesFormat(t)
+{
+  $.cookie('coordinatesFormat', t, {expires:30});
+  
+  if ($('#coordinatesFormat').val() != t)
+  {
+    $('#coordinatesFormat').val(t);
+  }
+  
+  if( coordinatesFormat == t ) return;
+  
+  coordinatesFormat = t;
+  
+  updateMarkers();
+}
+
+function restoreCoordinatesFormat(defaultValue)
+{
+  var t = get_cookie_string("coordinatesFormat", "DM");
+  
+  if (t == "DM" || t == "DMS" || t == "D")
+  {
+    setCoordinatesFormat(t);
+  }
+  else
+  {
+    setCoordinatesFormat("DM");
+  }
+}
+
+
 /* info dialog */
 function showInfoDialog() 
 {
@@ -203,7 +236,5 @@ $(document).ready(function() {
   $("#hillshading").click(function() { toggleHillshading($('#hillshading').is(':checked')); });        
   $("#showKreisgrenzen").click(function() { toggleBoundaryLayer($('#showKreisgrenzen').is(':checked')); });
   $("#showCaches").click(function() { okapi_toggle_load_caches($('#showCaches').is(':checked')); });
-/*        
-  $("#showNSG").click(function() { showNSGLayer( $('#showNSG').is(':checked') ); });
-*/        
+  $('#coordinatesFormat').change(function() { setCoordinatesFormat($('#coordinatesFormat').val()); });
 });
