@@ -948,18 +948,18 @@ function initialize(xlang, xcenter, xzoom, xmap, xmarkers, xlines)
                 var line = linesarray[i].split( ':' );
                 if( line.length != 2 ) continue;
                 
-                var id = theLines.newLine();
-                
                 var id1 = alpha2id( line[0] );
-                if( id1 != -1 && markers[id1].free == false )
+                if( id1 != -1 && markers[id1].free )
                 {
-                    theLines.selectLineSourceById( id, id1 );
+                  id1 = -1;
                 }
                 var id2 = alpha2id( line[1] );
-                if( id2 != -1 && markers[id2].free == false )
+                if( id2 != -1 && markers[id2].free)
                 {
-                    theLines.selectLineTargetById( id, id2 );
+                  id2 = -1;
                 }
+                
+                theLines.newLine(id1, id2);
             }
         }
     }
@@ -988,18 +988,18 @@ function initialize(xlang, xcenter, xzoom, xmap, xmarkers, xlines)
                 var line = linesarray[i].split( ':' );
                 if( line.length != 2 ) continue;
                 
-                var id = theLines.newLine();
-                
                 var id1 = alpha2id( line[0] );
-                if( id1 != -1 && markers[id1].free == false )
+                if( id1 != -1 && markers[id1].free)
                 {
-                    theLines.selectLineSourceById( id, id1 );
+                  id1 = -1;
                 }
                 var id2 = alpha2id( line[1] );
-                if( id2 != -1 && markers[id2].free == false )
+                if( id2 != -1 && markers[id2].free)
                 {
-                    theLines.selectLineTargetById( id, id2 );
+                  id2 = -1;
                 }
+                
+                theLines.newLine(id1, id2);  
             }
         }
     }

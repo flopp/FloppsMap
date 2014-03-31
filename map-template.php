@@ -166,7 +166,7 @@ echo "})";
 <div class="my-section">
   <div class="my-section-header"><?php TT('Lines', 'Linien');?></div>
   <div class="btn-group btn-group-sm my-section-buttons-top">
-    <button id="buttonLinesNew" class="btn btn-sm btn-success" title="<?php TT('Create a new line', 'Erzeuge eine neue Linie');?>" type="button" onClick="theLines.newLine()"><i class="fa fa-minus"></i> <?php TT('New', 'Neu');?></button>
+    <button id="buttonLinesNew" class="btn btn-sm btn-success" title="<?php TT('Create a new line', 'Erzeuge eine neue Linie');?>" type="button" onClick="theLines.newLine(-1, -1)"><i class="fa fa-minus"></i> <?php TT('New', 'Neu');?></button>
     <button id="buttonLinesDeleteAll" class="btn btn-sm btn-danger" title="<?php TT('Delete all lines', 'Lösche alle Linien');?>" type="button" onClick="theLines.deleteAllLines()"><i class="fa fa-trash-o"></i>  <?php TT('Delete all', 'Alle löschen');?></button>
   </div>
   <div id="dynLineDiv"></div>
