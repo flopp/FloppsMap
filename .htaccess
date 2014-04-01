@@ -1,5 +1,7 @@
 RewriteEngine on 
 
+Redirect /oc.html http://flopp.grus.uberspace.de/oc-monitor/
+
 ### normal
 RewriteRule ^$ map.php
 RewriteRule ^index.php$ map.php

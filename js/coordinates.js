@@ -12,11 +12,12 @@ Coordinates.setFormat = function(format) {
 
 
 Coordinates.fromString = function(coordsString){
-    coordstring = coordstring.trim()
+    coordstring = coordsString.trim()
 
     var matches;
     var pattern;
     
+    // H DDD MM.MMM
     pattern = /^[^A-Za-z0-9.-]*([ns])[^A-Za-z0-9.-]*(\d+)[^A-Za-z0-9.-]+([\d\.]+)[^A-Za-z0-9.-]+([we])[^A-Za-z0-9.-]*(\d+)[^A-Za-z0-9.-]+([\d\.]+)[^A-Za-z0-9.-]*$/i;
     matches = coordstring.match( pattern );
     if( matches )
@@ -36,6 +37,29 @@ Coordinates.fromString = function(coordsString){
         return new google.maps.LatLng( lat, lng );
     }
     
+    // H DDD MM SS.SSS
+    pattern = /^[^A-Za-z0-9.-]*([ns])[^A-Za-z0-9.-]*(\d+)[^A-Za-z0-9.-]+(\d+)[^A-Za-z0-9.-]+([\d\.]+)[^A-Za-z0-9.-]+([we])[^A-Za-z0-9.-]*(\d+)[^A-Za-z0-9.-]+(\d+)[^A-Za-z0-9.-]+([\d\.]+)[^A-Za-z0-9.-]*$/i;
+    matches = coordstring.match( pattern );
+    if( matches )
+    {
+        var lat_sign = ( matches[1] == 's' || matches[1] == 'S' ) ? -1 : 1;
+        var lng_sign = ( matches[5] == 'w' || matches[5] == 'W' ) ? -1 : 1;
+        
+        var lat_d = parseFloat( matches[2] );
+        var lat_m = parseFloat( matches[3] );
+        var lat_s = parseFloat( matches[4] );
+        
+        var lon_d = parseFloat( matches[6] );
+        var lon_m = parseFloat( matches[7] );
+        var lon_s = parseFloat( matches[8] );
+
+        lat = lat_sign * ( lat_d + ( lat_m / 60.0 ) + ( lat_s / 3600.0 ) );
+        lng = lng_sign * ( lon_d + ( lon_m / 60.0 ) + ( lon_s / 3600.0 ) );
+        
+        return new google.maps.LatLng( lat, lng );
+    }
+    
+    // H DDD.DDDDD
     pattern = /^[^A-Za-z0-9.-]*([ns])[^A-Za-z0-9.-]*([\d\.]+)[^A-Za-z0-9.-]+([we])[^A-Za-z0-9.-]*([\d\.]+)[^A-Za-z0-9.-]*$/i;
     matches = coordstring.match( pattern );
     if( matches )
@@ -49,6 +73,7 @@ Coordinates.fromString = function(coordsString){
         return new google.maps.LatLng( lat, lng );
     }
     
+    // H DDD.DDDDD
     pattern = /^[^A-Za-z0-9.-]*(-?)([\d\.]+)[^A-Za-z0-9.-]+(-?)([\d\.]+)[^A-Za-z0-9.-]*$/i;
     matches = coordstring.match( pattern );
     if( matches )

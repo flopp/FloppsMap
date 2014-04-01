@@ -532,7 +532,7 @@ function getPermalink()
     s = s + m.alpha + ":" + p.lat().toFixed(6) + ":" + p.lng().toFixed(6) + ":" + m.circle.getRadius() + ":" + m.name + "*";
   }
   
-  var link = "http://flopp.net/?c=" + lat.toFixed(6) + ":" + lng.toFixed(6) + "&z=" + zoom + "&t=" + map.getMapTypeId() + s + "&d=" + getLinesText();
+  var link = "http://flopp.net/?c=" + lat.toFixed(6) + ":" + lng.toFixed(6) + "&z=" + zoom + "&t=" + map.getMapTypeId() + s + "&d=" + theLines.getLinesText();
 
   return link;
 }
