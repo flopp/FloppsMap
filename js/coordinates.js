@@ -8,18 +8,18 @@ Coordinates.setFormat = function(format) {
   {
     this.m_format = format;
   }
-}
+};
 
 
 Coordinates.fromString = function(coordsString){
-    coordstring = coordsString.trim()
+    coordsString = coordsString.trim();
 
     var matches;
     var pattern;
     
     // H DDD MM.MMM
     pattern = /^[^A-Za-z0-9.-]*([ns])[^A-Za-z0-9.-]*(\d+)[^A-Za-z0-9.-]+([\d\.]+)[^A-Za-z0-9.-]+([we])[^A-Za-z0-9.-]*(\d+)[^A-Za-z0-9.-]+([\d\.]+)[^A-Za-z0-9.-]*$/i;
-    matches = coordstring.match( pattern );
+    matches = coordsString.match( pattern );
     if( matches )
     {
         var lat_sign = ( matches[1] == 's' || matches[1] == 'S' ) ? -1 : 1;
@@ -39,7 +39,7 @@ Coordinates.fromString = function(coordsString){
     
     // H DDD MM SS.SSS
     pattern = /^[^A-Za-z0-9.-]*([ns])[^A-Za-z0-9.-]*(\d+)[^A-Za-z0-9.-]+(\d+)[^A-Za-z0-9.-]+([\d\.]+)[^A-Za-z0-9.-]+([we])[^A-Za-z0-9.-]*(\d+)[^A-Za-z0-9.-]+(\d+)[^A-Za-z0-9.-]+([\d\.]+)[^A-Za-z0-9.-]*$/i;
-    matches = coordstring.match( pattern );
+    matches = coordsString.match( pattern );
     if( matches )
     {
         var lat_sign = ( matches[1] == 's' || matches[1] == 'S' ) ? -1 : 1;
@@ -61,7 +61,7 @@ Coordinates.fromString = function(coordsString){
     
     // H DDD.DDDDD
     pattern = /^[^A-Za-z0-9.-]*([ns])[^A-Za-z0-9.-]*([\d\.]+)[^A-Za-z0-9.-]+([we])[^A-Za-z0-9.-]*([\d\.]+)[^A-Za-z0-9.-]*$/i;
-    matches = coordstring.match( pattern );
+    matches = coordsString.match( pattern );
     if( matches )
     {
         var lat_sign = ( matches[1] == 's' || matches[1] == 'S' ) ? -1 : 1;
@@ -75,7 +75,7 @@ Coordinates.fromString = function(coordsString){
     
     // H DDD.DDDDD
     pattern = /^[^A-Za-z0-9.-]*(-?)([\d\.]+)[^A-Za-z0-9.-]+(-?)([\d\.]+)[^A-Za-z0-9.-]*$/i;
-    matches = coordstring.match( pattern );
+    matches = coordsString.match( pattern );
     if( matches )
     {
         var lat_sign = ( matches[1] == '-' ) ? -1 : 1;
@@ -88,7 +88,7 @@ Coordinates.fromString = function(coordsString){
     }
     
     return null;  
-}
+};
 
 Coordinates.toStringDM = function(coords) {
     var lat = coords.lat();
@@ -159,7 +159,7 @@ Coordinates.toStringDM = function(coords) {
     lng_string += lng_mmin;
 
     return lat_string + " " + lng_string;
-}
+};
 
 Coordinates.toStringDMS = function(coords) {
     var lat = coords.lat();
@@ -217,7 +217,7 @@ Coordinates.toStringDMS = function(coords) {
     lng_string += lng_sec.toFixed(2);
     
     return lat_string + " " + lng_string;
-}
+};
 
 
 Coordinates.toStringD = function(coords) {
@@ -240,9 +240,7 @@ Coordinates.toStringD = function(coords) {
     lng_string += " " + lng.toFixed(6);
     
     return lat_string + " " + lng_string;
-}
-
-
+};
 
 Coordinates.toString = function(coords) {
   if (this.m_format == "DM")
@@ -261,20 +259,20 @@ Coordinates.toString = function(coords) {
   {
     return this.toStringDM(coords);
   }
-}
+};
 
 Coordinates.dist_angle_geodesic = function( startpos, endpos ) {   
-    t = this.m_geod.Inverse( startpos.lat(), startpos.lng(), endpos.lat(), endpos.lng() );
-    a = t.azi1;
+    var t = this.m_geod.Inverse( startpos.lat(), startpos.lng(), endpos.lat(), endpos.lng() );
+    var a = t.azi1;
     if( a < 0 )
     {
         a += 360.0;
     }
       
     return { dist: t.s12, angle: a };
-}
+};
 
 Coordinates.projection_geodesic = function( startpos, angle, distance ) {
     t = this.m_geod.Direct( startpos.lat(), startpos.lng(), angle, distance );
     return new google.maps.LatLng( t.lat2, t.lon2 );
-}
+};
