@@ -45,6 +45,7 @@ require_once('lib/lang.php');
     <script type="text/javascript" src="js/geographiclib.js?t=TSTAMP"></script>
     <script type="text/javascript" src="js/coordinates.js?t=TSTAMP"></script>
     <script type="text/javascript" src="js/lines.js?t=TSTAMP"></script>
+    <script type="text/javascript" src="js/markers.js?t=TSTAMP"></script>
     <script type="text/javascript" src="js/map.js?t=TSTAMP"></script>
     <script type="text/javascript" src="js/okapi.js?t=TSTAMP"></script>
     <script type="text/javascript" src="js/tracking.js?t=TSTAMP"></script>
@@ -154,12 +155,12 @@ echo "})";
   <div class="my-section-header"><?php TT('Markers', 'Marker');?></div>
   <div id="btnmarkers1" class="btn-group btn-group-sm my-section-buttons-top">
     <button id="buttonMarkersNew1" class="btn btn-sm btn-success" title="<?php TT('Create a new marker at the current map position', 'Erzeuge einen Marker an der aktuellen Position');?>" type="button" onClick="newMarker( map.getCenter(), -1, -1, null )"><i class="fa fa-map-marker"></i> <?php TT('New', 'Neu');?></button>
-    <button id="buttonMarkersDeleteAll1" class="btn btn-sm btn-danger" title="<?php TT('Delete all markers', 'Lösche alle Marker');?>" type="button" onClick="deleteAllMarkers()"><i class="fa fa-trash-o"></i> <?php TT('Delete all', 'Alle löschen');?></button>
+    <button id="buttonMarkersDeleteAll1" class="btn btn-sm btn-danger" title="<?php TT('Delete all markers', 'Lösche alle Marker');?>" type="button" onClick="theMarkers.deleteAll()"><i class="fa fa-trash-o"></i> <?php TT('Delete all', 'Alle löschen');?></button>
   </div>
   <div id="dynMarkerDiv"></div>
   <div id="btnmarkers2" class="btn-group btn-group-sm my-section-buttons-bottom" style="display: none">
     <button id="buttonMarkersNew2" class="btn btn-sm btn-success" title="<?php TT('Create a new marker at the current map position', 'Erzeuge einen Marker an der aktuellen Position');?>" type="button" onClick="newMarker( map.getCenter(), -1, -1, null )"><i class="fa fa-map-marker"></i> <?php TT('New', 'Neu');?></button>
-    <button id="buttonMarkersDeleteAll2" class="btn btn-sm btn-danger" title="<?php TT('Delete all markers', 'Lösche alle Marker');?>" type="button" onClick="deleteAllMarkers()"><i class="fa fa-trash-o"></i> <?php TT('Delete all', 'Alle löschen');?></button>
+    <button id="buttonMarkersDeleteAll2" class="btn btn-sm btn-danger" title="<?php TT('Delete all markers', 'Lösche alle Marker');?>" type="button" onClick="theMarkers.deleteAll()"><i class="fa fa-trash-o"></i> <?php TT('Delete all', 'Alle löschen');?></button>
   </div>
 </div> <!-- section -->
   

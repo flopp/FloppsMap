@@ -150,7 +150,7 @@ function setCoordinatesFormat(t)
   
   Coordinates.setFormat(t);
   
-  updateMarkers();
+  theMarkers.update();
 }
 
 function restoreCoordinatesFormat(defaultValue)

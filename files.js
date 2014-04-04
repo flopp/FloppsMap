@@ -5,6 +5,7 @@ js/geographiclib.js
 js/lang.js
 js/lines.js
 js/map.js
+js/markers.js
 js/okapi.js
 js/tracking.js
 js/ui.js
