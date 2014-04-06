@@ -40,17 +40,7 @@ require_once('lib/lang.php');
     <link type="text/css" rel="stylesheet" href="//fonts.googleapis.com/css?family=Norican">
     
     <!-- my own stuff -->
-    <script type="text/javascript" src="js/conversion.js?t=TSTAMP"></script>
-    <script type="text/javascript" src="js/cookies.js?t=TSTAMP"></script>
-    <script type="text/javascript" src="js/geographiclib.js?t=TSTAMP"></script>
-    <script type="text/javascript" src="js/coordinates.js?t=TSTAMP"></script>
-    <script type="text/javascript" src="js/lines.js?t=TSTAMP"></script>
-    <script type="text/javascript" src="js/markers.js?t=TSTAMP"></script>
-    <script type="text/javascript" src="js/map.js?t=TSTAMP"></script>
-    <script type="text/javascript" src="js/okapi.js?t=TSTAMP"></script>
-    <script type="text/javascript" src="js/tracking.js?t=TSTAMP"></script>
-    <script type="text/javascript" src="js/ui.js?t=TSTAMP"></script>
-    <script type="text/javascript" src="js/lang.js?t=TSTAMP"></script>    
+    <script type="text/javascript" src="js/compressed.js?t=TSTAMP"></script>        
     <link type="text/css" rel="stylesheet" href="css/main.css?t=TSTAMP">
     
 <!-- Piwik -->

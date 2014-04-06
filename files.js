@@ -1,11 +1,11 @@
 js/conversion.js
 js/cookies.js
-js/coordinates.js
 js/geographiclib.js
-js/lang.js
+js/coordinates.js
 js/lines.js
-js/map.js
 js/markers.js
+js/map.js
 js/okapi.js
 js/tracking.js
 js/ui.js
+js/lang.js

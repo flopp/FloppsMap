@@ -17,7 +17,7 @@ sed "s/TSTAMP/$S/g" map-template.php > deploy/map.php
 
 sass css/main.scss > deploy/css/main.css
 cp .htaccess download.php wartung.html google7caa54246d4da45f.html apple-touch-icon.png deploy
-cp $(cat files.js) deploy/js
+cat $(cat files.js) | yui-compressor --type js -o deploy/js/compressed.js
 cp $(cat files.img) deploy/img
 cp $(cat files.lang) deploy/lang
 cp $(cat files.lib) deploy/lib

@@ -4,11 +4,11 @@
 
 S=$(date +%s)
 sed "s/TSTAMP/$S/g" map-template.php > map.php
-
 sass css/main.scss > css/main.css
+cat $(cat files.js) | yui-compressor --type js -o js/compressed.js
 
 ncftpput -u $LOGIN -p $PASSWD $SERVER $BASE/ $(cat files.root)
-ncftpput -u $LOGIN -p $PASSWD $SERVER $BASE/js/ $(cat files.js)
+ncftpput -u $LOGIN -p $PASSWD $SERVER $BASE/js/ js/compressed.js
 ncftpput -u $LOGIN -p $PASSWD $SERVER $BASE/img/ $(cat files.img)
 ncftpput -u $LOGIN -p $PASSWD $SERVER $BASE/css/ $(cat files.css)
 ncftpput -u $LOGIN -p $PASSWD $SERVER $BASE/lib/ $(cat files.lib)
