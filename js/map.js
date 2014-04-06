@@ -5,6 +5,7 @@ var hillshadingLayerShown = false;
 var map;
 var copyrightDiv;
 
+var theGeolocation = new Geolocation();
 var theMarkers = new Markers();
 var theLines = new Lines();
 
@@ -42,7 +43,7 @@ function setupExternalLinkTargets() {
   e["Wikimapia.org"] = "http://wikimapia.org/#lat=%lat%&lon=%lon%&z=%zoom%";
   e["YAPIS"] = "http://yapis.eu/?id=9&lat=%lat%&lon=%lon%&zoom=%zoom%";
 
-  for ( var index in e ) {
+  for (var index in e) {
     $('#externallinks').append('<option value="'+index+'">'+index+'</option>');
   }
 
@@ -52,53 +53,52 @@ function setupExternalLinkTargets() {
 function gotoExternalLink() {
   var selected = $('#externallinks').find(":selected").text();
   var url = externalLinkTargets[selected];
-  if ( url == null || url == '' ) return;
+  if (url == null || url == '') return;
 
   trackAction('external ' + selected);
 
   lat = map.getCenter().lat();
   lon = map.getCenter().lng();
-  latE6 = Math.round( lat * 1000000 );
-  lonE6 = Math.round( lon * 1000000 );
+  latE6 = Math.round(lat * 1000000);
+  lonE6 = Math.round(lon * 1000000);
   lat = lat.toFixed(6);
   lon = lon.toFixed(6);
   zoom = map.getZoom();
 
-  url = url.replace( /%lat%/g, lat );
-  url = url.replace( /%lon%/g, lon );
-  url = url.replace( /%late6%/g, latE6 );
-  url = url.replace( /%lone6%/g, lonE6 );
-  url = url.replace( /%zoom%/g, zoom );
+  url = url.replace(/%lat%/g, lat);
+  url = url.replace(/%lon%/g, lon);
+  url = url.replace(/%late6%/g, latE6);
+  url = url.replace(/%lone6%/g, lonE6);
+  url = url.replace(/%zoom%/g, zoom);
 
   window.open(url, '_blank');
 }
 
-function id2alpha( id )
-{
+function id2alpha(id) {
   var s = "";
-  if ( id >= 0 && id < 26 )
-  {
+  if (id >= 0 && id < 26) {
     var code = 'A'.charCodeAt() + id;
-    s = String.fromCharCode( code );
+    s = String.fromCharCode(code);
   }
   return s;
 }
 
-function alpha2id( alpha )
-{
-  if ( alpha.length != 1 ) return -1;
-
-  var id = -1;
-
-  if ( alpha[0] >= 'A' && alpha[0] <= 'Z' ) id = alpha.charCodeAt(0) - 'A'.charCodeAt(0); 
-  if ( alpha[0] >= 'a' && alpha[0] <= 'z' ) id = alpha.charCodeAt(0) - 'a'.charCodeAt(0); 
-
-  if ( id < 0 || id >= 26 ) id = -1;
-
-  return id;
+function alpha2id(alpha) {
+  if (alpha.length != 1) {
+    return -1;
+  }
+  else if (alpha[0] >= 'A' && alpha[0] <= 'Z') {
+    return alpha.charCodeAt(0) - 'A'.charCodeAt(0); 
+  }
+  else if (alpha[0] >= 'a' && alpha[0] <= 'z') {
+    return alpha.charCodeAt(0) - 'a'.charCodeAt(0); 
+  }
+  else {
+    return -1;
+  }
 }
 
-function gotoMarker( id ) {
+function gotoMarker(id) {
   trackMarker('goto');
   map.setCenter(theMarkers.getById(id).getPosition());
 }
@@ -131,7 +131,7 @@ function leaveEditMode(id, takenew) {
     var coordinates = Coordinates.fromString(s_coordinates);
 
     var s_radius = $('#edit_circle' + m.getAlpha()).val();
-    var radius = getInteger( s_radius, 0, 100000000000 );
+    var radius = getInteger(s_radius, 0, 100000000000);
 
     var errors = Array();
 
@@ -142,7 +142,7 @@ function leaveEditMode(id, takenew) {
         .replace(/%1/, name));
     }
     if (coordinates == null) {
-      errors.push( 
+      errors.push(
         TT("Bad coordinate format: \"%1\".",
            "Ungültiges Koordinatenformat: \"%1\".")
         .replace(/%1/, s_coordinates));
@@ -178,13 +178,13 @@ function newMarker(coordinates, id, radius, name) {
   if (id == -1 || id < 0 || id >= 26 || !theMarkers.getById(id).isFree()) {
     id = theMarkers.getFreeId();
   }
-  if ( id == -1 ) {
+  if (id == -1) {
     showAlert(TT("ERROR", "Fehler"), TT("Maximum number of markers (26) reached.", "Maximale Anzahl an Markers (26) erreicht."));
     return null;
   }
 
   var nextid = theMarkers.getSize();
-  for( var i = id+1; i < theMarkers.getSize(); i= i + 1) {
+  for(var i = id+1; i < theMarkers.getSize(); i= i + 1) {
     if (!theMarkers.getById(i).isFree()) {
       nextid = i;
       break;
@@ -249,8 +249,8 @@ function newMarker(coordinates, id, radius, name) {
       "    </tr>\n" +
       "    <tr>\n" +
       "        <td colspan=\"2\" style=\"text-align: right\">\n" +
-      "            <button class=\"btn btn-small btn-primary\" type=\"button\" onclick=\"javascript: leaveEditMode(" + id + ", true );\">" + TT("Ok", "Ok") + "</button>\n" +
-      "            <button class=\"btn btn-small\" type=\"button\" onclick=\"leaveEditMode(" + id + ", false );\">" + TT("Cancel", "Abbrechen") + "</button>\n" +
+      "            <button class=\"btn btn-small btn-primary\" type=\"button\" onclick=\"javascript: leaveEditMode(" + id + ", true);\">" + TT("Ok", "Ok") + "</button>\n" +
+      "            <button class=\"btn btn-small\" type=\"button\" onclick=\"leaveEditMode(" + id + ", false);\">" + TT("Cancel", "Abbrechen") + "</button>\n" +
       "        </td>\n" +
       "    </tr>\n" +
       "</table>" +
@@ -265,19 +265,19 @@ function newMarker(coordinates, id, radius, name) {
   }
 
   $('#edit_name' + alpha).keydown(function(e) {
-    if (e.which == 27 ) { leaveEditMode(id, false); }
-    else if (e.which == 13 ) { leaveEditMode(id, true); }
-  } );
+    if (e.which == 27) { leaveEditMode(id, false); }
+    else if (e.which == 13) { leaveEditMode(id, true); }
+  });
 
-  $('#edit_coordinates' + alpha).keydown(function(e ) {
-    if (e.which == 27 ) { leaveEditMode(id, false ); }
-    else if (e.which == 13 ) { leaveEditMode(id, true ); }
-  } );
+  $('#edit_coordinates' + alpha).keydown(function(e) {
+    if (e.which == 27) { leaveEditMode(id, false); }
+    else if (e.which == 13) { leaveEditMode(id, true); }
+  });
 
-  $('#edit_circle' + alpha).keydown(function(e ) {
-    if (e.which == 27 ) { leaveEditMode(id, false ); }
-    else if (e.which == 13 ) { leaveEditMode(id, true ); }
-  } );
+  $('#edit_circle' + alpha).keydown(function(e) {
+    if (e.which == 27) { leaveEditMode(id, false); }
+    else if (e.which == 13) { leaveEditMode(id, true); }
+  });
 
   $('#btnmarkers2').show();
   $('#btnmarkersdelete1').removeAttr('disabled');
@@ -290,25 +290,24 @@ function newMarker(coordinates, id, radius, name) {
   return marker;
 }
 
-function projectFromMarker(id ) {
+function projectFromMarker(id) {
   trackMarker('project');
 
   var mm = theMarkers.getById(id);
   var oldpos = mm.getPosition();
 
   showProjectionDialog(
-    function(data1, data2)
-    {
-      var angle = getFloat(data1, 0, 360 );
-      var dist = getFloat(data2, 0, 100000000000 );
+    function(data1, data2) {
+      var angle = getFloat(data1, 0, 360);
+      var dist = getFloat(data2, 0, 100000000000);
 
-      if (angle == null ) {
-        showAlert(TT("Error", "Fehler"), TT("Bad 'bearing' value: \"%1\".<br />Allowed values: floating point numbers between 0 and 360.", "Ungültiger Wert für 'Winkel': \"%1\".<br />Erlaubte Werte: Zahlen zwischen 0 und 360.").replace(/%1/, data1 ) );
+      if (angle == null) {
+        showAlert(TT("Error", "Fehler"), TT("Bad 'bearing' value: \"%1\".<br />Allowed values: floating point numbers between 0 and 360.", "Ungültiger Wert für 'Winkel': \"%1\".<br />Erlaubte Werte: Zahlen zwischen 0 und 360.").replace(/%1/, data1));
         return;
       }
 
-      if (dist == null ) {
-        showAlert(TT("Error", "Fehler"), TT("Bad 'distance' value: \"%1\".<br />Allowed values: floating point numbers &geq; 0.", "Ungültiger Wert für 'Entfernung': \"%1\".<br />Erlaubte Werte: Zahlen &geq; 0.").replace(/%1/, data2 ) );
+      if (dist == null) {
+        showAlert(TT("Error", "Fehler"), TT("Bad 'distance' value: \"%1\".<br />Allowed values: floating point numbers &geq; 0.", "Ungültiger Wert für 'Entfernung': \"%1\".<br />Erlaubte Werte: Zahlen &geq; 0.").replace(/%1/, data2));
         return;
       }
 
@@ -318,18 +317,16 @@ function projectFromMarker(id ) {
         showAlert(TT("Information", "Information"), TT("Created new marker: %1.", "Neuer Marker: %1").replace(/%1/, m.getAlpha()));
       }        
     }
-  );
+ );
 }
 
-function storeCenter()
-{
+function storeCenter() {
   c = map.getCenter();
   $.cookie('clat', c.lat(), {expires:30});
   $.cookie('clon', c.lng(), {expires:30});
 }
 
-function storeZoom()
-{
+function storeZoom() {
   $.cookie('zoom', map.getZoom(), {expires:30});
 }
 
@@ -363,121 +360,90 @@ function updateCopyrights() {
   newMapType = map.getMapTypeId();
   $.cookie('maptype', newMapType, {expires:30});
 
-  if (newMapType == "OSM" || newMapType == "OSM/DE" )
-  {
+  if (newMapType == "OSM" || newMapType == "OSM/DE") {
     copyrightDiv.innerHTML = "Map data (C) by <a href=\"http://www.openstreetmap.org/\">OpenStreetMap.org</a> and its contributors; <a href=\"http://opendatacommons.org/licenses/odbl/\">Open Database License</a>";
   }
-  else if (newMapType == "OCM" )
-  {
+  else if (newMapType == "OCM") {
     copyrightDiv.innerHTML = "Map data (C) by <a href=\"http://www.openstreetmap.org/\">OpenStreetMap.org</a> and its contributors; <a href=\"http://opendatacommons.org/licenses/odbl/\">Open Database License</a>, tiles (C) by <a href=\"http://opencyclemap.org\">OpenCycleMap.org</a>";
   }
-  else if (newMapType == "MQ" )
-  {
+  else if (newMapType == "MQ") {
     copyrightDiv.innerHTML = "Map data (C) by <a href=\"http://www.openstreetmap.org/\">OpenStreetMap.org</a> and its contributors; <a href=\"http://opendatacommons.org/licenses/odbl/\">Open Database License</a>, tiles (C) by <a href=\"http://mapquest.com\">MapQuest</a>";
   }
-  else if (newMapType == "OUTD" )
-  {
+  else if (newMapType == "OUTD") {
     copyrightDiv.innerHTML = "Map data (C) by <a href=\"http://www.openstreetmap.org/\">OpenStreetMap.org</a> and its contributors; <a href=\"http://opendatacommons.org/licenses/odbl/\">Open Database License</a>, tiles (C) by <a href=\"http://www.thunderforest.com/outdoors/\">Thunderforest</a>";
   }
-  else
-  {
+  else {
     copyrightDiv.innerHTML = "";
   }
 }
 
-function repairLat(x, d )
-{
-  if (x == null || x == NaN || x < -90 || x > +90 )
-  {
+function repairLat(x, d) {
+  if (x == null || x == NaN || x < -90 || x > +90) {
     return d;
   }
-  else
-  {
+  else {
     return x;
   }
 }
 
-function repairLon(x, d )
-{
-  if (x == null || x == NaN || x < -180 || x > +180 )
-  {
+function repairLon(x, d) {
+  if (x == null || x == NaN || x < -180 || x > +180) {
     return d;
   }
-  else
-  {
+  else {
     return x;
   }
 }
 
-function repairRadius(x, d )
-{
-  if (x == null || x == NaN || x < 0 || x > 100000000 )
-  {
+function repairRadius(x, d) {
+  if (x == null || x == NaN || x < 0 || x > 100000000) {
     return d;
   }
-  else
-  {
+  else {
     return x;
   }
 }
 
-function repairZoom(x, d )
-{
-  if (x == null || x == NaN || x < 1 || x > 20 )
-  {
+function repairZoom(x, d) {
+  if (x == null || x == NaN || x < 1 || x > 20) {
     return d;
   }
-  else
-  {
+  else {
     return x;
   }
 }
 
-function repairMaptype(t, d )
-{
-  if (t == "OSM" || t == "OSM/DE" || t == "OCM" )
-  {
+function repairMaptype(t, d) {
+  if (t == "OSM" || t == "OSM/DE" || t == "OCM") {
     return t;
   }
-  else if (t == "MQ" )
-  {
+  else if (t == "MQ") {
     return t;
   }
-  else if (t == "OUTD" )
-  {
+  else if (t == "OUTD") {
     return t;
   }
-  else if (t == "satellite" || t == "hybrid" || t == "roadmap" || t == "terrain" )
-  {
+  else if (t == "satellite" || t == "hybrid" || t == "roadmap" || t == "terrain") {
     return t;
   }
-  else
-  {
+  else {
     return d;
   }
 }
 
-function randomString(strings, number )
-{
-  var index = number % strings.length;
-  return strings[index];
-}
-
-function tileUrl(template, servers, coord, zoom )
-{
-  var limit = Math.pow(2, zoom );
-  var x = ((coord.x % limit ) + limit ) % limit;
+function tileUrl(template, servers, coord, zoom) {
+  var limit = Math.pow(2, zoom);
+  var x = ((coord.x % limit) + limit) % limit;
   var y = coord.y;
-  var s = servers[ (Math.abs(x + y ) ) % servers.length ];
-  return template.replace(/%s/, s ).replace(/%x/, x ).replace(/%y/, y ).replace(/%z/, zoom );
+  var s = servers[(Math.abs(x + y)) % servers.length];
+  return template.replace(/%s/, s).replace(/%x/, x).replace(/%y/, y).replace(/%z/, zoom);
 }
 
-function initialize(xlang, xcenter, xzoom, xmap, xmarkers, xlines)
-{
+function initialize(xlang, xcenter, xzoom, xmap, xmarkers, xlines) {
   lang = xlang;
 
   var center = null;
-  var zoom = parseInt(xzoom );
+  var zoom = parseInt(xzoom);
   var maptype = xmap;
 
   // parse markers 
@@ -491,54 +457,54 @@ function initialize(xlang, xcenter, xzoom, xmap, xmarkers, xlines)
     // ID:COODS:R(:NAME)?|ID:COORDS:R(:NAME)?
     // COORDS=LAT:LON or DEG or DMMM
     var data;
-    if (xmarkers.indexOf("*") != -1 )
+    if (xmarkers.indexOf("*") != -1)
     {
       data = xmarkers.split('*');
     }
-    else /*if (xmarkers.indexOf("|") != -1 )*/
+    else /*if (xmarkers.indexOf("|") != -1)*/
     {
       data = xmarkers.split('|');
     }
 
-    for(var i = 0; i != data.length; ++i )
+    for(var i = 0; i != data.length; ++i)
     {
       var data2 = data[i].split(':');
 
-      if (data2.length < 3 || data2.length > 5 ) continue;
+      if (data2.length < 3 || data2.length > 5) continue;
 
       var m = new Object();
 
       m.alpha = data2[0];
-      m.id = alpha2id(m.alpha );
-      if (m.id == -1 ) continue;
+      m.id = alpha2id(m.alpha);
+      if (m.id == -1) continue;
 
       m.name = null;
 
       var index = 1;
 
-      var lat = parseFloat(data2[index] );
-      var lon = parseFloat(data2[index+1] );
-      if (lat != null && lon != null && -90 <= lat && lat <= 90 && -180 <= lon && lon <= 180 )
+      var lat = parseFloat(data2[index]);
+      var lon = parseFloat(data2[index+1]);
+      if (lat != null && lon != null && -90 <= lat && lat <= 90 && -180 <= lon && lon <= 180)
       {
         index = index + 2;
-        m.coords = new google.maps.LatLng(lat, lon );
+        m.coords = new google.maps.LatLng(lat, lon);
       }
       else
       {
-        m.coords = Coordinates.fromString(data2[index] ); 
-        if (m.coords == null ) continue;
+        m.coords = Coordinates.fromString(data2[index]); 
+        if (m.coords == null) continue;
 
         index = index + 1;
       }            
 
-      var circle = parseFloat(data2[index] );
-      if (circle < 0 || circle > 100000000000 ) continue;
+      var circle = parseFloat(data2[index]);
+      if (circle < 0 || circle > 100000000000) continue;
       m.r = circle;
       index = index + 1;
 
-      if (index < data2.length )
+      if (index < data2.length)
       {
-        if (/^([a-zA-Z0-9-_]*)$/.test(data2[index] ) )
+        if (/^([a-zA-Z0-9-_]*)$/.test(data2[index]))
         {
           m.name = data2[index];
         }
@@ -548,62 +514,55 @@ function initialize(xlang, xcenter, xzoom, xmap, xmarkers, xlines)
       clat += m.coords.lat();
       clon += m.coords.lng();
 
-      markerdata.push(m );
+      markerdata.push(m);
     }
 
-    if (count != 0 )
-    {
-      markercenter = new google.maps.LatLng(clat/count, clon/count );
+    if (count != 0) {
+      markercenter = new google.maps.LatLng(clat/count, clon/count);
     }
   }
 
   var loadfromcookies = false;
 
-  if (xcenter != null && xcenter != '' )
-  {
+  if (xcenter != null && xcenter != '') {
     var data = xcenter.split(':');
 
-    if (data.length == 1 )
-    {
+    if (data.length == 1) {
       center = Coordinates.fromString(xcenter); 
     }
-    else
-    {
-      var lat = parseFloat(data[0] );
-      var lon = parseFloat(data[1] );
+    else {
+      var lat = parseFloat(data[0]);
+      var lon = parseFloat(data[1]);
 
-      if (lat >= -90 && lat <= 90 && lon >= -180 && lon <= 180 )
+      if (lat >= -90 && lat <= 90 && lon >= -180 && lon <= 180)
       {
-        center = new google.maps.LatLng(lat, lon );
+        center = new google.maps.LatLng(lat, lon);
       }
     }
   }
-  else if (markercenter != null )
-  {
+  else if (markercenter != null) {
     center = markercenter;
   }
-  else
-  {
+  else {
     loadfromcookies = true;
 
     /* try to read coordinats from cookie */
     clat = get_cookie_float('clat', CLAT_DEFAULT);
     clon = get_cookie_float('clon', CLON_DEFAULT);
-    clat = repairLat(clat, CLAT_DEFAULT );
-    clon = repairLon(clon, CLON_DEFAULT );
-    center = new google.maps.LatLng(clat, clon );
+    clat = repairLat(clat, CLAT_DEFAULT);
+    clon = repairLon(clon, CLON_DEFAULT);
+    center = new google.maps.LatLng(clat, clon);
 
     zoom = get_cookie_int('zoom', ZOOM_DEFAULT);
     maptype = get_cookie_string('maptype', MAPTYPE_DEFAULT);
   }
 
-  if (center == null )
-  {
-    center = new google.maps.LatLng(CLAT_DEFAULT, CLON_DEFAULT );
+  if (center == null) {
+    center = new google.maps.LatLng(CLAT_DEFAULT, CLON_DEFAULT);
   }
 
-  zoom = repairZoom(zoom, ZOOM_DEFAULT );
-  maptype = repairMaptype(maptype, MAPTYPE_DEFAULT );
+  zoom = repairZoom(zoom, ZOOM_DEFAULT);
+  maptype = repairMaptype(maptype, MAPTYPE_DEFAULT);
 
   var myOptions = {
     zoom: zoom,
@@ -616,7 +575,7 @@ function initialize(xlang, xcenter, xzoom, xmap, xmarkers, xlines)
 
   osm_type = new google.maps.ImageMapType({
     getTileUrl: function(coord, zoom) { 
-      return tileUrl("http://%s.tile.openstreetmap.org/%z/%x/%y.png", ["a","b","c"], coord, zoom );
+      return tileUrl("http://%s.tile.openstreetmap.org/%z/%x/%y.png", ["a","b","c"], coord, zoom);
     },
     tileSize: new google.maps.Size(256, 256),
     name: "OSM",
@@ -624,7 +583,7 @@ function initialize(xlang, xcenter, xzoom, xmap, xmarkers, xlines)
     maxZoom: 18 });
   osmde_type = new google.maps.ImageMapType({
     getTileUrl: function(coord, zoom) { 
-      return tileUrl("http://%s.tile.openstreetmap.de/tiles/osmde/%z/%x/%y.png", ["a","b","c"], coord, zoom );
+      return tileUrl("http://%s.tile.openstreetmap.de/tiles/osmde/%z/%x/%y.png", ["a","b","c"], coord, zoom);
     },
     tileSize: new google.maps.Size(256, 256),
     name: "OSM/DE",
@@ -632,7 +591,7 @@ function initialize(xlang, xcenter, xzoom, xmap, xmarkers, xlines)
     maxZoom: 18 });
   ocm_type = new google.maps.ImageMapType({
     getTileUrl: function(coord, zoom) { 
-      return tileUrl("http://%s.tile.opencyclemap.org/cycle/%z/%x/%y.png", ["a","b","c"], coord, zoom );
+      return tileUrl("http://%s.tile.opencyclemap.org/cycle/%z/%x/%y.png", ["a","b","c"], coord, zoom);
     },
     tileSize: new google.maps.Size(256, 256),
     name: "OCM",
@@ -640,7 +599,7 @@ function initialize(xlang, xcenter, xzoom, xmap, xmarkers, xlines)
     maxZoom: 17 });
   mq_type = new google.maps.ImageMapType({
     getTileUrl: function(coord, zoom) { 
-      return tileUrl("http://otile%s.mqcdn.com/tiles/1.0.0/osm/%z/%x/%y.png", ["1","2","3","4"], coord, zoom );
+      return tileUrl("http://otile%s.mqcdn.com/tiles/1.0.0/osm/%z/%x/%y.png", ["1","2","3","4"], coord, zoom);
     },
     tileSize: new google.maps.Size(256, 256),
     name: "MQ",
@@ -648,28 +607,28 @@ function initialize(xlang, xcenter, xzoom, xmap, xmarkers, xlines)
     maxZoom: 18 });
   outdoors_type = new google.maps.ImageMapType({
     getTileUrl: function(coord, zoom) { 
-      return tileUrl("http://%s.tile.thunderforest.com/outdoors/%z/%x/%y.png", ["a","b","c"], coord, zoom );
+      return tileUrl("http://%s.tile.thunderforest.com/outdoors/%z/%x/%y.png", ["a","b","c"], coord, zoom);
     },
     tileSize: new google.maps.Size(256, 256),
     name: "OUTD",
     alt: "Thunderforest Outdoors",
     maxZoom: 18 });
 
-  map.mapTypes.set("OSM", osm_type );
-  map.mapTypes.set("OSM/DE", osmde_type );
-  map.mapTypes.set("OCM", ocm_type );
-  map.mapTypes.set("MQ", mq_type );
-  map.mapTypes.set("OUTD", outdoors_type );
+  map.mapTypes.set("OSM", osm_type);
+  map.mapTypes.set("OSM/DE", osmde_type);
+  map.mapTypes.set("OCM", ocm_type);
+  map.mapTypes.set("MQ", mq_type);
+  map.mapTypes.set("OUTD", outdoors_type);
 
-  map.setMapTypeId(maptype );
+  map.setMapTypeId(maptype);
 
   boundary_layer = null;
 
   hillshadingLayer = new google.maps.ImageMapType({
     getTileUrl: function(coord, zoom) { 
-      if (6 <= zoom && zoom <= 16 ) 
+      if (6 <= zoom && zoom <= 16) 
       {
-        return tileUrl("http://toolserver.org/~cmarqu/hill/%z/%x/%y.png", ["dummy"], coord, zoom );
+        return tileUrl("http://toolserver.org/~cmarqu/hill/%z/%x/%y.png", ["dummy"], coord, zoom);
       }
       else 
       { 
@@ -680,7 +639,7 @@ function initialize(xlang, xcenter, xzoom, xmap, xmarkers, xlines)
     name: "hill",
     alt: "Hillshading",
     maxZoom: 16 });
-  map.overlayMapTypes.push(null );
+  map.overlayMapTypes.push(null);
 
   // Create div for showing copyrights.
   copyrightDiv = document.createElement("div");
@@ -694,98 +653,89 @@ function initialize(xlang, xcenter, xzoom, xmap, xmarkers, xlines)
 
   map.setCenter(center, zoom);
 
-  google.maps.event.addListener(map, "center_changed", function() { storeZoom(); storeCenter(); okapi_schedule_load_caches(); } );
-  google.maps.event.addListener(map, "zoom_changed", function() { storeZoom(); storeCenter(); okapi_schedule_load_caches(); } );
+  google.maps.event.addListener(map, "center_changed", function() { storeZoom(); storeCenter(); okapi_schedule_load_caches(); });
+  google.maps.event.addListener(map, "zoom_changed", function() { storeZoom(); storeCenter(); okapi_schedule_load_caches(); });
   google.maps.event.addListener(map, "maptypeid_changed", function(){ updateCopyrights()});    
 
-  if (loadfromcookies )
-  {
+  if (loadfromcookies) {
     raw_ids = $.cookie('markers');
-    if (raw_ids != undefined )
-    {
+    if (raw_ids != undefined) {
       ids = raw_ids.split(':');
-      for( var i = 0; i != ids.length; ++i )
-      {
+      for(var i = 0; i != ids.length; ++i) {
         var id = parseInt(ids[i]);
-        if ( id == null || id < 0 || id >=26 ) continue;
+        if (id == null || id < 0 || id >=26) continue;
 
-        var raw_data = $.cookie( 'marker' + id );
-        if ( raw_data == undefined ) continue;
+        var raw_data = $.cookie('marker' + id);
+        if (raw_data == undefined) continue;
 
         var data = raw_data.split(':')
-        if ( data.length != 3 && data.length != 4 ) continue;
+        if (data.length != 3 && data.length != 4) continue;
 
-        var lat = parseFloat( data[0] );
-        if ( lat < -90 || lat > 90 ) continue;
-        var lon = parseFloat( data[1] );
-        if ( lon < -180 || lon > 180 ) continue; 
-        var r = parseFloat( data[2] );
-        if ( r < 0 || r > 100000000000 ) continue; 
+        var lat = parseFloat(data[0]);
+        if (lat < -90 || lat > 90) continue;
+        var lon = parseFloat(data[1]);
+        if (lon < -180 || lon > 180) continue; 
+        var r = parseFloat(data[2]);
+        if (r < 0 || r > 100000000000) continue; 
 
         var name = null;
 
-        if ( data.length == 4 )
-        {
-          if ( /^([a-zA-Z0-9-_]*)$/.test( data[3] ) )
+        if (data.length == 4) {
+          if (/^([a-zA-Z0-9-_]*)$/.test(data[3]))
           {
             name = data[3];
           }
         }
 
-        newMarker(new google.maps.LatLng( lat, lon ), id, r, name);
+        newMarker(new google.maps.LatLng(lat, lon), id, r, name);
       }
     }
 
     var raw_lines = $.cookie('lines');
-    if ( raw_lines != undefined ) {
-      var linesarray = raw_lines.split( '*' );
-      for( var i = 0; i < linesarray.length; ++i ) {
-        var line = linesarray[i].split( ':' );
-        if ( line.length != 2 ) continue;
+    if (raw_lines != undefined) {
+      var linesarray = raw_lines.split('*');
+      for(var i = 0; i < linesarray.length; ++i) {
+        var line = linesarray[i].split(':');
+        if (line.length != 2) continue;
 
-        var id1 = alpha2id( line[0] );
-        if ( id1 != -1 && theMarkers.getById(id1).isFree()) {
+        var id1 = alpha2id(line[0]);
+        if (id1 != -1 && theMarkers.getById(id1).isFree()) {
           id1 = -1;
         }
-        var id2 = alpha2id( line[1] );
-        if ( id2 != -1 && theMarkers.getById(id2).isFree()) {
+        var id2 = alpha2id(line[1]);
+        if (id2 != -1 && theMarkers.getById(id2).isFree()) {
           id2 = -1;
         }
 
         theLines.newLine(id1, id2);
       }
     }
-  }
-  else {
-    for( var i = 0; i < markerdata.length; ++i ) {
+  } else {
+    for(var i = 0; i < markerdata.length; ++i) {
       newMarker(markerdata[i].coords, markerdata[i].id, markerdata[i].r, markerdata[i].name);
     }
 
     var raw_lines = xlines;
-    if ( raw_lines != null ) {
+    if (raw_lines != null) {
       /* be backwards compatible */
-      if ( raw_lines.length == 3 
+      if (raw_lines.length == 3 
          && raw_lines[0] >= 'A' && raw_lines[0] <= 'Z' 
          && raw_lines[1] == '*' 
-         && raw_lines[2] >= 'A' && raw_lines[2] <= 'Z' )
-      {
+         && raw_lines[2] >= 'A' && raw_lines[2] <= 'Z') {
         raw_lines = raw_lines[0] + ':' + raw_lines[2];
       }
 
-      var linesarray = raw_lines.split( '*' );
-      for( var i = 0; i < linesarray.length; ++i )
-      {
-        var line = linesarray[i].split( ':' );
-        if ( line.length != 2 ) continue;
+      var linesarray = raw_lines.split('*');
+      for(var i = 0; i < linesarray.length; ++i) {
+        var line = linesarray[i].split(':');
+        if (line.length != 2) continue;
 
-        var id1 = alpha2id( line[0] );
-        if ( id1 != -1 && theMarkers.getById(id1).isFree())
-        {
+        var id1 = alpha2id(line[0]);
+        if (id1 != -1 && theMarkers.getById(id1).isFree()) {
           id1 = -1;
         }
-        var id2 = alpha2id( line[1] );
-        if ( id2 != -1 && theMarkers.getById(id2).isFree())
-        {
+        var id2 = alpha2id(line[1]);
+        if (id2 != -1 && theMarkers.getById(id2).isFree()) {
           id2 = -1;
         }
 
@@ -804,45 +754,3 @@ function initialize(xlang, xcenter, xzoom, xmap, xmarkers, xlines)
 
   setupExternalLinkTargets();
 }
-
-
-function Geolocation() {
-  this.m_geocoder = new google.maps.Geocoder();
-}
-
-Geolocation.prototype.search = function (address) {
-  trackSearch(address);
-
-  var coords = Coordinates.fromString(new String(address));
-  if (!coords) { 
-    this.m_geocoder.geocode( { address: address, region: 'de' }, function(results, status) {
-      if (status == google.maps.GeocoderStatus.OK) {
-        map.setCenter(results[0].geometry.location);
-      } else {
-        showAlert( TT("Information"), TT("Cannot find location of \"%1\".", "Kann Koordinaten von \"%1\" nicht bestimmen.").replace( /%1/, address ) );
-      }
-    });
-  }
-  else {
-    map.setCenter(coords);
-  }
-}
-
-Geolocation.prototype.whereAmI = function () {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(
-      function (position) {
-        var loc = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-        map.setCenter(loc);
-      }, 
-      function() {
-        showAlert(TT("Failed to determine current location.", "Kann aktuellen Aufenthaltsort nicht bestimmen."));
-      }
-    );
-  }
-  else {
-    showAlert(TT("Failed to determine current location.", "Kann aktuellen Aufenthaltsort nicht bestimmen."));
-  }
-}
-
-var geolocation = new Geolocation();

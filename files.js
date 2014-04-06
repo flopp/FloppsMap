@@ -1,6 +1,7 @@
 js/conversion.js
 js/cookies.js
 js/geographiclib.js
+js/geolocation.js
 js/coordinates.js
 js/lines.js
 js/markers.js

@@ -127,10 +127,10 @@ echo "})";
 
 <div class="my-section">
   <div class="my-section-header"><?php TT('Search', 'Suche');?></div>
-  <button id="buttonWhereAmI" class="btn btn-info btn-sm my-section-buttons-top" title="<?php TT('Move map to current location', 'Bewege die Karte zum aktuellen Aufenthaltsort');?>" type="button" onClick="geolocation.whereAmI()"><i class="fa fa-crosshairs"></i> <?php TT('Where am I?', 'Wo bin ich?');?></button>
+  <button id="buttonWhereAmI" class="btn btn-info btn-sm my-section-buttons-top" title="<?php TT('Move map to current location', 'Bewege die Karte zum aktuellen Aufenthaltsort');?>" type="button" onClick="theGeolocation.whereAmI()"><i class="fa fa-crosshairs"></i> <?php TT('Where am I?', 'Wo bin ich?');?></button>
     
   <div>
-    <form action="javascript:geolocation.search($('#txtSearch').val())">
+    <form action="javascript:theGeolocation.search($('#txtSearch').val())">
       <div class="input-group" style="margin-bottom: 5px">
         <input class="form-control" id="txtSearch" type="text" placeholder="<?php TT('Coordinates or place', 'Koordinaten oder Ort');?>" title="<?php TT('Search for coordinates or a place and center the map on the result', 'Suche nach Koordinaten oder einem Ort und zentriere die Karte auf dem Suchergebnis');?>">
         <span class="input-group-btn">
