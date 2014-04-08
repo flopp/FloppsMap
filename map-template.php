@@ -174,13 +174,11 @@ echo "})";
 
 <b><?php TT('Format of Coordinates', 'Koordinatenformat');?></b>
 <div>
-  <div class="input-group">
-    <select class="form-control" id="coordinatesFormat" title="<?php TT('Select display format of coordinates', 'Anzeigeformat für Koordinaten auswählen');?>">
+  <select class="form-control" id="coordinatesFormat" title="<?php TT('Select display format of coordinates', 'Anzeigeformat für Koordinaten auswählen');?>">
     <option value="DM">DDD MM.MMM</option>
     <option value="DMS">DDD MM SS.SS</option>
     <option value="D">DDD.DDDDD</option>
-    </select>
-  </div>
+  </select>
 </div>
 
 <b><?php TT('Additional Layers', 'Zusätzliche Ebenen');?></b>
