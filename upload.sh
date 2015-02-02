@@ -14,6 +14,7 @@ ncftpput -u $LOGIN -p $PASSWD $SERVER $BASE/css/ $(cat files.css)
 ncftpput -u $LOGIN -p $PASSWD $SERVER $BASE/lib/ $(cat files.lib)
 ncftpput -u $LOGIN -p $PASSWD $SERVER $BASE/lang/ $(cat files.lang)
 
+mkdir -p ext
 # jquery cookies
 if [ -d ext/jquery-cookie/.git ] ; then
     cd ext/jquery-cookie/
@@ -24,7 +25,7 @@ else
     git clone https://github.com/carhartl/jquery-cookie.git
     cd -
 fi
-ncftpput -u $LOGIN -p $PASSWD -m -R $SERVER $BASE/ext/jquery-cookie ext/jquery-cookie/jquery.cookie.js
+ncftpput -u $LOGIN -p $PASSWD -m -R $SERVER $BASE/ext/jquery-cookie ext/jquery-cookie/src/jquery.cookie.js
 
 rm map.php
 
