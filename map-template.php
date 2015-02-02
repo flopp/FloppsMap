@@ -191,12 +191,8 @@ echo "})";
     <label class="checkbox" title="<?php TT('Toggle administrative boundaries', 'Aktiviere Kreisgrenzen');?>">
       <input id="showKreisgrenzen" type="checkbox"> <?php TT('Show administrative boundaries (Germany)', 'Zeige Kreisgrenzen');?> 
     </label>
-  </div>
-
-  <b><?php TT('Geocaches (<a href="http://www.opencaching.eu/">Opencaching</a>)', 'Geocaches (<a href="http://www.opencaching.eu/">Opencaching</a>)');?></b>
-  <div style="margin-bottom: 10px">
     <label class="checkbox" title="<?php TT('Show geocaches on the map', 'Geocaches auf der Karte anzeigen');?>">
-      <input id="showCaches" type="checkbox"> <?php TT('Show geocaches', 'Zeige Geocaches');?>
+      <input id="showCaches" type="checkbox"> <?php TT('Show geocaches (<a href="http://www.opencaching.eu/" target="_blank">Opencaching</a>)', 'Zeige Geocaches (<a href="http://www.opencaching.eu/" target="_blank">Opencaching</a>)');?>
     </label>
   </div>
   
