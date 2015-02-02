@@ -628,7 +628,8 @@ function initialize(xlang, xcenter, xzoom, xmap, xmarkers, xlines) {
     getTileUrl: function(coord, zoom) { 
       if (6 <= zoom && zoom <= 16) 
       {
-        return tileUrl("http://toolserver.org/~cmarqu/hill/%z/%x/%y.png", ["dummy"], coord, zoom);
+        return tileUrl("http://openmapsurfer.uni-hd.de/tiles/asterh/?x=%x&y=%y&z=%z", ["dummy"], coord, zoom);
+        //return tileUrl("http://toolserver.org/~cmarqu/hill/%z/%x/%y.png", ["dummy"], coord, zoom);
       }
       else 
       { 
