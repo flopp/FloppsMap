@@ -172,43 +172,44 @@ echo "})";
     <button id="buttonPermalink" class="btn btn-block btn-sm btn-info" title="<?php TT('Create permalink', 'Erzeuge Permalink');?>" type="button" onClick="generatePermalink()"><?php TT('Create permalink', 'Erzeuge Permalink');?></button>
   </div>
 
-<b><?php TT('Format of Coordinates', 'Koordinatenformat');?></b>
-<div>
-  <select class="form-control" id="coordinatesFormat" title="<?php TT('Select display format of coordinates', 'Anzeigeformat für Koordinaten auswählen');?>">
-    <option value="DM">DDD MM.MMM</option>
-    <option value="DMS">DDD MM SS.SS</option>
-    <option value="D">DDD.DDDDD</option>
-  </select>
-</div>
-
-<b><?php TT('Additional Layers', 'Zusätzliche Ebenen');?></b>
-<div style="margin-bottom: 10px">
-  <label class="checkbox" title="<?php TT('Toggle hillshading', 'Aktiviere Hillshading');?>">
-    <input id="hillshading" type="checkbox"> <?php TT('Hillshading', 'Hillshading');?>
-  </label>
-  <label class="checkbox" title="<?php TT('Toggle administrative boundaries', 'Aktiviere Kreisgrenzen');?>">
-    <input id="showKreisgrenzen" type="checkbox"> <?php TT('Show administrative boundaries (Germany)', 'Zeige Kreisgrenzen');?> 
-  </label>
-</div>
-
-<b><?php TT('Geocaches (<a href="http://www.opencaching.eu/">Opencaching</a>)', 'Geocaches (<a href="http://www.opencaching.eu/">Opencaching</a>)');?></b>
-<div style="margin-bottom: 10px">
-  <label class="checkbox" title="<?php TT('Show geocaches on the map', 'Geocaches auf der Karte anzeigen');?>">
-    <input id="showCaches" type="checkbox"> <?php TT('Show geocaches', 'Zeige Geocaches');?>
-  </label>
-</div>
-
-<b><?php TT('External Services', 'Externe Dienste');?></b>
-<div>
-  <div class="input-group">
-    <select class="form-control" id="externallinks" title="<?php TT('Open external service', 'Öffne externen Dienst');?>"></select>
-    <span class="input-group-btn">
-      <button class="btn btn-info" type="button" onClick="gotoExternalLink()" title="<?php TT('Open external service', 'Öffne externen Dienst');?>"><i class="fa fa-play"></i></button>
-    </span>
+  <b><?php TT('Format of Coordinates', 'Koordinatenformat');?></b>
+  <div>
+    <select class="form-control" id="coordinatesFormat" title="<?php TT('Select display format of coordinates', 'Anzeigeformat für Koordinaten auswählen');?>">
+      <option value="DM">DDD MM.MMM</option>
+      <option value="DMS">DDD MM SS.SS</option>
+      <option value="D">DDD.DDDDD</option>
+    </select>
   </div>
-</div>
+
+  <b><?php TT('Additional Layers', 'Zusätzliche Ebenen');?></b>
+  <div style="margin-bottom: 10px">
+    <label class="checkbox" title="<?php TT('Toggle hillshading', 'Aktiviere Hillshading');?>">
+      <input id="hillshading" type="checkbox"> <?php TT('Hillshading', 'Hillshading');?>
+    </label>
+    <label class="checkbox" title="<?php TT('Toggle administrative boundaries', 'Aktiviere Kreisgrenzen');?>">
+      <input id="showKreisgrenzen" type="checkbox"> <?php TT('Show administrative boundaries (Germany)', 'Zeige Kreisgrenzen');?> 
+    </label>
+  </div>
+
+  <b><?php TT('Geocaches (<a href="http://www.opencaching.eu/">Opencaching</a>)', 'Geocaches (<a href="http://www.opencaching.eu/">Opencaching</a>)');?></b>
+  <div style="margin-bottom: 10px">
+    <label class="checkbox" title="<?php TT('Show geocaches on the map', 'Geocaches auf der Karte anzeigen');?>">
+      <input id="showCaches" type="checkbox"> <?php TT('Show geocaches', 'Zeige Geocaches');?>
+    </label>
+  </div>
+  
+  <b><?php TT('External Services', 'Externe Dienste');?></b>
+  <div>
+    <div class="input-group">
+      <select class="form-control" id="externallinks" title="<?php TT('Open external service', 'Öffne externen Dienst');?>"></select>
+      <span class="input-group-btn">
+        <button class="btn btn-info" type="button" onClick="gotoExternalLink()" title="<?php TT('Open external service', 'Öffne externen Dienst');?>"><i class="fa fa-play"></i></button>
+      </span>
     </div>
+  </div>
 </div> <!-- section -->
+
+<div style="text-align: center; color: white;">&copy; 2012-2015, <a href="http://www.florian-pigorsch.de/" target="_blank">Florian Pigorsch</a></div>
 
 </div> <!-- sidebar -->
 

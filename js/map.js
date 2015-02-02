@@ -13,7 +13,7 @@ var CLAT_DEFAULT = 51.163375;
 var CLON_DEFAULT = 10.447683;
 var ZOOM_DEFAULT = 12;
 var MAPTYPE_DEFAULT = "OSM";
-var RADIUS_DEFAULT = 161;
+var RADIUS_DEFAULT = 0;
 
 var externalLinkTargets = null;
 
