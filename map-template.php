@@ -183,9 +183,11 @@ echo "})";
 
   <b><?php TT('Additional Layers', 'Zusätzliche Ebenen');?></b>
   <div style="margin-bottom: 10px">
+    <!--
     <label class="checkbox" title="<?php TT('Toggle hillshading', 'Aktiviere Hillshading');?>">
       <input id="hillshading" type="checkbox"> <?php TT('Hillshading', 'Hillshading');?>
     </label>
+    -->
     <label class="checkbox" title="<?php TT('Toggle administrative boundaries', 'Aktiviere Kreisgrenzen');?>">
       <input id="showKreisgrenzen" type="checkbox"> <?php TT('Show administrative boundaries (Germany)', 'Zeige Kreisgrenzen');?> 
     </label>

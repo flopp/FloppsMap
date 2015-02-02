@@ -1,7 +1,7 @@
 var boundary_layer = null;
 var boundary_layer_fusion_table = "1Fg-gWjzai7awzjO30BFP_i_67zaRwrCCoMBRJ5Y"; // GADM.org
-var hillshadingLayer = null;
-var hillshadingLayerShown = false;
+//var hillshadingLayer = null;
+//var hillshadingLayerShown = false;
 var map;
 var copyrightDiv;
 
@@ -624,22 +624,22 @@ function initialize(xlang, xcenter, xzoom, xmap, xmarkers, xlines) {
 
   boundary_layer = null;
 
-  hillshadingLayer = new google.maps.ImageMapType({
-    getTileUrl: function(coord, zoom) { 
-      if (6 <= zoom && zoom <= 16) 
-      {
-        return tileUrl("http://openmapsurfer.uni-hd.de/tiles/asterh/?x=%x&y=%y&z=%z", ["dummy"], coord, zoom);
-        //return tileUrl("http://toolserver.org/~cmarqu/hill/%z/%x/%y.png", ["dummy"], coord, zoom);
-      }
-      else 
-      { 
-        return null; 
-      } 
-    },
-    tileSize: new google.maps.Size(256, 256),
-    name: "hill",
-    alt: "Hillshading",
-    maxZoom: 16 });
+//  hillshadingLayer = new google.maps.ImageMapType({
+//    getTileUrl: function(coord, zoom) { 
+//      if (6 <= zoom && zoom <= 16) 
+//      {
+//        return tileUrl("http://openmapsurfer.uni-hd.de/tiles/asterh/?x=%x&y=%y&z=%z", ["dummy"], coord, zoom);
+//        //return tileUrl("http://toolserver.org/~cmarqu/hill/%z/%x/%y.png", ["dummy"], coord, zoom);
+//      }
+//      else 
+//      { 
+//        return null; 
+//      } 
+//    },
+//    tileSize: new google.maps.Size(256, 256),
+//    name: "hill",
+//    alt: "Hillshading",
+//    maxZoom: 16 });
   map.overlayMapTypes.push(null);
 
   // Create div for showing copyrights.
@@ -748,7 +748,7 @@ function initialize(xlang, xcenter, xzoom, xmap, xmarkers, xlines) {
   updateCopyrights();
 
   restoreSidebar(true);
-  restoreHillshading(true);
+  //restoreHillshading(true);
   restoreBoundaryLayer(false);
   restoreGeocaches(true);
   restoreCoordinatesFormat(0);

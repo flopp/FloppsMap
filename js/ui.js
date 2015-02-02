@@ -44,39 +44,39 @@ function restoreSidebar(defaultValue)
 }
 
 
-/* hillshading */
-function toggleHillshading(t)
-{
-  $.cookie('hillshading', t ? "1" : "0", {expires:30});
+///* hillshading */
+//function toggleHillshading(t)
+//{
+  //$.cookie('hillshading', t ? "1" : "0", {expires:30});
   
-  if ($('#hillshading').is(':checked') != t)
-  {
-    $('#hillshading').attr('checked', t);
-  }
+  //if ($('#hillshading').is(':checked') != t)
+  //{
+    //$('#hillshading').attr('checked', t);
+  //}
   
-  if( hillshadingLayerShown == t ) return;
+  //if( hillshadingLayerShown == t ) return;
   
-  hillshadingLayerShown = t;
-  map.overlayMapTypes.setAt(0, t ? hillshadingLayer : null);
-}
+  //hillshadingLayerShown = t;
+  //map.overlayMapTypes.setAt(0, t ? hillshadingLayer : null);
+//}
 
-function restoreHillshading(defaultValue)
-{
-  var state = get_cookie_string("hillshading", "invalid");
+//function restoreHillshading(defaultValue)
+//{
+  //var state = get_cookie_string("hillshading", "invalid");
   
-  if (state == "0")
-  {
-    toggleHillshading(false);
-  }
-  else if (state == "1")
-  {
-    toggleHillshading(true);
-  }
-  else
-  {
-    toggleHillshading(defaultValue);
-  }
-}
+  //if (state == "0")
+  //{
+    //toggleHillshading(false);
+  //}
+  //else if (state == "1")
+  //{
+    //toggleHillshading(true);
+  //}
+  //else
+  //{
+    //toggleHillshading(defaultValue);
+  //}
+//}
 
 /* boundary layer */
 function toggleBoundaryLayer(t)
@@ -231,7 +231,7 @@ function linkDialogShortenLink()
 /* setup button events */
 $(document).ready(function() {
   $("#sidebartoggle").click(function() { if ($('#sidebar').is(':visible')) hideSidebar(); else showSidebar(); });      
-  $("#hillshading").click(function() { toggleHillshading($('#hillshading').is(':checked')); });        
+  //$("#hillshading").click(function() { toggleHillshading($('#hillshading').is(':checked')); });        
   $("#showKreisgrenzen").click(function() { toggleBoundaryLayer($('#showKreisgrenzen').is(':checked')); });
   $("#showCaches").click(function() { okapi_toggle_load_caches($('#showCaches').is(':checked')); });
   $('#coordinatesFormat').change(function() { setCoordinatesFormat($('#coordinatesFormat').val()); });
