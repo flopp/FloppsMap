@@ -44,96 +44,71 @@ function restoreSidebar(defaultValue)
 }
 
 
-///* hillshading */
-//function toggleHillshading(t)
-//{
-  //$.cookie('hillshading', t ? "1" : "0", {expires:30});
-  
-  //if ($('#hillshading').is(':checked') != t)
-  //{
-    //$('#hillshading').attr('checked', t);
-  //}
-  
-  //if( hillshadingLayerShown == t ) return;
-  
-  //hillshadingLayerShown = t;
-  //map.overlayMapTypes.setAt(0, t ? hillshadingLayer : null);
-//}
-
-//function restoreHillshading(defaultValue)
-//{
-  //var state = get_cookie_string("hillshading", "invalid");
-  
-  //if (state == "0")
-  //{
-    //toggleHillshading(false);
-  //}
-  //else if (state == "1")
-  //{
-    //toggleHillshading(true);
-  //}
-  //else
-  //{
-    //toggleHillshading(defaultValue);
-  //}
-//}
-
-/* boundary layer */
-function toggleBoundaryLayer(t)
+/* hillshading */
+function toggleHillshading(t)
 {
-  $.cookie('boundaries', t ? "1" : "0", {expires:30});
+  $.cookie('hillshading', t ? "1" : "0", {expires:30});
   
-  if ($('#showKreisgrenzen').is(':checked') != t)
+  if ($('#hillshading').is(':checked') != t)
   {
-    $('#showKreisgrenzen').attr('checked', t);
+    $('#hillshading').attr('checked', t);
   }
   
-  if( t )
+  if( hillshadingLayerShown == t ) return;
+  
+  hillshadingLayerShown = t;
+  map.overlayMapTypes.setAt(0, t ? hillshadingLayer : null);
+}
+
+function restoreHillshading(defaultValue)
+{
+  var state = get_cookie_string("hillshading", "invalid");
+  
+  if (state == "0")
   {
-    boundary_layer = new google.maps.FusionTablesLayer( {
-      query: {
-        select: 'geometry',
-        from: boundary_layer_fusion_table
-      },
-      styles: [{
-        polygonOptions: {
-          fillColor: '#0000FF',
-          fillOpacity: 0.01,
-          strokeColor: '#0000FF',
-          strokeOpacity: 1,
-          strokeWeight: 2
-        }
-      }],
-      clickable: false,
-      suppressInfoWindows: true,
-      map: map
-    });
+    toggleHillshading(false);
+  }
+  else if (state == "1")
+  {
+    toggleHillshading(true);
   }
   else
   {
-    if (boundary_layer != null) 
-    {
-      boundary_layer.setMap(null);
-      boundary_layer = null;
-    }
+    toggleHillshading(defaultValue);
   }
 }
 
-function restoreBoundaryLayer(defaultValue)
+/* boundaries layer */
+function toggleBoundaries(t)
+{
+  $.cookie('boundaries', t ? "1" : "0", {expires:30});
+  
+  if ($('#boundaries').is(':checked') != t)
+  {
+    $('#boundaries').attr('checked', t);
+  }
+  
+  if( boundariesLayerShown == t ) return;
+  
+  boundariesLayerShown = t;
+  map.overlayMapTypes.setAt(1, t ? boundariesLayer : null);
+}
+
+function restoreBoundaries(defaultValue)
 {
   var state = get_cookie_string("boundaries", "invalid");
   
   if (state == "0")
   {
-    toggleBoundaryLayer(false);
+    toggleBoundaries(false);
   }
   else if (state == "1")
   {
-    toggleBoundaryLayer(true);
+    toggleBoundaries(true);
   }
   else
   {
-    toggleBoundaryLayer(defaultValue);
+    toggleBoundaries(defaultValue);
   }
 }
 
@@ -227,12 +202,21 @@ function linkDialogShortenLink()
   });
 }
 
+function showHillshadingDialog()
+{
+  $('#dialogHillshading').modal({show : true, backdrop: "static", keyboard: true});
+}
+
+function showBoundariesDialog()
+{
+  $('#dialogBoundaries').modal({show : true, backdrop: "static", keyboard: true});
+}
 
 /* setup button events */
 $(document).ready(function() {
   $("#sidebartoggle").click(function() { if ($('#sidebar').is(':visible')) hideSidebar(); else showSidebar(); });      
-  //$("#hillshading").click(function() { toggleHillshading($('#hillshading').is(':checked')); });        
-  $("#showKreisgrenzen").click(function() { toggleBoundaryLayer($('#showKreisgrenzen').is(':checked')); });
+  $("#hillshading").click(function() { toggleHillshading($('#hillshading').is(':checked')); });        
+  $("#boundaries").click(function() { toggleBoundaries($('#boundaries').is(':checked')); });
   $("#showCaches").click(function() { okapi_toggle_load_caches($('#showCaches').is(':checked')); });
   $('#coordinatesFormat').change(function() { setCoordinatesFormat($('#coordinatesFormat').val()); });
 });

@@ -183,16 +183,16 @@ echo "})";
 
   <b><?php TT('Additional Layers', 'Zusätzliche Ebenen');?></b>
   <div style="margin-bottom: 10px">
-    <!--
     <label class="checkbox" title="<?php TT('Toggle hillshading', 'Aktiviere Hillshading');?>">
       <input id="hillshading" type="checkbox"> <?php TT('Hillshading', 'Hillshading');?>
+      <button class="btn btn-info btn-xs" onClick="showHillshadingDialog()"><i class="fa fa-info"></i></button>
     </label>
-    -->
-    <label class="checkbox" title="<?php TT('Toggle administrative boundaries', 'Aktiviere Kreisgrenzen');?>">
-      <input id="showKreisgrenzen" type="checkbox"> <?php TT('Show administrative boundaries (Germany)', 'Zeige Kreisgrenzen');?> 
+    <label class="checkbox" title="<?php TT('Toggle administrative boundaries', 'Aktiviere Verwaltungsgrenzen');?>">
+      <input id="boundaries" type="checkbox"> <?php TT('Administrative boundaries', 'Verwaltungsgrenzen');?>
+      <button class="btn btn-info btn-xs" onClick="showBoundariesDialog()"><i class="fa fa-info"></i></button>
     </label>
     <label class="checkbox" title="<?php TT('Show geocaches on the map', 'Geocaches auf der Karte anzeigen');?>">
-      <input id="showCaches" type="checkbox"> <?php TT('Show geocaches (<a href="http://www.opencaching.eu/" target="_blank">Opencaching</a>)', 'Zeige Geocaches (<a href="http://www.opencaching.eu/" target="_blank">Opencaching</a>)');?>
+      <input id="showCaches" type="checkbox"> <?php TT('Geocaches (<a href="http://www.opencaching.eu/" target="_blank">Opencaching</a>)', 'Geocaches (<a href="http://www.opencaching.eu/" target="_blank">Opencaching</a>)');?>
     </label>
   </div>
   
@@ -297,6 +297,42 @@ require('lang/info.' . $lang . '.html')
           </span>
         </div>
         <div id="linkDialogError"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="dialogHillshading" class="modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3><?php TT('Hillshading', 'Hillshading');?></h3>
+      </div>
+      <div class="modal-body">
+        <div>
+          <?php TT('The hillshading map tiles are generously provided by the <a href="openmapsurfer.uni-hd.de" target="_blank">OpenMapSurfer project</a> of Heidelberg University unter the following copyright terms:<br>Map data &copy; <a href="http://srtm.csi.cgiar.org/" target="_blank">SRTM</a>; ASTER GDEM is a product <a href="http://www.meti.go.jp/english/press/data/20090626_03.html" target="_blank">METI</a> and <a href="https://lpdaac.usgs.gov/products/aster_policies" target="_blank">NASA</a>, Imagery <a href="http://giscience.uni-hd.de/" target="_blank">GIScience Research Group @ Heidelberg University</a>', 'Die Hillshading-Kartenkacheln werden uns freundlicherweise vom <a href="openmapsurfer.uni-hd.de" target="_blank">OpenMapSurfer-Projekt</a> der Univerität Heidelberg unter folgenden Copyright-Bedingungen zur Verfügung gestellt:<br>Map data &copy; <a href="http://srtm.csi.cgiar.org/" target="_blank">SRTM</a>; ASTER GDEM is a product <a href="http://www.meti.go.jp/english/press/data/20090626_03.html" target="_blank">METI</a> and <a href="https://lpdaac.usgs.gov/products/aster_policies" target="_blank">NASA</a>, Imagery <a href="http://giscience.uni-hd.de/" target="_blank">GIScience Research Group @ Heidelberg University</a>');?>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="dialogBoundaries" class="modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3><?php TT('Administrative Boundaries', 'Verwaltungsgrenzen');?></h3>
+      </div>
+      <div class="modal-body">
+        <div>
+          <?php TT('The \'administrative boundaries\' map tiles are generously provided by the <a href="openmapsurfer.uni-hd.de" target="_blank">OpenMapSurfer project</a> of Heidelberg University unter the following copyright terms:<br>Map data &copy; <a href="http://osm.org/" target="_blank">Openstreetmap</a> contributors; Imagery <a href="http://giscience.uni-hd.de/" target="_blank">GIScience Research Group @ Heidelberg University</a>', 'Die Verwaltungsgrenzen-Kartenkacheln werden uns freundlicherweise vom <a href="openmapsurfer.uni-hd.de" target="_blank">OpenMapSurfer-Projekt</a> der Univerität Heidelberg unter folgenden Copyright-Bedingungen zur Verfügung gestellt:<br>Map data &copy; <a href="http://osm.org/" target="_blank">Openstreetmap</a> contributors; Imagery <a href="http://giscience.uni-hd.de/" target="_blank">GIScience Research Group @ Heidelberg University</a>');?>
+        </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>

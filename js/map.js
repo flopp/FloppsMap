@@ -1,7 +1,7 @@
-var boundary_layer = null;
-var boundary_layer_fusion_table = "1Fg-gWjzai7awzjO30BFP_i_67zaRwrCCoMBRJ5Y"; // GADM.org
-//var hillshadingLayer = null;
-//var hillshadingLayerShown = false;
+var hillshadingLayer = null;
+var hillshadingLayerShown = false;
+var boundariesLayer = null;
+var boundariesLayerShown = false;
 var map;
 var copyrightDiv;
 
@@ -622,26 +622,40 @@ function initialize(xlang, xcenter, xzoom, xmap, xmarkers, xlines) {
 
   map.setMapTypeId(maptype);
 
-  boundary_layer = null;
-
-//  hillshadingLayer = new google.maps.ImageMapType({
-//    getTileUrl: function(coord, zoom) { 
-//      if (6 <= zoom && zoom <= 16) 
-//      {
-//        return tileUrl("http://openmapsurfer.uni-hd.de/tiles/asterh/?x=%x&y=%y&z=%z", ["dummy"], coord, zoom);
-//        //return tileUrl("http://toolserver.org/~cmarqu/hill/%z/%x/%y.png", ["dummy"], coord, zoom);
-//      }
-//      else 
-//      { 
-//        return null; 
-//      } 
-//    },
-//    tileSize: new google.maps.Size(256, 256),
-//    name: "hill",
-//    alt: "Hillshading",
-//    maxZoom: 16 });
+  hillshadingLayer = new google.maps.ImageMapType({
+    getTileUrl: function(coord, zoom) { 
+      if (6 <= zoom && zoom <= 16) 
+      {
+        return tileUrl("http://openmapsurfer.uni-hd.de/tiles/asterh/?x=%x&y=%y&z=%z", ["dummy"], coord, zoom);
+      }
+      else 
+      { 
+        return null; 
+      } 
+    },
+    tileSize: new google.maps.Size(256, 256),
+    name: "hill",
+    alt: "Hillshading",
+    maxZoom: 16 });
   map.overlayMapTypes.push(null);
 
+  boundariesLayer = new google.maps.ImageMapType({
+    getTileUrl: function(coord, zoom) { 
+      if (6 <= zoom && zoom <= 16) 
+      {
+        return tileUrl("http://openmapsurfer.uni-hd.de/tiles/adminb/?x=%x&y=%y&z=%z", ["dummy"], coord, zoom);
+      }
+      else 
+      { 
+        return null; 
+      } 
+    },
+    tileSize: new google.maps.Size(256, 256),
+    name: "adminb",
+    alt: "Administrative Boundaries",
+    maxZoom: 16 });
+  map.overlayMapTypes.push(null);
+  
   // Create div for showing copyrights.
   copyrightDiv = document.createElement("div");
   copyrightDiv.id = "map-copyright";
@@ -748,8 +762,8 @@ function initialize(xlang, xcenter, xzoom, xmap, xmarkers, xlines) {
   updateCopyrights();
 
   restoreSidebar(true);
-  //restoreHillshading(true);
-  restoreBoundaryLayer(false);
+  restoreHillshading(true);
+  restoreBoundaries(false);
   restoreGeocaches(true);
   restoreCoordinatesFormat(0);
 
