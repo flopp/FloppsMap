@@ -2,6 +2,8 @@ var hillshadingLayer = null;
 var hillshadingLayerShown = false;
 var boundariesLayer = null;
 var boundariesLayerShown = false;
+var naturschutzgebieteLayer = null;
+var naturschutzgebieteLayerShown = false;
 var map;
 var copyrightDiv;
 
@@ -654,6 +656,34 @@ function initialize(xlang, xcenter, xzoom, xmap, xmarkers, xlines) {
     name: "adminb",
     alt: "Administrative Boundaries",
     maxZoom: 16 });
+  map.overlayMapTypes.push(null);
+  
+  naturschutzgebieteLayer = new google.maps.ImageMapType({
+    getTileUrl: function(coord, zoom) {
+      var proj = map.getProjection();
+      var tileSize = 256;
+      var zfactor = tileSize / Math.pow(2, zoom);
+      var top = proj.fromPointToLatLng(new google.maps.Point(coord.x * zfactor, coord.y * zfactor));
+      var bot = proj.fromPointToLatLng(new google.maps.Point((coord.x + 1) * zfactor, (coord.y + 1) * zfactor));
+      var bbox = top.lng() + "," + bot.lat() + "," + bot.lng() + "," + top.lat();
+      var url = "http://geodienste.bfn.de/ogc/wms/schutzgebiet?";
+      url += "&REQUEST=GetMap";
+      url += "&SERVICE=WMS";
+      url += "&VERSION=1.3.0";
+      url += "&LAYERS=Naturschutzgebiete";
+      url += "&FORMAT=image/png";
+      url += "&BGCOLOR=0xFFFFFF";
+      url += "&STYLES=default";
+      url += "&TRANSPARENT=TRUE";
+      url += "&CRS=CRS:84";
+      url += "&BBOX=" + bbox;
+      url += "&WIDTH=" + tileSize;
+      url += "&HEIGHT=" + tileSize;
+      return url;
+    },
+    tileSize: new google.maps.Size(256, 256),
+    isPng: true,
+    opacity: 0.5 });
   map.overlayMapTypes.push(null);
   
   // Create div for showing copyrights.

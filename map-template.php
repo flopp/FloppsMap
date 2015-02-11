@@ -191,6 +191,11 @@ echo "})";
       <input id="boundaries" type="checkbox"> <?php TT('Administrative boundaries', 'Verwaltungsgrenzen');?>
       <button class="btn btn-info btn-xs" onClick="showBoundariesDialog()"><i class="fa fa-info"></i></button>
     </label>
+    <!--
+    <label class="checkbox">
+      <input id="naturschutzgebiete" type="checkbox"> Naturschutzgebiete (experimentell)
+    </label>
+    -->
     <label class="checkbox" title="<?php TT('Show geocaches on the map', 'Geocaches auf der Karte anzeigen');?>">
       <input id="showCaches" type="checkbox"> <?php TT('Geocaches (<a href="http://www.opencaching.eu/" target="_blank">Opencaching</a>)', 'Geocaches (<a href="http://www.opencaching.eu/" target="_blank">Opencaching</a>)');?>
     </label>

@@ -112,6 +112,18 @@ function restoreBoundaries(defaultValue)
   }
 }
 
+function toggleNaturschutzgebiete(t)
+{
+  if ($('#naturschutzgebiete').is(':checked') != t)
+  {
+    $('#naturschutzgebiete').attr('checked', t);
+  }
+  
+  if (naturschutzgebieteLayerShown == t) return;
+  
+  naturschutzgebieteLayerShown = t;
+  map.overlayMapTypes.setAt(2, t ? naturschutzgebieteLayer : null);
+}
 
 /* coordinate format */
 function setCoordinatesFormat(t)
@@ -217,6 +229,7 @@ $(document).ready(function() {
   $("#sidebartoggle").click(function() { if ($('#sidebar').is(':visible')) hideSidebar(); else showSidebar(); });      
   $("#hillshading").click(function() { toggleHillshading($('#hillshading').is(':checked')); });        
   $("#boundaries").click(function() { toggleBoundaries($('#boundaries').is(':checked')); });
+  $("#naturschutzgebiete").click(function() { toggleNaturschutzgebiete($('#naturschutzgebiete').is(':checked')); });
   $("#showCaches").click(function() { okapi_toggle_load_caches($('#showCaches').is(':checked')); });
   $('#coordinatesFormat').change(function() { setCoordinatesFormat($('#coordinatesFormat').val()); });
 });
