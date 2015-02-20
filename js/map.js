@@ -445,6 +445,7 @@ function initialize(xlang, xcenter, xzoom, xmap, xmarkers, xlines) {
   lang = xlang;
 
   var center = null;
+  var atDefaultCenter = true;
   var zoom = parseInt(xzoom);
   var maptype = xmap;
 
@@ -551,6 +552,10 @@ function initialize(xlang, xcenter, xzoom, xmap, xmarkers, xlines) {
     /* try to read coordinats from cookie */
     clat = get_cookie_float('clat', CLAT_DEFAULT);
     clon = get_cookie_float('clon', CLON_DEFAULT);
+    if (clat == CLAT_DEFAULT && clon == CLON_DEFAULT) {
+      atDefaultCenter = true;
+    }
+    
     clat = repairLat(clat, CLAT_DEFAULT);
     clon = repairLon(clon, CLON_DEFAULT);
     center = new google.maps.LatLng(clat, clon);
@@ -561,6 +566,7 @@ function initialize(xlang, xcenter, xzoom, xmap, xmarkers, xlines) {
 
   if (center == null) {
     center = new google.maps.LatLng(CLAT_DEFAULT, CLON_DEFAULT);
+    atDefaultCenter = true;
   }
 
   zoom = repairZoom(zoom, ZOOM_DEFAULT);
@@ -798,4 +804,8 @@ function initialize(xlang, xcenter, xzoom, xmap, xmarkers, xlines) {
   restoreCoordinatesFormat(0);
 
   setupExternalLinkTargets();
+  
+  if (atDefaultCenter) {
+    theGeolocation.whereAmI();
+  }
 }
