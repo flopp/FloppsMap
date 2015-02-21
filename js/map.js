@@ -445,7 +445,7 @@ function initialize(xlang, xcenter, xzoom, xmap, xmarkers, xlines) {
   lang = xlang;
 
   var center = null;
-  var atDefaultCenter = true;
+  var atDefaultCenter = false;
   var zoom = parseInt(xzoom);
   var maptype = xmap;
 
