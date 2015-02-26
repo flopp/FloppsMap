@@ -1,7 +1,7 @@
 function Geolocation() {
   this.m_geocoder = new google.maps.Geocoder();
 }
-
+    
 Geolocation.prototype.search = function (address) {
   trackSearch(address);
 

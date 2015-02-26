@@ -127,7 +127,7 @@ echo "})";
 
 <div class="my-section">
   <div class="my-section-header"><?php TT('Search', 'Suche');?></div>
-  <button id="buttonWhereAmI" class="btn btn-info btn-sm my-section-buttons-top" title="<?php TT('Move map to current location', 'Bewege die Karte zum aktuellen Aufenthaltsort');?>" type="button" onClick="theGeolocation.whereAmI()"><i class="fa fa-crosshairs"></i> <?php TT('Where am I?', 'Wo bin ich?');?></button>
+  <button id="buttonWhereAmI" class="btn btn-info btn-sm my-section-buttons-top" title="<?php TT('Move map to current location', 'Bewege die Karte zum aktuellen Aufenthaltsort');?>" type="button"><i class="fa fa-crosshairs"></i> <?php TT('Where am I?', 'Wo bin ich?');?></button>
     
   <div>
     <form action="javascript:theGeolocation.search($('#txtSearch').val())">
@@ -191,11 +191,10 @@ echo "})";
       <input id="boundaries" type="checkbox"> <?php TT('Administrative boundaries', 'Verwaltungsgrenzen');?>
       <button class="btn btn-info btn-xs" onClick="showBoundariesDialog()"><i class="fa fa-info"></i></button>
     </label>
-    <!--
-    <label class="checkbox">
-      <input id="naturschutzgebiete" type="checkbox"> Naturschutzgebiete (experimentell)
+    <label class="checkbox" title="<?php TT('Toggle german nature protection areas', 'Zeige deutsche Naturschutzgebiete');?>">
+      <input id="naturschutzgebiete" type="checkbox"> <?php TT('Nature protection areas (experimental)', 'Naturschutzgebiete (experimentell)');?>
+      <button class="btn btn-info btn-xs" onClick="showNaturschutzgebieteDialog()"><i class="fa fa-info"></i></button>
     </label>
-    -->
     <label class="checkbox" title="<?php TT('Show geocaches on the map', 'Geocaches auf der Karte anzeigen');?>">
       <input id="showCaches" type="checkbox"> <?php TT('Geocaches (<a href="http://www.opencaching.eu/" target="_blank">Opencaching</a>)', 'Geocaches (<a href="http://www.opencaching.eu/" target="_blank">Opencaching</a>)');?>
     </label>
@@ -337,6 +336,24 @@ require('lang/info.' . $lang . '.html')
       <div class="modal-body">
         <div>
           <?php TT('The \'administrative boundaries\' map tiles are generously provided by the <a href="openmapsurfer.uni-hd.de" target="_blank">OpenMapSurfer project</a> of Heidelberg University unter the following copyright terms:<br>Map data &copy; <a href="http://osm.org/" target="_blank">Openstreetmap</a> contributors; Imagery <a href="http://giscience.uni-hd.de/" target="_blank">GIScience Research Group @ Heidelberg University</a>', 'Die Verwaltungsgrenzen-Kartenkacheln werden uns freundlicherweise vom <a href="openmapsurfer.uni-hd.de" target="_blank">OpenMapSurfer-Projekt</a> der Univerität Heidelberg unter folgenden Copyright-Bedingungen zur Verfügung gestellt:<br>Map data &copy; <a href="http://osm.org/" target="_blank">Openstreetmap</a> contributors; Imagery <a href="http://giscience.uni-hd.de/" target="_blank">GIScience Research Group @ Heidelberg University</a>');?>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="dialogNaturschutzgebiete" class="modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3><?php TT('Nature Protection Areas', 'Naturschutzgebiete');?></h3>
+      </div>
+      <div class="modal-body">
+        <div>
+            <?php TT('The data of german nature protection areas are provided by the <a href="http://www.bfn.de/" target="_blank">Bundesamt für Naturschutz (Federal Agency for Nature Conservation)</a> under the <a href="http://www.gesetze-im-internet.de/geonutzv/" target="_blank">GeoNutzV</a> law. Additionally, we have an explicit written permission.<br />The displayed data sets are merged by the Bundesamt für Naturschutz from data sets of the individual federal states. The Bundesamt für Naturschutz does not provide any warranty  regarding the precision and correctness of the data.<br />On the website of the Bundesamt you can find an <a href="http://www.geodienste.bfn.de/schutzgebiete" target="_blank">official map showing the protection areas</a>.', 'Die Daten für deutsche Naturschutzgebiete werden vom <a href="http://www.bfn.de/" target="_blank">Bundesamt für Naturschutz</a> unter den Bedingungen der <a href="http://www.gesetze-im-internet.de/geonutzv/" target="_blank">GeoNutzV</a> zur Verfügung gestellt. Zudem liegt eine explizite schriftliche Nutzungsgenehmigung vor.<br />Die angezeigten Datensätze der verschiedenen Schutzgebietskategorien werden vom Bundesamt für Naturschutz aus Datenbeständen der Bundesländer zusammengeführt und harmonisiert. Dies geschieht auf Basis einer Datenbereitstellung, die einmal jährlich erfolgt, so dass Stichtagsdatensätze erstellt werden und damit zwischenzeitlich erfolgte Änderungen nicht abgebildet werden. Das Bundesamt für Naturschutz übernimmt daher keine Gewähr hinsichtlich der Lagegenauigkeit und Aktualität der Daten.<br />Auf den Internetseiten des Bundesamts finden sich außerdem weitere Informationen zu den Schutzgebieten, sowie eine <a href="http://www.geodienste.bfn.de/schutzgebiete" target="_blank">offizielle Kartendarstellung der Schutzgebiete</a>.')?>
         </div>
       </div>
       <div class="modal-footer">

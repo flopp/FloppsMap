@@ -224,6 +224,11 @@ function showBoundariesDialog()
   $('#dialogBoundaries').modal({show : true, backdrop: "static", keyboard: true});
 }
 
+function showNaturschutzgebieteDialog()
+{
+  $('#dialogNaturschutzgebiete').modal({show : true, backdrop: "static", keyboard: true});
+}
+
 /* setup button events */
 $(document).ready(function() {
   $("#sidebartoggle").click(function() { if ($('#sidebar').is(':visible')) hideSidebar(); else showSidebar(); });      
@@ -232,4 +237,5 @@ $(document).ready(function() {
   $("#naturschutzgebiete").click(function() { toggleNaturschutzgebiete($('#naturschutzgebiete').is(':checked')); });
   $("#showCaches").click(function() { okapi_toggle_load_caches($('#showCaches').is(':checked')); });
   $('#coordinatesFormat').change(function() { setCoordinatesFormat($('#coordinatesFormat').val()); });
+  $('#buttonWhereAmI').click(function() { theGeolocation.whereAmI(); });
 });

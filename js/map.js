@@ -4,7 +4,7 @@ var boundariesLayer = null;
 var boundariesLayerShown = false;
 var naturschutzgebieteLayer = null;
 var naturschutzgebieteLayerShown = false;
-var map;
+var map = null;
 var copyrightDiv;
 
 var theGeolocation = new Geolocation();
