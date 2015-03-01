@@ -118,6 +118,12 @@ function toggleNaturschutzgebiete(t)
   {
     $('#naturschutzgebiete').attr('checked', t);
   }
+ 
+  if (t) {
+    $('#nsg_details').show();
+  } else {
+    $('#nsg_details').hide();
+  }
   
   if (naturschutzgebieteLayerShown == t) return;
   

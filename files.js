@@ -10,3 +10,4 @@ js/okapi.js
 js/tracking.js
 js/ui.js
 js/lang.js
+js/jquery.ajax-cross-origin.js

@@ -16,7 +16,7 @@ S=$(date +%s)
 sed "s/TSTAMP/$S/g" map-template.php > deploy/map.php
 
 sass css/main.scss > deploy/css/main.css
-cp .htaccess download.php wartung.html google7caa54246d4da45f.html apple-touch-icon.png deploy
+cp .htaccess download.php proxy.php wartung.html google7caa54246d4da45f.html apple-touch-icon.png deploy
 cat $(cat files.js) | yui-compressor --type js -o deploy/js/compressed.js
 cp $(cat files.img) deploy/img
 cp $(cat files.lang) deploy/lang
@@ -28,11 +28,12 @@ if [ -d ext/jquery-cookie/.git ] ; then
     git pull origin master
     cd -
 else
+    mkdir -p ext
     cd ext
     git clone https://github.com/carhartl/jquery-cookie.git
     cd -
 fi
-cp ext/jquery-cookie/jquery.cookie.js deploy/ext/jquery-cookie
+cp ext/jquery-cookie/src/jquery.cookie.js deploy/ext/jquery-cookie
 
 cd deploy
 tar -zcf deploy.tgz *

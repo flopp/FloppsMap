@@ -6,6 +6,8 @@ var naturschutzgebieteLayer = null;
 var naturschutzgebieteLayerShown = false;
 var map = null;
 var copyrightDiv;
+var nsgInfoMode = false;
+var nsgInfoModeClickListener = null;
 
 var theGeolocation = new Geolocation();
 var theMarkers = new Markers();
@@ -328,8 +330,57 @@ function storeCenter() {
   $.cookie('clon', c.lng(), {expires:30});
 }
 
+
 function storeZoom() {
   $.cookie('zoom', map.getZoom(), {expires:30});
+}
+
+function requestNsgInfo(lat, lng) {
+    var url = 
+        'http://geodienste.bfn.de/ogc/wms/schutzgebiet?REQUEST=GetFeatureInfo&SERVICE=WMS&VERSION=1.3.0&CRS=CRS:84' +
+        '&BBOX=' + lng + ',' + lat + ',' + (lng+0.001) + ',' + (lat+0.001) +
+        '&WIDTH=256&HEIGHT=256&INFO_FORMAT=application/geojson&FEATURE_COUNT=1&QUERY_LAYERS=Naturschutzgebiete&X=0&Y=0';
+    $.ajax({
+        url: url, 
+        crossOrigin: true,
+        proxy: 'proxy.php'
+    }).done(function(data) {
+        var obj = $.parseJSON(data);
+        if (obj && obj.features && obj.features.length > 0) {
+            var contentString = 
+                '<b>' + obj.features[0].properties.NAME + '</b><br/>' + 
+                TT('CDDA Code:', 'CDDA-Code:') + ' ' + obj.features[0].properties.CDDA_CODE + '<br />' +
+                TT('Since:', 'Seit:') + ' ' + obj.features[0].properties.JAHR + '<br />' +
+                TT('Area:', 'Fläche:') + ' ' + obj.features[0].properties.FLAECHE + ' ha<br />';
+            var infowindow = new google.maps.InfoWindow( { content: contentString, position: new google.maps.LatLng(lat, lng) } );
+            infowindow.open(map);
+        } else {
+            showAlert(TT("Info", "Info"), TT("There is no nature protection area at the selected coordinates", "An den ausgewählten Koordinaten befindet sich kein Naturschutzgebiet"));
+        }
+    }).fail(function() {
+        showAlert(TT("Error", "Fehler"), TT("Error querying information about nature protection areas.", "Fehler beim Anfragen von Informationen über Naturschutzgebiete"));
+    });
+    
+}
+
+function startNsgInfoMode() {
+    if (nsgInfoMode) return;
+    
+    map.setOptions({draggableCursor: 'crosshair'});
+    nsgInfoMode = true;
+    nsgInfoModeClickListener = google.maps.event.addListener(map, 'click', function(event) {  
+        requestNsgInfo(event.latLng.lat(), event.latLng.lng());
+        endNsgInfoMode();
+    });
+}
+
+
+function endNsgInfoMode() {
+    if (!nsgInfoMode) return;
+    
+    map.setOptions({draggableCursor: ''});
+    nsgInfoMode = false;
+    google.maps.event.removeListener(nsgInfoModeClickListener);
 }
 
 
@@ -689,7 +740,7 @@ function initialize(xlang, xcenter, xzoom, xmap, xmarkers, xlines) {
     },
     tileSize: new google.maps.Size(256, 256),
     isPng: true,
-    opacity: 0.5 });
+    opacity: 0.6 });
   map.overlayMapTypes.push(null);
   
   // Create div for showing copyrights.
