@@ -9,6 +9,8 @@ mkdir -p deploy/css
 mkdir -p deploy/img
 mkdir -p deploy/js
 mkdir -p deploy/lang
+mkdir -p deploy/lang/de
+mkdir -p deploy/lang/en
 mkdir -p deploy/lib
 mkdir -p deploy/ext/jquery-cookie
 
@@ -20,6 +22,8 @@ cp .htaccess download.php proxy.php wartung.html google7caa54246d4da45f.html app
 cat $(cat files.js) | yui-compressor --type js -o deploy/js/compressed.js
 cp $(cat files.img) deploy/img
 cp $(cat files.lang) deploy/lang
+cp lang/de/translation.json deploy/lang/de
+cp lang/en/translation.json deploy/lang/en
 cp $(cat files.lib) deploy/lib
 
 # jquery cookies

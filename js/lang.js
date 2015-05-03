@@ -1,15 +1,13 @@
 function langEN()
 {
   trackAction("langEN");
-  $.cookie("lang", "en", {expires:30});
-  window.location.reload(true);
+  $.i18n.setLng("en", function(t) { $(document).i18n(); });
 }
 
 function langDE()
 {
   trackAction("langDE");
-  $.cookie("lang", "de", {expires:30});
-  window.location.reload(true);
+  $.i18n.setLng("de", function(t) { $(document).i18n(); });
 }
 
 var lang = "en";

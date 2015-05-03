@@ -26,15 +26,17 @@ require_once('lib/lang.php');
     <script src="https://apis.google.com/js/client.js"></script>
 
     <!-- jquery -->
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     
     <!-- jquery.cookie -->
     <script src="ext/jquery-cookie/jquery.cookie.js"></script>
 
+    <!-- i18next -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/i18next/1.6.3/i18next-1.6.3.min.js"></script>
+    
     <!-- bootstrap + font-awesome -->
-    <link rel="stylesheet"  href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" />
-    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" />
  
     <!-- fonts --> 
     <link type="text/css" rel="stylesheet" href="//fonts.googleapis.com/css?family=Norican">
@@ -79,6 +81,14 @@ echo "\$(function() {";
 echo "initialize('$lang', '$cntr', '$zoom', '$maptype', '$markers', '$lines');";
 echo "})";
 ?>
+
+$(document).ready( function() {
+    var option = {resGetPath: 'lang/__lng__/__ns__.json', fallbackLng: 'en', debug: true};
+ 
+    $.i18n.init(option, function(t) {
+        $(document).i18n();
+    });
+});
 </script>
 </head>
 
@@ -95,19 +105,19 @@ echo "})";
         <span class="icon-bar"></span>
       </button>
       <img src="img/favicon.png" style="position: absolute; top: 9px; left:4px;">
-      <a class="navbar-brand" href="#" style="margin-left:32px;"><div style="width: 32px"></div><?php TT('Flopp\'s Map', 'Flopps Tolle Karte');?></a>
+      <a class="navbar-brand" href="#" style="margin-left:32px;"><div style="width: 32px"></div><span data-i18n="nav.title">FLOPP'S MAP</span></a>
     </div>
         
     <div class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-        <li><a id="navbarBlog" role="button" href="http://blog.flopp-caching.de/" target="_blank" rel="tooltip" title="<?php TT('Go to \'Flopps Tolles Blog\'', 'Hier geht es zu \'Flopps Tolles Blog\'');?>">Blog <i class="fa fa-star"></i></a></li>
-        <li><a id="navbarHelp" role="button" href="http://blog.flopp-caching.de/benutzung-der-karte/" target="_blank" rel="tooltip" title="<?php TT('Go to the online help', 'Hier geht es zu den Hilfeseiten');?>"><?php TT('Help (in German)', 'Hilfe');?> <i class="fa fa-question"></i></a></li>
-        <li><a id="navbarInfo" role="button" href="javascript:showInfoDialog()" rel="tooltip" title="<?php TT('Legal information, contact information, ...', 'Rechtliche Hinweise, Kontaktinformationen, usw.');?>"><?php TT('Info/Impress', 'Info/Impressum');?> <i class="fa fa-info"></i></a></li>
+        <li><a id="navbarBlog" role="button" href="http://blog.flopp-caching.de/" target="_blank"><span data-i18n="nav.blog">BLOG</span> <i class="fa fa-star"></i></a></li>
+        <li><a id="navbarHelp" role="button" href="http://blog.flopp-caching.de/benutzung-der-karte/" target="_blank"><span data-i18n="nav.help">HELP</span> <i class="fa fa-question"></i></a></li>
+        <li><a id="navbarInfo" role="button" href="javascript:showInfoDialog()"><span data-i18n="nav.impress">IMPRESS</span> <i class="fa fa-info"></i></a></li>
         <li></li>
       </ul>
       <form class="nav navbar-form navbar-right" style="margin:auto">
-         <span class="btn btn-default btn-sm navbar-btn" onclick="langEN();"><?php TT('English <i class="fa fa-check"></i>', 'English');?></span>
-         <span class="btn btn-default btn-sm navbar-btn" onclick="langDE();"><?php TT('Deutsch', 'Deutsch <i class="fa fa-check"></i>');?></span>
+         <span class="btn btn-default btn-sm navbar-btn" onclick="langEN();" data-i18n="[html]nav.english">ENGLISH</span>
+         <span class="btn btn-default btn-sm navbar-btn" onclick="langDE();" data-i18n="[html]nav.german">DEUTSCH</span>
       </form>
     </div>
   </div>
@@ -126,15 +136,15 @@ echo "})";
 <div id="sidebar">
 
 <div class="my-section">
-  <div class="my-section-header"><?php TT('Search', 'Suche');?></div>
-  <button id="buttonWhereAmI" class="btn btn-info btn-sm my-section-buttons-top" title="<?php TT('Move map to current location', 'Bewege die Karte zum aktuellen Aufenthaltsort');?>" type="button"><i class="fa fa-crosshairs"></i> <?php TT('Where am I?', 'Wo bin ich?');?></button>
+  <div class="my-section-header" data-i18n="sidebar.search.title">SEARCH</div>
+  <button id="buttonWhereAmI" class="btn btn-info btn-sm my-section-buttons-top" type="button"><i class="fa fa-crosshairs"></i> <span data-i18n="sidebar.search.whereami">WHERE AM I?</span></button>
     
   <div>
     <form action="javascript:theGeolocation.search($('#txtSearch').val())">
       <div class="input-group" style="margin-bottom: 5px">
-        <input class="form-control" id="txtSearch" type="text" placeholder="<?php TT('Coordinates or place', 'Koordinaten oder Ort');?>" title="<?php TT('Search for coordinates or a place and center the map on the result', 'Suche nach Koordinaten oder einem Ort und zentriere die Karte auf dem Suchergebnis');?>">
+        <input class="form-control" id="txtSearch" type="text" data-i18n="[placeholder]sidebar.search.placeholder;">
         <span class="input-group-btn">
-          <button class="btn btn-info" type="submit" title="<?php TT('Search for coordinates or a place and center the map on the result', 'Suche nach Koordinaten oder einem Ort und zentriere die Karte auf dem Suchergebnis');?>"><i class="fa fa-search"></i></button>
+          <button class="btn btn-info" type="submit"><i class="fa fa-search"></i></button>
         </span>
       </div>
     </form>
@@ -142,65 +152,63 @@ echo "})";
 </div> <!-- section -->
 
 <div class="my-section-with-footer my-section">
-  <div class="my-section-header"><?php TT('Markers', 'Marker');?></div>
+  <div class="my-section-header" data-i18n="sidebar.markers.title">MARKERS</div>
   <div id="btnmarkers1" class="btn-group btn-group-sm my-section-buttons-top">
-    <button id="buttonMarkersNew1" class="btn btn-sm btn-success" title="<?php TT('Create a new marker at the current map position', 'Erzeuge einen Marker an der aktuellen Position');?>" type="button" onClick="newMarker( map.getCenter(), -1, -1, null )"><i class="fa fa-map-marker"></i> <?php TT('New', 'Neu');?></button>
-    <button id="buttonMarkersDeleteAll1" class="btn btn-sm btn-danger" title="<?php TT('Delete all markers', 'Lösche alle Marker');?>" type="button" onClick="theMarkers.deleteAll()"><i class="fa fa-trash-o"></i> <?php TT('Delete all', 'Alle löschen');?></button>
+    <button id="buttonMarkersNew1" class="btn btn-sm btn-success" type="button" onClick="newMarker(map.getCenter(), -1, -1, null)"><i class="fa fa-map-marker"></i> <span data-i18n="sidebar.markers.new">NEW</span></button>
+    <button id="buttonMarkersDeleteAll1" class="btn btn-sm btn-danger" type="button" onClick="theMarkers.deleteAll()"><i class="fa fa-trash-o"></i> <span data-i18n="sidebar.markers.deleteall">DELETE ALL</span></button>
   </div>
   <div id="dynMarkerDiv"></div>
   <div id="btnmarkers2" class="btn-group btn-group-sm my-section-buttons-bottom" style="display: none">
-    <button id="buttonMarkersNew2" class="btn btn-sm btn-success" title="<?php TT('Create a new marker at the current map position', 'Erzeuge einen Marker an der aktuellen Position');?>" type="button" onClick="newMarker( map.getCenter(), -1, -1, null )"><i class="fa fa-map-marker"></i> <?php TT('New', 'Neu');?></button>
-    <button id="buttonMarkersDeleteAll2" class="btn btn-sm btn-danger" title="<?php TT('Delete all markers', 'Lösche alle Marker');?>" type="button" onClick="theMarkers.deleteAll()"><i class="fa fa-trash-o"></i> <?php TT('Delete all', 'Alle löschen');?></button>
+    <button id="buttonMarkersNew2" class="btn btn-sm btn-success" type="button" onClick="newMarker( map.getCenter(), -1, -1, null )"><i class="fa fa-map-marker"></i> <span data-i18n="sidebar.markers.new">NEW</span></button>
+    <button id="buttonMarkersDeleteAll2" class="btn btn-sm btn-danger" type="button" onClick="theMarkers.deleteAll()"><i class="fa fa-trash-o"></i> <span data-i18n="sidebar.markers.deleteall">DELETE ALL</span></button>
   </div>
 </div> <!-- section -->
   
 <div class="my-section">
-  <div class="my-section-header"><?php TT('Lines', 'Linien');?></div>
+  <div class="my-section-header" data-i18n="sidebar.lines.title">LINES</div>
   <div class="btn-group btn-group-sm my-section-buttons-top">
-    <button id="buttonLinesNew" class="btn btn-sm btn-success" title="<?php TT('Create a new line', 'Erzeuge eine neue Linie');?>" type="button" onClick="theLines.newLine(-1, -1)"><i class="fa fa-minus"></i> <?php TT('New', 'Neu');?></button>
-    <button id="buttonLinesDeleteAll" class="btn btn-sm btn-danger" title="<?php TT('Delete all lines', 'Lösche alle Linien');?>" type="button" onClick="theLines.deleteAllLines()"><i class="fa fa-trash-o"></i>  <?php TT('Delete all', 'Alle löschen');?></button>
+    <button id="buttonLinesNew" class="btn btn-sm btn-success" type="button" onClick="theLines.newLine(-1, -1)"><i class="fa fa-minus"></i> <span data-i18n="sidebar.lines.new">NEW</span></button>
+    <button id="buttonLinesDeleteAll" class="btn btn-sm btn-danger" type="button" onClick="theLines.deleteAllLines()"><i class="fa fa-trash-o"></i> <span data-i18n="sidebar.lines.deleteall">DELETE ALL</span></button>
   </div>
   <div id="dynLineDiv"></div>
 </div> <!-- section -->
 
 <div class="my-section">
-  <div class="my-section-header"><?php TT('Misc', 'Verschiedenes');?></div>
+  <div class="my-section-header" data-i18n="sidebar.misc.title">MISC</div>
   <div style="margin-bottom: 10px">
-    <a id="buttonExportGPX" class="btn btn-block btn-sm btn-info" title="<?php TT('Export markers as GPX file', 'Exportiere Marker als GPX-Datei');?>" role="button" href="download.php"><?php TT('Export GPX (&beta;eta)', 'GPX-Export (&beta;eta)');?></a>
+    <a id="buttonExportGPX" class="btn btn-block btn-sm btn-info" role="button" href="download.php" data-i18n="sidebar.misc.gpx">EXPORT GPX</a>
   </div>
   <div style="margin-bottom: 10px">
-    <button id="buttonPermalink" class="btn btn-block btn-sm btn-info" title="<?php TT('Create permalink', 'Erzeuge Permalink');?>" type="button" onClick="generatePermalink()"><?php TT('Create permalink', 'Erzeuge Permalink');?></button>
+    <button id="buttonPermalink" class="btn btn-block btn-sm btn-info" type="button" onClick="generatePermalink()" data-i18n="sidebar.misc.permalink">CREATE PERMALINK</button>
   </div>
 
-  <b><?php TT('Format of Coordinates', 'Koordinatenformat');?></b>
+  <b data-i18n="sidebar.misc.coordinates">FORMAT OF COORINATES</b>
   <div>
-    <select class="form-control" id="coordinatesFormat" title="<?php TT('Select display format of coordinates', 'Anzeigeformat für Koordinaten auswählen');?>">
+    <select class="form-control" id="coordinatesFormat">
       <option value="DM">DDD MM.MMM</option>
       <option value="DMS">DDD MM SS.SS</option>
       <option value="D">DDD.DDDDD</option>
     </select>
   </div>
 
-  <b><?php TT('Additional Layers', 'Zusätzliche Ebenen');?></b>
+  <b data-i18n="sidebar.misc.layers">ADDITIONAL LAYERS</b>
   <div style="margin-bottom: 10px">
-    <label class="checkbox" title="<?php TT('Toggle hillshading', 'Aktiviere Hillshading');?>">
-      <input id="hillshading" type="checkbox"> <?php TT('Hillshading', 'Hillshading');?>
+    <label class="checkbox">
+      <input id="hillshading" type="checkbox"> <span data-i18n="sidebar.misc.hillshading">HILL SHADING</span>
       <button class="btn btn-info btn-xs" onClick="showHillshadingDialog()"><i class="fa fa-info"></i></button>
     </label>
-    <label class="checkbox" title="<?php TT('Toggle administrative boundaries', 'Aktiviere Verwaltungsgrenzen');?>">
-      <input id="boundaries" type="checkbox"> <?php TT('Administrative boundaries', 'Verwaltungsgrenzen');?>
+    <label class="checkbox">
+      <input id="boundaries" type="checkbox"> <span data-i18n="sidebar.misc.boundaries">ADMINISTRATIVE BOUNDARIES</span>
       <button class="btn btn-info btn-xs" onClick="showBoundariesDialog()"><i class="fa fa-info"></i></button>
     </label>
-    <label class="checkbox" title="<?php TT('Toggle german nature protection areas', 'Zeige deutsche Naturschutzgebiete');?>">
-      <input id="naturschutzgebiete" type="checkbox"> <?php TT('Nature protection areas', 'Naturschutzgebiete');?>
+    <label class="checkbox">
+      <input id="naturschutzgebiete" type="checkbox"> <span data-i18n="sidebar.misc.npa">NATURE PROTECTION AREAS</span>
       <button class="btn btn-info btn-xs" onClick="showNaturschutzgebieteDialog()"><i class="fa fa-info"></i></button>
     </label>
     <div id="nsg_details" style="display: none;">
-        <button class="btn btn-block btn-sm btn-info" style="margin-bottom: 10px;" onClick="startNsgInfoMode()">
-            <?php TT('Show NPA info on next click', 'Zeige NSG-Info beim nächsten Klick');?>
-        </button>
+        <button class="btn btn-block btn-sm btn-info" style="margin-bottom: 10px;" onClick="startNsgInfoMode()" data-i18n="sidebar.misc.npainfo">SHOW NPA INFO ON NEXT CLICK</button>
     </div>
-    <label class="checkbox" title="<?php TT('Show geocaches on the map', 'Geocaches auf der Karte anzeigen');?>">
+    <label class="checkbox">
       <input id="showCaches" type="checkbox"> <?php TT('Geocaches (<a href="http://www.opencaching.eu/" target="_blank">Opencaching</a>)', 'Geocaches (<a href="http://www.opencaching.eu/" target="_blank">Opencaching</a>)');?>
     </label>
   </div>

@@ -1,0 +1,41 @@
+{
+    "nav": {
+        "title": "Flopp's Map",
+        "blog": "Blog",
+        "help": "Help (in German)",
+        "impress": "Info/Impress",
+        "english": "English <i class=\"fa fa-check\"></i>",
+        "german": "Deutsch"
+    },
+    
+    "sidebar": {
+        "search": {
+            "title": "Search",
+            "whereami": "Where am I?",
+            "placeholder": "Coordinates or location name"
+        },
+        "markers": {
+            "title": "Markers",
+            "new": "New",
+            "deleteall": "Delete All"
+        },
+        "lines": {
+            "title": "Lines",
+            "new": "New",
+            "deleteall": "Delete All"
+        },
+        "misc": {
+            "title": "Misc",
+            "gpx": "Export to GPX file",
+            "permalink": "Create Permalink",
+            "coordinates": "Format of Coordinates",
+            "layers": "Additional Layers",
+            "hillshading": "Hill Shading",
+            "boundaries": "Administrative Boundaries",
+            "npa": "Nature Protection Areas",
+            "npainfo": "Show NPA info on next click"
+        }
+        
+    }
+    
+}
