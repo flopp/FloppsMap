@@ -5,7 +5,7 @@ require_once('lib/lang.php');
 <html>
   <head>
     <meta charset="utf-8" />
-    <title><?php TT('Flopp\'s Map', 'Flopps Tolle Karte');?></title>
+    <title data-i18n="app.title">FLOPP'S MAP</title>
     <meta name="description" content="<?php TT('Fullscreen map with coordinates, waypoint projection, distance/bearing calculation, display of geocaches', 'Vollbild-Karte mit Koordinaten, Wegpunktprojektion, Berechnung von Entfernungen und Winkeln, Anzeige von Geocaches');?>"</meta>
     
     <meta name="viewport" content="height = device-height,
@@ -22,7 +22,7 @@ require_once('lib/lang.php');
     <link rel="image_src" href="img/screenshot.png" />
     
     <!-- google maps -->
-    <script type="text/javascript" src="https://maps.google.com/maps/api/js?key=AIzaSyC_KjqwiB6tKCcrq2aa8B3z-c7wNN8CTA0&amp;sensor=true&amp;language=<?php TT('en', 'de');?>"></script>
+    <script type="text/javascript" src="https://maps.google.com/maps/api/js?key=AIzaSyC_KjqwiB6tKCcrq2aa8B3z-c7wNN8CTA0&amp;sensor=true&amp;language=en"></script>
     <script src="https://apis.google.com/js/client.js"></script>
 
     <!-- jquery -->
@@ -35,11 +35,12 @@ require_once('lib/lang.php');
     <script src="https://cdnjs.cloudflare.com/ajax/libs/i18next/1.6.3/i18next-1.6.3.min.js"></script>
     
     <!-- bootstrap + font-awesome -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css" />
  
     <!-- fonts --> 
-    <link type="text/css" rel="stylesheet" href="//fonts.googleapis.com/css?family=Norican">
+    <link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Norican">
     
     <!-- my own stuff -->
     <script type="text/javascript" src="js/compressed.js?t=TSTAMP"></script>        
@@ -209,16 +210,15 @@ $(document).ready( function() {
         <button class="btn btn-block btn-sm btn-info" style="margin-bottom: 10px;" onClick="startNsgInfoMode()" data-i18n="sidebar.misc.npainfo">SHOW NPA INFO ON NEXT CLICK</button>
     </div>
     <label class="checkbox">
-      <input id="showCaches" type="checkbox"> <?php TT('Geocaches (<a href="http://www.opencaching.eu/" target="_blank">Opencaching</a>)', 'Geocaches (<a href="http://www.opencaching.eu/" target="_blank">Opencaching</a>)');?>
-    </label>
+      <input id="showCaches" type="checkbox"> <span data-i18n="[html]sidebar.misc.geocaches">GEOCACHES FROM OPENCACHING</span></label>
   </div>
   
-  <b><?php TT('External Services', 'Externe Dienste');?></b>
+  <b data-i18n="sidebar.misc.external">EXTERNAL SERVICES</b>
   <div>
     <div class="input-group">
-      <select class="form-control" id="externallinks" title="<?php TT('Open external service', 'Öffne externen Dienst');?>"></select>
+      <select class="form-control" id="externallinks"></select>
       <span class="input-group-btn">
-        <button class="btn btn-info" type="button" onClick="gotoExternalLink()" title="<?php TT('Open external service', 'Öffne externen Dienst');?>"><i class="fa fa-play"></i></button>
+        <button class="btn btn-info" type="button" onClick="gotoExternalLink()"><i class="fa fa-play"></i></button>
       </span>
     </div>
   </div>
@@ -235,15 +235,15 @@ $(document).ready( function() {
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h3><?php TT('Info/Impress', 'Info/Impressum');?></h3>
+        <h3 data-i18n="dialog.info.title">INFO/IMPRESS</h3>
       </div>
       <div class="modal-body">
-<?php 
+<?php  
 require('lang/info.' . $lang . '.html')
 ?>    
       </div>
       <div class="modal-footer">
-        <button class="btn btn-primary" data-dismiss="modal">Ok</button>
+        <button class="btn btn-primary" data-dismiss="modal" data-i18n="dialog.ok">OK</button>
       </div>
     </div>
   </div>
@@ -258,7 +258,7 @@ require('lang/info.' . $lang . '.html')
       </div>
       <div id="dlgAlertMessage" class="modal-body">Modal body</div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" data-i18n="dialog.ok">OK</button>
       </div>
     </div>
   </div>
@@ -289,7 +289,7 @@ require('lang/info.' . $lang . '.html')
       </div>
       <div class="modal-footer">
         <button type="button" class="btn" data-dismiss="modal"><?php TT('Cancel', 'Abbruch');?></button>
-      <button id="projectionDialogOk" type="button" class="btn btn-primary">OK</button>
+      <button id="projectionDialogOk" type="button" class="btn btn-primary" data-i18n="dialog.ok">OK</button>
       </div>
     </div>
   </div>
@@ -316,7 +316,7 @@ require('lang/info.' . $lang . '.html')
         <div id="linkDialogError"></div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" data-i18n="dialog.ok">OK</button>
       </div>
     </div>
   </div>
@@ -334,13 +334,13 @@ require('lang/info.' . $lang . '.html')
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" data-i18n="dialog.ok">OK</button>
       </div>
     </div>
   </div>
 </div>
 
-<div id="dialogBoundaries" class="modal">
+<div id="dialogBoundaries" class="modal fase">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -352,7 +352,7 @@ require('lang/info.' . $lang . '.html')
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" data-i18n="dialog.ok">OK</button>
       </div>
     </div>
   </div>
@@ -362,15 +362,13 @@ require('lang/info.' . $lang . '.html')
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h3><?php TT('Nature Protection Areas', 'Naturschutzgebiete');?></h3>
+        <h3 data-i18n="dialog.npa.title">NATURE PROTECTION AREAS</h3>
       </div>
       <div class="modal-body">
-        <div>
-            <?php TT('German nature protection areas are shown as a green map overlay:<br /><img src="img/nsg.png" class="center-block img-thumbnail"><br /><br />The data of german nature protection areas are provided by the <a href="http://www.bfn.de/" target="_blank">Bundesamt für Naturschutz (Federal Agency for Nature Conservation)</a> under the <a href="http://www.gesetze-im-internet.de/geonutzv/" target="_blank">GeoNutzV</a> law. Additionally, we have an explicit written permission.<br />The displayed data sets are merged by the Bundesamt für Naturschutz from data sets of the individual federal states. The Bundesamt für Naturschutz does not provide any warranty  regarding the precision and correctness of the data.<br />On the website of the Bundesamt you can find an <a href="http://www.geodienste.bfn.de/schutzgebiete" target="_blank">official map showing the protection areas</a>.', 'Deutsche Naturschutzgebiete werden als grünes Kartenoverlay angezeigt:<br /><img src="img/nsg.png" class="center-block img-thumbnail"><br /><br />Die Daten für deutsche Naturschutzgebiete werden vom <a href="http://www.bfn.de/" target="_blank">Bundesamt für Naturschutz</a> unter den Bedingungen der <a href="http://www.gesetze-im-internet.de/geonutzv/" target="_blank">GeoNutzV</a> zur Verfügung gestellt. Zudem liegt eine explizite schriftliche Nutzungsgenehmigung vor.<br />Die angezeigten Datensätze der verschiedenen Schutzgebietskategorien werden vom Bundesamt für Naturschutz aus Datenbeständen der Bundesländer zusammengeführt und harmonisiert. Dies geschieht auf Basis einer Datenbereitstellung, die einmal jährlich erfolgt, so dass Stichtagsdatensätze erstellt werden und damit zwischenzeitlich erfolgte Änderungen nicht abgebildet werden. Das Bundesamt für Naturschutz übernimmt daher keine Gewähr hinsichtlich der Lagegenauigkeit und Aktualität der Daten.<br />Auf den Internetseiten des Bundesamts finden sich außerdem weitere Informationen zu den Schutzgebieten, sowie eine <a href="http://www.geodienste.bfn.de/schutzgebiete" target="_blank">offizielle Kartendarstellung der Schutzgebiete</a>.')?>
-        </div>
+        <div data-i18n="[html]dialog.npa.content">NPA CONTENT</div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" data-i18n="dialog.ok">OK</button>
       </div>
     </div>
   </div>
