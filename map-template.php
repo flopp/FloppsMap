@@ -194,23 +194,43 @@ $(document).ready( function() {
 
   <b data-i18n="sidebar.misc.layers">ADDITIONAL LAYERS</b>
   <div style="margin-bottom: 10px">
-    <label class="checkbox">
-      <input id="hillshading" type="checkbox"> <span data-i18n="sidebar.misc.hillshading">HILL SHADING</span>
-      <button class="btn btn-info btn-xs" onClick="showHillshadingDialog()"><i class="fa fa-info"></i></button>
-    </label>
-    <label class="checkbox">
-      <input id="boundaries" type="checkbox"> <span data-i18n="sidebar.misc.boundaries">ADMINISTRATIVE BOUNDARIES</span>
-      <button class="btn btn-info btn-xs" onClick="showBoundariesDialog()"><i class="fa fa-info"></i></button>
-    </label>
-    <label class="checkbox">
-      <input id="naturschutzgebiete" type="checkbox"> <span data-i18n="sidebar.misc.npa">NATURE PROTECTION AREAS</span>
-      <button class="btn btn-info btn-xs" onClick="showNaturschutzgebieteDialog()"><i class="fa fa-info"></i></button>
-    </label>
+    <div class="checkbox">
+        <label>
+            <input id="hillshading" type="checkbox"> 
+            <span data-i18n="sidebar.misc.hillshading">HILL SHADING</span>
+            <button class="btn btn-info btn-xs" onClick="showHillshadingDialog()">
+                <i class="fa fa-info"></i>
+            </button>
+        </label>
+    </div>
+    
+    <div class="checkbox">
+        <label>
+            <input id="boundaries" type="checkbox"> 
+            <span data-i18n="sidebar.misc.boundaries">ADMINISTRATIVE BOUNDARIES</span>
+            <button class="btn btn-info btn-xs" onClick="showBoundariesDialog()">
+                <i class="fa fa-info"></i>
+            </button>
+        </label>
+    </div>
+    <div class="checkbox">
+        <label>
+            <input id="naturschutzgebiete" type="checkbox"> 
+            <span data-i18n="sidebar.misc.npa">NATURE PROTECTION AREAS</span>
+            <button class="btn btn-info btn-xs" onClick="showNaturschutzgebieteDialog()">
+                <i class="fa fa-info"></i>
+            </button>
+        </label>
+    </div>
     <div id="nsg_details" style="display: none;">
         <button class="btn btn-block btn-sm btn-info" style="margin-bottom: 10px;" onClick="startNsgInfoMode()" data-i18n="sidebar.misc.npainfo">SHOW NPA INFO ON NEXT CLICK</button>
     </div>
-    <label class="checkbox">
-      <input id="showCaches" type="checkbox"> <span data-i18n="[html]sidebar.misc.geocaches">GEOCACHES FROM OPENCACHING</span></label>
+    <div class="checkbox">
+        <label>
+            <input id="showCaches" type="checkbox"> 
+            <span data-i18n="[html]sidebar.misc.geocaches">GEOCACHES FROM OPENCACHING</span>
+        </label>
+    </div>
   </div>
   
   <b data-i18n="sidebar.misc.external">EXTERNAL SERVICES</b>
@@ -237,11 +257,7 @@ $(document).ready( function() {
         <button type="button" class="close" data-dismiss="modal">&times;</button>
         <h3 data-i18n="dialog.info.title">INFO/IMPRESS</h3>
       </div>
-      <div class="modal-body">
-<?php  
-require('lang/info.' . $lang . '.html')
-?>    
-      </div>
+      <div class="modal-body" data-i18n="[html]dialog.info.content">INFO CONTENT</div>
       <div class="modal-footer">
         <button class="btn btn-primary" data-dismiss="modal" data-i18n="dialog.ok">OK</button>
       </div>
@@ -254,9 +270,9 @@ require('lang/info.' . $lang . '.html')
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h3 id="dlgAlertHeader">Modal header</h3>
+        <h3 id="dlgAlertHeader">TITLE</h3>
       </div>
-      <div id="dlgAlertMessage" class="modal-body">Modal body</div>
+      <div id="dlgAlertMessage" class="modal-body">CONTENT</div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" data-dismiss="modal" data-i18n="dialog.ok">OK</button>
       </div>
@@ -268,27 +284,26 @@ require('lang/info.' . $lang . '.html')
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h3><?php TT('Waypoint Projection', 'Wegpunktprokjektion');?></h3>
+        <h3 data-i18n="dialog.projection.title">WAYPOINT PROJECTION</h3>
       </div>
       <div class="modal-body">
-   
-<img src="img/projection.png" style="float: right">
-<div  style="margin-right: 150px">
-<p><?php TT('Waypoint projection creates a new marker <b>d</b> meters away from the source marker with a bearing angle of <b>&beta;°</b>,', 'Wegpunktprojektion erzeugt einen neuen Marker, der <b>d</b> Meter vom Ursprungsmarker entfernt ist und unter einem Winkel von <b>&beta;°</b> erscheint.');?></p>
-<form role="form">
-  <div class="form-group">
-    <label for="projectionBearing" class="control-label"><?php TT('Bearing &beta;', 'Winkel &beta;');?></label>
-    <input type="text" class="form-control" id="projectionBearing" placeholder="<?php TT('Bearing angle in °; 0-360', 'Winkel &beta; in °; 0-360');?>">
-  </div>
-  <div class="form-group">
-    <label for="projectionDistance" class="control-label"><?php TT('Distance d', 'Entfernung d');?></label>
-    <input type="text" class="form-control" id="projectionDistance" placeholder="<?php TT('Projection distance in meters', 'Projektionsdistanz in Metern');?>">
-  </div>
-</form>
-</div>
+        <img src="img/projection.png" style="float: right">
+        <div style="margin-right: 150px">
+          <p data-i18n="[html]dialog.projection.content">PROJECTION CONTENT</p>
+          <form role="form">
+            <div class="form-group">
+              <label for="projectionBearing" class="control-label" date-i18n="[html]dialog.projection.bearing">BEARING</label>
+              <input type="text" class="form-control" id="projectionBearing" data-i18n="[placeholder]dialog.projection.bearing_placeholder">
+            </div>
+            <div class="form-group">
+              <label for="projectionDistance" class="control-label" data-i18n="dialog.projection.distance">DISTANCE</label>
+              <input type="text" class="form-control" id="projectionDistance" data-i18n="[placeholder]dialog.projection.distamce_placeholder">
+            </div>
+          </form>
+        </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn" data-dismiss="modal"><?php TT('Cancel', 'Abbruch');?></button>
+        <button type="button" class="btn" data-dismiss="modal" data-i18n="dialog.cancel">CANCEL</button>
       <button id="projectionDialogOk" type="button" class="btn btn-primary" data-i18n="dialog.ok">OK</button>
       </div>
     </div>
@@ -299,18 +314,14 @@ require('lang/info.' . $lang . '.html')
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h3><?php TT('Permalink', 'Permalink');?></h3>
+        <h3 data-i18n="dialog.permalink.title">PERMALINK</h3>
       </div>
       <div class="modal-body">
-        <div>
-          <?php TT('The following URL links to the current view of Flopp\'s Map including all markers, lines and the selected map type. Copy (<tt>CTRL+C</tt>) the URL and share it with your friends!', 'Die folgende URL beschreibt die aktuelle Kartenansicht inklusive aller Marker, Linien und des ausgewählten Kartentyps. Kopiere (<tt>STRG+C</tt>) die URL und teile sie mit deinen Freunden!');?>
-          <br />
-          <?php TT('<b>Shorten</b> runs the long URL through an URL shortener (<a href="http://goo.gl/" target="_blank">goo.gl</a>) an produces a shortened URL.', '<b>Kürzen</b> schickt die lange URL durch einen URL-Shortener (<a href="http://goo.gl/" target="_blank">goo.gl</a>) und erzeugt so einen kürzere URL.');?>
-        </div>
+        <div data-i18n="[html]dialog.permalink.content">PERMALINK CONTENT</div>
         <div class="input-group">
-          <input class="form-control" id="linkDialogLink" type="text" title="<?php TT('Permalink to the current map view', 'Permalink für die aktuelle Kartenansicht');?>">
+          <input class="form-control" id="linkDialogLink" type="text">
           <span class="input-group-btn">
-            <button id="buttonPermalinkShorten" class="btn btn-info" type="button" title="<?php TT('Shorten the permalink', 'Verkürze den Permalink');?>" onclick="linkDialogShortenLink()"><?php TT('Shorten', 'Kürzen');?></button>
+            <button id="buttonPermalinkShorten" class="btn btn-info" type="button" onclick="linkDialogShortenLink()" data-i18n="dialog.permalink.shorten">SHORTEN</button>
           </span>
         </div>
         <div id="linkDialogError"></div>
@@ -326,12 +337,10 @@ require('lang/info.' . $lang . '.html')
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h3><?php TT('Hillshading', 'Hillshading');?></h3>
+        <h3 data-i18n="dialog.hillshading.title">HILL SHADING</h3>
       </div>
       <div class="modal-body">
-        <div>
-          <?php TT('The hillshading map tiles are generously provided by the <a href="openmapsurfer.uni-hd.de" target="_blank">OpenMapSurfer project</a> of Heidelberg University unter the following copyright terms:<br>Map data &copy; <a href="http://srtm.csi.cgiar.org/" target="_blank">SRTM</a>; ASTER GDEM is a product <a href="http://www.meti.go.jp/english/press/data/20090626_03.html" target="_blank">METI</a> and <a href="https://lpdaac.usgs.gov/products/aster_policies" target="_blank">NASA</a>, Imagery <a href="http://giscience.uni-hd.de/" target="_blank">GIScience Research Group @ Heidelberg University</a>', 'Die Hillshading-Kartenkacheln werden uns freundlicherweise vom <a href="openmapsurfer.uni-hd.de" target="_blank">OpenMapSurfer-Projekt</a> der Univerität Heidelberg unter folgenden Copyright-Bedingungen zur Verfügung gestellt:<br>Map data &copy; <a href="http://srtm.csi.cgiar.org/" target="_blank">SRTM</a>; ASTER GDEM is a product <a href="http://www.meti.go.jp/english/press/data/20090626_03.html" target="_blank">METI</a> and <a href="https://lpdaac.usgs.gov/products/aster_policies" target="_blank">NASA</a>, Imagery <a href="http://giscience.uni-hd.de/" target="_blank">GIScience Research Group @ Heidelberg University</a>');?>
-        </div>
+        <div data-i18n="[html]dialog.hillshading.content">HILL SHADING CONTENT</div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" data-dismiss="modal" data-i18n="dialog.ok">OK</button>
@@ -340,16 +349,14 @@ require('lang/info.' . $lang . '.html')
   </div>
 </div>
 
-<div id="dialogBoundaries" class="modal fase">
+<div id="dialogBoundaries" class="modal">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h3><?php TT('Administrative Boundaries', 'Verwaltungsgrenzen');?></h3>
+        <h3 data-i18n="dialog.boundaries.title">ADMINISTRATIVE BOUNDRIES</h3>
       </div>
       <div class="modal-body">
-        <div>
-          <?php TT('The \'administrative boundaries\' map tiles are generously provided by the <a href="openmapsurfer.uni-hd.de" target="_blank">OpenMapSurfer project</a> of Heidelberg University unter the following copyright terms:<br>Map data &copy; <a href="http://osm.org/" target="_blank">Openstreetmap</a> contributors; Imagery <a href="http://giscience.uni-hd.de/" target="_blank">GIScience Research Group @ Heidelberg University</a>', 'Die Verwaltungsgrenzen-Kartenkacheln werden uns freundlicherweise vom <a href="openmapsurfer.uni-hd.de" target="_blank">OpenMapSurfer-Projekt</a> der Univerität Heidelberg unter folgenden Copyright-Bedingungen zur Verfügung gestellt:<br>Map data &copy; <a href="http://osm.org/" target="_blank">Openstreetmap</a> contributors; Imagery <a href="http://giscience.uni-hd.de/" target="_blank">GIScience Research Group @ Heidelberg University</a>');?>
-        </div>
+        <div data-i18n="[html]dialog.boundaries.content">BOUNDARIES CONTENT</div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" data-dismiss="modal" data-i18n="dialog.ok">OK</button>

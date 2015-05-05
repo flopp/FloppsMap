@@ -9,12 +9,12 @@ function Line(id, source, target) {
     "<table style=\"width: 100%\">" +
     "<tr>" +
     "<td>" +
-    "<select id=\"dynlinesource" + id + "\" class=\"my-small-select\" title=\"" + TT("Source", "Quelle") + "\" onchange=\"theLines.selectLineSource("+id+")\"><option value=\"-1\">?</option></select>" +
+    "<select id=\"dynlinesource" + id + "\" class=\"my-small-select\" data-i18n=\"[title]sidebar.lines.source\" onchange=\"theLines.selectLineSource("+id+")\"><option value=\"-1\">?</option></select>" +
     "&nbsp;&rarr;&nbsp;" +
-    "<select id=\"dynlinetarget" + id + "\" class=\"my-small-select\" title=\"" + TT("Target", "Ziel") + "\" onchange=\"theLines.selectLineTarget("+id+")\"><option value=\"-1\">?</option></select>" +
+    "<select id=\"dynlinetarget" + id + "\" class=\"my-small-select\" data-i18n=\"[title]sidebar.lines.destination\" onchange=\"theLines.selectLineTarget("+id+")\"><option value=\"-1\">?</option></select>" +
     "</td>" +
     "<td>" +
-    "<button class=\"my-button btn btn-mini btn-danger\" style=\"float: right\" title=\"" + TT("Delete line", "Lösche Linie") + "\" type=\"button\" onClick=\"trackLine('delete'); theLines.deleteLine(" + id + ")\"><i class=\"fa fa-trash-o\"></i></button>" +
+    "<button class=\"my-button btn btn-mini btn-danger\" style=\"float: right\" data-i18n=\"[title]sidebar.lines.delete_line\" type=\"button\" onClick=\"trackLine('delete'); theLines.deleteLine(" + id + ")\"><i class=\"fa fa-trash-o\"></i></button>" +
     "<div>" +
     "</div>" +
     "</td>" +

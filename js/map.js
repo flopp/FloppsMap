@@ -25,7 +25,7 @@ function setupExternalLinkTargets() {
   "use strict";
   var e = new Array();
 
-  e[TT("★ Games ★", "★ Spiele ★")] = "";
+  e["★ Games ★"] = "";
   e["Confluence.org"] = "http://www.confluence.org/confluence.php?lat=%lat%&lon=%lon%";
   e["Geocaching.com"] = "http://coord.info/map?ll=%lat%,%lon%&z=%zoom%";
   e["Geograph"] = "http://geo.hlipp.de/ommap.php?z=%zoom%&t=g&ll=%lat%,%lon%";
@@ -36,7 +36,7 @@ function setupExternalLinkTargets() {
   e["Opencaching.de"] = "http://www.opencaching.de/map2.php?lat=%lat%&lon=%lon%&zoom=%zoom%";
   e["Waymarking.com"] = "http://www.waymarking.com/wm/search.aspx?f=1&lat=%lat%&lon=%lon%";
 
-  e[TT("★ Maps ★", "★ Karten ★")] = "";
+  e["★ Maps ★"] = "";
   e["Bing Maps"] = "http://www.bing.com/maps/?v=2&cp=%lat%~%lon%&lvl=%zoom%";
   e["Cloudmade"] = "http://maps.cloudmade.com/?lat=%lat%&lng=%lon%&zoom=%zoom%";
   e["Google Maps"] = "https://maps.google.com/maps?ll=%lat%,%lon%&z=%zoom%";
@@ -140,26 +140,17 @@ function leaveEditMode(id, takenew) {
     var errors = Array();
 
     if (!name_ok) {
-      errors.push(
-        TT("Bad character in 'name': \"%1\".<br />Allowed characters: a-z, A-Z, 0-9, - and _.", 
-           "Unerlaubte Zeichen in 'Name'.<br />Erlaubte Zeichen: a-z, A-Z, 0-9, - und _.")
-        .replace(/%1/, name));
+      errors.push(trans("sidebar.markers.error_badname").replace(/%1/, name));
     }
     if (coordinates == null) {
-      errors.push(
-        TT("Bad coordinate format: \"%1\".",
-           "Ungültiges Koordinatenformat: \"%1\".")
-        .replace(/%1/, s_coordinates));
+      errors.push(trans("sidebar.markers.error_badcoordinates").replace(/%1/, s_coordinates));
     }
     if (radius == null) {
-      errors.push(
-        TT("Bad value of 'radius': \"%1\".<br />Allowed values: integers &geq; 0.",
-           "Ungültiger Wert für 'Radius': \"%1\".<br />Erlaubte Werte: ganze Zahlen &geq; 0.")
-        .replace(/%1/, s_radius));
+      errors.push(trans("sidebar.markers.error_badradius").replace(/%1/, s_radius));
     }
 
     if (errors.length > 0) {
-      showAlert(TT("ERROR", "Fehler"), errors.join("<br /><br />"));
+      showAlert(trans("dialog.error"), errors.join("<br /><br />"));
     }
     else {
       m.setNamePositionRadius(name, coordinates, radius);
@@ -183,7 +174,7 @@ function newMarker(coordinates, id, radius, name) {
     id = theMarkers.getFreeId();
   }
   if (id == -1) {
-    showAlert(TT("ERROR", "Fehler"), TT("Maximum number of markers (26) reached.", "Maximale Anzahl an Markers (26) erreicht."));
+    showAlert(trans("dialog.error"), trans("dialog.toomanymarkers_error.content"));
     return null;
   }
 
@@ -228,11 +219,11 @@ function newMarker(coordinates, id, radius, name) {
       "        <td id=\"view_circle" + alpha +"\">16100 m</td>\n" +
       "        <td>\n" +
       "            <div class=\"btn-group\" style=\"padding-bottom: 2px; padding-top: 2px; float: right\">\n" +
-      "            <button class=\"my-button btn btn-mini btn-warning\" title=\"" + TT("Edit marker", "Bearbeite Marker") + "\" type=\"button\"  onclick=\"enterEditMode(" + id + ");\"><i class=\"fa fa-edit\"></i></button>\n" +
-      "            <button class=\"my-button btn btn-mini btn-danger\" title=\"" + TT("Remove marker", "Entferne Marker") + "\" type=\"button\" onClick=\"theMarkers.removeById(" + id + ")\"><i class=\"fa fa-trash-o\"></i></button>\n" +
-      "            <button class=\"my-button btn btn-mini btn-info\" title=\"" + TT("Move map to marker", "Bewege Karte zu Marker") + "\" type=\"button\" onClick=\"gotoMarker(" + id + ")\"><i class=\"fa fa-search\"></i></button>\n" +
-      "            <button class=\"my-button btn btn-mini btn-warning\" title=\"" + TT("Put marker on center of map", "Verschiebe Marker ins Zentrum der Karte") + "\" type=\"button\" onClick=\"centerMarker(" + id + ")\"><i class=\"fa fa-crosshairs\"></i></button>\n" +
-      "            <button class=\"my-button btn btn-mini btn-success\" title=\"" + TT("Waypoint projection from marker", "Wegpunktprojektion vom Marker aus") + "\" type=\"button\" onClick=\"projectFromMarker(" + id + ")\"><i class=\"fa fa-location-arrow\"></i></button>\n" +
+      "            <button class=\"my-button btn btn-mini btn-warning\" data-i18n=\"[title]sidebar.markers.edit_marker\" type=\"button\"  onclick=\"enterEditMode(" + id + ");\"><i class=\"fa fa-edit\"></i></button>\n" +
+      "            <button class=\"my-button btn btn-mini btn-danger\" data-i18n=\"[title]sidebar.markers.delete_marker\" type=\"button\" onClick=\"theMarkers.removeById(" + id + ")\"><i class=\"fa fa-trash-o\"></i></button>\n" +
+      "            <button class=\"my-button btn btn-mini btn-info\" data-i18n=\"[title]sidebar.markers.move_to\" type=\"button\" onClick=\"gotoMarker(" + id + ")\"><i class=\"fa fa-search\"></i></button>\n" +
+      "            <button class=\"my-button btn btn-mini btn-warning\" data-i18n=\"[title]sidebar.markers.center\" type=\"button\" onClick=\"centerMarker(" + id + ")\"><i class=\"fa fa-crosshairs\"></i></button>\n" +
+      "            <button class=\"my-button btn btn-mini btn-success\" data-i18n=\"[title]sidebar.markers.project\" type=\"button\" onClick=\"projectFromMarker(" + id + ")\"><i class=\"fa fa-location-arrow\"></i></button>\n" +
       "            </div>\n" +
       "        </td>\n" +
       "    </tr>\n" +
@@ -241,20 +232,20 @@ function newMarker(coordinates, id, radius, name) {
       "    <tr>\n" +
       "        <td rowspan=\"4\" style=\"vertical-align: top\"><span style=\"width:" + iconw + "px; height:" + iconh + "px; float: left; display: block; background-image: url(img/base.png); background-repeat: no-repeat; background-position: -" + offsetx + "px -" + offsety + "px;\">&nbsp;</span>\n" +
       "        <td style=\"text-align: center; vertical-align: middle;\"><i class=\"icon-map-marker\"></i></td>\n" +
-      "        <td><input id=\"edit_name" + alpha + "\" title=\"" + TT("Name of the marker", "Name des Markers") + "\" placeholder=\"" + TT("Name", "Name") + "\" class=\"form-control input-block-level\" type=\"text\" style=\"margin-bottom: 0px;\" value=\"n/a\" /></td>\n" +
+      "        <td><input id=\"edit_name" + alpha + "\" data-i18n=\"[title]sidebar.markers.name;[placeholder]sidebar.markers.name_placeholder\" class=\"form-control input-block-level\" type=\"text\" style=\"margin-bottom: 0px;\" value=\"n/a\" /></td>\n" +
       "    </tr>\n" +
       "    <tr>\n" +
       "        <td style=\"text-align: center; vertical-align: middle;\"><i class=\"icon-globe\"></i></td>\n" +
-      "        <td><input id=\"edit_coordinates" + alpha +"\" title=\"" + TT("Coordinates of the marker", "Koordinaten des Markers") + "\" placeholder=\"" + TT("Coordinates", "Koordinaten") + "\" class=\"form-control input-block-level\" type=\"text\" style=\"margin-bottom: 0px;\" value=\"n/a\" /></td>\n" +
+      "        <td><input id=\"edit_coordinates" + alpha +"\" data-i18n=\"[title]sidebar.markers.coordinates;[placeholder]sidebar.markers.coordinates_placeholder\" class=\"form-control input-block-level\" type=\"text\" style=\"margin-bottom: 0px;\" value=\"n/a\" /></td>\n" +
       "    </tr>\n" +
       "    <tr>\n" +
       "        <td style=\"text-align: center; vertical-align: middle;\"><i class=\"icon-circle-blank\"></i></td>\n" +
-      "        <td><input id=\"edit_circle" + alpha +"\" title=\"" + TT("Radius (m) of circle around the marker", "Radius (m) des Kreises um den Marker") + "\" placeholder=\"" + TT("Radius (m)", "Radius (m)") + "\" class=\"form-control input-block-level\" type=\"text\" style=\"margin-bottom: 0px;\" value=\"n/a\" /></td>\n" +
+      "        <td><input id=\"edit_circle" + alpha +"\" data-i18n=\"[title]sidebar.markers.radius;[placeholder]sidebar.markers.radius_placeholder\" class=\"form-control input-block-level\" type=\"text\" style=\"margin-bottom: 0px;\" value=\"n/a\" /></td>\n" +
       "    </tr>\n" +
       "    <tr>\n" +
       "        <td colspan=\"2\" style=\"text-align: right\">\n" +
-      "            <button class=\"btn btn-small btn-primary\" type=\"button\" onclick=\"javascript: leaveEditMode(" + id + ", true);\">" + TT("Ok", "Ok") + "</button>\n" +
-      "            <button class=\"btn btn-small\" type=\"button\" onclick=\"leaveEditMode(" + id + ", false);\">" + TT("Cancel", "Abbrechen") + "</button>\n" +
+      "            <button class=\"btn btn-small btn-primary\" type=\"button\" onclick=\"javascript: leaveEditMode(" + id + ", true);\" data-i18n=\"dialog.ok\">OK</button>\n" +
+      "            <button class=\"btn btn-small\" type=\"button\" onclick=\"leaveEditMode(" + id + ", false);\" data-i18n=\"dialog.cancel\">CANCEL</button>\n" +
       "        </td>\n" +
       "    </tr>\n" +
       "</table>" +
@@ -306,19 +297,19 @@ function projectFromMarker(id) {
       var dist = getFloat(data2, 0, 100000000000);
 
       if (angle == null) {
-        showAlert(TT("Error", "Fehler"), TT("Bad 'bearing' value: \"%1\".<br />Allowed values: floating point numbers between 0 and 360.", "Ungültiger Wert für 'Winkel': \"%1\".<br />Erlaubte Werte: Zahlen zwischen 0 und 360.").replace(/%1/, data1));
+        showAlert(trans("dialog.error"), trans("dialog.projection.error_bad_bearing").replace(/%1/, data1));
         return;
       }
 
       if (dist == null) {
-        showAlert(TT("Error", "Fehler"), TT("Bad 'distance' value: \"%1\".<br />Allowed values: floating point numbers &geq; 0.", "Ungültiger Wert für 'Entfernung': \"%1\".<br />Erlaubte Werte: Zahlen &geq; 0.").replace(/%1/, data2));
+        showAlert(trans("dialog.error"), trabs("dialog.projection.error_bad_distance").replace(/%1/, data2));
         return;
       }
 
       var newpos = Coordinates.projection_geodesic(oldpos, angle, dist);
       var m = newMarker(newpos, -1, RADIUS_DEFAULT, null);
       if (m != null) {
-        showAlert(TT("Information", "Information"), TT("Created new marker: %1.", "Neuer Marker: %1").replace(/%1/, m.getAlpha()));
+        showAlert(trans("dialog.information"), trans("dialog.projection.msg_new_marker").replace(/%1/, m.getAlpha()));
       }        
     }
  );

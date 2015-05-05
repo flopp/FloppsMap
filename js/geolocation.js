@@ -9,9 +9,11 @@ Geolocation.prototype.search = function (address) {
   if (!coords) { 
     this.m_geocoder.geocode( { address: address, region: 'de' }, function(results, status) {
       if (status == google.maps.GeocoderStatus.OK) {
-        map.setCenter(results[0].geometry.location);
+          map.setCenter(results[0].geometry.location);
       } else {
-        showAlert( TT("Information"), TT("Cannot find location of \"%1\".", "Kann Koordinaten von \"%1\" nicht bestimmen.").replace( /%1/, address ) );
+          var title = trans("dialog.search_error.title");
+          var content = trans("dialog.search_error.content").replace(/%1/, address);
+          showAlert(title, content);
       }
     });
   } else {
@@ -26,10 +28,14 @@ Geolocation.prototype.whereAmI = function () {
         map.setCenter(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
       }, 
       function() {
-        showAlert(TT("Failed to determine current location.", "Kann aktuellen Aufenthaltsort nicht bestimmen."));
+          var title = trans("dialog.whereami_error.title");
+          var content = trans("dialog.whereami_error.content");
+          showAlert(title, content);
       }
     );
   } else {
-    showAlert(TT("Failed to determine current location.", "Kann aktuellen Aufenthaltsort nicht bestimmen."));
+    var title = trans("dialog.whereami_error.title");
+    var content = trans("dialog.whereami_error.content");
+    showAlert(title, content);
   }
 }

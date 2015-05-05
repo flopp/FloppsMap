@@ -168,10 +168,10 @@ function showInfoDialog()
 } 
 
 /* alert dialog */
-function showAlert( title, msg ) 
+function showAlert(title, msg) 
 {
-  $("#dlgAlertHeader").html( title );
-  $("#dlgAlertMessage").html( msg );
+  $("#dlgAlertHeader").html(title);
+  $("#dlgAlertMessage").html(msg);
   $("#dlgAlert").modal({show : true, backdrop: "static", keyboard: true});
 }
 
