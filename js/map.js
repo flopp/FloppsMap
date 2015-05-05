@@ -340,16 +340,16 @@ function requestNsgInfo(lat, lng) {
         if (obj && obj.features && obj.features.length > 0) {
             var contentString = 
                 '<b>' + obj.features[0].properties.NAME + '</b><br/>' + 
-                TT('CDDA Code:', 'CDDA-Code:') + ' ' + obj.features[0].properties.CDDA_CODE + '<br />' +
-                TT('Since:', 'Seit:') + ' ' + obj.features[0].properties.JAHR + '<br />' +
-                TT('Area:', 'Fläche:') + ' ' + obj.features[0].properties.FLAECHE + ' ha<br />';
+                trans("dialog.npa.cdda_code") + ' ' + obj.features[0].properties.CDDA_CODE + '<br />' +
+                trans("dialog.npa.since") + ' ' + obj.features[0].properties.JAHR + '<br />' +
+                trans("dialog.npa.area") + ' ' + obj.features[0].properties.FLAECHE + ' ha<br />';
             var infowindow = new google.maps.InfoWindow( { content: contentString, position: new google.maps.LatLng(lat, lng) } );
             infowindow.open(map);
         } else {
-            showAlert(TT("Info", "Info"), TT("There is no nature protection area at the selected coordinates", "An den ausgewählten Koordinaten befindet sich kein Naturschutzgebiet"));
+            showAlert(trans("dialog.information"), trans("dialog.npa.msg_no_npa"));
         }
     }).fail(function() {
-        showAlert(TT("Error", "Fehler"), TT("Error querying information about nature protection areas.", "Fehler beim Anfragen von Informationen über Naturschutzgebiete"));
+        showAlert(trans("dialog.error"), trans("dialog.npa.error"));
     });
     
 }

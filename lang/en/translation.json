@@ -116,7 +116,12 @@
         
         "npa": { 
             "title": "Nature Protection Areas",
-            "content": "German nature protection areas are shown as a green map overlay:<br /><img src=\"img/nsg.png\" class=\"center-block img-thumbnail\"><br /><br />The data of german nature protection areas are provided by the <a href=\"http://www.bfn.de/\" target=\"_blank\">Bundesamt für Naturschutz (Federal Agency for Nature Conservation)</a> under the <a href=\"http://www.gesetze-im-internet.de/geonutzv/\" target=\"_blank\">GeoNutzV</a> law. Additionally, we have an explicit written permission.<br />The displayed data sets are merged by the Bundesamt für Naturschutz from data sets of the individual federal states. The Bundesamt für Naturschutz does not provide any warranty  regarding the precision and correctness of the data.<br />On the website of the Bundesamt you can find an <a href=\"http://www.geodienste.bfn.de/schutzgebiete\" target=\"_blank\">official map showing the protection areas</a>."
+            "content": "German nature protection areas are shown as a green map overlay:<br /><img src=\"img/nsg.png\" class=\"center-block img-thumbnail\"><br /><br />The data of german nature protection areas are provided by the <a href=\"http://www.bfn.de/\" target=\"_blank\">Bundesamt für Naturschutz (Federal Agency for Nature Conservation)</a> under the <a href=\"http://www.gesetze-im-internet.de/geonutzv/\" target=\"_blank\">GeoNutzV</a> law. Additionally, we have an explicit written permission.<br />The displayed data sets are merged by the Bundesamt für Naturschutz from data sets of the individual federal states. The Bundesamt für Naturschutz does not provide any warranty  regarding the precision and correctness of the data.<br />On the website of the Bundesamt you can find an <a href=\"http://www.geodienste.bfn.de/schutzgebiete\" target=\"_blank\">official map showing the protection areas</a>.",
+            "cdda_code": "CDDA Code:",
+            "since": "Since:",
+            "area": "Area:",
+            "msg_no_npa": "There is no nature protection area at the selected coordinates",
+            "error": "Error querying information about nature protection areas."
         }
     }
 }

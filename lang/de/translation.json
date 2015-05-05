@@ -114,7 +114,13 @@
         
         "npa": { 
             "title": "Naturschutzgebiete",
-            "content": "Deutsche Naturschutzgebiete werden als grünes Kartenoverlay angezeigt:<br /><img src=\"img/nsg.png\" class=\"center-block img-thumbnail\"><br /><br />Die Daten für deutsche Naturschutzgebiete werden vom <a href=\"http://www.bfn.de/\" target=\"_blank\">Bundesamt für Naturschutz</a> unter den Bedingungen der <a href=\"http://www.gesetze-im-internet.de/geonutzv/\" target=\"_blank\">GeoNutzV</a> zur Verfügung gestellt. Zudem liegt eine explizite schriftliche Nutzungsgenehmigung vor.<br />Die angezeigten Datensätze der verschiedenen Schutzgebietskategorien werden vom Bundesamt für Naturschutz aus Datenbeständen der Bundesländer zusammengeführt und harmonisiert. Dies geschieht auf Basis einer Datenbereitstellung, die einmal jährlich erfolgt, so dass Stichtagsdatensätze erstellt werden und damit zwischenzeitlich erfolgte Änderungen nicht abgebildet werden. Das Bundesamt für Naturschutz übernimmt daher keine Gewähr hinsichtlich der Lagegenauigkeit und Aktualität der Daten.<br />Auf den Internetseiten des Bundesamts finden sich außerdem weitere Informationen zu den Schutzgebieten, sowie eine <a href=\"http://www.geodienste.bfn.de/schutzgebiete\" target=\"_blank\">offizielle Kartendarstellung der Schutzgebiete</a>."
+            "content": "Deutsche Naturschutzgebiete werden als grünes Kartenoverlay angezeigt:<br /><img src=\"img/nsg.png\" class=\"center-block img-thumbnail\"><br /><br />Die Daten für deutsche Naturschutzgebiete werden vom <a href=\"http://www.bfn.de/\" target=\"_blank\">Bundesamt für Naturschutz</a> unter den Bedingungen der <a href=\"http://www.gesetze-im-internet.de/geonutzv/\" target=\"_blank\">GeoNutzV</a> zur Verfügung gestellt. Zudem liegt eine explizite schriftliche Nutzungsgenehmigung vor.<br />Die angezeigten Datensätze der verschiedenen Schutzgebietskategorien werden vom Bundesamt für Naturschutz aus Datenbeständen der Bundesländer zusammengeführt und harmonisiert. Dies geschieht auf Basis einer Datenbereitstellung, die einmal jährlich erfolgt, so dass Stichtagsdatensätze erstellt werden und damit zwischenzeitlich erfolgte Änderungen nicht abgebildet werden. Das Bundesamt für Naturschutz übernimmt daher keine Gewähr hinsichtlich der Lagegenauigkeit und Aktualität der Daten.<br />Auf den Internetseiten des Bundesamts finden sich außerdem weitere Informationen zu den Schutzgebieten, sowie eine <a href=\"http://www.geodienste.bfn.de/schutzgebiete\" target=\"_blank\">offizielle Kartendarstellung der Schutzgebiete</a>.",
+            "cdda_code": "CDDA-Code:",
+            "since": "Seit:",
+            "area": "Fläche:",
+            "msg_no_npa": "An den gewählen Koordinaten befindet sich kein Naturschutzgebiet.",
+            "error": "Fehler beim Anfragen von Informationen über Naturschutzbegiete."
+            
         }
     }
 }
