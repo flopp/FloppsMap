@@ -9,7 +9,8 @@
         "help": "Anleitung",
         "impress": "Info/Impressum",
         "english": "English",
-        "german": "Deutsch <i class=\"fa fa-check\"></i>"
+        "german": "Deutsch <i class=\"fa fa-check\"></i>",
+        "dutch": "Nederlands"
     },
     
     "sidebar": {

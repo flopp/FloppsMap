@@ -1,0 +1,128 @@
+{
+    "app": {
+        "title": "Flopp's Kaart"
+    },
+    
+    "nav": {
+        "title": "Flopp's Kaart",
+        "blog": "Blog",
+        "help": "Help (in Duits)",
+        "impress": "Info/Impress",
+        "english": "English",
+        "german": "Deutsch",
+        "dutch": "Nederlands <i class=\"fa fa-check\"></i>"
+    },
+    
+    "sidebar": {
+        "search": {
+            "title": "Zoeken",
+            "whereami": "Waar ben ik?",
+            "placeholder": "Coordinates or location name"
+        },
+        "markers": {
+            "title": "Markers",
+            "new": "Nieuw",
+            "deleteall": "Delete all",
+            "edit_marker": "Edit marker",
+            "delete_marker": "Delete marker",
+            "move_to": "Move map to marker",
+            "center": "Put marker on center of map",
+            "project": "Waypoint projection from marker",
+            "name": "Name of marker",
+            "name_placeholder": "Naam",
+            "coordinates": "Coordinates of marker",
+            "coordinates_placeholder": "Coordinates",
+            "radius": "Radius (m) of circle around marker",
+            "radius_placeholder": "Radius (m)",
+            "error_badname": "Bad character in 'name': \"%1\".<br />Allowed characters: a-z, A-Z, 0-9, - and _.",
+            "error_badcoordinates": "Bad coordinate format: \"%1\".",
+            "error_badradius": "Bad value of 'radius': \"%1\".<br />Allowed values: integers &geq; 0."
+        },
+        "lines": {
+            "title": "Lines",
+            "new": "Nieuw",
+            "deleteall": "Delete all",
+            "source": "Source",
+            "destination": "Destination",
+            "delete_line": "Delete line"
+        },
+        "misc": {
+            "title": "Misc",
+            "gpx": "Export to GPX file",
+            "permalink": "Create Permalink",
+            "coordinates": "Format of Coordinates",
+            "layers": "Additional Layers",
+            "hillshading": "Hill Shading",
+            "boundaries": "Administrative Boundaries",
+            "npa": "Nature Protection Areas",
+            "npainfo": "Show NPA info on next click",
+            "geocaches": "Geocaches (<a href=\"http://www.opencaching.eu/\" target=\"_blank\">Opencaching</a>)",
+            "external": "External Services"
+        }
+    },
+    
+    "dialog": {
+        "ok" : "Ok",
+        "cancel": "Annuleren",
+        "error": "Fout",
+        "information": "Informatie",
+        
+        "search_error": {
+            "title": "Search",
+            "content": "Cannot find location of \"%1\"."
+        },
+        
+        "whereami_error": {
+            "title": "Where am I?",
+            "content": "Failed to determine current location."
+        },
+        
+        "toomanymarkers_error": {
+            "title": "Error",
+            "content": "Maximum number of markers (26) reached."
+        },
+        
+        "info": {
+            "title": "Info/Impress",
+            "content": "<img class=\"img-polaroid\" width=\"100ps\" height=\"100px\" style=\"float: right\" src=\"img/avatar.jpg\" alt=\"Flopp\"> <h4>Contact</h4> <p>News are distributed via the <a target=\"_blank\" href=\"http://blog.flopp-caching.de/\" alt=\"blog\">blog <i class=\"fa fa-globe\"></i></a> (in German).</p> <p>You can post questions and suggestions via <a href=\"mailto:mail@flopp-caching.de\" target=\"_blank\">mail <i class=\"fa fa-envelope\"></i></a> and my<a href=\"https://twitter.com/floppgc\" target=\"_blank\">Twitter account <i class=\"fa fa-twitter-square\"></i></a>. Additionally, I have set up fan pages at <a href=\"https://plus.google.com/u/0/116067328889875491676\" target=\"_blank\">Google+ <i class=\"fa fa-google-plus-square\"></i></a> and <a href=\"https://www.facebook.com/FloppsTolleKarte\" target=\"_blank\">Facebook <i class=\"fa fa-facebook-square\"></i></a>.</p> <p>You can report bugs at the map's <a href=\"https://github.com/flopp/FloppsTolleKarte\" target=\"_blank\">github-page <i class=\"fa fa-github-square\"></i></a>, where you can also find the complete source code.</p> <hr /> <h4>Impress</h4> <p> Angaben gemäß § 5 TMG, Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV:<br /><br /> <a href=\"http://www.florian-pigorsch.de/\" target=\"_blank\">Florian Pigorsch</a><br /> Hurstbrunnenstraße 5<br /> 79117 Freiburg<br /> <a target=\"_blank\" href=\"mailto:mail@flopp.net\">mail@flopp.net</a> </p> <h4>Hillshading Map Tiles tiles</h4> <p> The hillshading map tiles are generously provided by the <a href=\"openmapsurfer.uni-hd.de\" target=\"_blank\">OpenMapSurfer project</a> of Heidelberg University unter the following copyright terms:<br>Map data &copy; <a href=\"http://srtm.csi.cgiar.org/\" target=\"_blank\">SRTM</a>; ASTER GDEM is a product <a href=\"http://www.meti.go.jp/english/press/data/20090626_03.html\" target=\"_blank\">METI</a> and <a href=\"https://lpdaac.usgs.gov/products/aster_policies\" target=\"_blank\">NASA</a>, Imagery <a href=\"http://giscience.uni-hd.de/\" target=\"_blank\">GIScience Research Group @ Heidelberg University</a> </p> <h4>Administrative Boundaries Map Tiles</h4> <p> The 'administrative boundaries' map tiles are generously provided by the <a href=\"http://openmapsurfer.uni-hd.de\" target=\"_blank\">OpenMapSurfer project</a> of Heidelberg University unter the following copyright terms:<br>Map data &copy; <a href=\"http://osm.org/\" target=\"_blank\">Openstreetmap</a> contributors; Imagery <a href=\"http://giscience.uni-hd.de/\" target=\"_blank\">GIScience Research Group @ Heidelberg University</a> </p> <h4>Nature Protection Areas (Germany)</h4> <p> The data of german nature protection areas are provided by the <a href=\"http://www.bfn.de/\" target=\"_blank\">Bundesamt für Naturschutz (Federal Agency for Nature Conservation)</a> under the <a href=\"http://www.gesetze-im-internet.de/geonutzv/\" target=\"_blank\">GeoNutzV</a> law. Additionally, we have an explicit written permission.<br />The displayed data sets are merged by the Bundesamt für Naturschutz from data sets of the individual federal states. The Bundesamt für Naturschutz does not provide any warranty regarding the precision and correctness of the data.<br />On the website of the Bundesamt you can find an <a href=\"http://www.geodienste.bfn.de/schutzgebiete\" target=\"_blank\">official map showing the protection areas</a>. </p> <h4>Geocaching Data</h4> <p> The displayed geocaching data is gathered by the <a target=\"_blank\" href=\"http://www.opencaching.de/okapi/introduction.html\">Opencaching-API (OKAPI)</a> from the national Opencaching sites <a target=\"_blank\" href=\"http://www.opencaching.de/\">Opencaching.de</a>, <a target=\"_blank\" href=\"http://www.opencaching.pl/\">Opencaching.pl</a>, <a target=\"_blank\" href=\"http://www.opencaching.nl/\">Opencaching.nl</a>, <a target=\"_blank\" href=\"http://www.opencaching.org.uk/\">Opencaching.org.uk</a>, <a target=\"_blank\" href=\"http://www.opencaching.us/\">Opencaching.us</a>, <a target=\"_blank\" href=\"http://www.opencaching.ro/\">Opencaching.ro</a> and is subject to the associated data licenses. </p> <h4>Cookies</h4> <p> This site uses cookies to store the current map view (center, markers, lines, etc.) in order to be able to restore on a recurring visit. You can, of course, delete these cookies in your browser settings. </p> <h4>Piwik</h4> <p> This website uses Piwik, a web analytics open-source software. Piwik uses “cookies”, which are text files placed on your computer, to help the website analyze how users use the site. The information generated by the cookie about your use of the website will be stored on the server of the service provider in Germany. You may refuse the use of cookies by selecting the appropriate settings on your browser, however please note that if you do this you may not be able to use the full functionality of this website. <iframe src=\"http://www.flopp-caching.de/piwik/index.php?module=CoreAdminHome&amp;action=optOut\" height=\"200\" width=\"500\" frameborder=\"no\"></iframe> </p>"
+        },
+        
+        "projection": {
+            "title": "Waypoint Projection",
+            "content": "Waypoint projection creates a new marker <b>d</b> meters away from the source marker with a bearing angle of <b>&beta;°</b>",
+            "bearing": "Bearing &beta;",
+            "bearing_placeholder": "Bearing angle in °; 0-360",
+            "distance": "Distance d",
+            "distance_placeholder": "Projection distance in meters",
+            "error_bad_bearing": "Bad 'bearing' value: \"%1\".<br />Allowed values: floating point numbers between 0 and 360.",
+            "error_bad_distance": "Bad 'distance' value: \"%1\".<br />Allowed values: floating point numbers &geq; 0.",
+            "msg_new_marker": "Created new marker: %1."
+        },
+        
+        "permalink": {
+            "title": "Permalink",
+            "content": "The following URL links to the current view of Flopp's Map including all markers, lines and the selected map type. Copy (<tt>CTRL+C</tt>) the URL and share it with your friends!<br /><b>Shorten</b> runs the long URL through an URL shortener (<a href=\"http://goo.gl/\" target=\"_blank\">goo.gl</a>) an produces a shortened URL.",
+            "shorten": "Shorten"
+        },
+        
+        "hillshading": {
+            "title": "Hill Shading",
+            "content": "The hill shading map tiles are generously provided by the <a href=\"http://openmapsurfer.uni-hd.de\" target=\"_blank\">OpenMapSurfer project</a> of Heidelberg University unter the following copyright terms:<br>Map data &copy; <a href=\"http://srtm.csi.cgiar.org/\" target=\"_blank\">SRTM</a>; ASTER GDEM is a product <a href=\"http://www.meti.go.jp/english/press/data/20090626_03.html\" target=\"_blank\">METI</a> and <a href=\"https://lpdaac.usgs.gov/products/aster_policies\" target=\"_blank\">NASA</a>, Imagery <a href=\"http://giscience.uni-hd.de/\" target=\"_blank\">GIScience Research Group @ Heidelberg University</a>"
+        },
+        
+        "boundaries": {
+            "title": "Administrative Boundaries",
+            "content": "The 'administrative boundaries' map tiles are generously provided by the <a href=\"openmapsurfer.uni-hd.de\" target=\"_blank\">OpenMapSurfer project</a> of Heidelberg University unter the following copyright terms:<br>Map data &copy; <a href=\"http://osm.org/\" target=\"_blank\">Openstreetmap</a> contributors; Imagery <a href=\"http://giscience.uni-hd.de/\" target=\"_blank\">GIScience Research Group @ Heidelberg University</a>"
+        },
+        
+        "npa": { 
+            "title": "Nature Protection Areas",
+            "content": "German nature protection areas are shown as a green map overlay:<br /><img src=\"img/nsg.png\" class=\"center-block img-thumbnail\"><br /><br />The data of german nature protection areas are provided by the <a href=\"http://www.bfn.de/\" target=\"_blank\">Bundesamt für Naturschutz (Federal Agency for Nature Conservation)</a> under the <a href=\"http://www.gesetze-im-internet.de/geonutzv/\" target=\"_blank\">GeoNutzV</a> law. Additionally, we have an explicit written permission.<br />The displayed data sets are merged by the Bundesamt für Naturschutz from data sets of the individual federal states. The Bundesamt für Naturschutz does not provide any warranty  regarding the precision and correctness of the data.<br />On the website of the Bundesamt you can find an <a href=\"http://www.geodienste.bfn.de/schutzgebiete\" target=\"_blank\">official map showing the protection areas</a>.",
+            "cdda_code": "CDDA Code:",
+            "since": "Since:",
+            "area": "Area:",
+            "msg_no_npa": "There is no nature protection area at the selected coordinates",
+            "error": "Error querying information about nature protection areas."
+        }
+    }
+}

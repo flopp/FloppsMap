@@ -55,9 +55,13 @@ function toggleHillshading(t)
   }
   
   if( hillshadingLayerShown == t ) return;
-  
   hillshadingLayerShown = t;
-  map.overlayMapTypes.setAt(0, t ? hillshadingLayer : null);
+  
+  if (t) {
+    map.overlayMapTypes.insertAt(0, hillshadingLayer);
+  } else {
+    map.overlayMapTypes.removeAt(map.overlayMapTypes.indexOf(hillshadingLayer));
+  }
 }
 
 function restoreHillshading(defaultValue)
@@ -89,9 +93,13 @@ function toggleBoundaries(t)
   }
   
   if( boundariesLayerShown == t ) return;
-  
   boundariesLayerShown = t;
-  map.overlayMapTypes.setAt(1, t ? boundariesLayer : null);
+  
+  if (t) {
+    map.overlayMapTypes.push(boundariesLayer);
+  } else {
+    map.overlayMapTypes.removeAt(map.overlayMapTypes.indexOf(boundariesLayer));
+  }
 }
 
 function restoreBoundaries(defaultValue)
@@ -126,9 +134,18 @@ function toggleNaturschutzgebiete(t)
   }
   
   if (naturschutzgebieteLayerShown == t) return;
-  
   naturschutzgebieteLayerShown = t;
-  map.overlayMapTypes.setAt(2, t ? naturschutzgebieteLayer : null);
+  
+  
+  if (t) {
+    if (map.overlayMapTypes.indexOf(hillshadingLayer) == -1) {
+        map.overlayMapTypes.insertAt(0, naturschutzgebieteLayer);
+    } else {
+        map.overlayMapTypes.insertAt(1, naturschutzgebieteLayer);
+    }
+  } else {
+    map.overlayMapTypes.removeAt(map.overlayMapTypes.indexOf(naturschutzgebieteLayer));
+  }
 }
 
 /* coordinate format */

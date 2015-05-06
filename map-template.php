@@ -1,12 +1,9 @@
-<?php
-require_once('lib/lang.php');
-?>
 <!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8" />
     <title data-i18n="app.title">FLOPP'S MAP</title>
-    <meta name="description" content="<?php TT('Fullscreen map with coordinates, waypoint projection, distance/bearing calculation, display of geocaches', 'Vollbild-Karte mit Koordinaten, Wegpunktprojektion, Berechnung von Entfernungen und Winkeln, Anzeige von Geocaches');?>"</meta>
+    <meta name="description" content="Fullscreen map with coordinates, waypoint projection, distance/bearing calculation, display of geocaches"</meta>
     
     <meta name="viewport" content="height = device-height,
     width = device-width,
@@ -79,12 +76,12 @@ if(!empty($_GET))
 }
 
 echo "\$(function() {";
-echo "initialize('$lang', '$cntr', '$zoom', '$maptype', '$markers', '$lines');";
+echo "initialize('$cntr', '$zoom', '$maptype', '$markers', '$lines');";
 echo "})";
 ?>
 
 $(document).ready( function() {
-    var option = {resGetPath: 'lang/__lng__/__ns__.json', fallbackLng: 'en', debug: true};
+    var option = {resGetPath: 'lang/__lng__.json', fallbackLng: 'en', debug: true};
  
     $.i18n.init(option, function(t) {
         $(document).i18n();
@@ -119,6 +116,7 @@ $(document).ready( function() {
       <form class="nav navbar-form navbar-right" style="margin:auto">
          <span class="btn btn-default btn-sm navbar-btn" onclick="langEN();" data-i18n="[html]nav.english">ENGLISH</span>
          <span class="btn btn-default btn-sm navbar-btn" onclick="langDE();" data-i18n="[html]nav.german">DEUTSCH</span>
+         <span class="btn btn-default btn-sm navbar-btn" onclick="langNL();" data-i18n="[html]nav.dutch">NEDERLANDS</span>
       </form>
     </div>
   </div>

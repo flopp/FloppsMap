@@ -9,7 +9,8 @@
         "help": "Help (in German)",
         "impress": "Info/Impress",
         "english": "English <i class=\"fa fa-check\"></i>",
-        "german": "Deutsch"
+        "german": "Deutsch",
+        "dutch": "Nederlands"
     },
     
     "sidebar": {

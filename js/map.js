@@ -140,17 +140,17 @@ function leaveEditMode(id, takenew) {
     var errors = Array();
 
     if (!name_ok) {
-      errors.push(trans("sidebar.markers.error_badname").replace(/%1/, name));
+      errors.push(mytrans("sidebar.markers.error_badname").replace(/%1/, name));
     }
     if (coordinates == null) {
-      errors.push(trans("sidebar.markers.error_badcoordinates").replace(/%1/, s_coordinates));
+      errors.push(mytrans("sidebar.markers.error_badcoordinates").replace(/%1/, s_coordinates));
     }
     if (radius == null) {
-      errors.push(trans("sidebar.markers.error_badradius").replace(/%1/, s_radius));
+      errors.push(mytrans("sidebar.markers.error_badradius").replace(/%1/, s_radius));
     }
 
     if (errors.length > 0) {
-      showAlert(trans("dialog.error"), errors.join("<br /><br />"));
+      showAlert(mytrans("dialog.error"), errors.join("<br /><br />"));
     }
     else {
       m.setNamePositionRadius(name, coordinates, radius);
@@ -174,7 +174,7 @@ function newMarker(coordinates, id, radius, name) {
     id = theMarkers.getFreeId();
   }
   if (id == -1) {
-    showAlert(trans("dialog.error"), trans("dialog.toomanymarkers_error.content"));
+    showAlert(mytrans("dialog.error"), mytrans("dialog.toomanymarkers_error.content"));
     return null;
   }
 
@@ -297,19 +297,19 @@ function projectFromMarker(id) {
       var dist = getFloat(data2, 0, 100000000000);
 
       if (angle == null) {
-        showAlert(trans("dialog.error"), trans("dialog.projection.error_bad_bearing").replace(/%1/, data1));
+        showAlert(mytrans("dialog.error"), mytrans("dialog.projection.error_bad_bearing").replace(/%1/, data1));
         return;
       }
 
       if (dist == null) {
-        showAlert(trans("dialog.error"), trabs("dialog.projection.error_bad_distance").replace(/%1/, data2));
+        showAlert(mytrans("dialog.error"), trabs("dialog.projection.error_bad_distance").replace(/%1/, data2));
         return;
       }
 
       var newpos = Coordinates.projection_geodesic(oldpos, angle, dist);
       var m = newMarker(newpos, -1, RADIUS_DEFAULT, null);
       if (m != null) {
-        showAlert(trans("dialog.information"), trans("dialog.projection.msg_new_marker").replace(/%1/, m.getAlpha()));
+        showAlert(mytrans("dialog.information"), mytrans("dialog.projection.msg_new_marker").replace(/%1/, m.getAlpha()));
       }        
     }
  );
@@ -340,18 +340,17 @@ function requestNsgInfo(lat, lng) {
         if (obj && obj.features && obj.features.length > 0) {
             var contentString = 
                 '<b>' + obj.features[0].properties.NAME + '</b><br/>' + 
-                trans("dialog.npa.cdda_code") + ' ' + obj.features[0].properties.CDDA_CODE + '<br />' +
-                trans("dialog.npa.since") + ' ' + obj.features[0].properties.JAHR + '<br />' +
-                trans("dialog.npa.area") + ' ' + obj.features[0].properties.FLAECHE + ' ha<br />';
+                mytrans("dialog.npa.cdda_code") + ' ' + obj.features[0].properties.CDDA_CODE + '<br />' +
+                mytrans("dialog.npa.since") + ' ' + obj.features[0].properties.JAHR + '<br />' +
+                mytrans("dialog.npa.area") + ' ' + obj.features[0].properties.FLAECHE + ' ha<br />';
             var infowindow = new google.maps.InfoWindow( { content: contentString, position: new google.maps.LatLng(lat, lng) } );
             infowindow.open(map);
         } else {
-            showAlert(trans("dialog.information"), trans("dialog.npa.msg_no_npa"));
+            showAlert(mytrans("dialog.information"), mytrans("dialog.npa.msg_no_npa"));
         }
     }).fail(function() {
-        showAlert(trans("dialog.error"), trans("dialog.npa.error"));
+        showAlert(mytrans("dialog.error"), mytrans("dialog.npa.error"));
     });
-    
 }
 
 function startNsgInfoMode() {
@@ -406,17 +405,13 @@ function updateCopyrights() {
 
   if (newMapType == "OSM" || newMapType == "OSM/DE") {
     copyrightDiv.innerHTML = "Map data (C) by <a href=\"http://www.openstreetmap.org/\">OpenStreetMap.org</a> and its contributors; <a href=\"http://opendatacommons.org/licenses/odbl/\">Open Database License</a>";
-  }
-  else if (newMapType == "OCM") {
+  } else if (newMapType == "OCM") {
     copyrightDiv.innerHTML = "Map data (C) by <a href=\"http://www.openstreetmap.org/\">OpenStreetMap.org</a> and its contributors; <a href=\"http://opendatacommons.org/licenses/odbl/\">Open Database License</a>, tiles (C) by <a href=\"http://opencyclemap.org\">OpenCycleMap.org</a>";
-  }
-  else if (newMapType == "MQ") {
+  } else if (newMapType == "MQ") {
     copyrightDiv.innerHTML = "Map data (C) by <a href=\"http://www.openstreetmap.org/\">OpenStreetMap.org</a> and its contributors; <a href=\"http://opendatacommons.org/licenses/odbl/\">Open Database License</a>, tiles (C) by <a href=\"http://mapquest.com\">MapQuest</a>";
-  }
-  else if (newMapType == "OUTD") {
+  } else if (newMapType == "OUTD") {
     copyrightDiv.innerHTML = "Map data (C) by <a href=\"http://www.openstreetmap.org/\">OpenStreetMap.org</a> and its contributors; <a href=\"http://opendatacommons.org/licenses/odbl/\">Open Database License</a>, tiles (C) by <a href=\"http://www.thunderforest.com/outdoors/\">Thunderforest</a>";
-  }
-  else {
+  } else {
     copyrightDiv.innerHTML = "";
   }
 }
@@ -424,8 +419,7 @@ function updateCopyrights() {
 function repairLat(x, d) {
   if (x == null || x == NaN || x < -90 || x > +90) {
     return d;
-  }
-  else {
+  } else {
     return x;
   }
 }
@@ -433,8 +427,7 @@ function repairLat(x, d) {
 function repairLon(x, d) {
   if (x == null || x == NaN || x < -180 || x > +180) {
     return d;
-  }
-  else {
+  } else {
     return x;
   }
 }
@@ -442,8 +435,7 @@ function repairLon(x, d) {
 function repairRadius(x, d) {
   if (x == null || x == NaN || x < 0 || x > 100000000) {
     return d;
-  }
-  else {
+  } else {
     return x;
   }
 }
@@ -451,8 +443,7 @@ function repairRadius(x, d) {
 function repairZoom(x, d) {
   if (x == null || x == NaN || x < 1 || x > 20) {
     return d;
-  }
-  else {
+  } else {
     return x;
   }
 }
@@ -460,17 +451,13 @@ function repairZoom(x, d) {
 function repairMaptype(t, d) {
   if (t == "OSM" || t == "OSM/DE" || t == "OCM") {
     return t;
-  }
-  else if (t == "MQ") {
+  } else if (t == "MQ") {
     return t;
-  }
-  else if (t == "OUTD") {
+  } else if (t == "OUTD") {
     return t;
-  }
-  else if (t == "satellite" || t == "hybrid" || t == "roadmap" || t == "terrain") {
+  } else if (t == "satellite" || t == "hybrid" || t == "roadmap" || t == "terrain") {
     return t;
-  }
-  else {
+  } else {
     return d;
   }
 }
@@ -483,9 +470,7 @@ function tileUrl(template, servers, coord, zoom) {
   return template.replace(/%s/, s).replace(/%x/, x).replace(/%y/, y).replace(/%z/, zoom);
 }
 
-function initialize(xlang, xcenter, xzoom, xmap, xmarkers, xlines) {
-  lang = xlang;
-
+function initialize(xcenter, xzoom, xmap, xmarkers, xlines) {
   var center = null;
   var atDefaultCenter = false;
   var zoom = parseInt(xzoom);
@@ -687,7 +672,6 @@ function initialize(xlang, xcenter, xzoom, xmap, xmarkers, xlines) {
     name: "hill",
     alt: "Hillshading",
     maxZoom: 16 });
-  map.overlayMapTypes.push(null);
 
   boundariesLayer = new google.maps.ImageMapType({
     getTileUrl: function(coord, zoom) { 
@@ -704,7 +688,6 @@ function initialize(xlang, xcenter, xzoom, xmap, xmarkers, xlines) {
     name: "adminb",
     alt: "Administrative Boundaries",
     maxZoom: 16 });
-  map.overlayMapTypes.push(null);
   
   naturschutzgebieteLayer = new google.maps.ImageMapType({
     getTileUrl: function(coord, zoom) {
@@ -732,7 +715,6 @@ function initialize(xlang, xcenter, xzoom, xmap, xmarkers, xlines) {
     tileSize: new google.maps.Size(256, 256),
     isPng: true,
     opacity: 0.6 });
-  map.overlayMapTypes.push(null);
   
   // Create div for showing copyrights.
   copyrightDiv = document.createElement("div");
