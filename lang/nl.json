@@ -17,47 +17,47 @@
         "search": {
             "title": "Zoeken",
             "whereami": "Waar ben ik?",
-            "placeholder": "Coordinates or location name"
+            "placeholder": "Coördinaten of plaats"
         },
         "markers": {
             "title": "Markers",
             "new": "Nieuw",
-            "deleteall": "Delete all",
-            "edit_marker": "Edit marker",
-            "delete_marker": "Delete marker",
-            "move_to": "Move map to marker",
-            "center": "Put marker on center of map",
-            "project": "Waypoint projection from marker",
-            "name": "Name of marker",
+            "deleteall": "Verwijder alles",
+            "edit_marker": "Bewerk marker",
+            "delete_marker": "Verwijder marker",
+            "move_to": "Beweeg kaart naar marker",
+            "center": "Verplaats marker in midden van kaart",
+            "project": "Waypoint projectie vanaf marker",
+            "name": "Naam van marker",
             "name_placeholder": "Naam",
-            "coordinates": "Coordinates of marker",
-            "coordinates_placeholder": "Coordinates",
-            "radius": "Radius (m) of circle around marker",
+            "coordinates": "Coördinaten of marker",
+            "coordinates_placeholder": "Coördinaten",
+            "radius": "Radius (m) van cirkel rond marker",
             "radius_placeholder": "Radius (m)",
-            "error_badname": "Bad character in 'name': \"%1\".<br />Allowed characters: a-z, A-Z, 0-9, - and _.",
-            "error_badcoordinates": "Bad coordinate format: \"%1\".",
-            "error_badradius": "Bad value of 'radius': \"%1\".<br />Allowed values: integers &geq; 0."
+            "error_badname": "Verkeerd tekens in 'naam': \"%1\".<br />Toegestane tekens: a-z, A-Z, 0-9, - en _.",
+            "error_badcoordinates": "Verkeerd coördinatenformaat: \"%1\".",
+            "error_badradius": "Verkeerde waarde 'radius': \"%1\".<br />Toegestane waardes: Hele getallen &geq; 0."
         },
         "lines": {
-            "title": "Lines",
+            "title": "Lijnen",
             "new": "Nieuw",
-            "deleteall": "Delete all",
-            "source": "Source",
-            "destination": "Destination",
-            "delete_line": "Delete line"
+            "deleteall": "Verwijder alles",
+            "source": "Startpunt",
+            "destination": "Eindpunt",
+            "delete_line": "Verwijder lijn"
         },
         "misc": {
-            "title": "Misc",
-            "gpx": "Export to GPX file",
-            "permalink": "Create Permalink",
-            "coordinates": "Format of Coordinates",
-            "layers": "Additional Layers",
+            "title": "Diversen",
+            "gpx": "Exporteer als GPX bestand",
+            "permalink": "Maak permalink",
+            "coordinates": "Coördinatenformaat",
+            "layers": "Extra toevoegingen",
             "hillshading": "Hill Shading",
-            "boundaries": "Administrative Boundaries",
-            "npa": "Nature Protection Areas",
-            "npainfo": "Show NPA info on next click",
+            "boundaries": "Administratieve grenzen",
+            "npa": "Beschermd Natuur Gebied",
+            "npainfo": "Toon BNG informatie bij volgende klik",
             "geocaches": "Geocaches (<a href=\"http://www.opencaching.eu/\" target=\"_blank\">Opencaching</a>)",
-            "external": "External Services"
+            "external": "Externe diensten"
         }
     },
     
@@ -68,18 +68,18 @@
         "information": "Informatie",
         
         "search_error": {
-            "title": "Search",
-            "content": "Cannot find location of \"%1\"."
+            "title": "Zoeken",
+            "content": "Kan locatie van \"%1\" niet vinden."
         },
         
         "whereami_error": {
-            "title": "Where am I?",
-            "content": "Failed to determine current location."
+            "title": "Waar ben ik?",
+            "content": "Kan huidig plaats niet bepalen."
         },
         
         "toomanymarkers_error": {
             "title": "Error",
-            "content": "Maximum number of markers (26) reached."
+            "content": "Maximum aantal markers (26) bereikt."
         },
         
         "info": {
@@ -88,7 +88,7 @@
         },
         
         "projection": {
-            "title": "Waypoint Projection",
+            "title": "Waypoint projectie",
             "content": "Waypoint projection creates a new marker <b>d</b> meters away from the source marker with a bearing angle of <b>&beta;°</b>",
             "bearing": "Bearing &beta;",
             "bearing_placeholder": "Bearing angle in °; 0-360",
@@ -111,12 +111,12 @@
         },
         
         "boundaries": {
-            "title": "Administrative Boundaries",
+            "title": "Administrative grenzen",
             "content": "The 'administrative boundaries' map tiles are generously provided by the <a href=\"openmapsurfer.uni-hd.de\" target=\"_blank\">OpenMapSurfer project</a> of Heidelberg University unter the following copyright terms:<br>Map data &copy; <a href=\"http://osm.org/\" target=\"_blank\">Openstreetmap</a> contributors; Imagery <a href=\"http://giscience.uni-hd.de/\" target=\"_blank\">GIScience Research Group @ Heidelberg University</a>"
         },
         
         "npa": { 
-            "title": "Nature Protection Areas",
+            "title": "Bescherm Natuur Gebied",
             "content": "German nature protection areas are shown as a green map overlay:<br /><img src=\"img/nsg.png\" class=\"center-block img-thumbnail\"><br /><br />The data of german nature protection areas are provided by the <a href=\"http://www.bfn.de/\" target=\"_blank\">Bundesamt für Naturschutz (Federal Agency for Nature Conservation)</a> under the <a href=\"http://www.gesetze-im-internet.de/geonutzv/\" target=\"_blank\">GeoNutzV</a> law. Additionally, we have an explicit written permission.<br />The displayed data sets are merged by the Bundesamt für Naturschutz from data sets of the individual federal states. The Bundesamt für Naturschutz does not provide any warranty  regarding the precision and correctness of the data.<br />On the website of the Bundesamt you can find an <a href=\"http://www.geodienste.bfn.de/schutzgebiete\" target=\"_blank\">official map showing the protection areas</a>.",
             "cdda_code": "CDDA Code:",
             "since": "Since:",
