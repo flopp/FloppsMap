@@ -290,12 +290,12 @@ $(document).ready( function() {
           <p data-i18n="[html]dialog.projection.content">PROJECTION CONTENT</p>
           <form role="form">
             <div class="form-group">
-              <label for="projectionBearing" class="control-label" date-i18n="[html]dialog.projection.bearing">BEARING</label>
+              <label for="projectionBearing" class="control-label" data-i18n="[html]dialog.projection.bearing">BEARING</label>
               <input type="text" class="form-control" id="projectionBearing" data-i18n="[placeholder]dialog.projection.bearing_placeholder">
             </div>
             <div class="form-group">
               <label for="projectionDistance" class="control-label" data-i18n="dialog.projection.distance">DISTANCE</label>
-              <input type="text" class="form-control" id="projectionDistance" data-i18n="[placeholder]dialog.projection.distamce_placeholder">
+              <input type="text" class="form-control" id="projectionDistance" data-i18n="[placeholder]dialog.projection.distance_placeholder">
             </div>
           </form>
         </div>

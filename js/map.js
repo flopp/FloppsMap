@@ -302,7 +302,7 @@ function projectFromMarker(id) {
       }
 
       if (dist == null) {
-        showAlert(mytrans("dialog.error"), trabs("dialog.projection.error_bad_distance").replace(/%1/, data2));
+        showAlert(mytrans("dialog.error"), mytrans("dialog.projection.error_bad_distance").replace(/%1/, data2));
         return;
       }
 
