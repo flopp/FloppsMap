@@ -86,7 +86,14 @@ Line.prototype.update = function() {
         strokeColor: '#ff0000', 
         strokeWeight: 2, 
         strokeOpacity: 0.7, 
-        geodesic: true } );
+        geodesic: true,
+        icons: [{
+            icon: {
+                path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
+            },
+            repeat: '0'
+        }] 
+      } );
       this.m_lineMapObject.setMap( map );
     }
 
