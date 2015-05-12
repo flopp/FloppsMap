@@ -1,8 +1,90 @@
+function TxtOverlay(pos, txt, cls, map) {
+    this.pos = pos;
+    this.txt_ = txt;
+    this.cls_ = cls;
+    this.map_ = map;
+    this.div_ = null;
+    this.setMap(map);
+}
+    
+TxtOverlay.prototype = new google.maps.OverlayView();
+
+TxtOverlay.prototype.updatePos = function() {
+    if (this.div_) {
+        var overlayProjection = this.getProjection();
+        var pixelPos = overlayProjection.fromLatLngToDivPixel(this.pos);
+        this.div_.style.left = pixelPos.x + 'px';
+        this.div_.style.top = pixelPos.y + 'px';
+    }
+}
+
+TxtOverlay.prototype.updateText = function() {
+    if (this.div_) {
+        this.div_.innerHTML = this.txt_;
+    }
+}
+
+TxtOverlay.prototype.onAdd = function() {
+    this.div_ = document.createElement('DIV');
+    this.div_.style.position = "absolute";
+    this.div_.style.transform = "translate(-50%,-50%)";
+    this.div_.className = this.cls_;
+
+    this.updatePos();
+    this.updateText();
+    
+    var panes = this.getPanes();
+    panes.floatPane.appendChild(this.div_);
+}
+
+TxtOverlay.prototype.setText = function(text) {
+    this.txt_ = text;
+    this.updateText();
+}
+
+TxtOverlay.prototype.setPos = function(pos) {
+    this.pos = pos;
+    this.updatePos();
+}
+
+TxtOverlay.prototype.draw = function() {
+    this.updatePos();
+}
+            
+TxtOverlay.prototype.onRemove = function() {
+    this.div_.parentNode.removeChild(this.div_);
+    this.div_ = null;
+}
+
+TxtOverlay.prototype.hide = function() {
+    if (this.div_) {
+        this.div_.style.visibility = "hidden";
+    }
+}
+
+TxtOverlay.prototype.show = function() {
+    if (this.div_) {
+        this.div_.style.visibility = "visible";
+    }
+}
+
+TxtOverlay.prototype.toggle = function() {
+    if (this.div_) {
+        if (this.div_.style.visibility == "hidden") {
+            this.show();
+        }
+        else {
+            this.hide();
+        }
+    }
+}
+
 function Line(id, source, target) {
   this.m_id = id;
   this.m_lineMapObject = null;
   this.m_source = -1;
   this.m_target = -1;
+  this.m_distanceLabel = null;
 
   $('#dynLineDiv').append( 
     "<div id=\"dynLine" + id + "\">" +
@@ -39,6 +121,7 @@ Line.prototype.m_id = -1;
 Line.prototype.m_lineMapObject = null;
 Line.prototype.m_source = -1;
 Line.prototype.m_target = -1;
+Line.prototype.m_distanceLabel = null;
 
 Line.prototype.getId = function() {
   return this.m_id;
@@ -48,6 +131,11 @@ Line.prototype.clearMapObject = function() {
   if (this.m_lineMapObject) {
     this.m_lineMapObject.setMap(null);
     this.m_lineMapObject = null;
+  }
+  
+  if (this.m_distanceLabel) {
+      this.m_distanceLabel.setMap(null);
+      this.m_distanceLabel = null;
   }
 }
 
@@ -81,6 +169,9 @@ Line.prototype.update = function() {
     $("#dynlineangle" + this.m_id).html( "n/a" );
   }
   else {
+    var pos1 = theMarkers.getById(this.m_source).getPosition();
+    var pos2 = theMarkers.getById(this.m_target).getPosition();
+    
     if (this.m_lineMapObject === null) {   
       this.m_lineMapObject = new google.maps.Polyline( { 
         strokeColor: '#ff0000', 
@@ -95,31 +186,30 @@ Line.prototype.update = function() {
         }] 
       } );
       this.m_lineMapObject.setMap( map );
+      
+      this.m_distanceLabel = new TxtOverlay(pos2, "hallo", "mapDistanceLabel", map);
     }
-
-    var pos1 = theMarkers.getById(this.m_source).getPosition();
-    var pos2 = theMarkers.getById(this.m_target).getPosition();
-
+    
     var path = new google.maps.MVCArray;
     path.push(pos1);
     path.push(pos2);
     this.m_lineMapObject.setPath(path); 
 
-    if( this.m_source == this.m_target ) {
-      $("#dynlinedist" + this.m_id).html( "0m" );
-      $("#dynlineangle" + this.m_id).html( "n/a" );
+    var dist_angle = { dist: 0, angle: 0 };
+    if (this.m_source != this.m_target) {
+      dist_angle = Coordinates.dist_angle_geodesic(pos1, pos2);
     }
-    else {
-      var da = Coordinates.dist_angle_geodesic(pos1, pos2);
-
-      var dist = da.dist.toFixed();
-      $("#dynlinedist" + this.m_id).html( dist + "m" );
-      if( dist == 0 ) {
-        $("#dynlineangle" + this.m_id).html( "n/a" );
-      }
-      else {
-        $("#dynlineangle" + this.m_id).html( da.angle.toFixed( 1 ) + "°" );
-      }
+    
+    var centerPos = Coordinates.projection_geodesic(pos1, dist_angle.angle, 0.5 * dist_angle.dist);
+    this.m_distanceLabel.setPos(centerPos);
+    this.m_distanceLabel.setText(dist_angle.dist.toFixed() + "m");  
+    
+    if (dist_angle.dist == 0) {
+      $("#dynlinedist" + this.m_id).html("0m");
+      $("#dynlineangle" + this.m_id).html("n/a");
+    } else {
+      $("#dynlinedist" + this.m_id).html(dist_angle.dist.toFixed() + "m");
+      $("#dynlineangle" + this.m_id).html(dist_angle.angle.toFixed(1) + "°");
     }
   }
 }
