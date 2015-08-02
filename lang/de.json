@@ -46,7 +46,7 @@
         },
         "misc": {
             "title": "Verschiedenes",
-            "gpx": "GPX-Datei exportiern",
+            "gpx": "GPX-Datei exportieren",
             "permalink": "Permalink erstellen",
             "coordinates": "Koordinatenformat",
             "layers": "Zusätzliche Ebenen",
