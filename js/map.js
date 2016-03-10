@@ -661,7 +661,7 @@ function initialize(xcenter, xzoom, xmap, xmarkers, xlines) {
     getTileUrl: function(coord, zoom) { 
       if (6 <= zoom && zoom <= 16) 
       {
-        return tileUrl("http://openmapsurfer.uni-hd.de/tiles/asterh/?x=%x&y=%y&z=%z", ["dummy"], coord, zoom);
+        return tileUrl("http://korona.geog.uni-heidelberg.de/tiles/asterh/?x=%x&y=%y&z=%z", ["dummy"], coord, zoom);
       }
       else 
       { 
@@ -677,7 +677,7 @@ function initialize(xcenter, xzoom, xmap, xmarkers, xlines) {
     getTileUrl: function(coord, zoom) { 
       if (6 <= zoom && zoom <= 16) 
       {
-        return tileUrl("http://openmapsurfer.uni-hd.de/tiles/adminb/?x=%x&y=%y&z=%z", ["dummy"], coord, zoom);
+        return tileUrl("http://korona.geog.uni-heidelberg.de/tiles/adminb/?x=%x&y=%y&z=%z", ["dummy"], coord, zoom);
       }
       else 
       { 
