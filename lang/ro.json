@@ -8,10 +8,10 @@
         "blog": "Blog",
         "help": "Ajutor (în germană)",
         "impress": "Info",
-        "english": "English <i class=\"fa fa-check\"></i>",
+        "english": "English",
         "german": "Deutsch",
-        "dutch": "Nederlands (onvolledig)"
-		"romanian": "Română"
+        "dutch": "Nederlands",
+		"romanian": "Română <i class=\"fa fa-check\"></i>"
     },
     
     "sidebar": {

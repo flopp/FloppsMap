@@ -117,6 +117,7 @@ $(document).ready( function() {
          <span class="btn btn-default btn-sm navbar-btn" onclick="langEN();" data-i18n="[html]nav.english">ENGLISH</span>
          <span class="btn btn-default btn-sm navbar-btn" onclick="langDE();" data-i18n="[html]nav.german">DEUTSCH</span>
          <span class="btn btn-default btn-sm navbar-btn" onclick="langNL();" data-i18n="[html]nav.dutch">NEDERLANDS</span>
+         <span class="btn btn-default btn-sm navbar-btn" onclick="langRO();" data-i18n="[html]nav.romanian">ROMANIAN</span>
       </form>
     </div>
   </div>

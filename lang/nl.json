@@ -10,7 +10,8 @@
         "impress": "Info/Impress",
         "english": "English",
         "german": "Deutsch",
-        "dutch": "Nederlands <i class=\"fa fa-check\"></i>"
+        "dutch": "Nederlands <i class=\"fa fa-check\"></i>",
+        "romanian": "Română"
     },
     
     "sidebar": {
