@@ -11,8 +11,8 @@ Geolocation.prototype.search = function (address) {
       if (status == google.maps.GeocoderStatus.OK) {
           map.setCenter(results[0].geometry.location);
       } else {
-          var title = trans("dialog.search_error.title");
-          var content = trans("dialog.search_error.content").replace(/%1/, address);
+          var title = mytrans("dialog.search_error.title");
+          var content = mytrans("dialog.search_error.content").replace(/%1/, address);
           showAlert(title, content);
       }
     });
@@ -28,14 +28,14 @@ Geolocation.prototype.whereAmI = function () {
         map.setCenter(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
       }, 
       function() {
-          var title = trans("dialog.whereami_error.title");
-          var content = trans("dialog.whereami_error.content");
+          var title = mytrans("dialog.whereami_error.title");
+          var content = mytrans("dialog.whereami_error.content");
           showAlert(title, content);
       }
     );
   } else {
-    var title = trans("dialog.whereami_error.title");
-    var content = trans("dialog.whereami_error.content");
+    var title = mytrans("dialog.whereami_error.title");
+    var content = mytrans("dialog.whereami_error.content");
     showAlert(title, content);
   }
 }
