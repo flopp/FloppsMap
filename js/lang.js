@@ -16,6 +16,12 @@ function langNL()
   $.i18n.setLng("nl", function(t) { $(document).i18n(); });
 }
 
+function langRO()
+{
+  trackAction("langRO");
+  $.i18n.setLng("ro", function(t) { $(document).i18n(); });
+}
+
 function mytrans(key) {
     if (typeof($.t) === typeof(Function)) {
         return $.t(key);
