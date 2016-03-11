@@ -1,5 +1,4 @@
 .sass-cache
-css/main.css
-deploy
-ext/jquery-cookie
-js/compressed.js
+.local
+.deploy
+private

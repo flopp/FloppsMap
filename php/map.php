@@ -26,7 +26,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.1/jquery.min.js"></script>
     
     <!-- jquery.cookie -->
-    <script src="ext/jquery-cookie/jquery.cookie.js"></script>
+    <script src="js/jquery.cookie.js"></script>
 
     <!-- i18next -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/i18next/1.11.2/i18next.min.js"></script>

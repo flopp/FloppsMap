@@ -9,6 +9,6 @@ RewriteRule ^index.html$ map.php
 RewriteRule ^beta.php$ map.php
 
 ### wartung
-#RewriteRule ^$ wartung.html
-#RewriteRule ^index.html$ wartung.html
-#RewriteRule ^index.php$ wartung.html
+#RewriteRule ^$ maintenance.html
+#RewriteRule ^index.html$ maintenance.html
+#RewriteRule ^index.php$ maintenance.html
