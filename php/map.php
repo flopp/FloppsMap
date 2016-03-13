@@ -65,6 +65,7 @@ $zoom = "";
 $maptype = "";
 $markers = "";
 $lines = "";
+$features = "[default]";
 
 if(!empty($_GET)) 
 {
@@ -73,10 +74,11 @@ if(!empty($_GET))
   if(isset($_GET['t'])) { $maptype = $_GET['t']; }    
   if(isset($_GET['m'])) { $markers = $_GET['m']; }
   if(isset($_GET['d'])) { $lines = $_GET['d']; }
+  if(isset($_GET['f'])) { $features = $_GET['f']; }
 }
 
 echo "\$(function() {";
-echo "initialize('$cntr', '$zoom', '$maptype', '$markers', '$lines');";
+echo "initialize('$cntr', '$zoom', '$maptype', '$features', '$markers', '$lines');";
 echo "})";
 ?>
 

@@ -373,6 +373,14 @@ function endNsgInfoMode() {
     google.maps.event.removeListener(nsgInfoModeClickListener);
 }
 
+function getFeaturesString() {
+    var s = "";
+    if ($('#boundaries').is(':checked')) { s += "b"; }
+    if ($('#showCaches').is(':checked')) { s += "g"; }
+    if ($('#hillshading').is(':checked')) { s += "h"; }
+    if ($('#naturschutzgebiete').is(':checked')) { s += "n"; }
+    return s;
+}
 
 function getPermalink() {
   var lat = map.getCenter().lat();
@@ -383,7 +391,8 @@ function getPermalink() {
 
   var link = "http://flopp.net/?c=" + lat.toFixed(6) + ":" + lng.toFixed(6) 
   + "&z=" + zoom 
-  + "&t=" + map.getMapTypeId() 
+  + "&t=" + map.getMapTypeId()
+  + "&f=" + getFeaturesString()
   + "&m=" + theMarkers.toString() 
   + "&d=" + theLines.getLinesText();
 
@@ -470,7 +479,7 @@ function tileUrl(template, servers, coord, zoom) {
   return template.replace(/%s/, s).replace(/%x/, x).replace(/%y/, y).replace(/%z/, zoom);
 }
 
-function initialize(xcenter, xzoom, xmap, xmarkers, xlines) {
+function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines) {
   var center = null;
   var atDefaultCenter = false;
   var zoom = parseInt(xzoom);
@@ -822,9 +831,17 @@ function initialize(xcenter, xzoom, xmap, xmarkers, xlines) {
   updateCopyrights();
 
   restoreSidebar(true);
-  restoreHillshading(true);
-  restoreBoundaries(false);
-  restoreGeocaches(true);
+  if (xfeatures == '[default]') {
+    restoreHillshading(true);
+    restoreBoundaries(false);
+    restoreGeocaches(false);
+    toggleNaturschutzgebiete(false);
+  } else {
+    toggleHillshading(xfeatures.indexOf('h') >= 0 || xfeatures.indexOf('H') >= 0);
+    toggleBoundaries(xfeatures.indexOf('b') >= 0 || xfeatures.indexOf('B') >= 0);
+    okapi_toggle_load_caches(xfeatures.indexOf('g') >= 0 || xfeatures.indexOf('G') >= 0);
+    toggleNaturschutzgebiete(xfeatures.indexOf('n') >= 0 || xfeatures.indexOf('N') >= 0);
+  }
   restoreCoordinatesFormat(0);
 
   setupExternalLinkTargets();
