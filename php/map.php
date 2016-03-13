@@ -216,15 +216,15 @@ $(document).ready( function() {
     </div>
     <div class="checkbox">
         <label>
-            <input id="naturschutzgebiete" type="checkbox"> 
+            <input id="npa" type="checkbox"> 
             <span data-i18n="sidebar.misc.npa">NATURE PROTECTION AREAS</span>
-            <button class="btn btn-info btn-xs" onClick="showNaturschutzgebieteDialog()">
+            <button class="btn btn-info btn-xs" onClick="showNPADialog()">
                 <i class="fa fa-info"></i>
             </button>
         </label>
     </div>
-    <div id="nsg_details" style="display: none;">
-        <button class="btn btn-block btn-sm btn-info" style="margin-bottom: 10px;" onClick="startNsgInfoMode()" data-i18n="sidebar.misc.npainfo">SHOW NPA INFO ON NEXT CLICK</button>
+    <div id="npa_details" style="display: none;">
+        <button class="btn btn-block btn-sm btn-info" style="margin-bottom: 10px;" onClick="startNPAInfoMode()" data-i18n="sidebar.misc.npainfo">SHOW NPA INFO ON NEXT CLICK</button>
     </div>
     <div class="checkbox">
         <label>
@@ -366,7 +366,7 @@ $(document).ready( function() {
   </div>
 </div>
 
-<div id="dialogNaturschutzgebiete" class="modal">
+<div id="dialogNPA" class="modal">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">

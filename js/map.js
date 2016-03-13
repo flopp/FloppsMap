@@ -2,12 +2,12 @@ var hillshadingLayer = null;
 var hillshadingLayerShown = false;
 var boundariesLayer = null;
 var boundariesLayerShown = false;
-var naturschutzgebieteLayer = null;
-var naturschutzgebieteLayerShown = false;
+var npaLayer = null;
+var npaLayerShown = false;
 var map = null;
 var copyrightDiv;
-var nsgInfoMode = false;
-var nsgInfoModeClickListener = null;
+var npaInfoMode = false;
+var npaInfoModeClickListener = null;
 
 var theGeolocation = new Geolocation();
 var theMarkers = new Markers();
@@ -326,7 +326,7 @@ function storeZoom() {
   $.cookie('zoom', map.getZoom(), {expires:30});
 }
 
-function requestNsgInfo(lat, lng) {
+function requestNPAInfo(lat, lng) {
     var url = 
         'http://geodienste.bfn.de/ogc/wms/schutzgebiet?REQUEST=GetFeatureInfo&SERVICE=WMS&VERSION=1.3.0&CRS=CRS:84' +
         '&BBOX=' + lng + ',' + lat + ',' + (lng+0.001) + ',' + (lat+0.001) +
@@ -353,24 +353,24 @@ function requestNsgInfo(lat, lng) {
     });
 }
 
-function startNsgInfoMode() {
-    if (nsgInfoMode) return;
+function startNPAInfoMode() {
+    if (npaInfoMode) return;
     
     map.setOptions({draggableCursor: 'crosshair'});
-    nsgInfoMode = true;
-    nsgInfoModeClickListener = google.maps.event.addListener(map, 'click', function(event) {  
-        requestNsgInfo(event.latLng.lat(), event.latLng.lng());
-        endNsgInfoMode();
+    npaInfoMode = true;
+    npaInfoModeClickListener = google.maps.event.addListener(map, 'click', function(event) {  
+        requestNPAInfo(event.latLng.lat(), event.latLng.lng());
+        endNPAInfoMode();
     });
 }
 
 
-function endNsgInfoMode() {
-    if (!nsgInfoMode) return;
+function endNPAInfoMode() {
+    if (!npaInfoMode) return;
     
     map.setOptions({draggableCursor: ''});
-    nsgInfoMode = false;
-    google.maps.event.removeListener(nsgInfoModeClickListener);
+    npaInfoMode = false;
+    google.maps.event.removeListener(npaInfoModeClickListener);
 }
 
 function getFeaturesString() {
@@ -378,7 +378,7 @@ function getFeaturesString() {
     if ($('#boundaries').is(':checked')) { s += "b"; }
     if ($('#showCaches').is(':checked')) { s += "g"; }
     if ($('#hillshading').is(':checked')) { s += "h"; }
-    if ($('#naturschutzgebiete').is(':checked')) { s += "n"; }
+    if ($('#npa').is(':checked')) { s += "n"; }
     return s;
 }
 
@@ -698,7 +698,7 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines) {
     alt: "Administrative Boundaries",
     maxZoom: 16 });
   
-  naturschutzgebieteLayer = new google.maps.ImageMapType({
+  npaLayer = new google.maps.ImageMapType({
     getTileUrl: function(coord, zoom) {
       var proj = map.getProjection();
       var tileSize = 256;
@@ -835,12 +835,12 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines) {
     restoreHillshading(true);
     restoreBoundaries(false);
     restoreGeocaches(false);
-    toggleNaturschutzgebiete(false);
+    toggleNPALayer(false);
   } else {
     toggleHillshading(xfeatures.indexOf('h') >= 0 || xfeatures.indexOf('H') >= 0);
     toggleBoundaries(xfeatures.indexOf('b') >= 0 || xfeatures.indexOf('B') >= 0);
     okapi_toggle_load_caches(xfeatures.indexOf('g') >= 0 || xfeatures.indexOf('G') >= 0);
-    toggleNaturschutzgebiete(xfeatures.indexOf('n') >= 0 || xfeatures.indexOf('N') >= 0);
+    toggleNPALayer(xfeatures.indexOf('n') >= 0 || xfeatures.indexOf('N') >= 0);
   }
   restoreCoordinatesFormat(0);
 

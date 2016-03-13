@@ -120,31 +120,31 @@ function restoreBoundaries(defaultValue)
   }
 }
 
-function toggleNaturschutzgebiete(t)
+function toggleNPALayer(t)
 {
-  if ($('#naturschutzgebiete').is(':checked') != t)
+  if ($('#npa').is(':checked') != t)
   {
-    $('#naturschutzgebiete').attr('checked', t);
+    $('#npa').attr('checked', t);
   }
  
   if (t) {
-    $('#nsg_details').show();
+    $('#npa_details').show();
   } else {
-    $('#nsg_details').hide();
+    $('#npa_details').hide();
   }
   
-  if (naturschutzgebieteLayerShown == t) return;
-  naturschutzgebieteLayerShown = t;
+  if (npaLayerShown == t) return;
+  npaLayerShown = t;
   
   
   if (t) {
     if (map.overlayMapTypes.indexOf(hillshadingLayer) == -1) {
-        map.overlayMapTypes.insertAt(0, naturschutzgebieteLayer);
+        map.overlayMapTypes.insertAt(0, npaLayer);
     } else {
-        map.overlayMapTypes.insertAt(1, naturschutzgebieteLayer);
+        map.overlayMapTypes.insertAt(1, npaLayer);
     }
   } else {
-    map.overlayMapTypes.removeAt(map.overlayMapTypes.indexOf(naturschutzgebieteLayer));
+    map.overlayMapTypes.removeAt(map.overlayMapTypes.indexOf(npaLayer));
   }
 }
 
@@ -247,9 +247,9 @@ function showBoundariesDialog()
   $('#dialogBoundaries').modal({show : true, backdrop: "static", keyboard: true});
 }
 
-function showNaturschutzgebieteDialog()
+function showNPADialog()
 {
-  $('#dialogNaturschutzgebiete').modal({show : true, backdrop: "static", keyboard: true});
+  $('#dialogNPA').modal({show : true, backdrop: "static", keyboard: true});
 }
 
 /* setup button events */
@@ -257,7 +257,7 @@ $(document).ready(function() {
   $("#sidebartoggle").click(function() { if ($('#sidebar').is(':visible')) hideSidebar(); else showSidebar(); });      
   $("#hillshading").click(function() { toggleHillshading($('#hillshading').is(':checked')); });        
   $("#boundaries").click(function() { toggleBoundaries($('#boundaries').is(':checked')); });
-  $("#naturschutzgebiete").click(function() { toggleNaturschutzgebiete($('#naturschutzgebiete').is(':checked')); });
+  $("#npa").click(function() { toggleNPALayer($('#npa').is(':checked')); });
   $("#showCaches").click(function() { okapi_toggle_load_caches($('#showCaches').is(':checked')); });
   $('#coordinatesFormat').change(function() { setCoordinatesFormat($('#coordinatesFormat').val()); });
   $('#buttonWhereAmI').click(function() { theGeolocation.whereAmI(); });
