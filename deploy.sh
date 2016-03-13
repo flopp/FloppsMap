@@ -76,8 +76,14 @@ cp $L/jquery-cookie/src/jquery.cookie.js $D/js
 
 
 # upload!
-source ~/.server.data
-lftp -u $LOGIN:$PASSWD $SERVER -e "mirror -v -R ${D} $BASE ; quit"
-lftp -u $LOGIN:$PASSWD $SERVER -e "mirror -v -R ${D}/img $BASE/img ; quit"
-lftp -u $LOGIN:$PASSWD $SERVER -e "mirror -v -R ${D}/js $BASE/js ; quit"
-lftp -u $LOGIN:$PASSWD $SERVER -e "mirror -v -R ${D}/lang $BASE/lang ; quit"
+if [[ "$@" = *uberspace* ]]; then 
+    SERVER=flopp@grus.uberspace.de
+    BASE=html/map
+    scp -r ${D}/* $SERVER:$BASE
+else
+    source ~/.server.data
+    lftp -u $LOGIN:$PASSWD $SERVER -e "mirror -v -R ${D} $BASE ; quit"
+    lftp -u $LOGIN:$PASSWD $SERVER -e "mirror -v -R ${D}/img $BASE/img ; quit"
+    lftp -u $LOGIN:$PASSWD $SERVER -e "mirror -v -R ${D}/js $BASE/js ; quit"
+    lftp -u $LOGIN:$PASSWD $SERVER -e "mirror -v -R ${D}/lang $BASE/lang ; quit"
+fi
