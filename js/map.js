@@ -376,7 +376,7 @@ function endNPAInfoMode() {
 function getFeaturesString() {
     var s = "";
     if ($('#boundaries').is(':checked')) { s += "b"; }
-    if ($('#showCaches').is(':checked')) { s += "g"; }
+    if ($('#geocaches').is(':checked')) { s += "g"; }
     if ($('#hillshading').is(':checked')) { s += "h"; }
     if ($('#npa').is(':checked')) { s += "n"; }
     return s;

@@ -277,9 +277,9 @@ function okapi_toggle_load_caches(t)
 {
   $.cookie('load_caches', t ? "1" : "0", {expires:30});
   
-  if ($('#showCaches').is(':checked') != t)
+  if ($('#geocaches').is(':checked') != t)
   {
-    $('#showCaches').attr('checked', t);
+    $('#geocaches').attr('checked', t);
   }
   
   if (okapi_load_caches_enabled != t)

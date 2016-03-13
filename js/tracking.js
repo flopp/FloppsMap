@@ -43,6 +43,7 @@ $(document).ready(function() {
   
   $("#sidebartoggle").click(function() { trackAction("sidebar.toggle"); });      
   $("#hillshading").click(function() { trackAction("hillshading.toggle"); });        
-  $("#showKreisgrenzen").click(function() { trackAction("boundaries.toggle"); });
-  $("#showCaches").click(function() { trackAction("geocaches.toggle"); });
+  $("#npa").click(function() { trackAction("npa.toggle"); });
+  $("#boundaries").click(function() { trackAction("boundaries.toggle"); });
+  $("#geocaches").click(function() { trackAction("geocaches.toggle"); });
 });

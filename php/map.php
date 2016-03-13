@@ -228,7 +228,7 @@ $(document).ready( function() {
     </div>
     <div class="checkbox">
         <label>
-            <input id="showCaches" type="checkbox"> 
+            <input id="geocaches" type="checkbox"> 
             <span data-i18n="[html]sidebar.misc.geocaches">GEOCACHES FROM OPENCACHING</span>
         </label>
     </div>
