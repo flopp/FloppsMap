@@ -12,6 +12,7 @@ JS=(
     js/cookies.js
     js/geolocation.js
     js/coordinates.js
+    js/freifunk.js
     js/lines.js
     js/markers.js
     js/map.js
@@ -94,14 +95,14 @@ cp $L/geographiclib.js $D/js
 
 
 #### upload
-if [[ "$@" = *uberspace* ]]; then
-    SERVER=flopp@grus.uberspace.de
-    BASE=html/map
-    scp -r ${D}/* $SERVER:$BASE
-else
+if [[ "$@" = *production* ]]; then
     source ~/.server.data
     lftp -u $LOGIN:$PASSWD $SERVER -e "mirror -v -R ${D} $BASE ; quit"
     lftp -u $LOGIN:$PASSWD $SERVER -e "mirror -v -R ${D}/img $BASE/img ; quit"
     lftp -u $LOGIN:$PASSWD $SERVER -e "mirror -v -R ${D}/js $BASE/js ; quit"
     lftp -u $LOGIN:$PASSWD $SERVER -e "mirror -v -R ${D}/lang $BASE/lang ; quit"
+else
+    SERVER=flopp@grus.uberspace.de
+    BASE=html/map
+    scp -r ${D}/* $SERVER:$BASE
 fi

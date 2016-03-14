@@ -234,6 +234,18 @@ $(document).ready( function() {
     </div>
     <div class="checkbox">
         <label>
+            <input id="freifunk" type="checkbox">
+            <span data-i18n="sidebar.misc.freifunk">FREIFUNK</span>
+            <button class="btn btn-info btn-xs" onClick="showFreifunkDialog()">
+                <i class="fa fa-info"></i>
+            </button>
+        </label>
+    </div>
+    <div id="freifunk_details" style="display: none;">
+        <button class="btn btn-block btn-sm btn-info" style="margin-bottom: 10px;" onClick="startFreifunkInfoMode()" data-i18n="sidebar.misc.freifunkinfo">SHOW FREIFUNK INFO ON NEXT CLICK</button>
+    </div>
+    <div class="checkbox">
+        <label>
             <input id="geocaches" type="checkbox">
             <span data-i18n="[html]sidebar.misc.geocaches">GEOCACHES FROM OPENCACHING</span>
         </label>
@@ -380,6 +392,22 @@ $(document).ready( function() {
       </div>
       <div class="modal-body">
         <div data-i18n="[html]dialog.npa.content">NPA CONTENT</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal" data-i18n="dialog.ok">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="dialogFreifunk" class="modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 data-i18n="dialog.freifunk.title">FREIFUNK</h3>
+      </div>
+      <div class="modal-body">
+        <div data-i18n="[html]dialog.freifunk.content">FREIFUNK CONTENT</div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" data-dismiss="modal" data-i18n="dialog.ok">OK</button>

@@ -131,11 +131,11 @@ function toggleNPALayer(t)
     $('#npa_details').show();
   } else {
     $('#npa_details').hide();
+    endNPAInfoMode();
   }
 
   if (npaLayerShown == t) return;
   npaLayerShown = t;
-
 
   if (t) {
     if (map.overlayMapTypes.indexOf(hillshadingLayer) == -1) {
@@ -261,4 +261,5 @@ $(document).ready(function() {
   $("#geocaches").click(function() { okapi_toggle_load_caches($('#geocaches').is(':checked')); });
   $('#coordinatesFormat').change(function() { setCoordinatesFormat($('#coordinatesFormat').val()); });
   $('#buttonWhereAmI').click(function() { theGeolocation.whereAmI(); });
+  $("#freifunk").click(function() { toggleFreifunkLayer($('#freifunk').is(':checked')); });
 });

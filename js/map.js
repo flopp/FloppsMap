@@ -379,6 +379,7 @@ function getFeaturesString() {
     if ($('#geocaches').is(':checked')) { s += "g"; }
     if ($('#hillshading').is(':checked')) { s += "h"; }
     if ($('#npa').is(':checked')) { s += "n"; }
+    if ($('#freifunk').is(':checked')) { s += "f"; }
     return s;
 }
 
@@ -836,11 +837,13 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines) {
     restoreBoundaries(false);
     restoreGeocaches(false);
     toggleNPALayer(false);
+    toggleFreifunkLayer(false);
   } else {
     toggleHillshading(xfeatures.indexOf('h') >= 0 || xfeatures.indexOf('H') >= 0);
     toggleBoundaries(xfeatures.indexOf('b') >= 0 || xfeatures.indexOf('B') >= 0);
     okapi_toggle_load_caches(xfeatures.indexOf('g') >= 0 || xfeatures.indexOf('G') >= 0);
     toggleNPALayer(xfeatures.indexOf('n') >= 0 || xfeatures.indexOf('N') >= 0);
+    toggleFreifunkLayer(xfeatures.indexOf('f') >= 0 || xfeatures.indexOf('F') >= 0);
   }
   restoreCoordinatesFormat(0);
 
