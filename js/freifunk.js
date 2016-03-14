@@ -53,14 +53,14 @@ function endFreifunkInfoMode() {
 
 function showFreifunkPopup(lat, lng) {
     var contentString =
+        "<div>Copy and paste the following commands into your router's console to change its geo location:</div>" + 
         "<textarea readonly rows=5 cols=70>" + 
         "uci set gluon-node-info.@location[0]='location'\n" +
         "uci set gluon-node-info.@location[0].share_location='1'\n" +
         "uci set gluon-node-info.@location[0].latitude='" + lat + "'\n" +
         "uci set gluon-node-info.@location[0].longitude='" + lng + "'\n" +
-        "uci commit" +
+        "uci commit" + 
         "</textarea>";
-    
     var infowindow = new google.maps.InfoWindow( { content: contentString, position: new google.maps.LatLng(lat, lng) } );
     infowindow.open(map);
 }
