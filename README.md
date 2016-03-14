@@ -36,7 +36,7 @@ Flopp's Map uses the following third party components/services:
 - *Hillshading* and *Administrative Boundary* tiles by [GIScience Research Group @ Heidelberg University](http://korona.geog.uni-heidelberg.de/)
 
 
-## Authors/Contributers
+## Authors/Contributors
 - Florian Pigorsch <mail@flopp-caching.de>
 - Harrie Klomp: Dutch translation
 - [andrixnet](https://github.com/andrixnet): Romanian translation
