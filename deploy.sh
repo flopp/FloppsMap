@@ -10,7 +10,6 @@ mkdir -p $D/lang
 JS=(
     js/conversion.js
     js/cookies.js
-    js/geographiclib.js
     js/geolocation.js
     js/coordinates.js
     js/lines.js
@@ -19,8 +18,7 @@ JS=(
     js/okapi.js
     js/tracking.js
     js/ui.js
-    js/lang.js
-    js/jquery.ajax-cross-origin.js)
+    js/lang.js)
 
 IMG=(
     img/avatar.jpg
@@ -64,9 +62,13 @@ cat ${JS[@]} | yui-compressor --type js -o $D/js/compressed.js
 cp -a ${IMG[@]} $D/img/
 cp -a ${LNG[@]} $D/lang/
 
+
+
+#### external stuff
 L=.local
 mkdir -p $L
-# jquery cookie
+
+# jquery cookie plugin
 if [ -d $L/jquery-cookie/.git ] ; then
     (cd $L/jquery-cookie/ ; git pull origin master)
 else
@@ -74,9 +76,25 @@ else
 fi
 cp $L/jquery-cookie/src/jquery.cookie.js $D/js
 
+# jquery ajax cross origin plugin
+if [ ! -f $L/ajax-cross-origin/js/jquery.ajax-cross-origin.min.js ] ; then
+    if [ ! -f $L/ajax-cross-origin.zip ] ; then
+        (cd $L ; wget http://www.ajax-cross-origin.com/ajax-cross-origin.zip)
+    fi
+    (cd $L ; unzip ajax-cross-origin.zip)
+fi
+cp $L/ajax-cross-origin/js/jquery.ajax-cross-origin.min.js $D/js
 
-# upload!
-if [[ "$@" = *uberspace* ]]; then 
+# geographiclib
+if [ ! -f $L/geographiclib.js ] ; then
+  (cd $L ; wget http://geographiclib.sourceforge.net/scripts/geographiclib.js)
+fi
+cp $L/geographiclib.js $D/js
+
+
+
+#### upload
+if [[ "$@" = *uberspace* ]]; then
     SERVER=flopp@grus.uberspace.de
     BASE=html/map
     scp -r ${D}/* $SERVER:$BASE

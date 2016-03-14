@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <title data-i18n="app.title">FLOPP'S MAP</title>
     <meta name="description" content="Fullscreen map with coordinates, waypoint projection, distance/bearing calculation, display of geocaches"</meta>
-    
+
     <meta name="viewport" content="height = device-height,
     width = device-width,
     initial-scale = 1.0,
@@ -12,39 +12,45 @@
     maximum-scale = 1.0,
     user-scalable = no,
     target-densitydpi = device-dpi" />
-  
+
     <link rel="author" href="https://plus.google.com/100782631618812527586" />
     <link rel="icon" href="img/favicon.png" type="image/png" />
     <link rel="shortcut icon" href="img/favicon.png" type="image/png" />
     <link rel="image_src" href="img/screenshot.png" />
-    
+
     <!-- google maps -->
     <script type="text/javascript" src="https://maps.google.com/maps/api/js?key=AIzaSyC_KjqwiB6tKCcrq2aa8B3z-c7wNN8CTA0&amp;language=en"></script>
     <script src="https://apis.google.com/js/client.js"></script>
 
     <!-- jquery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.1/jquery.min.js"></script>
-    
+
     <!-- jquery.cookie -->
     <script src="js/jquery.cookie.js"></script>
 
+    <!-- jquery.ajax-cross-origin -->
+    <script src="js/jquery.ajax-cross-origin.min.js"></script>
+
+    <!-- geographiclib -->
+    <script src="js/geographiclib.js"></script>
+
     <!-- i18next -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/i18next/1.11.2/i18next.min.js"></script>
-    
+
     <!-- bootstrap + font-awesome -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css" />
- 
-    <!-- fonts --> 
+
+    <!-- fonts -->
     <link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Norican">
-    
+
     <!-- my own stuff -->
-    <script type="text/javascript" src="js/compressed.js?t=TSTAMP"></script>        
+    <script type="text/javascript" src="js/compressed.js?t=TSTAMP"></script>
     <link type="text/css" rel="stylesheet" href="css/main.css?t=TSTAMP">
-    
+
 <!-- Piwik -->
-<script type="text/javascript"> 
+<script type="text/javascript">
   var _paq = _paq || [];
   _paq.push(['trackPageView']);
   _paq.push(['enableLinkTracking']);
@@ -67,11 +73,11 @@ $markers = "";
 $lines = "";
 $features = "[default]";
 
-if(!empty($_GET)) 
+if(!empty($_GET))
 {
   if(isset($_GET['c'])) { $cntr = $_GET['c']; }
   if(isset($_GET['z'])) { $zoom = $_GET['z']; }
-  if(isset($_GET['t'])) { $maptype = $_GET['t']; }    
+  if(isset($_GET['t'])) { $maptype = $_GET['t']; }
   if(isset($_GET['m'])) { $markers = $_GET['m']; }
   if(isset($_GET['d'])) { $lines = $_GET['d']; }
   if(isset($_GET['f'])) { $features = $_GET['f']; }
@@ -84,7 +90,7 @@ echo "})";
 
 $(document).ready( function() {
     var option = {resGetPath: 'lang/__lng__.json', fallbackLng: 'en', debug: true};
- 
+
     $.i18n.init(option, function(t) {
         $(document).i18n();
     });
@@ -107,7 +113,7 @@ $(document).ready( function() {
       <img src="img/favicon.png" style="position: absolute; top: 9px; left:4px;">
       <a class="navbar-brand" href="#" style="margin-left:32px;"><div style="width: 32px"></div><span data-i18n="nav.title">FLOPP'S MAP</span></a>
     </div>
-        
+
     <div class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li><a id="navbarBlog" role="button" href="http://blog.flopp-caching.de/" target="_blank"><span data-i18n="nav.blog">BLOG</span> <i class="fa fa-star"></i></a></li>
@@ -129,7 +135,7 @@ $(document).ready( function() {
 <div id="map-wrapper">
   <div id="themap"></div>
 </div>
-  
+
 
 <a id="sidebartoggle" href="javascript:">
   <span id="sidebartogglebutton"><i class="fa fa-chevron-right"></i></span>
@@ -140,7 +146,7 @@ $(document).ready( function() {
 <div class="my-section">
   <div class="my-section-header" data-i18n="sidebar.search.title">SEARCH</div>
   <button id="buttonWhereAmI" class="btn btn-info btn-sm my-section-buttons-top" type="button"><i class="fa fa-crosshairs"></i> <span data-i18n="sidebar.search.whereami">WHERE AM I?</span></button>
-    
+
   <div>
     <form action="javascript:theGeolocation.search($('#txtSearch').val())">
       <div class="input-group" style="margin-bottom: 5px">
@@ -165,7 +171,7 @@ $(document).ready( function() {
     <button id="buttonMarkersDeleteAll2" class="btn btn-sm btn-danger" type="button" onClick="theMarkers.deleteAll()"><i class="fa fa-trash-o"></i> <span data-i18n="sidebar.markers.deleteall">DELETE ALL</span></button>
   </div>
 </div> <!-- section -->
-  
+
 <div class="my-section">
   <div class="my-section-header" data-i18n="sidebar.lines.title">LINES</div>
   <div class="btn-group btn-group-sm my-section-buttons-top">
@@ -197,17 +203,17 @@ $(document).ready( function() {
   <div style="margin-bottom: 10px">
     <div class="checkbox">
         <label>
-            <input id="hillshading" type="checkbox"> 
+            <input id="hillshading" type="checkbox">
             <span data-i18n="sidebar.misc.hillshading">HILL SHADING</span>
             <button class="btn btn-info btn-xs" onClick="showHillshadingDialog()">
                 <i class="fa fa-info"></i>
             </button>
         </label>
     </div>
-    
+
     <div class="checkbox">
         <label>
-            <input id="boundaries" type="checkbox"> 
+            <input id="boundaries" type="checkbox">
             <span data-i18n="sidebar.misc.boundaries">ADMINISTRATIVE BOUNDARIES</span>
             <button class="btn btn-info btn-xs" onClick="showBoundariesDialog()">
                 <i class="fa fa-info"></i>
@@ -216,7 +222,7 @@ $(document).ready( function() {
     </div>
     <div class="checkbox">
         <label>
-            <input id="npa" type="checkbox"> 
+            <input id="npa" type="checkbox">
             <span data-i18n="sidebar.misc.npa">NATURE PROTECTION AREAS</span>
             <button class="btn btn-info btn-xs" onClick="showNPADialog()">
                 <i class="fa fa-info"></i>
@@ -228,12 +234,12 @@ $(document).ready( function() {
     </div>
     <div class="checkbox">
         <label>
-            <input id="geocaches" type="checkbox"> 
+            <input id="geocaches" type="checkbox">
             <span data-i18n="[html]sidebar.misc.geocaches">GEOCACHES FROM OPENCACHING</span>
         </label>
     </div>
   </div>
-  
+
   <b data-i18n="sidebar.misc.external">EXTERNAL SERVICES</b>
   <div>
     <div class="input-group">
