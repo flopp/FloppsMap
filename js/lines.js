@@ -6,7 +6,7 @@ function TxtOverlay(pos, txt, cls, map) {
     this.div_ = null;
     this.setMap(map);
 }
-    
+
 TxtOverlay.prototype = new google.maps.OverlayView();
 
 TxtOverlay.prototype.updatePos = function() {
@@ -32,7 +32,7 @@ TxtOverlay.prototype.onAdd = function() {
 
     this.updatePos();
     this.updateText();
-    
+
     var panes = this.getPanes();
     panes.floatPane.appendChild(this.div_);
 }
@@ -50,7 +50,7 @@ TxtOverlay.prototype.setPos = function(pos) {
 TxtOverlay.prototype.draw = function() {
     this.updatePos();
 }
-            
+
 TxtOverlay.prototype.onRemove = function() {
     this.div_.parentNode.removeChild(this.div_);
     this.div_ = null;
@@ -86,7 +86,7 @@ function Line(id, source, target) {
   this.m_target = -1;
   this.m_distanceLabel = null;
 
-  $('#dynLineDiv').append( 
+  $('#dynLineDiv').append(
     "<div id=\"dynLine" + id + "\">" +
     "<table style=\"width: 100%\">" +
     "<tr>" +
@@ -132,7 +132,7 @@ Line.prototype.clearMapObject = function() {
     this.m_lineMapObject.setMap(null);
     this.m_lineMapObject = null;
   }
-  
+
   if (this.m_distanceLabel) {
       this.m_distanceLabel.setMap(null);
       this.m_distanceLabel = null;
@@ -144,7 +144,7 @@ Line.prototype.getEndpointsString = function() {
 }
 
 
-Line.prototype.setSource = function(markerId) {     
+Line.prototype.setSource = function(markerId) {
   if (markerId != this.m_source)
   {
     this.m_source = markerId;
@@ -153,7 +153,7 @@ Line.prototype.setSource = function(markerId) {
   }
 }
 
-Line.prototype.setTarget = function(markerId) {     
+Line.prototype.setTarget = function(markerId) {
   if (markerId != this.m_target) {
     this.m_target = markerId;
     this.update();
@@ -171,39 +171,39 @@ Line.prototype.update = function() {
   else {
     var pos1 = theMarkers.getById(this.m_source).getPosition();
     var pos2 = theMarkers.getById(this.m_target).getPosition();
-    
-    if (this.m_lineMapObject === null) {   
-      this.m_lineMapObject = new google.maps.Polyline( { 
-        strokeColor: '#ff0000', 
-        strokeWeight: 2, 
-        strokeOpacity: 0.7, 
+
+    if (this.m_lineMapObject === null) {
+      this.m_lineMapObject = new google.maps.Polyline( {
+        strokeColor: '#ff0000',
+        strokeWeight: 2,
+        strokeOpacity: 0.7,
         geodesic: true,
         icons: [{
             icon: {
                 path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
             },
             repeat: '0'
-        }] 
+        }]
       } );
       this.m_lineMapObject.setMap( map );
-      
+
       this.m_distanceLabel = new TxtOverlay(pos2, "hallo", "mapDistanceLabel", map);
     }
-    
+
     var path = new google.maps.MVCArray;
     path.push(pos1);
     path.push(pos2);
-    this.m_lineMapObject.setPath(path); 
+    this.m_lineMapObject.setPath(path);
 
     var dist_angle = { dist: 0, angle: 0 };
     if (this.m_source != this.m_target) {
       dist_angle = Coordinates.dist_angle_geodesic(pos1, pos2);
     }
-    
+
     var centerPos = Coordinates.projection_geodesic(pos1, dist_angle.angle, 0.5 * dist_angle.dist);
     this.m_distanceLabel.setPos(centerPos);
-    this.m_distanceLabel.setText(dist_angle.dist.toFixed() + "m");  
-    
+    this.m_distanceLabel.setText(dist_angle.dist.toFixed() + "m");
+
     if (dist_angle.dist == 0) {
       $("#dynlinedist" + this.m_id).html("0m");
       $("#dynlineangle" + this.m_id).html("n/a");
@@ -235,7 +235,7 @@ Line.prototype.updateMarkerRemoved = function(markerId) {
   var target = $('#dynlinetarget' + this.m_id);
 
   source.empty();
-  target.empty(); 
+  target.empty();
 
   source.append('<option value="-1">?</option>');
   target.append('<option value="-1">?</option>');
@@ -243,7 +243,7 @@ Line.prototype.updateMarkerRemoved = function(markerId) {
   var i;
   for (i = 0; i < theMarkers.getSize(); i = i + 1) {
     var m = theMarkers.getById(i);
-    if (!m.isFree()) {   
+    if (!m.isFree()) {
       source.append('<option value="'+i+'">'+m.getAlpha()+'</option>');
       target.append('<option value="'+i+'">'+m.getAlpha()+'</option>');
     }
@@ -267,7 +267,7 @@ Line.prototype.updateMarkerAdded = function(markerId) {
   var i;
   for (i = 0; i < theMarkers.getSize(); i = i + 1) {
     var m = theMarkers.getById(i);
-    if (!m.isFree()) {   
+    if (!m.isFree()) {
       source.append('<option value="'+i+'">'+m.getAlpha()+'</option>');
       target.append('<option value="'+i+'">'+m.getAlpha()+'</option>');
     }
@@ -319,7 +319,7 @@ Lines.prototype.getLinesText = function(){
 }
 
 Lines.prototype.saveCookie = function() {
-  $.cookie("lines", this.getLinesText(), {expires: 30});
+  Cookies.set("lines", this.getLinesText(), {expires: 30});
 }
 
 Lines.prototype.selectLineSourceById = function(id, markerId) {

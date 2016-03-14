@@ -92,10 +92,10 @@ function alpha2id(alpha) {
     return -1;
   }
   else if (alpha[0] >= 'A' && alpha[0] <= 'Z') {
-    return alpha.charCodeAt(0) - 'A'.charCodeAt(0); 
+    return alpha.charCodeAt(0) - 'A'.charCodeAt(0);
   }
   else if (alpha[0] >= 'a' && alpha[0] <= 'z') {
-    return alpha.charCodeAt(0) - 'a'.charCodeAt(0); 
+    return alpha.charCodeAt(0) - 'a'.charCodeAt(0);
   }
   else {
     return -1;
@@ -116,12 +116,12 @@ function enterEditMode(id) {
   trackMarker('edit');
   var m = theMarkers.getById(id);
 
-  $('#edit_name' + m.getAlpha()).val(m.getName()); 
-  $('#edit_coordinates' + m.getAlpha()).val(Coordinates.toString(m.getPosition())); 
+  $('#edit_name' + m.getAlpha()).val(m.getName());
+  $('#edit_coordinates' + m.getAlpha()).val(Coordinates.toString(m.getPosition()));
   $('#edit_circle' + m.getAlpha()).val(m.getRadius());
 
   $('#dynview' + id).hide();
-  $('#dynedit' + id).show();    
+  $('#dynedit' + id).show();
 }
 
 function leaveEditMode(id, takenew) {
@@ -200,7 +200,7 @@ function newMarker(coordinates, id, radius, name) {
   var offsety = Math.floor(id / 7)*iconh;
 
 
-  var div = 
+  var div =
       "<div id=\"dyn" + id + "\">" +
       "<table id=\"dynview" + id + "\" style=\"width: 100%; vertical-align: middle;\">\n" +
       "    <tr>\n" +
@@ -310,36 +310,36 @@ function projectFromMarker(id) {
       var m = newMarker(newpos, -1, RADIUS_DEFAULT, null);
       if (m != null) {
         showAlert(mytrans("dialog.information"), mytrans("dialog.projection.msg_new_marker").replace(/%1/, m.getAlpha()));
-      }        
+      }
     }
  );
 }
 
 function storeCenter() {
   c = map.getCenter();
-  $.cookie('clat', c.lat(), {expires:30});
-  $.cookie('clon', c.lng(), {expires:30});
+  Cookies.set('clat', c.lat(), {expires:30});
+  Cookies.set('clon', c.lng(), {expires:30});
 }
 
 
 function storeZoom() {
-  $.cookie('zoom', map.getZoom(), {expires:30});
+  Cookies.set('zoom', map.getZoom(), {expires:30});
 }
 
 function requestNPAInfo(lat, lng) {
-    var url = 
+    var url =
         'http://geodienste.bfn.de/ogc/wms/schutzgebiet?REQUEST=GetFeatureInfo&SERVICE=WMS&VERSION=1.3.0&CRS=CRS:84' +
         '&BBOX=' + lng + ',' + lat + ',' + (lng+0.001) + ',' + (lat+0.001) +
         '&WIDTH=256&HEIGHT=256&INFO_FORMAT=application/geojson&FEATURE_COUNT=1&QUERY_LAYERS=Naturschutzgebiete&X=0&Y=0';
     $.ajax({
-        url: url, 
+        url: url,
         crossOrigin: true,
         proxy: 'proxy.php'
     }).done(function(data) {
         var obj = $.parseJSON(data);
         if (obj && obj.features && obj.features.length > 0) {
-            var contentString = 
-                '<b>' + obj.features[0].properties.NAME + '</b><br/>' + 
+            var contentString =
+                '<b>' + obj.features[0].properties.NAME + '</b><br/>' +
                 mytrans("dialog.npa.cdda_code") + ' ' + obj.features[0].properties.CDDA_CODE + '<br />' +
                 mytrans("dialog.npa.since") + ' ' + obj.features[0].properties.JAHR + '<br />' +
                 mytrans("dialog.npa.area") + ' ' + obj.features[0].properties.FLAECHE + ' ha<br />';
@@ -355,10 +355,10 @@ function requestNPAInfo(lat, lng) {
 
 function startNPAInfoMode() {
     if (npaInfoMode) return;
-    
+
     map.setOptions({draggableCursor: 'crosshair'});
     npaInfoMode = true;
-    npaInfoModeClickListener = google.maps.event.addListener(map, 'click', function(event) {  
+    npaInfoModeClickListener = google.maps.event.addListener(map, 'click', function(event) {
         requestNPAInfo(event.latLng.lat(), event.latLng.lng());
         endNPAInfoMode();
     });
@@ -367,7 +367,7 @@ function startNPAInfoMode() {
 
 function endNPAInfoMode() {
     if (!npaInfoMode) return;
-    
+
     map.setOptions({draggableCursor: ''});
     npaInfoMode = false;
     google.maps.event.removeListener(npaInfoModeClickListener);
@@ -389,11 +389,11 @@ function getPermalink() {
   var lngE6 = Math.round(lng * 1000000);
   var zoom = map.getZoom();
 
-  var link = "http://flopp.net/?c=" + lat.toFixed(6) + ":" + lng.toFixed(6) 
-  + "&z=" + zoom 
+  var link = "http://flopp.net/?c=" + lat.toFixed(6) + ":" + lng.toFixed(6)
+  + "&z=" + zoom
   + "&t=" + map.getMapTypeId()
   + "&f=" + getFeaturesString()
-  + "&m=" + theMarkers.toString() 
+  + "&m=" + theMarkers.toString()
   + "&d=" + theLines.getLinesText();
 
   return link;
@@ -410,7 +410,7 @@ function updateCopyrights() {
   }
 
   newMapType = map.getMapTypeId();
-  $.cookie('maptype', newMapType, {expires:30});
+  Cookies.set('maptype', newMapType, {expires:30});
 
   if (newMapType == "OSM" || newMapType == "OSM/DE") {
     copyrightDiv.innerHTML = "Map data (C) by <a href=\"http://www.openstreetmap.org/\">OpenStreetMap.org</a> and its contributors; <a href=\"http://opendatacommons.org/licenses/odbl/\">Open Database License</a>";
@@ -485,7 +485,7 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines) {
   var zoom = parseInt(xzoom);
   var maptype = xmap;
 
-  // parse markers 
+  // parse markers
   var markerdata = new Array();
   var markercenter = null;
   {
@@ -530,11 +530,11 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines) {
       }
       else
       {
-        m.coords = Coordinates.fromString(data2[index]); 
+        m.coords = Coordinates.fromString(data2[index]);
         if (m.coords == null) continue;
 
         index = index + 1;
-      }            
+      }
 
       var circle = parseFloat(data2[index]);
       if (circle < 0 || circle > 100000000000) continue;
@@ -567,7 +567,7 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines) {
     var data = xcenter.split(':');
 
     if (data.length == 1) {
-      center = Coordinates.fromString(xcenter); 
+      center = Coordinates.fromString(xcenter);
     }
     else {
       var lat = parseFloat(data[0]);
@@ -591,7 +591,7 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines) {
     if (clat == CLAT_DEFAULT && clon == CLON_DEFAULT) {
       atDefaultCenter = true;
     }
-    
+
     clat = repairLat(clat, CLAT_DEFAULT);
     clon = repairLon(clon, CLON_DEFAULT);
     center = new google.maps.LatLng(clat, clon);
@@ -618,7 +618,7 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines) {
   map = new google.maps.Map(document.getElementById("themap"), myOptions);
 
   osm_type = new google.maps.ImageMapType({
-    getTileUrl: function(coord, zoom) { 
+    getTileUrl: function(coord, zoom) {
       return tileUrl("http://%s.tile.openstreetmap.org/%z/%x/%y.png", ["a","b","c"], coord, zoom);
     },
     tileSize: new google.maps.Size(256, 256),
@@ -626,7 +626,7 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines) {
     alt: "OpenStreetMap",
     maxZoom: 18 });
   osmde_type = new google.maps.ImageMapType({
-    getTileUrl: function(coord, zoom) { 
+    getTileUrl: function(coord, zoom) {
       return tileUrl("http://%s.tile.openstreetmap.de/tiles/osmde/%z/%x/%y.png", ["a","b","c"], coord, zoom);
     },
     tileSize: new google.maps.Size(256, 256),
@@ -634,7 +634,7 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines) {
     alt: "OpenStreetMap (german style)",
     maxZoom: 18 });
   ocm_type = new google.maps.ImageMapType({
-    getTileUrl: function(coord, zoom) { 
+    getTileUrl: function(coord, zoom) {
       return tileUrl("http://%s.tile.opencyclemap.org/cycle/%z/%x/%y.png", ["a","b","c"], coord, zoom);
     },
     tileSize: new google.maps.Size(256, 256),
@@ -642,7 +642,7 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines) {
     alt: "OpenCycleMap",
     maxZoom: 17 });
   mq_type = new google.maps.ImageMapType({
-    getTileUrl: function(coord, zoom) { 
+    getTileUrl: function(coord, zoom) {
       return tileUrl("http://otile%s.mqcdn.com/tiles/1.0.0/osm/%z/%x/%y.png", ["1","2","3","4"], coord, zoom);
     },
     tileSize: new google.maps.Size(256, 256),
@@ -650,7 +650,7 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines) {
     alt: "MapQuest (OSM)",
     maxZoom: 18 });
   outdoors_type = new google.maps.ImageMapType({
-    getTileUrl: function(coord, zoom) { 
+    getTileUrl: function(coord, zoom) {
       return tileUrl("http://%s.tile.thunderforest.com/outdoors/%z/%x/%y.png", ["a","b","c"], coord, zoom);
     },
     tileSize: new google.maps.Size(256, 256),
@@ -667,15 +667,15 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines) {
   map.setMapTypeId(maptype);
 
   hillshadingLayer = new google.maps.ImageMapType({
-    getTileUrl: function(coord, zoom) { 
-      if (6 <= zoom && zoom <= 16) 
+    getTileUrl: function(coord, zoom) {
+      if (6 <= zoom && zoom <= 16)
       {
         return tileUrl("http://korona.geog.uni-heidelberg.de/tiles/asterh/?x=%x&y=%y&z=%z", ["dummy"], coord, zoom);
       }
-      else 
-      { 
-        return null; 
-      } 
+      else
+      {
+        return null;
+      }
     },
     tileSize: new google.maps.Size(256, 256),
     name: "hill",
@@ -683,21 +683,21 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines) {
     maxZoom: 16 });
 
   boundariesLayer = new google.maps.ImageMapType({
-    getTileUrl: function(coord, zoom) { 
-      if (6 <= zoom && zoom <= 16) 
+    getTileUrl: function(coord, zoom) {
+      if (6 <= zoom && zoom <= 16)
       {
         return tileUrl("http://korona.geog.uni-heidelberg.de/tiles/adminb/?x=%x&y=%y&z=%z", ["dummy"], coord, zoom);
       }
-      else 
-      { 
-        return null; 
-      } 
+      else
+      {
+        return null;
+      }
     },
     tileSize: new google.maps.Size(256, 256),
     name: "adminb",
     alt: "Administrative Boundaries",
     maxZoom: 16 });
-  
+
   npaLayer = new google.maps.ImageMapType({
     getTileUrl: function(coord, zoom) {
       var proj = map.getProjection();
@@ -724,7 +724,7 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines) {
     tileSize: new google.maps.Size(256, 256),
     isPng: true,
     opacity: 0.6 });
-  
+
   // Create div for showing copyrights.
   copyrightDiv = document.createElement("div");
   copyrightDiv.id = "map-copyright";
@@ -733,23 +733,23 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines) {
   copyrightDiv.style.margin = "0 2px 2px 0";
   copyrightDiv.style.whiteSpace = "nowrap";
   copyrightDiv.style.background = "#FFFFFF";
-  map.controls[google.maps.ControlPosition.BOTTOM_RIGHT].push(copyrightDiv);    
+  map.controls[google.maps.ControlPosition.BOTTOM_RIGHT].push(copyrightDiv);
 
   map.setCenter(center, zoom);
 
   google.maps.event.addListener(map, "center_changed", function() { storeZoom(); storeCenter(); okapi_schedule_load_caches(); });
   google.maps.event.addListener(map, "zoom_changed", function() { storeZoom(); storeCenter(); okapi_schedule_load_caches(); });
-  google.maps.event.addListener(map, "maptypeid_changed", function(){ updateCopyrights()});    
+  google.maps.event.addListener(map, "maptypeid_changed", function(){ updateCopyrights()});
 
   if (loadfromcookies) {
-    raw_ids = $.cookie('markers');
+    raw_ids = Cookies.set('markers');
     if (raw_ids != undefined) {
       ids = raw_ids.split(':');
       for(var i = 0; i != ids.length; ++i) {
         var id = parseInt(ids[i]);
         if (id == null || id < 0 || id >=26) continue;
 
-        var raw_data = $.cookie('marker' + id);
+        var raw_data = Cookies.set('marker' + id);
         if (raw_data == undefined) continue;
 
         var data = raw_data.split(':')
@@ -758,9 +758,9 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines) {
         var lat = parseFloat(data[0]);
         if (lat < -90 || lat > 90) continue;
         var lon = parseFloat(data[1]);
-        if (lon < -180 || lon > 180) continue; 
+        if (lon < -180 || lon > 180) continue;
         var r = parseFloat(data[2]);
-        if (r < 0 || r > 100000000000) continue; 
+        if (r < 0 || r > 100000000000) continue;
 
         var name = null;
 
@@ -775,7 +775,7 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines) {
       }
     }
 
-    var raw_lines = $.cookie('lines');
+    var raw_lines = Cookies.set('lines');
     if (raw_lines != undefined) {
       var linesarray = raw_lines.split('*');
       for(var i = 0; i < linesarray.length; ++i) {
@@ -802,9 +802,9 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines) {
     var raw_lines = xlines;
     if (raw_lines != null) {
       /* be backwards compatible */
-      if (raw_lines.length == 3 
-         && raw_lines[0] >= 'A' && raw_lines[0] <= 'Z' 
-         && raw_lines[1] == '*' 
+      if (raw_lines.length == 3
+         && raw_lines[0] >= 'A' && raw_lines[0] <= 'Z'
+         && raw_lines[1] == '*'
          && raw_lines[2] >= 'A' && raw_lines[2] <= 'Z') {
         raw_lines = raw_lines[0] + ':' + raw_lines[2];
       }
@@ -823,7 +823,7 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines) {
           id2 = -1;
         }
 
-        theLines.newLine(id1, id2);  
+        theLines.newLine(id1, id2);
       }
     }
   }
@@ -845,7 +845,7 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines) {
   restoreCoordinatesFormat(0);
 
   setupExternalLinkTargets();
-  
+
   if (atDefaultCenter) {
     theGeolocation.whereAmI();
   }

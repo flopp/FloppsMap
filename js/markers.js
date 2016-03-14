@@ -111,23 +111,23 @@ Marker.prototype.initialize = function (name, position, radius) {
   var offsetx = (this.m_id % 7)*iconw;
   var offsety = Math.floor(this.m_id / 7)*iconh;
   this.m_marker = new google.maps.Marker( {
-    position: position, 
+    position: position,
     map: map,
-    icon: new google.maps.MarkerImage( 
-      "img/base.png", 
+    icon: new google.maps.MarkerImage(
+      "img/base.png",
       new google.maps.Size(iconw, iconh),
-      new google.maps.Point(offsetx, offsety), 
+      new google.maps.Point(offsetx, offsety),
       new google.maps.Point(15.5,36) ),
     draggable: true } );
 
   var theMarker = this;
-  google.maps.event.addListener(this.m_marker, "drag", function() { theMarker.update(); });        
-  google.maps.event.addListener(this.m_marker, "dragend", function() { theMarker.update(); });     
+  google.maps.event.addListener(this.m_marker, "drag", function() { theMarker.update(); });
+  google.maps.event.addListener(this.m_marker, "dragend", function() { theMarker.update(); });
 
   var colors = [ "#03ab17", "#d10f12", "#0d58d9", "#9d0ac2", "#ff8a22", "#27bcd6", "#3d3d3d" ];
 
   this.m_circle = new google.maps.Circle( {
-    center: position, 
+    center: position,
     map: map,
     strokeColor: colors[this.m_id % 7],
     strokeOpacity: 1,
@@ -148,12 +148,12 @@ Marker.prototype.update = function () {
 
   this.m_circle.setCenter(pos);
 
-  $.cookie('marker' + this.m_id, pos.lat().toFixed(6) + ":" + pos.lng().toFixed(6) + ":" + radius + ":" + this.m_name, {expires:30});
-  $('#view_name' + this.m_alpha).html(this.m_name); 
-  $('#view_coordinates' + this.m_alpha).html(Coordinates.toString(pos)); 
+  Cookies.set('marker' + this.m_id, pos.lat().toFixed(6) + ":" + pos.lng().toFixed(6) + ":" + radius + ":" + this.m_name, {expires:30});
+  $('#view_name' + this.m_alpha).html(this.m_name);
+  $('#view_coordinates' + this.m_alpha).html(Coordinates.toString(pos));
   $('#view_circle' + this.m_alpha).html(radius);
-  $('#edit_name' + this.m_alpha).val(this.m_name); 
-  $('#edit_coordinates' + this.m_alpha).val(Coordinates.toString(pos)); 
+  $('#edit_name' + this.m_alpha).val(this.m_name);
+  $('#edit_coordinates' + this.m_alpha).val(Coordinates.toString(pos));
   $('#edit_circle' + this.m_alpha).val(radius);
 
   theLines.updateLinesMarkerMoved(this.m_id);
@@ -212,7 +212,7 @@ Markers.prototype.saveMarkersList = function () {
   "use strict";
   var ids = Array();
   this.m_markers.map(function (marker) { if (!marker.isFree()) { ids.push(marker.getId()); }});
-  $.cookie('markers', ids.join(":"), {expires:30});
+  Cookies.set('markers', ids.join(":"), {expires:30});
 };
 
 Markers.prototype.toString = function () {

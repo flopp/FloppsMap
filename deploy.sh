@@ -68,13 +68,13 @@ cp -a ${LNG[@]} $D/lang/
 L=.local
 mkdir -p $L
 
-# jquery cookie plugin
-if [ -d $L/jquery-cookie/.git ] ; then
-    (cd $L/jquery-cookie/ ; git pull origin master)
+# js cookie
+if [ -d $L/js-cookie/.git ] ; then
+    (cd $L/js-cookie/ ; git pull origin master)
 else
-    (cd $L ; git clone https://github.com/carhartl/jquery-cookie.git)
+    (cd $L ; git clone https://github.com/js-cookie/js-cookie.git)
 fi
-cp $L/jquery-cookie/src/jquery.cookie.js $D/js
+cp $L/js-cookie/src/js.cookie.js $D/js
 
 # jquery ajax cross origin plugin
 if [ ! -f $L/ajax-cross-origin/js/jquery.ajax-cross-origin.min.js ] ; then
