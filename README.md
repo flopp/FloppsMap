@@ -9,8 +9,11 @@
 - Display of German nature protection areas
 - Display of administrative boundaries
 - Permalinking to the current map
+- Translated to English, German, Dutch, Romanian
 
 Visit the map at http://flopp.net/ or http://flopp-caching.de/
+
+![Screenshot of Flopp's Map](https://raw.githubusercontent.com/flopp/flopp.github.io/master/FloppsMap/floppsmap.jpg)
 
 # Author
 Florian Pigorsch <mail@flopp-caching.de>
