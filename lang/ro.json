@@ -58,7 +58,9 @@
             "npa": "Rezervaţii naturale (NPA)",
             "npainfo": "Arată info despre NPA la următorul click",
             "geocaches": "Geocutii (<a href=\"http://www.opencaching.eu/\" target=\"_blank\">Opencaching</a>)",
-            "external": "Servicii Externe"
+            "external": "Servicii Externe",
+            "freifunk": "Freifunk",
+            "freifunkinfo": "Arată info despre Freifunk la următorul click"
         }
     },
     
@@ -124,6 +126,12 @@
             "area": "Aria:",
             "msg_no_npa": "Coordonatele selectate nu fac parte dintr-o rezervaţie naturală",
             "error": "Eroare la interogarea pentru informaţii despre rezervaţii naturale."
+        },
+        
+        "freifunk": { 
+            "title": "Freifunk",
+            "content": "[TO BE TRANSLATED] <a href=\"https://www.freifunk.net/\" target=\"_blank\">Freifunk</a> is a non-commercial open grassroots initiative to support free (wireless) computer networks in the German region.<br />Flopp's Karte includes some functions especially for Freifunk:<ul><li>Determination of locations for configuring Freifunk routers</li></ul>",
+            "popuptitle": "[TO BE TRANSLATED] Copy and paste the following commands into your router's console to change its geo location:"
         }
     }
 }

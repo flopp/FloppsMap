@@ -58,7 +58,9 @@
             "npa": "Nature Protection Areas",
             "npainfo": "Show NPA info on next click",
             "geocaches": "Geocaches (<a href=\"http://www.opencaching.eu/\" target=\"_blank\">Opencaching</a>)",
-            "external": "External Services"
+            "external": "External Services",
+            "freifunk": "Freifunk",
+            "freifunkinfo": "Show Freifunk info on next click"
         }
     },
     
@@ -124,6 +126,12 @@
             "area": "Area:",
             "msg_no_npa": "There is no nature protection area at the selected coordinates",
             "error": "Error querying information about nature protection areas."
+        },
+        
+        "freifunk": { 
+            "title": "Freifunk",
+            "content": "<a href=\"https://www.freifunk.net/\" target=\"_blank\">Freifunk</a> is a non-commercial open grassroots initiative to support free (wireless) computer networks in the German region.<br />Flopp's Karte includes some functions especially for Freifunk:<ul><li>Determination of locations for configuring Freifunk routers</li></ul>",
+            "popuptitle": "Copy and paste the following commands into your router's console to change its geo location:"
         }
     }
 }

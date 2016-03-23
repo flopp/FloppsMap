@@ -56,7 +56,9 @@
             "npa": "Naturschutzgebiete",
             "npainfo": "NSG-Info beim nächsten Klick zeigen",
             "geocaches": "Geocaches (<a href=\"http://www.opencaching.eu/\" target=\"_blank\">Opencaching</a>)",
-            "external": "Externe Dienste"
+            "external": "Externe Dienste",
+            "freifunk": "Freifunk",
+            "freifunkinfo": "Freifunk-Info beim nächsten Klick zeigen"
         }
     },
     
@@ -122,7 +124,12 @@
             "area": "Fläche:",
             "msg_no_npa": "An den gewählen Koordinaten befindet sich kein Naturschutzgebiet.",
             "error": "Fehler beim Anfragen von Informationen über Naturschutzbegiete."
-            
+        },
+        
+        "freifunk": { 
+            "title": "Freifunk",
+            "content": "<a href=\"https://www.freifunk.net/\" target=\"_blank\">Freifunk</a> ist eine nichtkommerzielle Initiative, die sich dem Aufbau und Betrieb eines freien Funknetzes auf Basis von selbstverwalteten lokalen Computernetzwerken widmet.<br />Flopp's Karte bietet einige Funktionen speziell für Freifunk an:<ul><li>Positionsbestimmung zur Konfiguration von Freifunk-Routern</li></ul>",
+            "popuptitle": "Kopiere die folgenden Kommandos und führe sie in der Router-Konsole aus, um dessen Geo-Location zu ändern:"
         }
     }
 }

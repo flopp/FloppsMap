@@ -14,21 +14,6 @@ function toggleFreifunkLayer(t)
     $('#freifunk_details').hide();
     endFreifunkInfoMode();
   }
-  
-/*
-  if (freifunkLayerShown == t) return;
-  freifunkLayerShown = t;
-
-  if (t) {
-    if (map.overlayMapTypes.indexOf(hillshadingLayer) == -1) {
-        map.overlayMapTypes.insertAt(0, npaLayer);
-    } else {
-        map.overlayMapTypes.insertAt(1, npaLayer);
-    }
-  } else {
-    map.overlayMapTypes.removeAt(map.overlayMapTypes.indexOf(npaLayer));
-  }
-*/
 }
 
 function startFreifunkInfoMode() {
@@ -53,7 +38,7 @@ function endFreifunkInfoMode() {
 
 function showFreifunkPopup(lat, lng) {
     var contentString =
-        "<div>Copy and paste the following commands into your router's console to change its geo location:</div>" + 
+        "<div>" + mytrans("dialog.freifunk.popuptitle") + "</div>" + 
         "<textarea readonly rows=5 cols=70>" + 
         "uci set gluon-node-info.@location[0]='location'\n" +
         "uci set gluon-node-info.@location[0].share_location='1'\n" +
