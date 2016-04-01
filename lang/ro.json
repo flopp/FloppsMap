@@ -130,8 +130,8 @@
         
         "freifunk": { 
             "title": "Freifunk",
-            "content": "[TO BE TRANSLATED] <a href=\"https://www.freifunk.net/\" target=\"_blank\">Freifunk</a> is a non-commercial open grassroots initiative to support free (wireless) computer networks in the German region.<br />Flopp's Karte includes some functions especially for Freifunk:<ul><li>Determination of locations for configuring Freifunk routers</li></ul>",
-            "popuptitle": "[TO BE TRANSLATED] Copy and paste the following commands into your router's console to change its geo location:"
+            "content": "<a href=\"https://www.freifunk.net/\" target=\"_blank\">Freifunk</a> este o iniţiativă populară, deschisă şi non-comercială care sprijină reţele de calculatoare (fără fir) cu acces liber i gratuit în Germania.<br />Harta lui Flopp include nişte funţii speciale pentru Freifunk:<ul><li>Determinarea poziţiei geografice pentru a configura router-e Freifunk</li></ul>",
+            "popuptitle": "Copiază şi lipeşte următoarele comenzi în consola router-ului tău pentru a-i schimba geo-localizarea:"
         }
     }
 }
