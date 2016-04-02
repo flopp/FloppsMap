@@ -421,6 +421,8 @@ function updateCopyrights() {
     copyrightDiv.innerHTML = "Map data (C) by <a href=\"http://www.openstreetmap.org/\">OpenStreetMap.org</a> and its contributors; <a href=\"http://opendatacommons.org/licenses/odbl/\">Open Database License</a>, tiles (C) by <a href=\"http://mapquest.com\">MapQuest</a>";
   } else if (newMapType == "OUTD") {
     copyrightDiv.innerHTML = "Map data (C) by <a href=\"http://www.openstreetmap.org/\">OpenStreetMap.org</a> and its contributors; <a href=\"http://opendatacommons.org/licenses/odbl/\">Open Database License</a>, tiles (C) by <a href=\"http://www.thunderforest.com/outdoors/\">Thunderforest</a>";
+  } else if (newMapType == "TOPO") {
+    copyrightDiv.innerHTML = "Map data (C) by <a href=\"http://www.openstreetmap.org/\">OpenStreetMap.org</a> and its contributors; <a href=\"http://opendatacommons.org/licenses/odbl/\">Open Database License</a>, height data by SRTM, tiles (C) by <a href=\"http://www.opentopomap.com/\">OpenTopoMap</a>";
   } else {
     copyrightDiv.innerHTML = "";
   }
@@ -459,11 +461,7 @@ function repairZoom(x, d) {
 }
 
 function repairMaptype(t, d) {
-  if (t == "OSM" || t == "OSM/DE" || t == "OCM") {
-    return t;
-  } else if (t == "MQ") {
-    return t;
-  } else if (t == "OUTD") {
+  if (t == "OSM" || t == "OSM/DE" || t == "OCM" || t == "MQ" || t == "OUTD" || t == "TOPO") {
     return t;
   } else if (t == "satellite" || t == "hybrid" || t == "roadmap" || t == "terrain") {
     return t;
@@ -613,7 +611,7 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocache
     zoom: zoom,
     center: center,
     scaleControl: true,
-    mapTypeControlOptions: { mapTypeIds: ['OSM', 'OSM/DE', 'OCM', 'MQ', 'OUTD', google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.SATELLITE, google.maps.MapTypeId.HYBRID, google.maps.MapTypeId.TERRAIN] },
+    mapTypeControlOptions: { mapTypeIds: ['OSM', 'OSM/DE', 'OCM', 'MQ', 'OUTD', 'TOPO', google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.SATELLITE, google.maps.MapTypeId.HYBRID, google.maps.MapTypeId.TERRAIN] },
     mapTypeId: google.maps.MapTypeId.ROADMAP };
 
   map = new google.maps.Map(document.getElementById("themap"), myOptions);
@@ -658,12 +656,21 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocache
     name: "OUTD",
     alt: "Thunderforest Outdoors",
     maxZoom: 18 });
+  topomap_type = new google.maps.ImageMapType({
+    getTileUrl: function(coord, zoom) {
+      return tileUrl("http://%s.tile.opentopomap.org/%z/%x/%y.png", ["a","b","c"], coord, zoom);
+    },
+    tileSize: new google.maps.Size(256, 256),
+    name: "TOPO",
+    alt: "OpenTopoMap",
+    maxZoom: 15 });
 
   map.mapTypes.set("OSM", osm_type);
   map.mapTypes.set("OSM/DE", osmde_type);
   map.mapTypes.set("OCM", ocm_type);
   map.mapTypes.set("MQ", mq_type);
   map.mapTypes.set("OUTD", outdoors_type);
+  map.mapTypes.set("TOPO", topomap_type);
 
   map.setMapTypeId(maptype);
 
