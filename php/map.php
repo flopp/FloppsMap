@@ -264,7 +264,7 @@ $(document).ready( function() {
   </div>
 </div> <!-- section -->
 
-<div style="text-align: center; color: white;">&copy; 2012-2015, <a href="http://www.florian-pigorsch.de/" target="_blank">Florian Pigorsch</a></div>
+<div style="text-align: center; color: white;">&copy; 2012-2016, <a href="http://www.florian-pigorsch.de/" target="_blank">Florian Pigorsch</a> &amp; contributors</div>
 
 </div> <!-- sidebar -->
 
