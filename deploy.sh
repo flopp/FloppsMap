@@ -41,10 +41,12 @@ IMG=(
 LNG=(
     lang/info.de.html
     lang/info.en.html
+    lang/info.pl.html
     lang/info.ro.html
     lang/de.json
     lang/en.json
     lang/nl.json
+    lang/pl.json
     lang/ro.json)
 
 ROOT=(

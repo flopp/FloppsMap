@@ -8,10 +8,10 @@
         "blog": "Blog",
         "help": "Pomoc",
         "impress": "Informacje",
-        "english": "Angielski",
-        "german": "Niemiecki",
-        "dutch": "Holenderski",
-        "romanian": "Rumuński",
+        "english": "English",
+        "german": "Deutsch",
+        "dutch": "Nederlands",
+        "romanian": "Română",
         "polish": "Polski <i class=\"fa fa-check\"></i>"
     },
     

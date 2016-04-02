@@ -11,7 +11,8 @@
         "english": "English <i class=\"fa fa-check\"></i>",
         "german": "Deutsch",
         "dutch": "Nederlands",
-        "romanian": "Română"
+        "romanian": "Română",
+        "polish": "Polski"
     },
     
     "sidebar": {
