@@ -1,0 +1,138 @@
+{
+    "app": {
+        "title": "Mapa Floppa"
+    },
+    
+    "nav": {
+        "title": "Mapa Floppa",
+        "blog": "Blog",
+        "help": "Pomoc",
+        "impress": "Informacje",
+        "english": "Angielski",
+        "german": "Niemiecki",
+        "dutch": "Holenderski",
+        "romanian": "Rumuński",
+        "polish": "Polski <i class=\"fa fa-check\"></i>"
+    },
+    
+    "sidebar": {
+        "search": {
+            "title": "Szukaj",
+            "whereami": "Gdzie ja jestem?",
+            "placeholder": "Współrzędne lub nazwa lokalizacji"
+        },
+        "markers": {
+            "title": "Markery",
+            "new": "Nowy",
+            "deleteall": "Usuń wszystkie",
+            "edit_marker": "Edytuj marker",
+            "delete_marker": "Usuń marker",
+            "move_to": "Przesuń mapę na marker",
+            "center": "Ustaw marker na środek mapy",
+            "project": "Rzutowanie markera",
+            "name": "Nazwa markera",
+            "name_placeholder": "Nazwa",
+            "coordinates": "Współrzędne",
+            "coordinates_placeholder": "Współrzędne",
+            "radius": "Promień (m) okręgu wokół markera",
+            "radius_placeholder": "Promień (m)",
+            "error_badname": "Niedozwolony znak w polu 'nazwa': \"%1\".<br />Dozwolone znaki: a-z, A-Z, 0-9, - oraz _.",
+            "error_badcoordinates": "Niepoprawny format współrzędnych: \"%1\".",
+            "error_badradius": "Niedozwolona warość pola 'promień': \"%1\".<br />Dozwolone wartości: Liczby całkowite &geq; 0."
+        },
+        "lines": {
+            "title": "Linie",
+            "new": "Nowa",
+            "deleteall": "Usuń wszystkie",
+            "source": "Źródło",
+            "destination": "Cel",
+            "delete_line": "Usuń"
+        },
+        "misc": {
+            "title": "Różne",
+            "gpx": "Eksport do pliku GPX",
+            "permalink": "Utwórz link",
+            "coordinates": "Format współrzędnych",
+            "layers": "Dodatkowe warstwy",
+            "hillshading": "Cieniowanie gór",
+            "boundaries": "Granice administracyjne",
+            "npa": "Obszary ochrony przyrody",
+            "npainfo": "Pokaż informacje o obszarach ochronnych przy kolejnym kliknięciu",
+            "geocaches": "Skrzynki (<a href=\"http://www.opencaching.eu/\" target=\"_blank\">Opencaching</a>)",
+            "external": "Serwisy zewnętrzne",
+            "freifunk": "Freifunk",
+            "freifunkinfo": "Pokaż informacje o Freifunku przy kolejnym kliknięciu"
+        }
+    },
+    
+    "dialog": {
+        "ok" : "Ok",
+        "cancel": "Anuluj",
+        "error": "Błąd",
+        "information": "Informacja",
+        
+        "search_error": {
+            "title": "Szukaj",
+            "content": "Nie można odnaleźć lokalizacji: \"%1\"."
+        },
+        
+        "whereami_error": {
+            "title": "Gdzie ja jestem?",
+            "content": "Błąd podczas określania obecnej lokalizacji"
+        },
+        
+        "toomanymarkers_error": {
+            "title": "Błąd",
+            "content": "Osiągnięto maksymalną liczbę markerów (26)"
+        },
+        
+        "info": {
+            "title": "Informacje",
+            "content": "<img class=\"img-polaroid\" width=\"100ps\" height=\"100px\" style=\"float: right\" src=\"img/avatar.jpg\" alt=\"Flopp\"> <h4>Kontakt</h4> <p>Aktualności są dostępne na blogu <a target=\"_blank\" href=\"http://blog.flopp-caching.de/\" alt=\"blog\">blog <i class=\"fa fa-globe\"></i></a> (po niemiecku).</p> <p>Pytania lub sugestie możesz przekazać poprzez <a href=\"mailto:mail@flopp-caching.de\" target=\"_blank\">mail <i class=\"fa fa-envelope\"></i></a> oraz moje<a href=\"https://twitter.com/floppgc\" target=\"_blank\">konto na Twitterze <i class=\"fa fa-twitter-square\"></i></a>. Dodatkowo, posiadam stronę na <a href=\"https://plus.google.com/u/0/116067328889875491676\" target=\"_blank\">Google+ <i class=\"fa fa-google-plus-square\"></i></a> oraz <a href=\"https://www.facebook.com/FloppsTolleKarte\" target=\"_blank\">Facebooku <i class=\"fa fa-facebook-square\"></i></a>.</p> <p>Błędy możesz zgłaszać na <a href=\"https://github.com/flopp/FloppsTolleKarte\" target=\"_blank\">stronie projektu <i class=\"fa fa-github-square\"></i></a>, gdzie możesz także znaleźć kompletny kod źródłowy</p> <hr /> <h4>Autor</h4> <p> Angaben gemäß § 5 TMG, Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV:<br /><br /> <a href=\"http://www.florian-pigorsch.de/\" target=\"_blank\">Florian Pigorsch</a><br /> Hurstbrunnenstraße 5<br /> 79117 Freiburg<br /> <a target=\"_blank\" href=\"mailto:mail@flopp.net\">mail@flopp.net</a> </p> <h4>Mapa cieni górskich</h4> <p> Mapa cieni górskich jest dostarczana przez <a href=\"openmapsurfer.uni-hd.de\" target=\"_blank\">projekt OpenMapSurfer</a> wraz z Uniwersystetem Heidelberg pod następującymi licencjami:<br>Dane mapy &copy; <a href=\"http://srtm.csi.cgiar.org/\" target=\"_blank\">SRTM</a>; ASTER GDEM jest produktem <a href=\"http://www.meti.go.jp/english/press/data/20090626_03.html\" target=\"_blank\">METI</a> oraz <a href=\"https://lpdaac.usgs.gov/products/aster_policies\" target=\"_blank\">NASA</a>, Obrazowanie <a href=\"http://giscience.uni-hd.de/\" target=\"_blank\">GIScience Research Group @ Heidelberg University</a> </p> <h4>Mapa granic administracyjnych</h4> <p> Mapa granic administracyjnych jest zapewniana przez  <a href=\"http://openmapsurfer.uni-hd.de\" target=\"_blank\">projekt OpenMapSurfer</a> wraz z Uniwersystetem Heidelberg pod następującymi licencjami:<br>Dane mapy &copy; <a href=\"http://osm.org/\" target=\"_blank\">Openstreetmap</a> contributors; Obrazowanie <a href=\"http://giscience.uni-hd.de/\" target=\"_blank\">GIScience Research Group @ Heidelberg University</a> </p> <h4>Obszary ochrony naturalnej (Niemcy)</h4> <p> Dane niemieckich obszarów ochrony przyrody dostarczane są przez <a href=\"http://www.bfn.de/\" target=\"_blank\">Bundesamt für Naturschutz (Federal Agency for Nature Conservation)</a> w zgodzie z <a href=\"http://www.gesetze-im-internet.de/geonutzv/\" target=\"_blank\">przepisamy GeoNutzV</a>. Dodatkowo mamy wyraźną pisemną zgodę.<br />Wyświetlane dane są połączone dzięki Bundesamt für Naturschutz z danych poszczególnych landów. The Bundesamt für Naturschutz nie udziela żadnej gwarancji w zakresie dokładności i poprawności danych.<br />Na stronie Bundesamtu możesz znaleźć <a href=\"http://www.geodienste.bfn.de/schutzgebiete\" target=\"_blank\">oficjalną mapę pokazującą chronione obszary</a>. </p> <h4>Dane o Geocachingu</h4> <p> Wyświetlane dane keszy pobierane są poprzez <a target=\"_blank\" href=\"http://www.opencaching.de/okapi/introduction.html\">Opencaching-API (OKAPI)</a> z narodowych stron opecaching: <a target=\"_blank\" href=\"http://www.opencaching.de/\">Opencaching.de</a>, <a target=\"_blank\" href=\"http://www.opencaching.pl/\">Opencaching.pl</a>, <a target=\"_blank\" href=\"http://www.opencaching.nl/\">Opencaching.nl</a>, <a target=\"_blank\" href=\"http://www.opencaching.org.uk/\">Opencaching.org.uk</a>, <a target=\"_blank\" href=\"http://www.opencaching.us/\">Opencaching.us</a>, <a target=\"_blank\" href=\"http://www.opencaching.ro/\">Opencaching.ro</a> i podlegają licencji na jakiej zostały opublikowane. </p> <h4>Ciasteczka</h4> <p> Ta strona używa ciasteczek do przechowywania aktualnego wyglądu mapy (środek, makery, linie, itd.) aby było możliwe przywrócenie ich przy kolejnej wizycie. Możesz oczywiście usunąć ciasteczka w ustawieniach Twojej przeglądarki </p> <h4>Piwik</h4> <p> Ta strona używa Piwik, ostwartego oprogramowania do analizowania stron. Piwik używa “ciasteczek”, czyli plików tekstowych umieszczanych na komputerze użytkownika w celu umożliwienia witrynie przeanalizowania w jaki sposób użytkownicy używają strony. Informacje generowane przez ciasteczka na temat korzystania z witryny będą przechowywane na serwerze usługodawcy w Niemczech. Użytkownik może zrezygnować z ciasteczek wybierając odpowiednie ustawienia w przeglądarce, jednak należy pamiętać, że jeśli to zrobisz możesz nie być w stanie korzystać z pełnej funkcjonalności tej strony. <iframe src=\"http://www.flopp-caching.de/piwik/index.php?module=CoreAdminHome&amp;action=optOut\" height=\"200\" width=\"500\" frameborder=\"no\"></iframe> </p>"
+        },
+        
+        "projection": {
+            "title": "Rzutuwanie punktu",
+            "content": "Przutowanie punktu tworzy nowy marker <b>d</b> metrów dalej od markera źródlowego pod kątem <b>&beta;°</b>",
+            "bearing": "Kąt &beta;",
+            "bearing_placeholder": "Kąt między °; 0-360",
+            "distance": "Odległość d",
+            "distance_placeholder": "Odległość rzutowania w metrach",
+            "error_bad_bearing": "Błędna wartość kąta: \"%1\".<br />Dozwolone wartości: liczby zmienno przecinkowe od 0 do 360.",
+            "error_bad_distance": "Błędna odległość: \"%1\".<br />Dozwolone wartości: liczby zmienno przecinkowe &geq; 0.",
+            "msg_new_marker": "Utworzono nowy marker: %1."
+        },
+        
+        "permalink": {
+            "title": "Link",
+            "content": "Poniższy link pozwala porwrócić do aktualnego widoku mapy Floppa włączając wszystkie markery, linie oraz zaznaczone typy map. Skopiuj (<tt>CTRL+C</tt>) link i podziel się nim z Twoimi znajomymi!<br />Przycisk <b>skróć</b> uruchamia skracacz linków (<a href=\"http://goo.gl/\" target=\"_blank\">goo.gl</a>) i zwraca krótki link.",
+            "shorten": "Skróć"
+        },
+        
+        "hillshading": {
+            "title": "Cienie gór",
+            "content": "Mapa cieni górskich jest dostarczana przez <a href=\"openmapsurfer.uni-hd.de\" target=\"_blank\">projekt OpenMapSurfer</a> wraz z Uniwersystetem Heidelberg pod następującymi licencjami:<br>Dane mapy &copy; <a href=\"http://srtm.csi.cgiar.org/\" target=\"_blank\">SRTM</a>; ASTER GDEM jest produktem <a href=\"http://www.meti.go.jp/english/press/data/20090626_03.html\" target=\"_blank\">METI</a> oraz <a href=\"https://lpdaac.usgs.gov/products/aster_policies\" target=\"_blank\">NASA</a>, Obrazowanie <a href=\"http://giscience.uni-hd.de/\" target=\"_blank\">GIScience Research Group @ Heidelberg University</a>"
+        },
+        
+        "boundaries": {
+            "title": "Granice administracyjne",
+            "content": "Mapa granic administracyjnych jest zapewniana przez  <a href=\"http://openmapsurfer.uni-hd.de\" target=\"_blank\">projekt OpenMapSurfer</a> wraz z Uniwersystetem Heidelberg pod następującymi licencjami:<br>Dane mapy &copy; <a href=\"http://osm.org/\" target=\"_blank\">Openstreetmap</a> contributors; Obrazowanie <a href=\"http://giscience.uni-hd.de/\" target=\"_blank\">GIScience Research Group @ Heidelberg University</a>"
+        },
+        
+        "npa": { 
+            "title": "Obszary ochrony naturalnej",
+            "content": "Dane niemieckich obszarów ochrony przyrody dostarczane są przez <a href=\"http://www.bfn.de/\" target=\"_blank\">Bundesamt für Naturschutz (Federal Agency for Nature Conservation)</a> w zgodzie z <a href=\"http://www.gesetze-im-internet.de/geonutzv/\" target=\"_blank\">przepisamy GeoNutzV</a>. Dodatkowo mamy wyraźną pisemną zgodę.<br />Wyświetlane dane są połączone dzięki Bundesamt für Naturschutz z danych poszczególnych landów. The Bundesamt für Naturschutz nie udziela żadnej gwarancji w zakresie dokładności i poprawności danych.<br />Na stronie Bundesamtu możesz znaleźć <a href=\"http://www.geodienste.bfn.de/schutzgebiete\" target=\"_blank\">oficjalną mapę pokazującą chronione obszary</a>.",
+            "cdda_code": "Kod CDDA:",
+            "since": "Od:",
+            "area": "Obszar:",
+            "msg_no_npa": "Podane współrzędne nie leżą w obszarze ochrony naturalnej.",
+            "error": "Błąd podczas zdobywania informacji o obszarze chronionym."
+        },
+        
+        "freifunk": { 
+            "title": "Freifunk",
+            "content": "<a href=\"https://www.freifunk.net/\" target=\"_blank\">Freifunk</a> jest to niekomercyjna, otwarta i oddolna inicjatywa wspierania wolnych bezprzewodowych sieci WIFI w niemczech.<br />Mapa Flopp's zawiera kilka funkcji szczególnych dla Freifunka:<ul><li>Oznaczanie miejsc do konfiguracji routerów Freifunk</li></ul>",
+            "popuptitle": "Skopiuj i wklej następujące polecenia w konsoli routera, aby zmienić jego położenie geograficzne:"
+        }
+    }
+}
