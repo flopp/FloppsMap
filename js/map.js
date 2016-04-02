@@ -480,7 +480,7 @@ function tileUrl(template, servers, coord, zoom) {
   return template.replace(/%s/, s).replace(/%x/, x).replace(/%y/, y).replace(/%z/, zoom);
 }
 
-function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines) {
+function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocache) {
   var center = null;
   var atDefaultCenter = false;
   var zoom = parseInt(xzoom);
@@ -831,6 +831,7 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines) {
 
   updateCopyrights();
 
+  okapi_show_cache = xgeocache;
   restoreSidebar(true);
   if (xfeatures == '[default]') {
     restoreHillshading(true);
@@ -848,6 +849,11 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines) {
   restoreCoordinatesFormat(0);
 
   setupExternalLinkTargets();
+  
+  if (xgeocache != "") {
+    okapi_toggle_load_caches(true);
+    atDefaultCenter = false;
+  }
 
   if (atDefaultCenter) {
     theGeolocation.whereAmI();

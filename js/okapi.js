@@ -13,7 +13,11 @@ var okapi_sites = null;
 var okapi_popup = null;
 var okapi_icons = null;
 
+var okapi_show_cache = null;
+var okapi_show_cache_marker = null;
+
 var okapi_load_caches_enabled = false;
+
 
 function okapi_setup_sites()
 {
@@ -62,6 +66,11 @@ function okapi_setup_sites()
             {
                 okapi_schedule_load_caches( true );
             }
+            
+            if (okapi_show_cache != null && okapi_show_cache != "") {
+                okapi_center_map_on_cache(okapi_show_cache);
+                okapi_show_cache = null;
+            }
         }
     });
 }
@@ -104,38 +113,102 @@ function okapi_get_icon( type )
     }
 }
 
-function okapi_register_popup( m, code, siteid )
-{
-    if( !okapi_ready ) return;
 
-    google.maps.event.addListener( m, 'click', function() {
-        if( okapi_popup == null )
-        {
-            okapi_popup = new google.maps.InfoWindow();
+function guess_okapi_siteid(code) {
+    var site_name = null;
+    
+    if (/^OC/i.test(code)) { site_name = "Opencaching.DE"; } 
+    else if (/^OP/i.test(code)) { site_name = "Opencaching.PL"; } 
+    else if (/^OB/i.test(code)) { site_name = "Opencaching.NL"; } 
+    else if (/^OU/i.test(code)) { site_name = "Opencaching.US"; }
+    else if (/^OK/i.test(code)) { site_name = "Opencaching.ORG.UK"; }
+    else if (/^OR/i.test(code)) { site_name = "Opencaching.RO"; }
+    else { return -1; }
+    
+    for (var siteid in okapi_sites) {
+        if (okapi_sites[siteid].name == site_name) {
+            return siteid;
         }
+    }
+    
+    return -1;
+}
 
-        var site = okapi_sites[siteid];
 
-        $.ajax({
-            url: site.url + 'services/caches/geocache',
-            dataType: 'json',
-            data: {
-                'consumer_key': site.key,
-                'cache_code': code,
-                'fields' : 'name|type|url|owner|founds|size2|difficulty|terrain'
-            },
-            success: function(response) {
-                var content =
-                    '<a href="' + response.url + '" target="_blank">' + code + ' <b>' + response.name + '</b></a><br />'
-                    + 'by <a href="' + response.owner.profile_url + '" target="_blank"><b>' + response.owner.username + '</b></a><br />'
-                    + response.type + ' (' + response.size2 + ')<br />'
-                    + 'difficulty: <i>' + response.difficulty + '/5</i> terrain: <i>' + response.terrain + '/5</i><br />'
-                    + '#finds: <i>' + response.founds + '</i>';
+function okapi_center_map_on_cache(code) {
+    console.log("okapi_center_map_on_cache " + code);
+    if (!okapi_ready) {
+        console.log("okapi not ready");
+        return;
+    }
+    
+    var siteid = guess_okapi_siteid(code);
+    if (siteid < 0) {
+        console.log("bad code. cannot determine okapi site");
+        return;
+    }
+    
+    _okapi_show_popup(null, code.toUpperCase(), siteid)
+}
 
-                okapi_popup.setContent( content );
-                okapi_popup.open( map, m );
+
+function _okapi_show_popup(m, code, siteid) {
+    if (okapi_popup == null)
+    {
+        okapi_popup = new google.maps.InfoWindow();
+    }
+
+    var site = okapi_sites[siteid];
+
+    $.ajax({
+        url: site.url + 'services/caches/geocache',
+        dataType: 'json',
+        data: {
+            'consumer_key': site.key,
+            'cache_code': code,
+            'fields' : 'name|type|status|url|owner|founds|size2|difficulty|terrain|location'
+        },
+        success: function(response) {
+            var loc = response.location.split("|");
+            var coords = new google.maps.LatLng(parseFloat(loc[0]), parseFloat(loc[1]));
+            map.setCenter(coords);
+            
+            if (!m) {
+                m = new google.maps.Marker( {
+                    position: coords,
+                    map: map,
+                    icon: okapi_get_icon(response.type)
+                });
+                if (okapi_show_cache_marker) {
+                    okapi_show_cache_marker.setMap(null);
+                    delete(okapi_show_cache_marker);
+                }
+                
+                okapi_register_popup(m, code, siteid);
+                okapi_show_cache_marker = m;
             }
-        });
+            
+            var content =
+                '<a href="' + response.url + '" target="_blank">' + code + ' <b>' + response.name + '</b></a><br />'
+                + 'by <a href="' + response.owner.profile_url + '" target="_blank"><b>' + response.owner.username + '</b></a><br />'
+                + response.type + ' (' + response.size2 + ')<br />'
+                + 'status: <i>' + response.status + '</i><br />'
+                + 'difficulty: <i>' + response.difficulty + '/5</i> terrain: <i>' + response.terrain + '/5</i><br />'
+                + 'finds: <i>' + response.founds + '</i>';
+
+            okapi_popup.setContent(content);
+            okapi_popup.open(map, m);
+        }
+    });    
+}
+
+
+function okapi_register_popup(m, code, siteid)
+{
+    if (!okapi_ready) return;
+
+    google.maps.event.addListener(m, 'click', function() {
+        _okapi_show_popup(m, code, siteid);
     });
 }
 
@@ -154,13 +227,17 @@ function okapi_remove_caches_site( okapi_markers )
     okapi_markers = {};
 }
 
-function okapi_remove_caches()
-{
-    if( !okapi_ready ) return;
+function okapi_remove_caches() {
+    if (!okapi_ready) return;
 
-    for( var siteid in okapi_sites )
-    {
-        okapi_remove_caches_site( okapi_sites[siteid].markers );
+    for (var siteid in okapi_sites) {
+        okapi_remove_caches_site(okapi_sites[siteid].markers);
+    }
+    
+    if (okapi_show_cache_marker) {
+        okapi_show_cache_marker.setMap(null);
+        delete(okapi_show_cache_marker);
+        okapi_show_cache_marker = null;
     }
 }
 

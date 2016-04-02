@@ -72,6 +72,7 @@ $maptype = "";
 $markers = "";
 $lines = "";
 $features = "[default]";
+$geocache = "";
 
 if(!empty($_GET))
 {
@@ -81,16 +82,16 @@ if(!empty($_GET))
   if(isset($_GET['m'])) { $markers = $_GET['m']; }
   if(isset($_GET['d'])) { $lines = $_GET['d']; }
   if(isset($_GET['f'])) { $features = $_GET['f']; }
+  if(isset($_GET['g'])) { $geocache = $_GET['g']; }
 }
 
 echo "\$(function() {";
-echo "initialize('$cntr', '$zoom', '$maptype', '$features', '$markers', '$lines');";
+echo "initialize('$cntr', '$zoom', '$maptype', '$features', '$markers', '$lines', '$geocache');";
 echo "})";
 ?>
 
 $(document).ready( function() {
     var option = {resGetPath: 'lang/__lng__.json', fallbackLng: 'en', debug: true};
-
     $.i18n.init(option, function(t) {
         $(document).i18n();
     });
