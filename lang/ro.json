@@ -61,12 +61,12 @@
             "geocaches": "Geocutii (<a href=\"http://www.opencaching.eu/\" target=\"_blank\">Opencaching</a>)",
             "external": "Servicii Externe",
             "freifunk": "Freifunk",
-            "freifunkinfo": "Arată info despre Freifunk la următorul click"
+            "freifunkinfo": "Arată informaţii despre Freifunk la următorul click"
         }
     },
     
     "dialog": {
-        "ok" : "Accept",
+        "ok" : "Acceptă",
         "cancel": "Anulează",
         "error": "Eroare",
         "information": "Informaţie",
@@ -78,7 +78,7 @@
         
         "whereami_error": {
             "title": "Unde sunt?",
-            "content": "Poziţia vizitatorului nu a putut fi identificată."
+            "content": "Poziţia ta nu a putut fi identificată."
         },
         
         "toomanymarkers_error": {
@@ -99,7 +99,7 @@
             "distance": "Distanţa d",
             "distance_placeholder": "Distanţa de proiectare în metri",
             "error_bad_bearing": "Valoare greşită pentru 'relevment': \"%1\".<br />Valori permise: numere cu zecimale reprezentând unghiuri cuprinse între 0 şi 360.",
-            "error_bad_distance": "Valoare greşită pentru ţdistanţă': \"%1\".<br />Valori permise: numere cu zecimale &geq; 0.",
+            "error_bad_distance": "Valoare greşită pentru 'distanţă': \"%1\".<br />Valori permise: numere cu zecimale &geq; 0, în metri.",
             "msg_new_marker": "Creează marcaj nou: %1."
         },
         
@@ -124,7 +124,7 @@
             "content": "Rezervaţii naturale din Germania sunt afişate ca un strat verde-transparent:<br /><img src=\"img/nsg.png\" class=\"center-block img-thumbnail\"><br /><br />Informaţiile despre rezervaţiile naturale germane sunt furnizate de <a href=\"http://www.bfn.de/\" target=\"_blank\">Bundesamt für Naturschutz (Federal Agency for Nature Conservation)</a> în condiţiile legii <a href=\"http://www.gesetze-im-internet.de/geonutzv/\" target=\"_blank\">GeoNutzV</a>. În plus, avem permisiune explicită în scris.<br />Informaţiile afişate sunt colectate şi unificate de 'Bundesamt für Naturschutz' din informaţiile colectate de la statele federale individuale. 'Bundesamt für Naturschutz' nu garantează în nici un fel precizia şi corectitudinea acestor date.<br />Pe pagina Bundesamt poţi găsi o <a href=\"http://www.geodienste.bfn.de/schutzgebiete\" target=\"_blank\">hartă oficială a ariilor protejate</a>.",
             "cdda_code": "Cod CDDA:",
             "since": "Din:",
-            "area": "Aria:",
+            "area": "Rezervaţia:",
             "msg_no_npa": "Coordonatele selectate nu fac parte dintr-o rezervaţie naturală",
             "error": "Eroare la interogarea pentru informaţii despre rezervaţii naturale."
         },
