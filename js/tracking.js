@@ -26,7 +26,7 @@ $(document).ready(function() {
   $("#navbarHelp").click(function() { trackAction("navbar.help"); });
   $("#navbarInfo").click(function() { trackAction("navbar.info"); });
   
-  $("#buttonWhereAmI").click(function() { trackSearch("whereami"); });
+  //$("#buttonWhereAmI").click(function() { trackSearch("whereami"); });
   
   $("#buttonExportGPX").click(function() { trackAction("export.gpx"); });
 

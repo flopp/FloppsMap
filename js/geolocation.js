@@ -1,5 +1,4 @@
 function Geolocation() {
-  this.m_geocoder = new google.maps.Geocoder();
 }
     
 Geolocation.prototype.search = function (address) {
@@ -7,14 +6,20 @@ Geolocation.prototype.search = function (address) {
 
   var coords = Coordinates.fromString(new String(address));
   if (!coords) { 
-    this.m_geocoder.geocode( { address: address, region: 'de' }, function(results, status) {
-      if (status == google.maps.GeocoderStatus.OK) {
-          map.setCenter(results[0].geometry.location);
+    url="http://nominatim.openstreetmap.org/search?format=json&limit=1&q=" + address;
+    $.get(url).done(function(data) {
+      if (data.length > 0) {
+        coords = new google.maps.LatLng(data[0].lat, data[0].lon);
+        map.setCenter(coords);
       } else {
-          var title = mytrans("dialog.search_error.title");
-          var content = mytrans("dialog.search_error.content").replace(/%1/, address);
-          showAlert(title, content);
+        var title = mytrans("dialog.search_error.title");
+        var content = mytrans("dialog.search_error.content").replace(/%1/, address);
+        showAlert(title, content);
       }
+    }).fail(function(data) {
+      var title = mytrans("dialog.search_error.title");
+      var content = mytrans("dialog.search_error.content").replace(/%1/, address);
+      showAlert(title, content);
     });
   } else {
     map.setCenter(coords);

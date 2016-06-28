@@ -406,25 +406,40 @@ function generatePermalink() {
 }
 
 function updateCopyrights() {
-  if (copyrightDiv == null) {
-    return;
-  }
-
   newMapType = map.getMapTypeId();
   Cookies.set('maptype', newMapType, {expires:30});
 
+  isGoogleMap = true;
+  copyright = "";
+  
   if (newMapType == "OSM" || newMapType == "OSM/DE") {
-    copyrightDiv.innerHTML = "Map data (C) by <a href=\"http://www.openstreetmap.org/\">OpenStreetMap.org</a> and its contributors; <a href=\"http://opendatacommons.org/licenses/odbl/\">Open Database License</a>";
+    isGoogleMap = false;
+    copyright = "Map data (C) by <a href=\"http://www.openstreetmap.org/\">OpenStreetMap.org</a> and its contributors; <a href=\"http://opendatacommons.org/licenses/odbl/\">Open Database License</a>";
   } else if (newMapType == "OCM") {
-    copyrightDiv.innerHTML = "Map data (C) by <a href=\"http://www.openstreetmap.org/\">OpenStreetMap.org</a> and its contributors; <a href=\"http://opendatacommons.org/licenses/odbl/\">Open Database License</a>, tiles (C) by <a href=\"http://opencyclemap.org\">OpenCycleMap.org</a>";
+    isGoogleMap = false;
+    copyright = "Map data (C) by <a href=\"http://www.openstreetmap.org/\">OpenStreetMap.org</a> and its contributors; <a href=\"http://opendatacommons.org/licenses/odbl/\">Open Database License</a>, tiles (C) by <a href=\"http://opencyclemap.org\">OpenCycleMap.org</a>";
   } else if (newMapType == "MQ") {
-    copyrightDiv.innerHTML = "Map data (C) by <a href=\"http://www.openstreetmap.org/\">OpenStreetMap.org</a> and its contributors; <a href=\"http://opendatacommons.org/licenses/odbl/\">Open Database License</a>, tiles (C) by <a href=\"http://mapquest.com\">MapQuest</a>";
+    isGoogleMap = false;
+    copyright = "Map data (C) by <a href=\"http://www.openstreetmap.org/\">OpenStreetMap.org</a> and its contributors; <a href=\"http://opendatacommons.org/licenses/odbl/\">Open Database License</a>, tiles (C) by <a href=\"http://mapquest.com\">MapQuest</a>";
   } else if (newMapType == "OUTD") {
-    copyrightDiv.innerHTML = "Map data (C) by <a href=\"http://www.openstreetmap.org/\">OpenStreetMap.org</a> and its contributors; <a href=\"http://opendatacommons.org/licenses/odbl/\">Open Database License</a>, tiles (C) by <a href=\"http://www.thunderforest.com/outdoors/\">Thunderforest</a>";
+    isGoogleMap = false;
+    copyright = "Map data (C) by <a href=\"http://www.openstreetmap.org/\">OpenStreetMap.org</a> and its contributors; <a href=\"http://opendatacommons.org/licenses/odbl/\">Open Database License</a>, tiles (C) by <a href=\"http://www.thunderforest.com/outdoors/\">Thunderforest</a>";
   } else if (newMapType == "TOPO") {
-    copyrightDiv.innerHTML = "Map data (C) by <a href=\"http://www.openstreetmap.org/\">OpenStreetMap.org</a> and its contributors; <a href=\"http://opendatacommons.org/licenses/odbl/\">Open Database License</a>, height data by SRTM, tiles (C) by <a href=\"http://www.opentopomap.com/\">OpenTopoMap</a>";
+    isGoogleMap = false;
+    copyright = "Map data (C) by <a href=\"http://www.openstreetmap.org/\">OpenStreetMap.org</a> and its contributors; <a href=\"http://opendatacommons.org/licenses/odbl/\">Open Database License</a>, height data by SRTM, tiles (C) by <a href=\"http://www.opentopomap.com/\">OpenTopoMap</a>";
+  }
+  
+  if (copyrightDiv) {
+    copyrightDiv.innerHTML = copyright;
+  }
+  if (isGoogleMap) {
+    $(".gmnoprint a, .gmnoprint span, .gm-style-cc").css("display","block");
+    $("a[href*='maps.google.com/maps']").show();
   } else {
-    copyrightDiv.innerHTML = "";
+    // hide logo for non-g-maps
+    $("a[href*='maps.google.com/maps']").hide();
+    // hide term-of-use for non-g-maps
+    $(".gmnoprint a, .gmnoprint span, .gm-style-cc").css("display","none");
   }
 }
 
@@ -611,6 +626,7 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocache
     zoom: zoom,
     center: center,
     scaleControl: true,
+    streetViewControl: false,
     mapTypeControlOptions: { mapTypeIds: ['OSM', 'OSM/DE', 'OCM', 'MQ', 'OUTD', 'TOPO', google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.SATELLITE, google.maps.MapTypeId.HYBRID, google.maps.MapTypeId.TERRAIN] },
     mapTypeId: google.maps.MapTypeId.ROADMAP };
 
@@ -673,6 +689,7 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocache
   map.mapTypes.set("TOPO", topomap_type);
 
   map.setMapTypeId(maptype);
+  
 
   hillshadingLayer = new google.maps.ImageMapType({
     getTileUrl: function(coord, zoom) {
@@ -837,11 +854,12 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocache
   }
 
   updateCopyrights();
-
+  setTimeout(function(){ updateCopyrights(); }, 1000);
+  
   okapi_show_cache = xgeocache;
   restoreSidebar(true);
   if (xfeatures == '[default]') {
-    restoreHillshading(true);
+    restoreHillshading(false);
     restoreBoundaries(false);
     restoreGeocaches(false);
     toggleNPALayer(false);
@@ -862,7 +880,7 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocache
     atDefaultCenter = false;
   }
 
-  if (atDefaultCenter) {
-    theGeolocation.whereAmI();
-  }
+  //if (atDefaultCenter) {
+  //  theGeolocation.whereAmI();
+  //}
 }

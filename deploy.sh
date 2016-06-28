@@ -56,7 +56,8 @@ ROOT=(
     private/google7caa54246d4da45f.html
     private/BingSiteAuth.xml
     static/.htaccess
-    static/maintenance.html)
+    static/maintenance.html
+    static/disabled.html)
 
 sed "s/TSTAMP/$(date +%s)/g" php/map.php > $D/map.php
 cp -a ${ROOT[@]} $D/

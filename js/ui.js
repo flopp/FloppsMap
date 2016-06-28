@@ -255,11 +255,11 @@ function showNPADialog()
 /* setup button events */
 $(document).ready(function() {
   $("#sidebartoggle").click(function() { if ($('#sidebar').is(':visible')) hideSidebar(); else showSidebar(); });
+  //$('#buttonWhereAmI').click(function() { theGeolocation.whereAmI(); });
   $("#hillshading").click(function() { toggleHillshading($('#hillshading').is(':checked')); });
   $("#boundaries").click(function() { toggleBoundaries($('#boundaries').is(':checked')); });
   $("#npa").click(function() { toggleNPALayer($('#npa').is(':checked')); });
   $("#geocaches").click(function() { okapi_toggle_load_caches($('#geocaches').is(':checked')); });
   $('#coordinatesFormat').change(function() { setCoordinatesFormat($('#coordinatesFormat').val()); });
-  $('#buttonWhereAmI').click(function() { theGeolocation.whereAmI(); });
   $("#freifunk").click(function() { toggleFreifunkLayer($('#freifunk').is(':checked')); });
 });
