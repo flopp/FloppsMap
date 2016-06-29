@@ -1,7 +1,7 @@
 var hillshadingLayer = null;
 var hillshadingLayerShown = false;
-var boundariesLayer = null;
-var boundariesLayerShown = false;
+//var boundariesLayer = null;
+//var boundariesLayerShown = false;
 var npaLayer = null;
 var npaLayerShown = false;
 var map = null;
@@ -375,7 +375,7 @@ function endNPAInfoMode() {
 
 function getFeaturesString() {
     var s = "";
-    if ($('#boundaries').is(':checked')) { s += "b"; }
+    //if ($('#boundaries').is(':checked')) { s += "b"; }
     if ($('#geocaches').is(':checked')) { s += "g"; }
     if ($('#hillshading').is(':checked')) { s += "h"; }
     if ($('#npa').is(':checked')) { s += "n"; }
@@ -693,9 +693,10 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocache
 
   hillshadingLayer = new google.maps.ImageMapType({
     getTileUrl: function(coord, zoom) {
-      if (6 <= zoom && zoom <= 16)
+      if (6 <= zoom && zoom <= 15)
       {
-        return tileUrl("http://korona.geog.uni-heidelberg.de/tiles/asterh/?x=%x&y=%y&z=%z", ["dummy"], coord, zoom);
+        var url = 'http://%s.tiles.wmflabs.org/hillshading/%z/%x/%y.png';
+        return tileUrl(url, ['a', 'b', 'c'], coord, zoom);
       }
       else
       {
@@ -707,21 +708,21 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocache
     alt: "Hillshading",
     maxZoom: 16 });
 
-  boundariesLayer = new google.maps.ImageMapType({
-    getTileUrl: function(coord, zoom) {
-      if (6 <= zoom && zoom <= 16)
-      {
-        return tileUrl("http://korona.geog.uni-heidelberg.de/tiles/adminb/?x=%x&y=%y&z=%z", ["dummy"], coord, zoom);
-      }
-      else
-      {
-        return null;
-      }
-    },
-    tileSize: new google.maps.Size(256, 256),
-    name: "adminb",
-    alt: "Administrative Boundaries",
-    maxZoom: 16 });
+  //boundariesLayer = new google.maps.ImageMapType({
+  //  getTileUrl: function(coord, zoom) {
+  //    if (6 <= zoom && zoom <= 16)
+  //    {
+  //      return tileUrl("http://korona.geog.uni-heidelberg.de/tiles/adminb/?x=%x&y=%y&z=%z", ["dummy"], coord, zoom);
+  //    }
+  //    else
+  //    {
+  //      return null;
+  //    }
+  //  },
+  //  tileSize: new google.maps.Size(256, 256),
+  //  name: "adminb",
+  //  alt: "Administrative Boundaries",
+  //  maxZoom: 16 });
 
   npaLayer = new google.maps.ImageMapType({
     getTileUrl: function(coord, zoom) {
@@ -860,13 +861,13 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocache
   restoreSidebar(true);
   if (xfeatures == '[default]') {
     restoreHillshading(false);
-    restoreBoundaries(false);
+    //restoreBoundaries(false);
     restoreGeocaches(false);
     toggleNPALayer(false);
     toggleFreifunkLayer(false);
   } else {
     toggleHillshading(xfeatures.indexOf('h') >= 0 || xfeatures.indexOf('H') >= 0);
-    toggleBoundaries(xfeatures.indexOf('b') >= 0 || xfeatures.indexOf('B') >= 0);
+    //toggleBoundaries(xfeatures.indexOf('b') >= 0 || xfeatures.indexOf('B') >= 0);
     okapi_toggle_load_caches(xfeatures.indexOf('g') >= 0 || xfeatures.indexOf('G') >= 0);
     toggleNPALayer(xfeatures.indexOf('n') >= 0 || xfeatures.indexOf('N') >= 0);
     toggleFreifunkLayer(xfeatures.indexOf('f') >= 0 || xfeatures.indexOf('F') >= 0);

@@ -82,43 +82,43 @@ function restoreHillshading(defaultValue)
   }
 }
 
-/* boundaries layer */
-function toggleBoundaries(t)
-{
-  Cookies.set('boundaries', t ? "1" : "0", {expires:30});
-
-  if ($('#boundaries').is(':checked') != t)
-  {
-    $('#boundaries').attr('checked', t);
-  }
-
-  if( boundariesLayerShown == t ) return;
-  boundariesLayerShown = t;
-
-  if (t) {
-    map.overlayMapTypes.push(boundariesLayer);
-  } else {
-    map.overlayMapTypes.removeAt(map.overlayMapTypes.indexOf(boundariesLayer));
-  }
-}
-
-function restoreBoundaries(defaultValue)
-{
-  var state = get_cookie_string("boundaries", "invalid");
-
-  if (state == "0")
-  {
-    toggleBoundaries(false);
-  }
-  else if (state == "1")
-  {
-    toggleBoundaries(true);
-  }
-  else
-  {
-    toggleBoundaries(defaultValue);
-  }
-}
+///* boundaries layer */
+//function toggleBoundaries(t)
+//{
+//  Cookies.set('boundaries', t ? "1" : "0", {expires:30});
+//
+//  if ($('#boundaries').is(':checked') != t)
+//  {
+//    $('#boundaries').attr('checked', t);
+//  }
+//
+//  if( boundariesLayerShown == t ) return;
+//  boundariesLayerShown = t;
+//
+//  if (t) {
+//    map.overlayMapTypes.push(boundariesLayer);
+//  } else {
+//    map.overlayMapTypes.removeAt(map.overlayMapTypes.indexOf(boundariesLayer));
+//  }
+//}
+//
+//function restoreBoundaries(defaultValue)
+//{
+//  var state = get_cookie_string("boundaries", "invalid");
+//
+//  if (state == "0")
+//  {
+//    toggleBoundaries(false);
+//  }
+//  else if (state == "1")
+//  {
+//    toggleBoundaries(true);
+//  }
+//  else
+//  {
+//    toggleBoundaries(defaultValue);
+//  }
+//}
 
 function toggleNPALayer(t)
 {
@@ -237,15 +237,15 @@ function linkDialogShortenLink()
   });
 }
 
-function showHillshadingDialog()
-{
-  $('#dialogHillshading').modal({show : true, backdrop: "static", keyboard: true});
-}
+//function showHillshadingDialog()
+//{
+//  $('#dialogHillshading').modal({show : true, backdrop: "static", keyboard: true});
+//}
 
-function showBoundariesDialog()
-{
-  $('#dialogBoundaries').modal({show : true, backdrop: "static", keyboard: true});
-}
+//function showBoundariesDialog()
+//{
+//  $('#dialogBoundaries').modal({show : true, backdrop: "static", keyboard: true});
+//}
 
 function showNPADialog()
 {
@@ -257,7 +257,7 @@ $(document).ready(function() {
   $("#sidebartoggle").click(function() { if ($('#sidebar').is(':visible')) hideSidebar(); else showSidebar(); });
   //$('#buttonWhereAmI').click(function() { theGeolocation.whereAmI(); });
   $("#hillshading").click(function() { toggleHillshading($('#hillshading').is(':checked')); });
-  $("#boundaries").click(function() { toggleBoundaries($('#boundaries').is(':checked')); });
+  //$("#boundaries").click(function() { toggleBoundaries($('#boundaries').is(':checked')); });
   $("#npa").click(function() { toggleNPALayer($('#npa').is(':checked')); });
   $("#geocaches").click(function() { okapi_toggle_load_caches($('#geocaches').is(':checked')); });
   $('#coordinatesFormat').change(function() { setCoordinatesFormat($('#coordinatesFormat').val()); });

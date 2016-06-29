@@ -207,13 +207,15 @@ $(document).ready( function() {
         <label>
             <input id="hillshading" type="checkbox">
             <span data-i18n="sidebar.misc.hillshading">HILL SHADING</span>
+            <!--
             <button class="btn btn-info btn-xs" onClick="showHillshadingDialog()">
                 <i class="fa fa-info"></i>
             </button>
+            -->
         </label>
     </div>
 
-    <div class="checkbox">
+    <!--<div class="checkbox">
         <label>
             <input id="boundaries" type="checkbox">
             <span data-i18n="sidebar.misc.boundaries">ADMINISTRATIVE BOUNDARIES</span>
@@ -221,7 +223,7 @@ $(document).ready( function() {
                 <i class="fa fa-info"></i>
             </button>
         </label>
-    </div>
+    </div>-->
     <div class="checkbox">
         <label>
             <input id="npa" type="checkbox">
@@ -354,6 +356,7 @@ $(document).ready( function() {
   </div>
 </div>
 
+<!--
 <div id="dialogHillshading" class="modal">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -369,6 +372,7 @@ $(document).ready( function() {
     </div>
   </div>
 </div>
+-->
 
 <div id="dialogBoundaries" class="modal">
   <div class="modal-dialog">
