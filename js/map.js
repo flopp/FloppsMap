@@ -435,11 +435,13 @@ function updateCopyrights() {
   if (isGoogleMap) {
     $(".gmnoprint a, .gmnoprint span, .gm-style-cc").css("display","block");
     $("a[href*='maps.google.com/maps']").show();
+    map.setOptions({streetViewControl: true})
   } else {
     // hide logo for non-g-maps
     $("a[href*='maps.google.com/maps']").hide();
     // hide term-of-use for non-g-maps
     $(".gmnoprint a, .gmnoprint span, .gm-style-cc").css("display","none");
+    map.setOptions({streetViewControl: false})
   }
 }
 
@@ -854,9 +856,6 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocache
     }
   }
 
-  updateCopyrights();
-  setTimeout(function(){ updateCopyrights(); }, 1000);
-  
   okapi_show_cache = xgeocache;
   restoreSidebar(true);
   if (xfeatures == '[default]') {
@@ -880,6 +879,11 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocache
     okapi_toggle_load_caches(true);
     atDefaultCenter = false;
   }
+  
+  // update copyrights + gmap-stuff now, once the map is fully loaded, and in 1s - just to be sure!
+  updateCopyrights();
+  google.maps.event.addListenerOnce(map, 'idle', function(){ updateCopyrights(); });
+  setTimeout(function(){ updateCopyrights(); }, 1000);
 
   //if (atDefaultCenter) {
   //  theGeolocation.whereAmI();
