@@ -262,4 +262,9 @@ $(document).ready(function() {
   $("#geocaches").click(function() { okapi_toggle_load_caches($('#geocaches').is(':checked')); });
   $('#coordinatesFormat').change(function() { setCoordinatesFormat($('#coordinatesFormat').val()); });
   $("#freifunk").click(function() { toggleFreifunkLayer($('#freifunk').is(':checked')); });
+
+  var fileSelect = document.getElementById("fileSelect"),
+  fileElem = document.getElementById("fileElem");
+
+  $("#buttonUploadGPX").click(function(e) { $("#buttonUploadGPXinput").click(); e.preventDefault(); });
 });

@@ -186,6 +186,10 @@ $(document).ready( function() {
 <div class="my-section">
   <div class="my-section-header" data-i18n="sidebar.misc.title">MISC</div>
   <div style="margin-bottom: 10px">
+    <input id="buttonUploadGPXinput" style="display:none" type="file" name="files" onchange="handleGpxFiles(this.files)">
+    <a id="buttonUploadGPX" class="btn btn-block btn-sm btn-info" role="button">UPLOAD GPX</a>
+  </div>
+  <div style="margin-bottom: 10px">
     <a id="buttonExportGPX" class="btn btn-block btn-sm btn-info" role="button" href="download.php" data-i18n="sidebar.misc.gpx">EXPORT GPX</a>
   </div>
   <div style="margin-bottom: 10px">

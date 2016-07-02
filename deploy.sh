@@ -58,6 +58,7 @@ JS=(
     js/okapi.js
     js/tracking.js
     js/ui.js
+    js/uploadgpx.js
     js/lang.js)
 
 IMG=(
