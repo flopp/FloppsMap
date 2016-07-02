@@ -2,7 +2,7 @@
     "app": {
         "title": "Flopps Karte"
     },
-    
+
     "nav": {
         "title": "Flopps Karte",
         "blog": "Blog",
@@ -14,7 +14,7 @@
         "romanian": "Română",
         "polish": "Polski"
     },
-    
+
     "sidebar": {
         "search": {
             "title": "Suche",
@@ -62,33 +62,33 @@
             "freifunkinfo": "Freifunk-Info beim nächsten Klick zeigen"
         }
     },
-    
+
     "dialog": {
         "ok": "Ok",
         "cancel": "Abbrechen",
         "error": "Fehler",
         "information": "Information",
-        
+
         "search_error": {
             "title": "Suche",
             "content": "Kann Koordinaten von \"%1\" nicht bestimmen."
         },
-        
+
         "whereami_error": {
             "title": "Wo bin ich?",
             "content": "Kann aktuellen Aufenthaltsort nicht bestimmen."
         },
-        
+
         "toomanymarkers_error": {
             "title": "Fehler",
-            "content": "Maximale Anzahl an Markern (26) erreicht."
+            "content": "Maximale Anzahl an Markern (%1) erreicht."
         },
-        
+
         "info": {
             "title": "Info/Impressum",
             "content": "<img class=\"img-polaroid\" width=\"100ps\" height=\"100px\" style=\"float: right\" src=\"img/avatar.jpg\" alt=\"Flopp\"> <h4>Kontakt</h4> <p>Neuigkeiten und aktuelle Informationen werden über das <a target=\"_blank\" href=\"http://blog.flopp-caching.de/\" alt=\"Blog\">zugehörige Blog <i class=\"fa fa-globe\"></i></a> verbreitet.</p> <p>Fragen und Anregungen nehme ich gerne per <a href=\"mailto:mail@flopp-caching.de\" target=\"_blank\">Mail <i class=\"fa fa-envelope\"></i></a> oder <a href=\"https://twitter.com/floppgc\" target=\"_blank\">Twitter <i class=\"fa fa-twitter-square\"></i></a> entgegen. Außerdem gibt es Seiten bei <a href=\"https://plus.google.com/u/0/116067328889875491676\" target=\"_blank\">Google+ <i class=\"fa fa-google-plus-square\"></i></a> und bei <a href=\"https://www.facebook.com/FloppsTolleKarte\" target=\"_blank\">Facebook <i class=\"fa fa-facebook-square\"></i></a>.</p> <p>Bugs können auch via <a href=\"https://github.com/flopp/FloppsTolleKarte\" target=\"_blank\">github <i class=\"fa fa-github-square\"></i></a> gemeldet werden.</p> <p>Flopps Tolle Karte ist unter den URLs <a target=\"_blank\" href=\"http://flopp-caching.de/\">flopp-caching.de</a> und <a target=\"_blank\" href=\"http://flopp.net/\">flopp.net</a>.</p> <hr /> <h4>Impressum</h4> <p> Angaben gemäß § 5 TMG, Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV:<br /><br /> <a href=\"http://www.florian-pigorsch.de/\" target=\"_blank\">Florian Pigorsch</a><br /> Hurstbrunnenstraße 5<br /> 79117 Freiburg<br /> <a target=\"_blank\" href=\"mailto:mail@flopp.net\">mail@flopp.net</a> </p> <hr /> <h4>Hinter den Kulissen...</h4> <p> <b>Flopps Tolle Karte</b> benutzt <a href=\"https://developers.google.com/maps/\" target=\"_blank\">Google Maps</a>, <a href=\"http://openstreetmap.org/\" target=\"_blank\">OpenStreetMap</a>, <a href=\"http://opencyclemap.org/\" target=\"_blank\">OpenCycleMap</a> und <a href=\"http://mapquest.com/\" target=\"_blank\">MapQuest</a> als Kartenlieferanten, <a href=\"http://getbootstrap.com/\" target=\"_blank\">Bootstrap</a> und <a href=\"http://jquery.com/\" target=\"_blank\">jQuery</a> für die Elemente des Userinterfaces, die Icons von <a href=\"http://fontawesome.io/\" target=\"_blank\">Font Awesome</a>, sowie die Javascript-Version von <a href=\"http://geographiclib.sf.net/html/other.html#javascript\" target=\"_blank\">GeographicLib</a> für die Distanz-/Winkelberechnungen und die Wegpunktprojektion. <br /> Der aktuelle Quellcode von <b>Flopps Toller Karte</b> ist auf <a href=\"https://github.com/flopp/FloppsTolleKarte\" target=\"_blank\">github</a> zu finden. </p> <hr /> <!--<h4>Hillshading-Kartenkacheln</h4> <p> Die Hillshading-Kartenkacheln werden uns freundlicherweise vom <a href=\"http://openmapsurfer.uni-hd.de\" target=\"_blank\">OpenMapSurfer-Projekt</a> der Univerität Heidelberg unter folgenden Copyright-Bedingungen zur Verfügung gestellt:<br>Map data &copy; <a href=\"http://srtm.csi.cgiar.org/\" target=\"_blank\">SRTM</a>; ASTER GDEM is a product <a href=\"http://www.meti.go.jp/english/press/data/20090626_03.html\" target=\"_blank\">METI</a> and <a href=\"https://lpdaac.usgs.gov/products/aster_policies\" target=\"_blank\">NASA</a>, Imagery <a href=\"http://giscience.uni-hd.de/\" target=\"_blank\">GIScience Research Group @ Heidelberg University</a> </p> <h4>Verwaltungsgrenzen-Kartenkacheln</h4> <p> Die Verwaltungsgrenzen-Kartenkacheln werden uns freundlicherweise vom <a href=\"openmapsurfer.uni-hd.de\" target=\"_blank\">OpenMapSurfer-Projekt</a> der Univerität Heidelberg unter folgenden Copyright-Bedingungen zur Verfügung gestellt:<br>Map data &copy; <a href=\"http://osm.org/\" target=\"_blank\">Openstreetmap</a> contributors; Imagery <a href=\"http://giscience.uni-hd.de/\" target=\"_blank\">GIScience Research Group @ Heidelberg University</a> </p>--> <h4>Naturschutzgebiete</h4> <p> Die Daten für deutsche Naturschutzgebiete werden vom <a href=\"http://www.bfn.de/\" target=\"_blank\">Bundesamt für Naturschutz</a> unter den Bedingungen der <a href=\"http://www.gesetze-im-internet.de/geonutzv/\" target=\"_blank\">GeoNutzV</a> zur Verfügung gestellt. Zudem liegt eine explizite schriftliche Nutzungsgenehmigung vor.<br />Die angezeigten Datensätze der verschiedenen Schutzgebietskategorien werden vom Bundesamt für Naturschutz aus Datenbeständen der Bundesländer zusammengeführt und harmonisiert. Dies geschieht auf Basis einer Datenbereitstellung, die einmal jährlich erfolgt, so dass Stichtagsdatensätze erstellt werden und damit zwischenzeitlich erfolgte Änderungen nicht abgebildet werden. Das Bundesamt für Naturschutz übernimmt daher keine Gewähr hinsichtlich der Lagegenauigkeit und Aktualität der Daten.<br />Auf den Internetseiten des Bundesamts finden sich außerdem weitere Informationen zu den Schutzgebieten, sowie eine <a href=\"http://www.geodienste.bfn.de/schutzgebiete\" target=\"_blank\">offizielle Kartendarstellung der Schutzgebiete</a>. </p> <h4>Geocaching-Daten</h4> <p> Die angezeigten Geocache-Daten werden über die <a target=\"_blank\" href=\"http://www.opencaching.de/okapi/introduction.html\">OKAPI-Schnittstelle</a> von den nationalen Opencaching-Seiten <a target=\"_blank\" href=\"http://www.opencaching.de/\">Opencaching.de</a>, <a target=\"_blank\" href=\"http://www.opencaching.pl/\">Opencaching.pl</a>, <a target=\"_blank\" href=\"http://www.opencaching.nl/\">Opencaching.nl</a>, <a target=\"_blank\" href=\"http://www.opencaching.org.uk/\">Opencaching.org.uk</a>, <a target=\"_blank\" href=\"http://www.opencaching.us/\">Opencaching.us</a>, <a target=\"_blank\" href=\"http://www.opencaching.ro/\">Opencaching.ro</a> geholt und unterliegen den Datenlizenzen der jeweiligen Opencaching-Sites. </p> <hr /> <h4>Cookies</h4> <p> Diese Seite verwendet Cookies, um die aktuelle Ansicht der Karte (Zentrum, Position der Marker, gewählter Kartentyp) abzuspeichern und beim erneuten Besuch der Seite wieder zu laden. Selbstverständlich ist das Löschen dieser Cookies bzw. das Unterbinden dieser Cookies in den Browsereinstellungen möglich -- allerdings ist dann ein reibungsloses Funktionieren der Seite nicht garantiert. </p> <h4>Datenschutzerklärung für die Nutzung von Piwik</h4> <p> Diese Seite benutzt Piwik, eine Open-Source-Software zur statistischen Auswertung der Besucherzugriffe. Piwik verwendet sog. “Cookies”, Textdateien, die auf Ihrem Computer gespeichert werden und die eine Analyse der Benutzung der Website durch Sie ermöglichen. Die durch den Cookie erzeugten Informationen über Ihre Benutzung dieses Internetangebotes werden auf dem Server des Anbieters in Deutschland gespeichert. <iframe src=\"http://www.flopp-caching.de/piwik/index.php?module=CoreAdminHome&amp;action=optOut\" height=\"200\" width=\"500\" frameborder=\"no\"></iframe> </p>"
         },
-        
+
         "projection": {
             "title": "Wegpunkt-Projektion",
             "content": "Wegpunktprojektion erzeugt einen neuen Marker, der <b>d</b> Meter vom Ursprungsmarker entfernt ist und unter einem Winkel von <b>&beta;°</b> erscheint.",
@@ -100,24 +100,24 @@
             "error_bad_distance": "Ungültiger Wert für 'Entfernung': \"%1\".<br />Erlaubte Werte: Fließkommazahlen &geq; 0.",
             "msg_new_marker": "Neuer Marker: %1."
         },
-        
+
         "permalink": {
             "title": "Permalink",
             "content": "Die folgende URL beschreibt die aktuelle Kartenansicht inklusive aller Marker, Linien und des ausgewählten Kartentyps. Kopiere (<tt>STRG+C</tt>) die URL und teile sie mit deinen Freunden!<br />'<b>Kürzen</b> schickt die lange URL durch einen URL-Shortener (<a href=\"http://goo.gl/\" target=\"_blank\">goo.gl</a>) und erzeugt so einen kürzere URL.",
             "shorten": "Kürzen"
         },
-        
+
         "hillshading": {
             "title": "Hillshading",
             "content": "Die Hillshading-Kartenkacheln werden uns freundlicherweise vom <a href=\"http://openmapsurfer.uni-hd.de\" target=\"_blank\">OpenMapSurfer-Projekt</a> der Univerität Heidelberg unter folgenden Copyright-Bedingungen zur Verfügung gestellt:<br>Map data &copy; <a href=\"http://srtm.csi.cgiar.org/\" target=\"_blank\">SRTM</a>; ASTER GDEM is a product <a href=\"http://www.meti.go.jp/english/press/data/20090626_03.html\" target=\"_blank\">METI</a> and <a href=\"https://lpdaac.usgs.gov/products/aster_policies\" target=\"_blank\">NASA</a>, Imagery <a href=\"http://giscience.uni-hd.de/\" target=\"_blank\">GIScience Research Group @ Heidelberg University</a>"
         },
-        
+
         "boundaries": {
             "title": "Verwaltungsgrenzen",
             "content": "Die Verwaltungsgrenzen-Kartenkacheln werden uns freundlicherweise vom <a href=\"http://openmapsurfer.uni-hd.de\" target=\"_blank\">OpenMapSurfer-Projekt</a> der Univerität Heidelberg unter folgenden Copyright-Bedingungen zur Verfügung gestellt:<br>Map data &copy; <a href=\"http://osm.org/\" target=\"_blank\">Openstreetmap</a> contributors; Imagery <a href=\"http://giscience.uni-hd.de/\" target=\"_blank\">GIScience Research Group @ Heidelberg University</a>"
         },
-        
-        "npa": { 
+
+        "npa": {
             "title": "Naturschutzgebiete",
             "content": "Deutsche Naturschutzgebiete werden als grünes Kartenoverlay angezeigt:<br /><img src=\"img/nsg.png\" class=\"center-block img-thumbnail\"><br /><br />Die Daten für deutsche Naturschutzgebiete werden vom <a href=\"http://www.bfn.de/\" target=\"_blank\">Bundesamt für Naturschutz</a> unter den Bedingungen der <a href=\"http://www.gesetze-im-internet.de/geonutzv/\" target=\"_blank\">GeoNutzV</a> zur Verfügung gestellt. Zudem liegt eine explizite schriftliche Nutzungsgenehmigung vor.<br />Die angezeigten Datensätze der verschiedenen Schutzgebietskategorien werden vom Bundesamt für Naturschutz aus Datenbeständen der Bundesländer zusammengeführt und harmonisiert. Dies geschieht auf Basis einer Datenbereitstellung, die einmal jährlich erfolgt, so dass Stichtagsdatensätze erstellt werden und damit zwischenzeitlich erfolgte Änderungen nicht abgebildet werden. Das Bundesamt für Naturschutz übernimmt daher keine Gewähr hinsichtlich der Lagegenauigkeit und Aktualität der Daten.<br />Auf den Internetseiten des Bundesamts finden sich außerdem weitere Informationen zu den Schutzgebieten, sowie eine <a href=\"http://www.geodienste.bfn.de/schutzgebiete\" target=\"_blank\">offizielle Kartendarstellung der Schutzgebiete</a>.",
             "cdda_code": "CDDA-Code:",
@@ -126,8 +126,8 @@
             "msg_no_npa": "An den gewählen Koordinaten befindet sich kein Naturschutzgebiet.",
             "error": "Fehler beim Anfragen von Informationen über Naturschutzbegiete."
         },
-        
-        "freifunk": { 
+
+        "freifunk": {
             "title": "Freifunk",
             "content": "<a href=\"https://www.freifunk.net/\" target=\"_blank\">Freifunk</a> ist eine nichtkommerzielle Initiative, die sich dem Aufbau und Betrieb eines freien Funknetzes auf Basis von selbstverwalteten lokalen Computernetzwerken widmet.<br />Flopp's Karte bietet einige Funktionen speziell für Freifunk an:<ul><li>Positionsbestimmung zur Konfiguration von Freifunk-Routern</li></ul>",
             "popuptitle": "Kopiere die folgenden Kommandos und führe sie in der Router-Konsole aus, um dessen Geo-Location zu ändern:"

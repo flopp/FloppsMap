@@ -78,30 +78,6 @@ function gotoExternalLink() {
   window.open(url, '_blank');
 }
 
-function id2alpha(id) {
-  var s = "";
-  if (id >= 0 && id < 26) {
-    var code = 'A'.charCodeAt() + id;
-    s = String.fromCharCode(code);
-  }
-  return s;
-}
-
-function alpha2id(alpha) {
-  if (alpha.length != 1) {
-    return -1;
-  }
-  else if (alpha[0] >= 'A' && alpha[0] <= 'Z') {
-    return alpha.charCodeAt(0) - 'A'.charCodeAt(0);
-  }
-  else if (alpha[0] >= 'a' && alpha[0] <= 'z') {
-    return alpha.charCodeAt(0) - 'a'.charCodeAt(0);
-  }
-  else {
-    return -1;
-  }
-}
-
 function gotoMarker(id) {
   trackMarker('goto');
   map.setCenter(theMarkers.getById(id).getPosition());
@@ -170,20 +146,12 @@ function newMarker(coordinates, id, radius, name) {
     radius = RADIUS_DEFAULT;
   }
 
-  if (id == -1 || id < 0 || id >= 26 || !theMarkers.getById(id).isFree()) {
+  if (id == -1 || id < 0 || id >= theMarkers.getSize() || !theMarkers.getById(id).isFree()) {
     id = theMarkers.getFreeId();
   }
   if (id == -1) {
-    showAlert(mytrans("dialog.error"), mytrans("dialog.toomanymarkers_error.content"));
+    showAlert(mytrans("dialog.error"), mytrans("dialog.toomanymarkers_error.content").replace(/%1/, theMarkers.getSize()));
     return null;
-  }
-
-  var nextid = theMarkers.getSize();
-  for(var i = id+1; i < theMarkers.getSize(); i= i + 1) {
-    if (!theMarkers.getById(i).isFree()) {
-      nextid = i;
-      break;
-    }
   }
 
   var alpha = id2alpha(id);
@@ -194,18 +162,17 @@ function newMarker(coordinates, id, radius, name) {
   var marker = theMarkers.getById(id);
   marker.initialize(name, coordinates, radius);
 
-  var iconw = 32;
+  var iconw = 33;
   var iconh = 37;
-  var offsetx = (id % 7)*iconw;
-  var offsety = Math.floor(id / 7)*iconh;
-
+  var offsetx = (id % 26)*iconw;
+  var offsety = Math.floor(id / 26)*iconh;
 
   var div =
       "<div id=\"dyn" + id + "\">" +
       "<table id=\"dynview" + id + "\" style=\"width: 100%; vertical-align: middle;\">\n" +
       "    <tr>\n" +
       "        <td rowspan=\"3\" style=\"vertical-align: top\">\n" +
-      "            <span style=\"width:" + iconw + "px; height:" + iconh + "px; float: left; display: block; background-image: url(img/base.png); background-repeat: no-repeat; background-position: -" + offsetx + "px -" + offsety + "px;\">&nbsp;</span>\n" +
+      "            <span style=\"width:" + iconw + "px; height:" + iconh + "px; float: left; display: block; background-image: url(img/markers.png); background-repeat: no-repeat; background-position: -" + offsetx + "px -" + offsety + "px;\">&nbsp;</span>\n" +
       "        </td>\n" +
       "        <td style=\"text-align: center\"><i class=\"fa fa-map-marker\"></i></td>\n" +
       "        <td id=\"view_name" + alpha +"\" colspan=\"2\">marker</td>\n" +
@@ -230,7 +197,7 @@ function newMarker(coordinates, id, radius, name) {
       "</table>\n" +
       "<table id=\"dynedit" + id + "\" style=\"display: none; width: 100%; vertical-align: middle;\">\n" +
       "    <tr>\n" +
-      "        <td rowspan=\"4\" style=\"vertical-align: top\"><span style=\"width:" + iconw + "px; height:" + iconh + "px; float: left; display: block; background-image: url(img/base.png); background-repeat: no-repeat; background-position: -" + offsetx + "px -" + offsety + "px;\">&nbsp;</span>\n" +
+      "        <td rowspan=\"4\" style=\"vertical-align: top\"><span style=\"width:" + iconw + "px; height:" + iconh + "px; float: left; display: block; background-image: url(img/markers.png); background-repeat: no-repeat; background-position: -" + offsetx + "px -" + offsety + "px;\">&nbsp;</span>\n" +
       "        <td style=\"text-align: center; vertical-align: middle;\"><i class=\"icon-map-marker\"></i></td>\n" +
       "        <td><input id=\"edit_name" + alpha + "\" data-i18n=\"[title]sidebar.markers.name;[placeholder]sidebar.markers.name_placeholder\" class=\"form-control input-block-level\" type=\"text\" style=\"margin-bottom: 0px;\" value=\"n/a\" /></td>\n" +
       "    </tr>\n" +
@@ -251,11 +218,10 @@ function newMarker(coordinates, id, radius, name) {
       "</table>" +
       "</div>";
 
-
-  if (nextid == theMarkers.getSize()) {
+  var nextid = theMarkers.getNextUsedId(id);
+  if (nextid == -1) {
     $('#dynMarkerDiv').append(div);
-  }
-  else {
+  } else {
     $(div).insertBefore('#dyn' + nextid);
   }
 
@@ -411,7 +377,7 @@ function updateCopyrights() {
 
   isGoogleMap = true;
   copyright = "";
-  
+
   if (newMapType == "OSM" || newMapType == "OSM/DE") {
     isGoogleMap = false;
     copyright = "Map data (C) by <a href=\"http://www.openstreetmap.org/\">OpenStreetMap.org</a> and its contributors; <a href=\"http://opendatacommons.org/licenses/odbl/\">Open Database License</a>";
@@ -428,7 +394,7 @@ function updateCopyrights() {
     isGoogleMap = false;
     copyright = "Map data (C) by <a href=\"http://www.openstreetmap.org/\">OpenStreetMap.org</a> and its contributors; <a href=\"http://opendatacommons.org/licenses/odbl/\">Open Database License</a>, height data by SRTM, tiles (C) by <a href=\"http://www.opentopomap.com/\">OpenTopoMap</a>";
   }
-  
+
   if (copyrightDiv) {
     copyrightDiv.innerHTML = copyright;
   }
@@ -691,7 +657,7 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocache
   map.mapTypes.set("TOPO", topomap_type);
 
   map.setMapTypeId(maptype);
-  
+
 
   hillshadingLayer = new google.maps.ImageMapType({
     getTileUrl: function(coord, zoom) {
@@ -770,14 +736,14 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocache
   google.maps.event.addListener(map, "maptypeid_changed", function(){ updateCopyrights()});
 
   if (loadfromcookies) {
-    raw_ids = Cookies.set('markers');
+    raw_ids = Cookies.get('markers');
     if (raw_ids != undefined) {
       ids = raw_ids.split(':');
       for(var i = 0; i != ids.length; ++i) {
         var id = parseInt(ids[i]);
-        if (id == null || id < 0 || id >=26) continue;
+        if (id == null || id < 0 || id >= 26*10) continue;
 
-        var raw_data = Cookies.set('marker' + id);
+        var raw_data = Cookies.get('marker' + id);
         if (raw_data == undefined) continue;
 
         var data = raw_data.split(':')
@@ -803,7 +769,7 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocache
       }
     }
 
-    var raw_lines = Cookies.set('lines');
+    var raw_lines = Cookies.get('lines');
     if (raw_lines != undefined) {
       var linesarray = raw_lines.split('*');
       for(var i = 0; i < linesarray.length; ++i) {
@@ -874,12 +840,12 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocache
   restoreCoordinatesFormat(0);
 
   setupExternalLinkTargets();
-  
+
   if (xgeocache != "") {
     okapi_toggle_load_caches(true);
     atDefaultCenter = false;
   }
-  
+
   // update copyrights + gmap-stuff now, once the map is fully loaded, and in 1s - just to be sure!
   updateCopyrights();
   google.maps.event.addListenerOnce(map, 'idle', function(){ updateCopyrights(); });
