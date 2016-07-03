@@ -11,21 +11,30 @@ mkdir -p $L
 
 
 #### create marker images
+COLORS=("#FF0000" "#00FF00" "#0000FF" "#FFFF00" "#FF00FF" "#00FFFF" "#FFFFFF")
+TXTCOLORS=("#FFFFFF" "#000000" "#FFFFFF" "#000000" "#000000" "#000000" "#000000")
 LETTERS="A B C D E F G H I J K L M N O P Q R S T U V W X Y Z"
 NUMBERS="0 1 2 3 4 5 6 7 8 9"
 
 mkdir -p $L/markers
-
+COLORINDEX=0
+COLORSLEN=${#COLORS[@]}
 for NUMBER in $NUMBERS ; do
     if [ $NUMBER == "0" ] ; then
         NUMBER=""
     fi
     for LETTER in $LETTERS ; do
         OUT=$L/markers/${LETTER}${NUMBER}.png
+        COLOR=${COLORS[$COLORINDEX]}
+        TXTCOLOR=${TXTCOLORS[$COLORINDEX]}
+        ((COLORINDEX++))
+        if ((COLORINDEX >= COLORSLEN)) ; then
+            COLORINDEX=0
+        fi
         if [ -f $OUT ] ; then
             continue
         fi
-        cat img/marker-template.svg | sed -e "s/LABEL/${LETTER}${NUMBER}/g" > $L/markers/t.svg
+        cat img/marker-template.svg | sed -e "s/BGCOLOR/${COLOR}/g" -e "s/TXTCOLOR/${TXTCOLOR}/g" -e "s/LABEL/${LETTER}${NUMBER}/g" > $L/markers/t.svg
         inkscape -z $L/markers/t.svg -e $OUT
     done
 done
