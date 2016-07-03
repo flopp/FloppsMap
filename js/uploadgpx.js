@@ -14,7 +14,8 @@ function handleGpxFiles(files) {
         var wpt = wpts[i];
         var lat = wpt.getAttribute('lat');
         var lon = wpt.getAttribute('lon');
-
+        var radius = 0;
+        
         var name = '';
         var nameEl = wpt.getElementsByTagName('name');
         if (nameEl.length > 0) {
@@ -23,8 +24,17 @@ function handleGpxFiles(files) {
         name = name.replace(/[^A-Za-z0-9_-]/gi, '');
         if (name == '') name = 'wpt_' + i;
 
-        console.log("lat", lat, "lon", lon, "name", name);
-        if (!newMarker(new google.maps.LatLng(lat, lon), -1, -1, name)) {
+        var extEl = wpt.getElementsByTagName('*');
+        for (j = 0; j < extEl.length; j++) {
+            var ext = extEl[j];
+            if (ext.tagName == 'wptx1:Proximity') {
+              radius = parseInt(ext.textContent);
+              break;
+            }
+        }
+
+        console.log("lat", lat, "lon", lon, "name", name, "radius", radius);
+        if (!newMarker(new google.maps.LatLng(lat, lon), -1, radius, name)) {
           return;
         }
     };
