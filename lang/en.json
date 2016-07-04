@@ -50,7 +50,9 @@
         },
         "misc": {
             "title": "Misc",
-            "gpx": "Export to GPX file",
+            "multicoordinates": "Add Multiple Markers",
+            "gpx": "Export to GPX File",
+            "uploadgpx": "Upload GPX File",
             "permalink": "Create Permalink",
             "coordinates": "Format of Coordinates",
             "layers": "Additional Layers",
@@ -133,6 +135,16 @@
             "title": "Freifunk",
             "content": "<a href=\"https://www.freifunk.net/\" target=\"_blank\">Freifunk</a> is a non-commercial open grassroots initiative to support free (wireless) computer networks in the German region.<br />Flopp's Karte includes some functions especially for Freifunk:<ul><li>Determination of locations for configuring Freifunk routers</li></ul>",
             "popuptitle": "Copy and paste the following commands into your router's console to change its geo location:"
+        },
+
+        "multicoordinates": {
+            "title": "Add Multiple Markers",
+            "content": "Create multiple markers by specifying multiple coordinates in the text area below (separated by new lines or semicolons). Marker names are prefixed with the given prefix string.",
+            "label_coordinates": "Coordinates:",
+            "label_prefix": "Marker Prefix:",
+            "error_badcoordinates": "Bad coordinates: %1",
+            "error_maxmarkers": "Maximum number of markers reached. Failed to add some markers.",
+            "error_message": "While adding multiple markers, the following errors have occured:<br /><br /> %1"
         }
     }
 }

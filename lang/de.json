@@ -48,7 +48,9 @@
         },
         "misc": {
             "title": "Verschiedenes",
+            "multicoordinates": "Mehrere Marker erstellen",
             "gpx": "GPX-Datei exportieren",
+            "gpx": "GPX-Datei hochladen",
             "permalink": "Permalink erstellen",
             "coordinates": "Koordinatenformat",
             "layers": "Zusätzliche Ebenen",
@@ -131,6 +133,16 @@
             "title": "Freifunk",
             "content": "<a href=\"https://www.freifunk.net/\" target=\"_blank\">Freifunk</a> ist eine nichtkommerzielle Initiative, die sich dem Aufbau und Betrieb eines freien Funknetzes auf Basis von selbstverwalteten lokalen Computernetzwerken widmet.<br />Flopp's Karte bietet einige Funktionen speziell für Freifunk an:<ul><li>Positionsbestimmung zur Konfiguration von Freifunk-Routern</li></ul>",
             "popuptitle": "Kopiere die folgenden Kommandos und führe sie in der Router-Konsole aus, um dessen Geo-Location zu ändern:"
+        },
+
+        "multicoordinates": {
+            "title": "Mehrere Marker Erstellen",
+            "content": "Mehrere Marker können in einem Schritt erzeugt werden. Dazu werden die Koordinaten der zu erzeugenden Marker im unteren Textfeld eingetragen (getrennt durch Zeilenumbrüche oder Semikolons). Den Namen der neu erzeugten Markern wird der angegebene Präfix vorangestellt.",
+            "label_coordinates": "Koordinaten:",
+            "label_prefix": "Präfix:",
+            "error_badcoordinates": "Ungültige Koordinaten: %1",
+            "error_maxmarkers": "Maximale Anzahl an Markern erreicht. Einige Marker konnten nicht erstellt werden.",
+            "error_message": "Während der Erstellung der neuen Marker sind folgende Fehler aufgetreten:<br /><br /> %1"
         }
     }
 }

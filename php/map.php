@@ -186,11 +186,11 @@ $(document).ready( function() {
 <div class="my-section">
   <div class="my-section-header" data-i18n="sidebar.misc.title">MISC</div>
   <div style="margin-bottom: 10px">
-    <button id="buttonMulticoordinates" class="btn btn-block btn-sm btn-info" type="button" data-i18n="sidebar.misc.multicoordinates">MULTICOORDINATES</button>
+    <button id="buttonMulticoordinates" class="btn btn-block btn-sm btn-success" type="button" data-i18n="sidebar.misc.multicoordinates">MULTICOORDINATES</button>
   </div>
   <div style="margin-bottom: 10px">
     <input id="buttonUploadGPXinput" style="display:none" type="file" name="files" onchange="handleGpxFiles(this.files)">
-    <a id="buttonUploadGPX" class="btn btn-block btn-sm btn-info" role="button">UPLOAD GPX</a>
+    <a id="buttonUploadGPX" class="btn btn-block btn-sm btn-success" role="button" data-i18n="sidebar.misc.uploadgpx">UPLOAD GPX</a>
   </div>
   <div style="margin-bottom: 10px">
     <a id="buttonExportGPX" class="btn btn-block btn-sm btn-info" role="button" href="download.php" data-i18n="sidebar.misc.gpx">EXPORT GPX</a>
@@ -368,14 +368,18 @@ $(document).ready( function() {
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 data-i18n="dialog.muticoordinates.title">MULTICOORDINATES</h3>
+                <h3 data-i18n="dialog.multicoordinates.title">MULTICOORDINATES</h3>
             </div>
             <div class="modal-body">
                 <div data-i18n="[html]dialog.multicoordinates.content">MULTICOORDINATES CONTENT</div>
                 <div class="form-group">
-                    <textarea class="form-control" id="multicoordinatesDialogText"></textarea>
+                    <label for="multicoordinatesDialogText" class="control-label" data-i18n="[html]dialog.multicoordinates.label_coordinates">COORDINATES</label>
+                    <textarea class="form-control" id="multicoordinatesDialogText" rows="10"></textarea>
                 </div>
-                <div id="multicoordinatesDialogError"></div>
+                <div class="form-group">
+                  <label for="multicoordinatesPrefix" class="control-label" data-i18n="[html]dialog.multicoordinates.label_prefix">PREFIX</label>
+                  <input type="text" class="form-control" id="multicoordinatesPrefix" value="MULTI_">
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn" data-dismiss="modal" data-i18n="dialog.cancel">CANCEL</button>
