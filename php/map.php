@@ -23,7 +23,7 @@
     <script src="https://apis.google.com/js/client.js"></script>
 
     <!-- jquery -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 
     <!-- js cookie -->
     <script src="js/js.cookie.js"></script>
@@ -38,9 +38,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/i18next/1.11.2/i18next.min.js"></script>
 
     <!-- bootstrap + font-awesome -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" />
 
     <!-- fonts -->
     <link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Norican">
@@ -185,6 +185,9 @@ $(document).ready( function() {
 
 <div class="my-section">
   <div class="my-section-header" data-i18n="sidebar.misc.title">MISC</div>
+  <div style="margin-bottom: 10px">
+    <button id="buttonMulticoordinates" class="btn btn-block btn-sm btn-info" type="button" data-i18n="sidebar.misc.multicoordinates">MULTICOORDINATES</button>
+  </div>
   <div style="margin-bottom: 10px">
     <input id="buttonUploadGPXinput" style="display:none" type="file" name="files" onchange="handleGpxFiles(this.files)">
     <a id="buttonUploadGPX" class="btn btn-block btn-sm btn-info" role="button">UPLOAD GPX</a>
@@ -359,6 +362,29 @@ $(document).ready( function() {
     </div>
   </div>
 </div>
+
+
+<div id="multicoordinatesDialog" class="modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 data-i18n="dialog.muticoordinates.title">MULTICOORDINATES</h3>
+            </div>
+            <div class="modal-body">
+                <div data-i18n="[html]dialog.multicoordinates.content">MULTICOORDINATES CONTENT</div>
+                <div class="form-group">
+                    <textarea class="form-control" id="multicoordinatesDialogText"></textarea>
+                </div>
+                <div id="multicoordinatesDialogError"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn" data-dismiss="modal" data-i18n="dialog.cancel">CANCEL</button>
+                <button id="multicoordinatesDialogOk" type="button" class="btn btn-primary" data-dismiss="modal" data-i18n="dialog.ok">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <!--
 <div id="dialogHillshading" class="modal">

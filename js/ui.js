@@ -267,4 +267,5 @@ $(document).ready(function() {
   fileElem = document.getElementById("fileElem");
 
   $("#buttonUploadGPX").click(function(e) { $("#buttonUploadGPXinput").click(); e.preventDefault(); });
+  $("#buttonMulticoordinates").click(function() { showMulticoordinatesDialog(); });
 });

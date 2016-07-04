@@ -64,6 +64,7 @@ JS=(
     js/lines.js
     js/markers.js
     js/map.js
+    js/multicoordinates.js
     js/okapi.js
     js/tracking.js
     js/ui.js
