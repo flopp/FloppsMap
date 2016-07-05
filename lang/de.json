@@ -50,7 +50,7 @@
             "title": "Verschiedenes",
             "multicoordinates": "Mehrere Marker erstellen",
             "gpx": "GPX-Datei exportieren",
-            "gpx": "GPX-Datei hochladen",
+            "uploadgpx": "GPX-Datei hochladen",
             "permalink": "Permalink erstellen",
             "coordinates": "Koordinatenformat",
             "layers": "Zusätzliche Ebenen",
