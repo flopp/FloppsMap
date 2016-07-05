@@ -384,15 +384,12 @@ function updateCopyrights() {
   } else if (newMapType == "OCM") {
     isGoogleMap = false;
     copyright = "Map data (C) by <a href=\"http://www.openstreetmap.org/\">OpenStreetMap.org</a> and its contributors; <a href=\"http://opendatacommons.org/licenses/odbl/\">Open Database License</a>, tiles (C) by <a href=\"http://opencyclemap.org\">OpenCycleMap.org</a>";
-  } else if (newMapType == "MQ") {
-    isGoogleMap = false;
-    copyright = "Map data (C) by <a href=\"http://www.openstreetmap.org/\">OpenStreetMap.org</a> and its contributors; <a href=\"http://opendatacommons.org/licenses/odbl/\">Open Database License</a>, tiles (C) by <a href=\"http://mapquest.com\">MapQuest</a>";
   } else if (newMapType == "OUTD") {
     isGoogleMap = false;
     copyright = "Map data (C) by <a href=\"http://www.openstreetmap.org/\">OpenStreetMap.org</a> and its contributors; <a href=\"http://opendatacommons.org/licenses/odbl/\">Open Database License</a>, tiles (C) by <a href=\"http://www.thunderforest.com/outdoors/\">Thunderforest</a>";
   } else if (newMapType == "TOPO") {
     isGoogleMap = false;
-    copyright = "Map data (C) by <a href=\"http://www.openstreetmap.org/\">OpenStreetMap.org</a> and its contributors; <a href=\"http://opendatacommons.org/licenses/odbl/\">Open Database License</a>, height data by SRTM, tiles (C) by <a href=\"http://www.opentopomap.com/\">OpenTopoMap</a>";
+    copyright = "Map data (C) by <a href=\"http://www.openstreetmap.org/\">OpenStreetMap.org</a> and its contributors; <a href=\"http://opendatacommons.org/licenses/odbl/\">Open Database License</a>, height data by SRTM, tiles (C) by <a href=\"http://www.opentopomap.org/\">OpenTopoMap</a>";
   }
 
   if (copyrightDiv) {
@@ -444,7 +441,7 @@ function repairZoom(x, d) {
 }
 
 function repairMaptype(t, d) {
-  if (t == "OSM" || t == "OSM/DE" || t == "OCM" || t == "MQ" || t == "OUTD" || t == "TOPO") {
+  if (t == "OSM" || t == "OSM/DE" || t == "OCM" || t == "OUTD" || t == "TOPO") {
     return t;
   } else if (t == "satellite" || t == "hybrid" || t == "roadmap" || t == "terrain") {
     return t;
@@ -595,7 +592,7 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocache
     center: center,
     scaleControl: true,
     streetViewControl: false,
-    mapTypeControlOptions: { mapTypeIds: ['OSM', 'OSM/DE', 'OCM', 'MQ', 'OUTD', 'TOPO', google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.SATELLITE, google.maps.MapTypeId.HYBRID, google.maps.MapTypeId.TERRAIN] },
+    mapTypeControlOptions: { mapTypeIds: ['OSM', 'OSM/DE', 'OCM', 'OUTD', 'TOPO', google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.SATELLITE, google.maps.MapTypeId.HYBRID, google.maps.MapTypeId.TERRAIN] },
     mapTypeId: google.maps.MapTypeId.ROADMAP };
 
   map = new google.maps.Map(document.getElementById("themap"), myOptions);
@@ -624,14 +621,6 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocache
     name: "OCM",
     alt: "OpenCycleMap",
     maxZoom: 17 });
-  mq_type = new google.maps.ImageMapType({
-    getTileUrl: function(coord, zoom) {
-      return tileUrl("http://otile%s.mqcdn.com/tiles/1.0.0/osm/%z/%x/%y.png", ["1","2","3","4"], coord, zoom);
-    },
-    tileSize: new google.maps.Size(256, 256),
-    name: "MQ",
-    alt: "MapQuest (OSM)",
-    maxZoom: 18 });
   outdoors_type = new google.maps.ImageMapType({
     getTileUrl: function(coord, zoom) {
       return tileUrl("http://%s.tile.thunderforest.com/outdoors/%z/%x/%y.png", ["a","b","c"], coord, zoom);
@@ -642,7 +631,7 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocache
     maxZoom: 18 });
   topomap_type = new google.maps.ImageMapType({
     getTileUrl: function(coord, zoom) {
-      return tileUrl("http://%s.tile.opentopomap.org/%z/%x/%y.png", ["a","b","c"], coord, zoom);
+      return tileUrl("https://%s.tile.opentopomap.org/%z/%x/%y.png", ["a","b","c"], coord, zoom);
     },
     tileSize: new google.maps.Size(256, 256),
     name: "TOPO",
@@ -652,7 +641,6 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocache
   map.mapTypes.set("OSM", osm_type);
   map.mapTypes.set("OSM/DE", osmde_type);
   map.mapTypes.set("OCM", ocm_type);
-  map.mapTypes.set("MQ", mq_type);
   map.mapTypes.set("OUTD", outdoors_type);
   map.mapTypes.set("TOPO", topomap_type);
 
