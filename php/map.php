@@ -186,11 +186,11 @@ $(document).ready( function() {
 <div class="my-section">
   <div class="my-section-header" data-i18n="sidebar.misc.title">MISC</div>
   <div style="margin-bottom: 10px">
-    <button id="buttonMulticoordinates" class="btn btn-block btn-sm btn-success" type="button" data-i18n="sidebar.misc.multicoordinates">MULTICOORDINATES</button>
+    <button id="buttonMulticoordinates" class="btn btn-block btn-sm btn-success my-new" type="button" data-i18n="sidebar.misc.multicoordinates">MULTICOORDINATES</button>
   </div>
   <div style="margin-bottom: 10px">
     <input id="buttonUploadGPXinput" style="display:none" type="file" name="files" onchange="handleGpxFiles(this.files)">
-    <a id="buttonUploadGPX" class="btn btn-block btn-sm btn-success" role="button" data-i18n="sidebar.misc.uploadgpx">UPLOAD GPX</a>
+    <a id="buttonUploadGPX" class="btn btn-block btn-sm btn-success my-new" role="button" data-i18n="sidebar.misc.uploadgpx">UPLOAD GPX</a>
   </div>
   <div style="margin-bottom: 10px">
     <a id="buttonExportGPX" class="btn btn-block btn-sm btn-info" role="button" href="download.php" data-i18n="sidebar.misc.gpx">EXPORT GPX</a>

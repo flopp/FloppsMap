@@ -85,6 +85,7 @@ IMG=(
     img/cachetype-8.png
     img/cachetype-9.png
     img/cachetype-10.png
+    img/new.png
     img/nsg.png)
 
 LNG=(
