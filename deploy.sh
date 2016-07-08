@@ -152,6 +152,7 @@ if [[ "$@" = *production* ]]; then
     lftp -u $LOGIN:$PASSWD $SERVER -e "mirror -v -R ${D}/img $BASE/img ; quit"
     lftp -u $LOGIN:$PASSWD $SERVER -e "mirror -v -R ${D}/js $BASE/js ; quit"
     lftp -u $LOGIN:$PASSWD $SERVER -e "mirror -v -R ${D}/lang $BASE/lang ; quit"
+    lftp -u $LOGIN:$PASSWD $SERVER -e "mirror -v -R ${D}/css $BASE/css ; quit"
 else
     SERVER=flopp@grus.uberspace.de
     BASE=html/map
