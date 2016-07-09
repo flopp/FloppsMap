@@ -35,7 +35,10 @@
     <script src="js/geographiclib.js"></script>
 
     <!-- i18next -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/i18next/1.11.2/i18next.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/i18next/3.3.1/i18next.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/i18next-browser-languagedetector/0.3.0/i18nextBrowserLanguageDetector.min.js"></script>
+    <script src="js/i18nextXHRBackend.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-i18next/0.0.14/i18next-jquery.min.js"></script>
 
     <!-- bootstrap + font-awesome -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js"></script>
@@ -90,12 +93,7 @@ echo "initialize('$cntr', '$zoom', '$maptype', '$features', '$markers', '$lines'
 echo "})";
 ?>
 
-$(document).ready( function() {
-    var option = {resGetPath: 'lang/__lng__.json', fallbackLng: 'en', debug: true};
-    $.i18n.init(option, function(t) {
-        $(document).i18n();
-    });
-});
+$(document).ready( function() { init_lang(); });
 </script>
 </head>
 

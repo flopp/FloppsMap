@@ -88,17 +88,6 @@ IMG=(
     img/new.png
     img/nsg.png)
 
-LNG=(
-    lang/info.de.html
-    lang/info.en.html
-    lang/info.pl.html
-    lang/info.ro.html
-    lang/de.json
-    lang/en.json
-    lang/nl.json
-    lang/pl.json
-    lang/ro.json)
-
 ROOT=(
     img/apple-touch-icon.png
     php/download.php
@@ -114,7 +103,7 @@ cp -a ${ROOT[@]} $D/
 sass scss/main.scss > $D/css/main.css
 cat ${JS[@]} | yui-compressor --verbose --type js -o $D/js/compressed.js
 cp -a ${IMG[@]} $D/img/
-cp -a ${LNG[@]} $D/lang/
+cp -a lang/* $D/lang/
 
 
 
@@ -143,6 +132,13 @@ if [ ! -f $L/geographiclib.js ] ; then
 fi
 cp $L/geographiclib.js $D/js
 
+# i18next xhr backend
+if [ -d $L/i18next-xhr-backend/.git ] ; then
+    (cd $L/i18next-xhr-backend/ ; git pull origin master)
+else
+    (cd $L ; git clone https://github.com/i18next/i18next-xhr-backend.git)
+fi
+cp $L/i18next-xhr-backend/i18nextXHRBackend.min.js $D/js
 
 
 #### upload
