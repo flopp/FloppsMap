@@ -144,5 +144,15 @@
             "error_maxmarkers": "Maximale Anzahl an Markern erreicht. Einige Marker konnten nicht erstellt werden.",
             "error_message": "Während der Erstellung der neuen Marker sind folgende Fehler aufgetreten:<br /><br /> %1"
         }
+    },
+    
+    "geocache": {
+        "owner": "Besitzer",
+        "type": "Typ",
+        "size": "Größe",
+        "status": "Status",
+        "difficulty": "Schwierigkeit",
+        "terrain": "Gelände",
+        "finds": "Funde"
     }
 }

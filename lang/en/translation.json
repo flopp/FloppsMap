@@ -146,5 +146,15 @@
             "error_maxmarkers": "Maximum number of markers reached. Failed to add some markers.",
             "error_message": "While adding multiple markers, the following errors have occured:<br /><br /> %1"
         }
+    },
+    
+    "geocache": {
+        "owner": "Owner",
+        "type": "Type",
+        "size": "Size",
+        "status": "Status",
+        "difficulty": "Difficulty",
+        "terrain": "Terrain",
+        "finds": "Finds"
     }
 }

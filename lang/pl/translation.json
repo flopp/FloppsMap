@@ -134,5 +134,15 @@
             "content": "<a href=\"https://www.freifunk.net/\" target=\"_blank\">Freifunk</a> jest to niekomercyjna, otwarta i oddolna inicjatywa wspierania wolnych bezprzewodowych sieci WIFI w niemczech.<br />Mapa Flopp's zawiera kilka funkcji szczególnych dla Freifunka:<ul><li>Oznaczanie miejsc do konfiguracji routerów Freifunk</li></ul>",
             "popuptitle": "Skopiuj i wklej następujące polecenia w konsoli routera, aby zmienić jego położenie geograficzne:"
         }
+    },
+    
+    "geocache": {
+        "owner": "Owner",
+        "type": "Type",
+        "size": "Size",
+        "status": "Status",
+        "difficulty": "Difficulty",
+        "terrain": "Terrain",
+        "finds": "Finds"
     }
 }

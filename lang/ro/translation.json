@@ -134,5 +134,15 @@
             "content": "<a href=\"https://www.freifunk.net/\" target=\"_blank\">Freifunk</a> este o iniţiativă populară, deschisă şi non-comercială care sprijină reţele de calculatoare (fără fir) cu acces liber i gratuit în Germania.<br />Harta lui Flopp include nişte funţii speciale pentru Freifunk:<ul><li>Determinarea poziţiei geografice pentru a configura router-e Freifunk</li></ul>",
             "popuptitle": "Copiază şi lipeşte următoarele comenzi în consola router-ului tău pentru a-i schimba geo-localizarea:"
         }
+    },
+    
+    "geocache": {
+        "owner": "Owner",
+        "type": "Type",
+        "size": "Size",
+        "status": "Status",
+        "difficulty": "Difficulty",
+        "terrain": "Terrain",
+        "finds": "Finds"
     }
 }

@@ -190,11 +190,15 @@ function _okapi_show_popup(m, code, siteid) {
             
             var content =
                 '<a href="' + response.url + '" target="_blank">' + code + ' <b>' + response.name + '</b></a><br />'
-                + 'by <a href="' + response.owner.profile_url + '" target="_blank"><b>' + response.owner.username + '</b></a><br />'
-                + response.type + ' (' + response.size2 + ')<br />'
-                + 'status: <i>' + response.status + '</i><br />'
-                + 'difficulty: <i>' + response.difficulty + '/5</i> terrain: <i>' + response.terrain + '/5</i><br />'
-                + 'finds: <i>' + response.founds + '</i>';
+                + '<table>'
+                + '<tr><td>' + mytrans("geocache.owner") + '</td><td>' + '<a href="' + response.owner.profile_url + '" target="_blank"><b>' + response.owner.username + '</b></a></td></tr>'
+                + '<tr><td>' + mytrans("geocache.type") + '</td><td>' + response.type + '</td></tr>'
+                + '<tr><td>' + mytrans("geocache.size") + '</td><td>' + response.size2 + '</td></tr>'
+                + '<tr><td>' + mytrans("geocache.status") + '</td><td>' + response.status + '</td></tr>'
+                + '<tr><td>' + mytrans("geocache.difficulty") + '</td><td>' + response.difficulty + '/5</td></tr>'
+                + '<tr><td>' + mytrans("geocache.terrain") + '</td><td>' + response.terrain + '/5</td></tr>'
+                + '<tr><td>' + mytrans("geocache.finds") + '</td><td>' + response.founds + '</td></tr>'
+                + '</table>';
 
             okapi_popup.setContent(content);
             okapi_popup.open(map, m);
