@@ -138,13 +138,33 @@ function toggleNPALayer(t)
   npaLayerShown = t;
 
   if (t) {
-    if (map.overlayMapTypes.indexOf(hillshadingLayer) == -1) {
-        map.overlayMapTypes.insertAt(0, npaLayer);
-    } else {
-        map.overlayMapTypes.insertAt(1, npaLayer);
-    }
+    map.overlayMapTypes.push(npaLayer);
   } else {
     map.overlayMapTypes.removeAt(map.overlayMapTypes.indexOf(npaLayer));
+  }
+}
+
+function toggleCDDALayer(t)
+{
+  if ($('#cdda').is(':checked') != t)
+  {
+    $('#cdda').attr('checked', t);
+  }
+
+  if (t) {
+    $('#cdda_details').show();
+  } else {
+    $('#cdda_details').hide();
+    endCDDAInfoMode();
+  }
+
+  if (cddaLayerShown == t) return;
+  cddaLayerShown = t;
+
+  if (t) {
+    map.overlayMapTypes.push(cddaLayer);
+  } else {
+    map.overlayMapTypes.removeAt(map.overlayMapTypes.indexOf(cddaLayer));
   }
 }
 
@@ -247,9 +267,12 @@ function linkDialogShortenLink()
 //  $('#dialogBoundaries').modal({show : true, backdrop: "static", keyboard: true});
 //}
 
-function showNPADialog()
-{
+function showNPADialog() {
   $('#dialogNPA').modal({show : true, backdrop: "static", keyboard: true});
+}
+
+function showCDDADialog() {
+  $('#dialogCDDA').modal({show : true, backdrop: "static", keyboard: true});
 }
 
 /* setup button events */
@@ -259,6 +282,7 @@ $(document).ready(function() {
   $("#hillshading").click(function() { toggleHillshading($('#hillshading').is(':checked')); });
   //$("#boundaries").click(function() { toggleBoundaries($('#boundaries').is(':checked')); });
   $("#npa").click(function() { toggleNPALayer($('#npa').is(':checked')); });
+  $("#cdda").click(function() { toggleCDDALayer($('#cdda').is(':checked')); });
   $("#geocaches").click(function() { okapi_toggle_load_caches($('#geocaches').is(':checked')); });
   $('#coordinatesFormat').change(function() { setCoordinatesFormat($('#coordinatesFormat').val()); });
   $("#freifunk").click(function() { toggleFreifunkLayer($('#freifunk').is(':checked')); });

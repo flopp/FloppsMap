@@ -4,6 +4,8 @@ var hillshadingLayerShown = false;
 //var boundariesLayerShown = false;
 var npaLayer = null;
 var npaLayerShown = false;
+var cddaLayer = null;
+var cddaLayerShown = false;
 var map = null;
 var copyrightDiv;
 var npaInfoMode = false;
@@ -707,6 +709,8 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocache
     isPng: true,
     opacity: 0.6 });
 
+  cddaLayer = createCDDALayer(map);
+  
   // Create div for showing copyrights.
   copyrightDiv = document.createElement("div");
   copyrightDiv.id = "map-copyright";
@@ -817,6 +821,7 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocache
     //restoreBoundaries(false);
     restoreGeocaches(false);
     toggleNPALayer(false);
+    toggleCDDALayer(false);
     toggleFreifunkLayer(false);
   } else {
     toggleHillshading(xfeatures.indexOf('h') >= 0 || xfeatures.indexOf('H') >= 0);

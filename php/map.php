@@ -243,6 +243,19 @@ $(document).ready( function() { init_lang(); });
     </div>
     <div class="checkbox">
         <label>
+            <input id="cdda" type="checkbox">
+            <span data-i18n="sidebar.misc.cdda">NATIONALLY DESIGNATED AREAS</span>
+            <button class="btn btn-info btn-xs" onClick="showCDDADialog()">
+                <i class="fa fa-info"></i>
+            </button>
+            <span class="my-new" style="width: 30px; height: 16px; display: inline-block;">&nbsp;</span>
+        </label>
+    </div>
+    <div id="cdda_details" style="display: none;">
+        <button class="btn btn-block btn-sm btn-info" style="margin-bottom: 10px;" onClick="startCDDAInfoMode(map)" data-i18n="sidebar.misc.cddainfo">SHOW CDDA INFO ON NEXT CLICK</button>
+    </div>
+    <div class="checkbox">
+        <label>
             <input id="freifunk" type="checkbox">
             <span data-i18n="sidebar.misc.freifunk">FREIFUNK</span>
             <button class="btn btn-info btn-xs" onClick="showFreifunkDialog()">
@@ -430,6 +443,22 @@ $(document).ready( function() { init_lang(); });
       </div>
       <div class="modal-body">
         <div data-i18n="[html]dialog.npa.content">NPA CONTENT</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal" data-i18n="dialog.ok">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="dialogCDDA" class="modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 data-i18n="dialog.cdda.title">NATIONALLY DESIGNATED AREAS</h3>
+      </div>
+      <div class="modal-body">
+        <div data-i18n="[html]dialog.cdda.content">CDDA CONTENT</div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" data-dismiss="modal" data-i18n="dialog.ok">OK</button>

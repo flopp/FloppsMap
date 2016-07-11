@@ -60,6 +60,8 @@
             "boundaries": "Administrative Boundaries",
             "npa": "Nature Protection Areas",
             "npainfo": "Show NPA info on next click",
+            "cdda": "Nationally Designated Areas (CDDA)",
+            "cddainfo": "Show CDDA info on next click",
             "geocaches": "Geocaches (<a href=\"http://www.opencaching.eu/\" target=\"_blank\">Opencaching</a>)",
             "external": "External Services",
             "freifunk": "Freifunk",
@@ -129,6 +131,13 @@
             "area": "Area:",
             "msg_no_npa": "There is no nature protection area at the selected coordinates",
             "error": "Error querying information about nature protection areas."
+        },
+        
+        "cdda": {
+            "title": "Nationally Designated Areas (CDDA)",
+            "content": "The Common Database on Designated Areas (CDDA) is more commonly known as Nationally designated areas. It is the official source of protected area information from European countries to the World Database of Protected Areas (WDPA).<br /><br />Copyright holder: European Environment Agency (EEA), Estonian Environmental Register 25.02.2014, &copy; Finnish Environment Institute, 2015.<br /><br />For more information, visit the <a href=\"http://www.eea.europa.eu/data-and-maps/data/nationally-designated-areas-national-cdda-10\" target=_blank>website of the European Environment Agency</a>",
+            "msg_no_data": "There is no CDDA data at the selected coordinates",
+            "msg_error": "Error querying CDDA data."
         },
 
         "freifunk": {
