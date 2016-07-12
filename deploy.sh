@@ -60,12 +60,14 @@ JS=(
     js/conversion.js
     js/cookies.js
     js/geolocation.js
+    js/hillshading-layer.js
     js/coordinates.js
     js/freifunk.js
     js/lines.js
     js/markers.js
     js/map.js
     js/multicoordinates.js
+    js/npa-layer.js
     js/okapi.js
     js/tracking.js
     js/ui.js

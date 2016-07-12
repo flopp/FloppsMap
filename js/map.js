@@ -1,15 +1,7 @@
-var hillshadingLayer = null;
-var hillshadingLayerShown = false;
 //var boundariesLayer = null;
 //var boundariesLayerShown = false;
-var npaLayer = null;
-var npaLayerShown = false;
-var cddaLayer = null;
-var cddaLayerShown = false;
 var map = null;
 var copyrightDiv;
-var npaInfoMode = false;
-var npaInfoModeClickListener = null;
 
 var theGeolocation = new Geolocation();
 var theMarkers = new Markers();
@@ -294,52 +286,6 @@ function storeZoom() {
   Cookies.set('zoom', map.getZoom(), {expires:30});
 }
 
-function requestNPAInfo(lat, lng) {
-    var url =
-        'http://geodienste.bfn.de/ogc/wms/schutzgebiet?REQUEST=GetFeatureInfo&SERVICE=WMS&VERSION=1.3.0&CRS=CRS:84' +
-        '&BBOX=' + lng + ',' + lat + ',' + (lng+0.001) + ',' + (lat+0.001) +
-        '&WIDTH=256&HEIGHT=256&INFO_FORMAT=application/geojson&FEATURE_COUNT=1&QUERY_LAYERS=Naturschutzgebiete&X=0&Y=0';
-    $.ajax({
-        url: url,
-        crossOrigin: true,
-        proxy: 'proxy.php'
-    }).done(function(data) {
-        var obj = $.parseJSON(data);
-        if (obj && obj.features && obj.features.length > 0) {
-            var contentString =
-                '<b>' + obj.features[0].properties.NAME + '</b><br/>' +
-                mytrans("dialog.npa.cdda_code") + ' ' + obj.features[0].properties.CDDA_CODE + '<br />' +
-                mytrans("dialog.npa.since") + ' ' + obj.features[0].properties.JAHR + '<br />' +
-                mytrans("dialog.npa.area") + ' ' + obj.features[0].properties.FLAECHE + ' ha<br />';
-            var infowindow = new google.maps.InfoWindow( { content: contentString, position: new google.maps.LatLng(lat, lng) } );
-            infowindow.open(map);
-        } else {
-            showAlert(mytrans("dialog.information"), mytrans("dialog.npa.msg_no_npa"));
-        }
-    }).fail(function() {
-        showAlert(mytrans("dialog.error"), mytrans("dialog.npa.error"));
-    });
-}
-
-function startNPAInfoMode() {
-    if (npaInfoMode) return;
-
-    map.setOptions({draggableCursor: 'crosshair'});
-    npaInfoMode = true;
-    npaInfoModeClickListener = google.maps.event.addListener(map, 'click', function(event) {
-        requestNPAInfo(event.latLng.lat(), event.latLng.lng());
-        endNPAInfoMode();
-    });
-}
-
-
-function endNPAInfoMode() {
-    if (!npaInfoMode) return;
-
-    map.setOptions({draggableCursor: ''});
-    npaInfoMode = false;
-    google.maps.event.removeListener(npaInfoModeClickListener);
-}
 
 function getFeaturesString() {
     var s = "";
@@ -648,24 +594,6 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocache
 
   map.setMapTypeId(maptype);
 
-
-  hillshadingLayer = new google.maps.ImageMapType({
-    getTileUrl: function(coord, zoom) {
-      if (6 <= zoom && zoom <= 15)
-      {
-        var url = 'http://%s.tiles.wmflabs.org/hillshading/%z/%x/%y.png';
-        return tileUrl(url, ['a', 'b', 'c'], coord, zoom);
-      }
-      else
-      {
-        return null;
-      }
-    },
-    tileSize: new google.maps.Size(256, 256),
-    name: "hill",
-    alt: "Hillshading",
-    maxZoom: 16 });
-
   //boundariesLayer = new google.maps.ImageMapType({
   //  getTileUrl: function(coord, zoom) {
   //    if (6 <= zoom && zoom <= 16)
@@ -681,35 +609,6 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocache
   //  name: "adminb",
   //  alt: "Administrative Boundaries",
   //  maxZoom: 16 });
-
-  npaLayer = new google.maps.ImageMapType({
-    getTileUrl: function(coord, zoom) {
-      var proj = map.getProjection();
-      var tileSize = 256;
-      var zfactor = tileSize / Math.pow(2, zoom);
-      var top = proj.fromPointToLatLng(new google.maps.Point(coord.x * zfactor, coord.y * zfactor));
-      var bot = proj.fromPointToLatLng(new google.maps.Point((coord.x + 1) * zfactor, (coord.y + 1) * zfactor));
-      var bbox = top.lng() + "," + bot.lat() + "," + bot.lng() + "," + top.lat();
-      var url = "http://geodienste.bfn.de/ogc/wms/schutzgebiet?";
-      url += "&REQUEST=GetMap";
-      url += "&SERVICE=WMS";
-      url += "&VERSION=1.3.0";
-      url += "&LAYERS=Naturschutzgebiete";
-      url += "&FORMAT=image/png";
-      url += "&BGCOLOR=0xFFFFFF";
-      url += "&STYLES=default";
-      url += "&TRANSPARENT=TRUE";
-      url += "&CRS=CRS:84";
-      url += "&BBOX=" + bbox;
-      url += "&WIDTH=" + tileSize;
-      url += "&HEIGHT=" + tileSize;
-      return url;
-    },
-    tileSize: new google.maps.Size(256, 256),
-    isPng: true,
-    opacity: 0.6 });
-
-  cddaLayer = createCDDALayer(map);
   
   // Create div for showing copyrights.
   copyrightDiv = document.createElement("div");

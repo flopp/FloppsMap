@@ -20,11 +20,13 @@ function showSidebar()
   google.maps.event.trigger(map, "resize");
 }
 
+
 function toggleSidebar(shown)
 {
   if (shown) showSidebar();
   else       hideSidebar();
 }
+
 
 function restoreSidebar(defaultValue)
 {
@@ -43,44 +45,6 @@ function restoreSidebar(defaultValue)
   }
 }
 
-
-/* hillshading */
-function toggleHillshading(t)
-{
-  Cookies.set('hillshading', t ? "1" : "0", {expires:30});
-
-  if ($('#hillshading').is(':checked') != t)
-  {
-    $('#hillshading').attr('checked', t);
-  }
-
-  if( hillshadingLayerShown == t ) return;
-  hillshadingLayerShown = t;
-
-  if (t) {
-    map.overlayMapTypes.insertAt(0, hillshadingLayer);
-  } else {
-    map.overlayMapTypes.removeAt(map.overlayMapTypes.indexOf(hillshadingLayer));
-  }
-}
-
-function restoreHillshading(defaultValue)
-{
-  var state = get_cookie_string("hillshading", "invalid");
-
-  if (state == "0")
-  {
-    toggleHillshading(false);
-  }
-  else if (state == "1")
-  {
-    toggleHillshading(true);
-  }
-  else
-  {
-    toggleHillshading(defaultValue);
-  }
-}
 
 ///* boundaries layer */
 //function toggleBoundaries(t)
@@ -120,53 +84,6 @@ function restoreHillshading(defaultValue)
 //  }
 //}
 
-function toggleNPALayer(t)
-{
-  if ($('#npa').is(':checked') != t)
-  {
-    $('#npa').attr('checked', t);
-  }
-
-  if (t) {
-    $('#npa_details').show();
-  } else {
-    $('#npa_details').hide();
-    endNPAInfoMode();
-  }
-
-  if (npaLayerShown == t) return;
-  npaLayerShown = t;
-
-  if (t) {
-    map.overlayMapTypes.push(npaLayer);
-  } else {
-    map.overlayMapTypes.removeAt(map.overlayMapTypes.indexOf(npaLayer));
-  }
-}
-
-function toggleCDDALayer(t)
-{
-  if ($('#cdda').is(':checked') != t)
-  {
-    $('#cdda').attr('checked', t);
-  }
-
-  if (t) {
-    $('#cdda_details').show();
-  } else {
-    $('#cdda_details').hide();
-    endCDDAInfoMode();
-  }
-
-  if (cddaLayerShown == t) return;
-  cddaLayerShown = t;
-
-  if (t) {
-    map.overlayMapTypes.push(cddaLayer);
-  } else {
-    map.overlayMapTypes.removeAt(map.overlayMapTypes.indexOf(cddaLayer));
-  }
-}
 
 /* coordinate format */
 function setCoordinatesFormat(t)
@@ -267,13 +184,6 @@ function linkDialogShortenLink()
 //  $('#dialogBoundaries').modal({show : true, backdrop: "static", keyboard: true});
 //}
 
-function showNPADialog() {
-  $('#dialogNPA').modal({show : true, backdrop: "static", keyboard: true});
-}
-
-function showCDDADialog() {
-  $('#dialogCDDA').modal({show : true, backdrop: "static", keyboard: true});
-}
 
 /* setup button events */
 $(document).ready(function() {

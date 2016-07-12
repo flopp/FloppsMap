@@ -1,5 +1,8 @@
-_cddaInfoMode = false;
-_cddaInfoModeClickListener = null;
+var _cddaLayer = null;
+var _cddaLayerShown = false;
+var _cddaInfoMode = false;
+var _cddaInfoModeClickListener = null;
+
 
 function createCDDALayer(themap) {
     var tileSize = 256;
@@ -26,6 +29,7 @@ function createCDDALayer(themap) {
         opacity: 0.6
     });
 }
+
 
 function getCDDAInfo(themap, coords) {
     var url = "http://bio.discomap.eea.europa.eu/arcgis/rest/services/ProtectedSites/CDDA_Dyna_WM/MapServer/identify";
@@ -89,6 +93,37 @@ function getCDDAInfo(themap, coords) {
     .fail(function() {
         showAlert(mytrans("dialog.information"), mytrans("dialog.cdda.msg_failed"));
     })
+}
+
+
+function toggleCDDALayer(t) {
+    if ($('#cdda').is(':checked') != t) {
+        $('#cdda').attr('checked', t);
+    }
+
+    if (t) {
+        $('#cdda_details').show();
+    } else {
+        $('#cdda_details').hide();
+        endCDDAInfoMode();
+    }
+
+    if (_cddaLayerShown == t) return;
+    _cddaLayerShown = t;
+
+    if (t) {
+        if (!_cddaLayer) {
+            _cddaLayer = createCDDALayer(map);
+        }
+        map.overlayMapTypes.push(_cddaLayer);
+    } else if (_cddaLayer) {
+        map.overlayMapTypes.removeAt(map.overlayMapTypes.indexOf(_cddaLayer));
+    }
+}
+
+
+function showCDDADialog() {
+  $('#dialogCDDA').modal({show : true, backdrop: "static", keyboard: true});
 }
 
 
