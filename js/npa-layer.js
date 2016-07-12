@@ -35,10 +35,10 @@ function createNPALayer(themap) {
 }
 
 
-function requestNPAInfo(latlng) {
+function requestNPAInfo(coords) {
     var url =
         'http://geodienste.bfn.de/ogc/wms/schutzgebiet?REQUEST=GetFeatureInfo&SERVICE=WMS&VERSION=1.3.0&CRS=CRS:84' +
-        '&BBOX=' + latlng.lng() + ',' + latlng.lat() + ',' + (latlng.lng()+0.001) + ',' + (latlng.lat()+0.001) +
+        '&BBOX=' + coords.lng() + ',' + coords.lat() + ',' + (coords.lng()+0.001) + ',' + (coords.lat()+0.001) +
         '&WIDTH=256&HEIGHT=256&INFO_FORMAT=application/geojson&FEATURE_COUNT=1&QUERY_LAYERS=Naturschutzgebiete&X=0&Y=0';
     $.ajax({
         url: url,
@@ -52,7 +52,7 @@ function requestNPAInfo(latlng) {
                 mytrans("dialog.npa.cdda_code") + ' ' + obj.features[0].properties.CDDA_CODE + '<br />' +
                 mytrans("dialog.npa.since") + ' ' + obj.features[0].properties.JAHR + '<br />' +
                 mytrans("dialog.npa.area") + ' ' + obj.features[0].properties.FLAECHE + ' ha<br />';
-            var infowindow = new google.maps.InfoWindow( { content: contentString, position: new google.maps.LatLng(lat, lng) } );
+            var infowindow = new google.maps.InfoWindow( { content: contentString, position: coords } );
             infowindow.open(map);
         } else {
             showAlert(mytrans("dialog.information"), mytrans("dialog.npa.msg_no_npa"));
