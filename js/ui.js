@@ -195,7 +195,7 @@ $(document).ready(function() {
   $("#cdda").click(function() { CDDA.toggleLayer($('#cdda').is(':checked')); });
   $("#geocaches").click(function() { okapi_toggle_load_caches($('#geocaches').is(':checked')); });
   $('#coordinatesFormat').change(function() { setCoordinatesFormat($('#coordinatesFormat').val()); });
-  $("#freifunk").click(function() { toggleFreifunkLayer($('#freifunk').is(':checked')); });
+  $("#freifunk").click(function() { Freifunk.toggleLayer($('#freifunk').is(':checked')); });
 
   var fileSelect = document.getElementById("fileSelect"),
   fileElem = document.getElementById("fileElem");

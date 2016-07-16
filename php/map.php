@@ -258,13 +258,13 @@ $(document).ready( function() { init_lang(); });
         <label>
             <input id="freifunk" type="checkbox">
             <span data-i18n="sidebar.misc.freifunk">FREIFUNK</span>
-            <button class="btn btn-info btn-xs" onClick="showFreifunkDialog()">
+            <button class="btn btn-info btn-xs" onClick="Freifunk.showDialog();">
                 <i class="fa fa-info"></i>
             </button>
         </label>
     </div>
     <div id="freifunk_details" style="display: none;">
-        <button class="btn btn-block btn-sm btn-info" style="margin-bottom: 10px;" onClick="startFreifunkInfoMode()" data-i18n="sidebar.misc.freifunkinfo">SHOW FREIFUNK INFO ON NEXT CLICK</button>
+        <button class="btn btn-block btn-sm btn-info" style="margin-bottom: 10px;" onClick="Freifunk.startInfoMode();" data-i18n="sidebar.misc.freifunkinfo">SHOW FREIFUNK INFO ON NEXT CLICK</button>
     </div>
     <div class="checkbox">
         <label>

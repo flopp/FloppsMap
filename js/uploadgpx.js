@@ -1,3 +1,7 @@
+/*jslint
+  indent: 4
+*/
+
 function handleGpxFiles(files) {
   if (!files || files.length == 0) return;
 
@@ -15,7 +19,7 @@ function handleGpxFiles(files) {
         var lat = wpt.getAttribute('lat');
         var lon = wpt.getAttribute('lon');
         var radius = 0;
-        
+
         var name = '';
         var nameEl = wpt.getElementsByTagName('name');
         if (nameEl.length > 0) {

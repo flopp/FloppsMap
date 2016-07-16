@@ -153,7 +153,7 @@ function newMarker(coordinates, id, radius, name) {
   }
 
   var marker = theMarkers.getById(id);
-  marker.initialize(name, coordinates, radius);
+  marker.initialize(map, name, coordinates, radius);
 
   var iconw = 33;
   var iconh = 37;
@@ -594,6 +594,7 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocache
   map.setMapTypeId(maptype);
   Geolocation.init(map);
   CDDA.init(map);
+  Freifunk.init(map);
 
   //boundariesLayer = new google.maps.ImageMapType({
   //  getTileUrl: function(coord, zoom) {
@@ -722,13 +723,13 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocache
     restoreGeocaches(false);
     toggleNPALayer(false);
     CDDA.toggleLayer(false);
-    toggleFreifunkLayer(false);
+    Freifunk.toggleLayer(false);
   } else {
     toggleHillshading(xfeatures.indexOf('h') >= 0 || xfeatures.indexOf('H') >= 0);
     //toggleBoundaries(xfeatures.indexOf('b') >= 0 || xfeatures.indexOf('B') >= 0);
     okapi_toggle_load_caches(xfeatures.indexOf('g') >= 0 || xfeatures.indexOf('G') >= 0);
     toggleNPALayer(xfeatures.indexOf('n') >= 0 || xfeatures.indexOf('N') >= 0);
-    toggleFreifunkLayer(xfeatures.indexOf('f') >= 0 || xfeatures.indexOf('F') >= 0);
+    Freifunk.toggleLayer(xfeatures.indexOf('f') >= 0 || xfeatures.indexOf('F') >= 0);
   }
   restoreCoordinatesFormat(0);
 
