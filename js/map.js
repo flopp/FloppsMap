@@ -3,7 +3,6 @@
 var map = null;
 var copyrightDiv;
 
-var theGeolocation = new Geolocation();
 var theMarkers = new Markers();
 var theLines = new Lines();
 
@@ -105,7 +104,7 @@ function leaveEditMode(id, takenew) {
     var coordinates = Coordinates.fromString(s_coordinates);
 
     var s_radius = $('#edit_circle' + m.getAlpha()).val();
-    var radius = getInteger(s_radius, 0, 100000000000);
+    var radius = Conversion.getInteger(s_radius, 0, 100000000000);
 
     var errors = Array();
 
@@ -253,8 +252,8 @@ function projectFromMarker(id) {
 
   showProjectionDialog(
     function(data1, data2) {
-      var angle = getFloat(data1, 0, 360);
-      var dist = getFloat(data2, 0, 100000000000);
+      var angle = Conversion.getFloat(data1, 0, 360);
+      var dist = Conversion.getFloat(data2, 0, 100000000000);
 
       if (angle == null) {
         showAlert(mytrans("dialog.error"), mytrans("dialog.projection.error_bad_bearing").replace(/%1/, data1));
@@ -593,6 +592,8 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocache
   map.mapTypes.set("TOPO", topomap_type);
 
   map.setMapTypeId(maptype);
+  Geolocation.init(map);
+  CDDA.init(map);
 
   //boundariesLayer = new google.maps.ImageMapType({
   //  getTileUrl: function(coord, zoom) {
@@ -609,7 +610,7 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocache
   //  name: "adminb",
   //  alt: "Administrative Boundaries",
   //  maxZoom: 16 });
-  
+
   // Create div for showing copyrights.
   copyrightDiv = document.createElement("div");
   copyrightDiv.id = "map-copyright";
@@ -720,7 +721,7 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocache
     //restoreBoundaries(false);
     restoreGeocaches(false);
     toggleNPALayer(false);
-    toggleCDDALayer(false);
+    CDDA.toggleLayer(false);
     toggleFreifunkLayer(false);
   } else {
     toggleHillshading(xfeatures.indexOf('h') >= 0 || xfeatures.indexOf('H') >= 0);
@@ -744,6 +745,6 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocache
   setTimeout(function(){ updateCopyrights(); }, 1000);
 
   //if (atDefaultCenter) {
-  //  theGeolocation.whereAmI();
+  //  Geolocation.whereAmI();
   //}
 }

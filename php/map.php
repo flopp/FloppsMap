@@ -148,7 +148,7 @@ $(document).ready( function() { init_lang(); });
   <!--<button id="buttonWhereAmI" class="btn btn-info btn-sm my-section-buttons-top" type="button"><i class="fa fa-crosshairs"></i> <span data-i18n="sidebar.search.whereami">WHERE AM I?</span></button>-->
 
   <div>
-    <form action="javascript:theGeolocation.search($('#txtSearch').val())">
+    <form action="javascript:Geolocation.search($('#txtSearch').val())">
       <div class="input-group" style="margin-bottom: 5px">
         <input class="form-control" id="txtSearch" type="text" data-i18n="[placeholder]sidebar.search.placeholder;">
         <span class="input-group-btn">
@@ -245,14 +245,14 @@ $(document).ready( function() { init_lang(); });
         <label>
             <input id="cdda" type="checkbox">
             <span data-i18n="sidebar.misc.cdda">NATIONALLY DESIGNATED AREAS</span>
-            <button class="btn btn-info btn-xs" onClick="showCDDADialog()">
+            <button class="btn btn-info btn-xs" onClick="CDDA.showDialog();">
                 <i class="fa fa-info"></i>
             </button>
             <span class="my-new" style="width: 30px; height: 16px; display: inline-block;">&nbsp;</span>
         </label>
     </div>
     <div id="cdda_details" style="display: none;">
-        <button class="btn btn-block btn-sm btn-info" style="margin-bottom: 10px;" onClick="startCDDAInfoMode(map)" data-i18n="sidebar.misc.cddainfo">SHOW CDDA INFO ON NEXT CLICK</button>
+        <button class="btn btn-block btn-sm btn-info" style="margin-bottom: 10px;" onClick="CDDA.startInfoMode();" data-i18n="sidebar.misc.cddainfo">SHOW CDDA INFO ON NEXT CLICK</button>
     </div>
     <div class="checkbox">
         <label>
