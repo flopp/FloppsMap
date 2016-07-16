@@ -3,9 +3,7 @@
 var map = null;
 var copyrightDiv;
 
-var theGeolocation = new Geolocation();
 var theMarkers = new Markers();
-var theLines = new Lines();
 
 var CLAT_DEFAULT = 51.163375;
 var CLON_DEFAULT = 10.447683;
@@ -105,7 +103,7 @@ function leaveEditMode(id, takenew) {
     var coordinates = Coordinates.fromString(s_coordinates);
 
     var s_radius = $('#edit_circle' + m.getAlpha()).val();
-    var radius = getInteger(s_radius, 0, 100000000000);
+    var radius = Conversion.getInteger(s_radius, 0, 100000000000);
 
     var errors = Array();
 
@@ -154,7 +152,7 @@ function newMarker(coordinates, id, radius, name) {
   }
 
   var marker = theMarkers.getById(id);
-  marker.initialize(name, coordinates, radius);
+  marker.initialize(map, name, coordinates, radius);
 
   var iconw = 33;
   var iconh = 37;
@@ -240,7 +238,7 @@ function newMarker(coordinates, id, radius, name) {
 
   marker.update();
   theMarkers.saveMarkersList();
-  theLines.updateLinesMarkerAdded(id);
+  Lines.updateLinesMarkerAdded();
 
   return marker;
 }
@@ -253,8 +251,8 @@ function projectFromMarker(id) {
 
   showProjectionDialog(
     function(data1, data2) {
-      var angle = getFloat(data1, 0, 360);
-      var dist = getFloat(data2, 0, 100000000000);
+      var angle = Conversion.getFloat(data1, 0, 360);
+      var dist = Conversion.getFloat(data2, 0, 100000000000);
 
       if (angle == null) {
         showAlert(mytrans("dialog.error"), mytrans("dialog.projection.error_bad_bearing").replace(/%1/, data1));
@@ -309,7 +307,7 @@ function getPermalink() {
   + "&t=" + map.getMapTypeId()
   + "&f=" + getFeaturesString()
   + "&m=" + theMarkers.toString()
-  + "&d=" + theLines.getLinesText();
+  + "&d=" + Lines.getLinesText();
 
   return link;
 }
@@ -593,6 +591,13 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocache
   map.mapTypes.set("TOPO", topomap_type);
 
   map.setMapTypeId(maptype);
+  Sidebar.init(map);
+  Lines.init(map);
+  Geolocation.init(map);
+  Hillshading.init(map);
+  NPA.init(map);
+  CDDA.init(map);
+  Freifunk.init(map);
 
   //boundariesLayer = new google.maps.ImageMapType({
   //  getTileUrl: function(coord, zoom) {
@@ -609,7 +614,7 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocache
   //  name: "adminb",
   //  alt: "Administrative Boundaries",
   //  maxZoom: 16 });
-  
+
   // Create div for showing copyrights.
   copyrightDiv = document.createElement("div");
   copyrightDiv.id = "map-copyright";
@@ -676,7 +681,7 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocache
           id2 = -1;
         }
 
-        theLines.newLine(id1, id2);
+        Lines.newLine(id1, id2);
       }
     }
   } else {
@@ -708,26 +713,26 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocache
           id2 = -1;
         }
 
-        theLines.newLine(id1, id2);
+        Lines.newLine(id1, id2);
       }
     }
   }
 
   okapi_show_cache = xgeocache;
-  restoreSidebar(true);
+  Sidebar.restore(true);
   if (xfeatures == '[default]') {
-    restoreHillshading(false);
+    Hillshading.restore(false);
     //restoreBoundaries(false);
     restoreGeocaches(false);
-    toggleNPALayer(false);
-    toggleCDDALayer(false);
-    toggleFreifunkLayer(false);
+    NPA.toggle(false);
+    CDDA.toggle(false);
+    Freifunk.toggle(false);
   } else {
-    toggleHillshading(xfeatures.indexOf('h') >= 0 || xfeatures.indexOf('H') >= 0);
+    Hillshading.toggle(xfeatures.indexOf('h') >= 0 || xfeatures.indexOf('H') >= 0);
     //toggleBoundaries(xfeatures.indexOf('b') >= 0 || xfeatures.indexOf('B') >= 0);
     okapi_toggle_load_caches(xfeatures.indexOf('g') >= 0 || xfeatures.indexOf('G') >= 0);
-    toggleNPALayer(xfeatures.indexOf('n') >= 0 || xfeatures.indexOf('N') >= 0);
-    toggleFreifunkLayer(xfeatures.indexOf('f') >= 0 || xfeatures.indexOf('F') >= 0);
+    NPA.toggle(xfeatures.indexOf('n') >= 0 || xfeatures.indexOf('N') >= 0);
+    Freifunk.toggle(xfeatures.indexOf('f') >= 0 || xfeatures.indexOf('F') >= 0);
   }
   restoreCoordinatesFormat(0);
 
@@ -744,6 +749,6 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocache
   setTimeout(function(){ updateCopyrights(); }, 1000);
 
   //if (atDefaultCenter) {
-  //  theGeolocation.whereAmI();
+  //  Geolocation.whereAmI();
   //}
 }

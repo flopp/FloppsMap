@@ -1,47 +1,77 @@
-function handleGpxFiles(files) {
-  if (!files || files.length == 0) return;
+/*jslint
+  regexp: true
+  indent: 4
+*/
 
-  var file = files[0];
-  var reader = new FileReader();
-  reader.readAsText(file);
-  reader.onloadend = function(){
-    var parser = new DOMParser();
-    xml = parser.parseFromString(reader.result, "text/xml")
-    if (!xml) return;
+/*global
+  $, google, newMarker, FileReader, DOMParser
+*/
 
-    wpts = xml.getElementsByTagName('wpt');
-    for (i = 0; i < wpts.length; i++) {
-        var wpt = wpts[i];
-        var lat = wpt.getAttribute('lat');
-        var lon = wpt.getAttribute('lon');
-        var radius = 0;
-        
-        var name = '';
-        var nameEl = wpt.getElementsByTagName('name');
-        if (nameEl.length > 0) {
-            name = nameEl[0].textContent;
+
+function parseWpt(wpt, default_name) {
+    'use strict';
+
+    var el, i,
+        name = '',
+        radius = 0;
+
+    el = wpt.getElementsByTagName('name');
+    if (el.length > 0) {
+        name = el[0].textContent;
+    }
+    name = name.replace(/[^A-Za-z0-9_\-]/gi, '');
+    if (name === '') {
+        name = default_name;
+    }
+
+    el = wpt.getElementsByTagName('*');
+    for (i = 0; i < el.length; i = i + 1) {
+        if (el[i].tagName === 'wptx1:Proximity') {
+            radius = parseInt(el[i].textContent, 10);
+            break;
         }
-        name = name.replace(/[^A-Za-z0-9_-]/gi, '');
-        if (name == '') name = 'wpt_' + i;
+    }
 
-        var extEl = wpt.getElementsByTagName('*');
-        for (j = 0; j < extEl.length; j++) {
-            var ext = extEl[j];
-            if (ext.tagName == 'wptx1:Proximity') {
-              radius = parseInt(ext.textContent);
-              break;
+    return {
+        name: name,
+        coords: new google.maps.LatLng(wpt.getAttribute('lat'), wpt.getAttribute('lon')),
+        radius: radius
+    };
+}
+
+
+function handleGpxFiles(files) {
+    'use strict';
+
+    if (!files || !files.length) {
+        return;
+    }
+
+    var reader = new FileReader(),
+        parser = new DOMParser();
+
+    reader.readAsText(files[0]);
+    reader.onloadend = function () {
+        var xml = parser.parseFromString(reader.result, "text/xml"),
+            wpts,
+            wpt,
+            i;
+        if (!xml) {
+            return;
+        }
+
+        wpts = xml.getElementsByTagName('wpt');
+        for (i = 0; i < wpts.length; i = i + 1) {
+            wpt = parseWpt(wpts[i], 'wpt_' + i);
+            if (!newMarker(wpt.coords, -1, wpt.radius, wpt.name)) {
+                return;
             }
         }
 
-        console.log("lat", lat, "lon", lon, "name", name, "radius", radius);
-        if (!newMarker(new google.maps.LatLng(lat, lon), -1, radius, name)) {
-          return;
-        }
+        // todo: pan to center of imported markers, adjust zoom
     };
-  }
 
-  // reset file input
-  var $el = $('#buttonUploadGPXinput');
-  $el.wrap('<form>').closest('form').get(0).reset();
-  $el.unwrap();
+    // reset file input
+    $('#buttonUploadGPXinput').wrap('<form>').closest('form').get(0).reset();
+    $('#buttonUploadGPXinput').unwrap();
 }

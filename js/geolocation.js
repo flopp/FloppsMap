@@ -1,46 +1,77 @@
-function Geolocation() {
-}
-    
-Geolocation.prototype.search = function (address) {
-  trackSearch(address);
+/*jslint
+  regexp: true
+  indent: 4
+*/
 
-  var coords = Coordinates.fromString(new String(address));
-  if (!coords) { 
-    url="http://nominatim.openstreetmap.org/search?format=json&limit=1&q=" + address;
-    $.get(url).done(function(data) {
-      if (data.length > 0) {
-        coords = new google.maps.LatLng(data[0].lat, data[0].lon);
-        map.setCenter(coords);
-      } else {
-        var title = mytrans("dialog.search_error.title");
-        var content = mytrans("dialog.search_error.content").replace(/%1/, address);
-        showAlert(title, content);
-      }
-    }).fail(function(data) {
-      var title = mytrans("dialog.search_error.title");
-      var content = mytrans("dialog.search_error.content").replace(/%1/, address);
-      showAlert(title, content);
-    });
-  } else {
-    map.setCenter(coords);
-  }
-}
+/*global
+  Coordinates, $, google, trackSearch, showAlert, mytrans, navigator
+*/
 
-Geolocation.prototype.whereAmI = function () {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(
-      function (position) {
-        map.setCenter(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
-      }, 
-      function() {
-          var title = mytrans("dialog.whereami_error.title");
-          var content = mytrans("dialog.whereami_error.content");
-          showAlert(title, content);
-      }
-    );
-  } else {
-    var title = mytrans("dialog.whereami_error.title");
-    var content = mytrans("dialog.whereami_error.content");
-    showAlert(title, content);
-  }
-}
+var Geolocation = {};
+Geolocation.m_map = null;
+
+Geolocation.init = function (map) {
+    'use strict';
+
+    this.m_map = map;
+};
+
+
+Geolocation.search = function (address) {
+    'use strict';
+
+    address = String(address);
+    trackSearch(address);
+
+    var coords = Coordinates.fromString(address),
+        url = "http://nominatim.openstreetmap.org/search?format=json&limit=1&q=" + address,
+        the_map = this.m_map;
+
+    if (!coords) {
+        $.get(url)
+            .done(function (data) {
+                if (data.length > 0) {
+                    the_map.setCenter(new google.maps.LatLng(data[0].lat, data[0].lon));
+                } else {
+                    showAlert(
+                        mytrans("dialog.search_error.title"),
+                        mytrans("dialog.search_error.content").replace(/%1/, address)
+                    );
+                }
+            })
+            .fail(function () {
+                showAlert(
+                    mytrans("dialog.search_error.title"),
+                    mytrans("dialog.search_error.content").replace(/%1/, address)
+                );
+            });
+    } else {
+        this.m_map.setCenter(coords);
+    }
+};
+
+
+Geolocation.whereAmI = function () {
+    'use strict';
+
+    trackSearch("whereami");
+
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            function (position) {
+                this.m_map.setCenter(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
+            },
+            function () {
+                showAlert(
+                    mytrans("dialog.whereami_error.title"),
+                    mytrans("dialog.whereami_error.content")
+                );
+            }
+        );
+    } else {
+        showAlert(
+            mytrans("dialog.whereami_error.title"),
+            mytrans("dialog.whereami_error.content")
+        );
+    }
+};

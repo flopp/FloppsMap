@@ -1,44 +1,65 @@
-function showMulticoordinatesDialog() {
-    $('#multicoordinatesDialogOk').off( 'click' );
-    $('#multicoordinatesDialogOk').click(function(){
-        var text = $('#multicoordinatesDialogText').val();
-        var strings = text.split(/;|\n/);
-        var errorsArray = [];
-        var coordsArray = [];
+/*jslint
+  indent: 4
+*/
 
-        var len = strings.length;
-        for (var i = 0; i < len; i++) {
-            var s = strings[i].trim();
-            if (s.length == 0) continue;
+/*global
+  $, Coordinates, mytrans, showAlert, newMarker, theMarkers
+*/
+
+function showMulticoordinatesDialog() {
+    'use strict';
+
+    $('#multicoordinatesDialogOk').off('click');
+    $('#multicoordinatesDialogOk').click(function () {
+        var prefix = $('#multicoordinatesPrefix').val(),
+            text = $('#multicoordinatesDialogText').val(),
+            strings = text.split(/;|\n/),
+            errorsArray = [],
+            coordsArray = [],
+            len,
+            i;
+
+        if (!(/^([a-zA-Z0-9-_]*)$/.test(prefix))) {
+            errorsArray.push(mytrans("dialog.multicoordinates.error_badprefix").replace('%1', prefix));
+        }
+        strings.map(function (s) {
+            s = s.trim();
+            if (!s.length) {
+                return;
+            }
 
             var c = Coordinates.fromString(s);
             if (!c) {
                 errorsArray.push(mytrans("dialog.multicoordinates.error_badcoordinates").replace('%1', s));
-                continue;
+                return;
             }
 
             coordsArray.push(c);
-        }
+        });
 
         len = coordsArray.length;
-        for (var i = 0; i < len; i++) {
-            var c = coordsArray[i];
-            var name = "MULTI_" + i;
-            if (!newMarker(c, -1, 0, name)) {
-                errorsArray.push(mytrans("dialog.multicoordinates.error_maxmarkers"));
-                break;
-            }
+        if (len >= theMarkers.getFreeMarkers()) {
+            errorsArray.push(mytrans("dialog.multicoordinates.error_maxmarkers").replace('%1', theMarkers.getFreeMarkers()));
         }
 
-        $('body').removeClass('modal-open');
-        $('.modal-backdrop').remove();
-        $('#multicoordinatesDialog').modal('hide');
-
         if (errorsArray.length > 0) {
-            showAlert(mytrans("dialog.multicoordinates.title"), mytrans("dialog.multicoordinates.error_message").replace('%1', errorsArray.join("<br />")));
+            $('#multicoordinatesError').html(mytrans("dialog.multicoordinates.error_message").replace('%1', errorsArray.join("<br />")));
+            //showAlert(mytrans("dialog.multicoordinates.title"), mytrans("dialog.multicoordinates.error_message").replace('%1', errorsArray.join("<br />")));
+        } else {
+            $('body').removeClass('modal-open');
+            $('.modal-backdrop').remove();
+            $('#multicoordinatesDialog').modal('hide');
+
+            for (i = 0; i < len; i += 1) {
+                if (!newMarker(coordsArray[i], -1, 0, prefix + i)) {
+                    showAlert(mytrans("dialog.multicoordinates.title"), mytrans("dialog.multicoordinates.error_message").replace('%1', '???'));
+                    break;
+                }
+            }
         }
     });
 
     $('#multicoordinatesDialog').modal({show : true, backdrop: "static", keyboard: true});
+    $('#multicoordinatesError').html('');
     $('#multicoordinatesDialogText').select();
 }

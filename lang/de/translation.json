@@ -140,12 +140,13 @@
             "content": "Mehrere Marker können in einem Schritt erzeugt werden. Dazu werden die Koordinaten der zu erzeugenden Marker im unteren Textfeld eingetragen (getrennt durch Zeilenumbrüche oder Semikolons). Den Namen der neu erzeugten Markern wird der angegebene Präfix vorangestellt.",
             "label_coordinates": "Koordinaten:",
             "label_prefix": "Präfix:",
+            "error_badprefix": "Ungültiges Präfix: %1; erlaubte Zeichen: A-Z, a-z, 0-9, - und _.",
             "error_badcoordinates": "Ungültige Koordinaten: %1",
-            "error_maxmarkers": "Maximale Anzahl an Markern erreicht. Einige Marker konnten nicht erstellt werden.",
-            "error_message": "Während der Erstellung der neuen Marker sind folgende Fehler aufgetreten:<br /><br /> %1"
+            "error_maxmarkers": "Zu viele Marker. Es können nur noch %1 Marker erzeugt werden.",
+            "error_message": "<b>Fehler:</b><br />%1"
         }
     },
-    
+
     "geocache": {
         "owner": "Besitzer",
         "type": "Typ",

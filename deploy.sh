@@ -63,12 +63,14 @@ JS=(
     js/hillshading-layer.js
     js/coordinates.js
     js/freifunk.js
+    js/txtoverlay.js
     js/lines.js
     js/markers.js
     js/map.js
     js/multicoordinates.js
     js/npa-layer.js
     js/okapi.js
+    js/sidebar.js
     js/tracking.js
     js/ui.js
     js/uploadgpx.js
@@ -104,7 +106,7 @@ ROOT=(
 sed "s/TSTAMP/$(date +%s)/g" php/map.php > $D/map.php
 cp -a ${ROOT[@]} $D/
 sass scss/main.scss > $D/css/main.css
-cat ${JS[@]} | yui-compressor --verbose --type js -o $D/js/compressed.js
+cat ${JS[@]} > $D/js/compressed.js
 cp -a ${IMG[@]} $D/img/
 cp -a lang/* $D/lang/
 

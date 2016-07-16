@@ -132,7 +132,7 @@
             "msg_no_npa": "There is no nature protection area at the selected coordinates",
             "error": "Error querying information about nature protection areas."
         },
-        
+
         "cdda": {
             "title": "Nationally Designated Areas (CDDA)",
             "content": "The Common Database on Designated Areas (CDDA) is more commonly known as Nationally designated areas. It is the official source of protected area information from European countries to the World Database of Protected Areas (WDPA).<br /><br />Copyright holder: European Environment Agency (EEA), Estonian Environmental Register 25.02.2014, &copy; Finnish Environment Institute, 2015.<br /><br />For more information, visit the <a href=\"http://www.eea.europa.eu/data-and-maps/data/nationally-designated-areas-national-cdda-10\" target=_blank>website of the European Environment Agency</a>",
@@ -151,12 +151,13 @@
             "content": "Create multiple markers by specifying multiple coordinates in the text area below (separated by new lines or semicolons). Marker names are prefixed with the given prefix string.",
             "label_coordinates": "Coordinates:",
             "label_prefix": "Marker Prefix:",
+            "error_badprefix": "Bad prefix: %1; allowed character: A-Z, a-z, 0-9, -, and _.",
             "error_badcoordinates": "Bad coordinates: %1",
-            "error_maxmarkers": "Maximum number of markers reached. Failed to add some markers.",
-            "error_message": "While adding multiple markers, the following errors have occured:<br /><br /> %1"
+            "error_maxmarkers": "Too many markers. Can only add %1 new markers.",
+            "error_message": "<b>Error(s):</b><br />%1"
         }
     },
-    
+
     "geocache": {
         "owner": "Owner",
         "type": "Type",

@@ -1,51 +1,3 @@
-/* sidebar */
-
-function hideSidebar()
-{
-  Cookies.set("sidebar", "hidden", {expires: 30});
-  $('#sidebar').hide();
-  $('#sidebartoggle').css( "right", "0px" );
-  $('#sidebartogglebutton').html( "<i class=\"fa fa-chevron-left\"></i>" );
-  $('#map-wrapper').css("right", "0px");
-  google.maps.event.trigger(map, "resize");
-}
-
-function showSidebar()
-{
-  Cookies.set("sidebar", "shown", {expires: 30});
-  $('#sidebar').show();
-  $('#sidebartoggle').css( "right", "280px" );
-  $('#sidebartogglebutton').html( "<i class=\"fa fa-chevron-right\"></i>" );
-  $('#map-wrapper').css("right", "280px");
-  google.maps.event.trigger(map, "resize");
-}
-
-
-function toggleSidebar(shown)
-{
-  if (shown) showSidebar();
-  else       hideSidebar();
-}
-
-
-function restoreSidebar(defaultValue)
-{
-  var state = get_cookie_string("sidebar", "invalid");
-  if (state == "hidden" )
-  {
-    hideSidebar();
-  }
-  else if (state == "shown")
-  {
-    showSidebar();
-  }
-  else
-  {
-    toggleSidebar(defaultValue);
-  }
-}
-
-
 ///* boundaries layer */
 //function toggleBoundaries(t)
 //{
@@ -187,19 +139,15 @@ function linkDialogShortenLink()
 
 /* setup button events */
 $(document).ready(function() {
-  $("#sidebartoggle").click(function() { if ($('#sidebar').is(':visible')) hideSidebar(); else showSidebar(); });
-  //$('#buttonWhereAmI').click(function() { theGeolocation.whereAmI(); });
-  $("#hillshading").click(function() { toggleHillshading($('#hillshading').is(':checked')); });
+  $("#sidebartoggle").click(function() { if ($('#sidebar').is(':visible')) Sidebar.hide(); else Sidebar.show(); });
+  //$('#buttonWhereAmI').click(function() { Geolocation.whereAmI(); });
+  $("#hillshading").click(function() { Hillshading.toggle($('#hillshading').is(':checked')); });
   //$("#boundaries").click(function() { toggleBoundaries($('#boundaries').is(':checked')); });
-  $("#npa").click(function() { toggleNPALayer($('#npa').is(':checked')); });
-  $("#cdda").click(function() { toggleCDDALayer($('#cdda').is(':checked')); });
+  $("#npa").click(function() { NPA.toggle($('#npa').is(':checked')); });
+  $("#cdda").click(function() { CDDA.toggle($('#cdda').is(':checked')); });
   $("#geocaches").click(function() { okapi_toggle_load_caches($('#geocaches').is(':checked')); });
   $('#coordinatesFormat').change(function() { setCoordinatesFormat($('#coordinatesFormat').val()); });
-  $("#freifunk").click(function() { toggleFreifunkLayer($('#freifunk').is(':checked')); });
-
-  var fileSelect = document.getElementById("fileSelect"),
-  fileElem = document.getElementById("fileElem");
-
+  $("#freifunk").click(function() { Freifunk.toggle($('#freifunk').is(':checked')); });
   $("#buttonUploadGPX").click(function(e) { $("#buttonUploadGPXinput").click(); e.preventDefault(); });
   $("#buttonMulticoordinates").click(function() { showMulticoordinatesDialog(); });
 });

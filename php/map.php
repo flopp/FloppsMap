@@ -148,7 +148,7 @@ $(document).ready( function() { init_lang(); });
   <!--<button id="buttonWhereAmI" class="btn btn-info btn-sm my-section-buttons-top" type="button"><i class="fa fa-crosshairs"></i> <span data-i18n="sidebar.search.whereami">WHERE AM I?</span></button>-->
 
   <div>
-    <form action="javascript:theGeolocation.search($('#txtSearch').val())">
+    <form action="javascript:Geolocation.search($('#txtSearch').val())">
       <div class="input-group" style="margin-bottom: 5px">
         <input class="form-control" id="txtSearch" type="text" data-i18n="[placeholder]sidebar.search.placeholder;">
         <span class="input-group-btn">
@@ -175,8 +175,8 @@ $(document).ready( function() { init_lang(); });
 <div class="my-section">
   <div class="my-section-header" data-i18n="sidebar.lines.title">LINES</div>
   <div class="btn-group btn-group-sm my-section-buttons-top">
-    <button id="buttonLinesNew" class="btn btn-sm btn-success" type="button" onClick="theLines.newLine(-1, -1)"><i class="fa fa-minus"></i> <span data-i18n="sidebar.lines.new">NEW</span></button>
-    <button id="buttonLinesDeleteAll" class="btn btn-sm btn-danger" type="button" onClick="theLines.deleteAllLines()"><i class="fa fa-trash-o"></i> <span data-i18n="sidebar.lines.deleteall">DELETE ALL</span></button>
+    <button id="buttonLinesNew" class="btn btn-sm btn-success" type="button" onClick="Lines.newLine(-1, -1)"><i class="fa fa-minus"></i> <span data-i18n="sidebar.lines.new">NEW</span></button>
+    <button id="buttonLinesDeleteAll" class="btn btn-sm btn-danger" type="button" onClick="Lines.deleteAllLines()"><i class="fa fa-trash-o"></i> <span data-i18n="sidebar.lines.deleteall">DELETE ALL</span></button>
   </div>
   <div id="dynLineDiv"></div>
 </div> <!-- section -->
@@ -233,38 +233,38 @@ $(document).ready( function() { init_lang(); });
         <label>
             <input id="npa" type="checkbox">
             <span data-i18n="sidebar.misc.npa">NATURE PROTECTION AREAS</span>
-            <button class="btn btn-info btn-xs" onClick="showNPADialog()">
+            <button class="btn btn-info btn-xs" onClick="NPA.showDialog();">
                 <i class="fa fa-info"></i>
             </button>
         </label>
     </div>
     <div id="npa_details" style="display: none;">
-        <button class="btn btn-block btn-sm btn-info" style="margin-bottom: 10px;" onClick="startNPAInfoMode()" data-i18n="sidebar.misc.npainfo">SHOW NPA INFO ON NEXT CLICK</button>
+        <button class="btn btn-block btn-sm btn-info" style="margin-bottom: 10px;" onClick="NPA.startInfoMode();" data-i18n="sidebar.misc.npainfo">SHOW NPA INFO ON NEXT CLICK</button>
     </div>
     <div class="checkbox">
         <label>
             <input id="cdda" type="checkbox">
             <span data-i18n="sidebar.misc.cdda">NATIONALLY DESIGNATED AREAS</span>
-            <button class="btn btn-info btn-xs" onClick="showCDDADialog()">
+            <button class="btn btn-info btn-xs" onClick="CDDA.showDialog();">
                 <i class="fa fa-info"></i>
             </button>
             <span class="my-new" style="width: 30px; height: 16px; display: inline-block;">&nbsp;</span>
         </label>
     </div>
     <div id="cdda_details" style="display: none;">
-        <button class="btn btn-block btn-sm btn-info" style="margin-bottom: 10px;" onClick="startCDDAInfoMode(map)" data-i18n="sidebar.misc.cddainfo">SHOW CDDA INFO ON NEXT CLICK</button>
+        <button class="btn btn-block btn-sm btn-info" style="margin-bottom: 10px;" onClick="CDDA.startInfoMode();" data-i18n="sidebar.misc.cddainfo">SHOW CDDA INFO ON NEXT CLICK</button>
     </div>
     <div class="checkbox">
         <label>
             <input id="freifunk" type="checkbox">
             <span data-i18n="sidebar.misc.freifunk">FREIFUNK</span>
-            <button class="btn btn-info btn-xs" onClick="showFreifunkDialog()">
+            <button class="btn btn-info btn-xs" onClick="Freifunk.showDialog();">
                 <i class="fa fa-info"></i>
             </button>
         </label>
     </div>
     <div id="freifunk_details" style="display: none;">
-        <button class="btn btn-block btn-sm btn-info" style="margin-bottom: 10px;" onClick="startFreifunkInfoMode()" data-i18n="sidebar.misc.freifunkinfo">SHOW FREIFUNK INFO ON NEXT CLICK</button>
+        <button class="btn btn-block btn-sm btn-info" style="margin-bottom: 10px;" onClick="Freifunk.startInfoMode();" data-i18n="sidebar.misc.freifunkinfo">SHOW FREIFUNK INFO ON NEXT CLICK</button>
     </div>
     <div class="checkbox">
         <label>
@@ -391,10 +391,11 @@ $(document).ready( function() { init_lang(); });
                   <label for="multicoordinatesPrefix" class="control-label" data-i18n="[html]dialog.multicoordinates.label_prefix">PREFIX</label>
                   <input type="text" class="form-control" id="multicoordinatesPrefix" value="MULTI_">
                 </div>
+                <div id="multicoordinatesError"></div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn" data-dismiss="modal" data-i18n="dialog.cancel">CANCEL</button>
-                <button id="multicoordinatesDialogOk" type="button" class="btn btn-primary" data-dismiss="modal" data-i18n="dialog.ok">OK</button>
+                <button id="multicoordinatesDialogOk" type="button" class="btn btn-success" data-i18n="dialog.ok">OK</button>
             </div>
         </div>
     </div>
