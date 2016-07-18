@@ -152,7 +152,10 @@ Coordinates.toStringDM = function (coords) {
         this.zeropad(lat_min, 2) +
         "." +
         this.zeropad(lat_mmin, 3) +
+<<<<<<< HEAD
         " " +
+=======
+>>>>>>> 1f407feaf8b32da7e6dbe4e765911945176d4147
         lng_h +
         " " +
         this.zeropad(lng_deg, 3) +

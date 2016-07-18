@@ -591,6 +591,7 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocache
   map.mapTypes.set("TOPO", topomap_type);
 
   map.setMapTypeId(maptype);
+
   Sidebar.init(map);
   Lines.init(map);
   Geolocation.init(map);
