@@ -279,7 +279,7 @@ $(document).ready( function() { init_lang(); });
     <div class="input-group">
       <select class="form-control" id="externallinks"></select>
       <span class="input-group-btn">
-        <button class="btn btn-info" type="button" onClick="gotoExternalLink()"><i class="fa fa-play"></i></button>
+        <button class="btn btn-info" type="button" onClick="ExternalLinks.goto();"><i class="fa fa-play"></i></button>
       </span>
     </div>
   </div>

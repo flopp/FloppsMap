@@ -59,6 +59,7 @@ JS=(
     js/cdda-layer.js
     js/conversion.js
     js/cookies.js
+    js/externallinks.js
     js/geolocation.js
     js/hillshading-layer.js
     js/coordinates.js
