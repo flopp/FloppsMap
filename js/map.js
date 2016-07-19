@@ -3,14 +3,16 @@
 */
 
 /*global
-  $, google, Lines, Markers, Conversion, Cookies, Coordinates, trackMarker, mytrans, showAlert, id2alpha
+  $, google, Lines, Markers, Conversion, Cookies, Coordinates, trackMarker, mytrans, showAlert,
+  id2alpha, alpha2id,
+  showProjectionDialog, showLinkDialog,
+  osmProvider, osmDeProvider, ocmProvider, thunderforestOutdoorsProvider, opentopomapProvider
 */
 
 //var boundariesLayer = null;
 //var boundariesLayerShown = false;
 var map = null;
-var copyrightDiv;
-
+var copyrightDiv = null;
 var theMarkers = new Markers();
 
 var CLAT_DEFAULT = 51.163375;
@@ -401,15 +403,95 @@ function repairMaptype(t, d) {
 }
 
 
-function tileUrl(template, servers, coord, zoom) {
+function parseMarkersFromUrl(urlarg) {
     'use strict';
 
-    var limit = Math.pow(2, zoom),
-        x = ((coord.x % limit) + limit) % limit,
-        y = coord.y,
-        s = servers[(Math.abs(x + y)) % servers.length];
+    var markers = [],
+        data;
 
-    return template.replace(/%s/, s).replace(/%x/, x).replace(/%y/, y).replace(/%z/, zoom);
+    // ID:COODRS:R(:NAME)?|ID:COORDS:R(:NAME)?
+    // COORDS=LAT:LON or DEG or DMMM
+    if (urlarg.indexOf("*") >= 0) {
+        data = urlarg.split('*');
+    } else {
+        /* sep is '|' */
+        data = urlarg.split('|');
+    }
+
+    data.map(function (dataitem) {
+        dataitem = dataitem.split(':');
+        if (dataitem.length < 3 || dataitem.length > 5) {
+            return;
+        }
+
+        var m = {
+                alpha: dataitem[0],
+                id: alpha2id(dataitem[0]),
+                name: null,
+                coords: null,
+                r: 0
+            },
+            index = 1,
+            lat,
+            lon;
+
+        if (m.id < 0) {
+            return;
+        }
+
+        lat = parseFloat(dataitem[index]);
+        lon = parseFloat(dataitem[index + 1]);
+        if (lat !== null && -90 <= lat && lat <= 90 &&
+                lon !== null && -180 <= lon && lon <= 180) {
+            index += 2;
+            m.coords = new google.maps.LatLng(lat, lon);
+        } else {
+            m.coords = Coordinates.fromString(dataitem[index]);
+            index += 1;
+        }
+        if (!m.coords) {
+            return;
+        }
+
+        m.r = parseFloat(dataitem[index]);
+        if (m.r === null || m.r < 0 || m.r > 100000000000) {
+            m.r = 0;
+        }
+        index = index + 1;
+
+        if (index < dataitem.length) {
+            if (/^([a-zA-Z0-9-_]*)$/.test(dataitem[index])) {
+                m.name = dataitem[index];
+            }
+        }
+
+        markers.push(m);
+    });
+
+    return markers;
+}
+
+
+function parseCenterFromUrl(urlarg) {
+    'use strict';
+
+    var data = urlarg.split(':'),
+        lat,
+        lon;
+
+    if (data.length === 1) {
+        return Coordinates.fromString(data[0]);
+    }
+
+    if (data.length === 2) {
+        lat = parseFloat(data[0]);
+        lon = parseFloat(data[1]);
+        if (lat >= -90 && lat <= 90 && lon >= -180 && lon <= 180) {
+            return new google.maps.LatLng(lat, lon);
+        }
+    }
+
+    return null;
 }
 
 
@@ -422,83 +504,22 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocache
     var maptype = xmap;
 
     // parse markers
-    var markerdata = [];
+    var markerdata = parseMarkersFromUrl(xmarkers);
     var markercenter = null;
-    {
-        var count = 0;
-        var clat = 0;
-        var clon = 0;
-
-        // ID:COODS:R(:NAME)?|ID:COORDS:R(:NAME)?
-        // COORDS=LAT:LON or DEG or DMMM
-        var data;
-        if (xmarkers.indexOf("*") != -1) {
-            data = xmarkers.split('*');
-        } else  {
-            /*if (xmarkers.indexOf("|") != -1)*/
-            data = xmarkers.split('|');
-        }
-
-        for (var i = 0; i != data.length; i += 1) {
-            var data2 = data[i].split(':');
-            if (data2.length < 3 || data2.length > 5) continue;
-
-            var m = new Object();
-            m.alpha = data2[0];
-            m.id = alpha2id(m.alpha);
-            if (m.id == -1) continue;
-            m.name = null;
-
-            var index = 1;
-            var lat = parseFloat(data2[index]);
-            var lon = parseFloat(data2[index+1]);
-            if (lat != null && lon != null && -90 <= lat && lat <= 90 && -180 <= lon && lon <= 180) {
-                index = index + 2;
-                m.coords = new google.maps.LatLng(lat, lon);
-            } else {
-                m.coords = Coordinates.fromString(data2[index]);
-                if (m.coords == null) continue;
-                index = index + 1;
-            }
-
-            var circle = parseFloat(data2[index]);
-            if (circle < 0 || circle > 100000000000) continue;
-            m.r = circle;
-            index = index + 1;
-
-            if (index < data2.length) {
-                if (/^([a-zA-Z0-9-_]*)$/.test(data2[index])) {
-                    m.name = data2[index];
-                }
-            }
-
-            count += 1;
+    var clat = 0;
+    var clon = 0;
+    if (markerdata.length > 0) {
+        markerdata.map(function (m) {
             clat += m.coords.lat();
             clon += m.coords.lng();
-
-            markerdata.push(m);
-        }
-
-        if (count != 0) {
-            markercenter = new google.maps.LatLng(clat / count, clon / count);
-        }
+        });
+        markercenter = new google.maps.LatLng(clat / markerdata.length, clon / markerdata.length);
     }
 
     var loadfromcookies = false;
-    if (xcenter != null && xcenter != '') {
-        var data = xcenter.split(':');
-
-        if (data.length == 1) {
-            center = Coordinates.fromString(xcenter);
-        } else {
-            var lat = parseFloat(data[0]);
-            var lon = parseFloat(data[1]);
-
-            if (lat >= -90 && lat <= 90 && lon >= -180 && lon <= 180) {
-                center = new google.maps.LatLng(lat, lon);
-            }
-        }
-    } else if (markercenter != null) {
+    if (xcenter && xcenter !== '') {
+        center = parseCenterFromUrl(xcenter);
+    } else if (markercenter) {
         center = markercenter;
     } else {
         loadfromcookies = true;
@@ -518,7 +539,7 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocache
         maptype = get_cookie_string('maptype', MAPTYPE_DEFAULT);
     }
 
-    if (center == null) {
+    if (!center) {
         center = new google.maps.LatLng(CLAT_DEFAULT, CLON_DEFAULT);
         atDefaultCenter = true;
     }
@@ -536,52 +557,11 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocache
 
     map = new google.maps.Map(document.getElementById("themap"), myOptions);
 
-    var osm_type = new google.maps.ImageMapType({
-        getTileUrl: function(coord, zoom) {
-            return tileUrl("http://%s.tile.openstreetmap.org/%z/%x/%y.png", ["a","b","c"], coord, zoom);
-        },
-        tileSize: new google.maps.Size(256, 256),
-        name: "OSM",
-        alt: "OpenStreetMap",
-        maxZoom: 18 });
-    var osmde_type = new google.maps.ImageMapType({
-        getTileUrl: function(coord, zoom) {
-            return tileUrl("http://%s.tile.openstreetmap.de/tiles/osmde/%z/%x/%y.png", ["a","b","c"], coord, zoom);
-        },
-        tileSize: new google.maps.Size(256, 256),
-        name: "OSM/DE",
-        alt: "OpenStreetMap (german style)",
-        maxZoom: 18 });
-    var ocm_type = new google.maps.ImageMapType({
-        getTileUrl: function(coord, zoom) {
-            return tileUrl("http://%s.tile.opencyclemap.org/cycle/%z/%x/%y.png", ["a","b","c"], coord, zoom);
-        },
-        tileSize: new google.maps.Size(256, 256),
-        name: "OCM",
-        alt: "OpenCycleMap",
-        maxZoom: 17 });
-    var outdoors_type = new google.maps.ImageMapType({
-        getTileUrl: function(coord, zoom) {
-            return tileUrl("http://%s.tile.thunderforest.com/outdoors/%z/%x/%y.png", ["a","b","c"], coord, zoom);
-        },
-        tileSize: new google.maps.Size(256, 256),
-        name: "OUTD",
-        alt: "Thunderforest Outdoors",
-        maxZoom: 18 });
-    var topomap_type = new google.maps.ImageMapType({
-        getTileUrl: function(coord, zoom) {
-            return tileUrl("https://%s.tile.opentopomap.org/%z/%x/%y.png", ["a","b","c"], coord, zoom);
-        },
-        tileSize: new google.maps.Size(256, 256),
-        name: "TOPO",
-        alt: "OpenTopoMap",
-        maxZoom: 15 });
-
-    map.mapTypes.set("OSM", osm_type);
-    map.mapTypes.set("OSM/DE", osmde_type);
-    map.mapTypes.set("OCM", ocm_type);
-    map.mapTypes.set("OUTD", outdoors_type);
-    map.mapTypes.set("TOPO", topomap_type);
+    map.mapTypes.set("OSM", osmProvider("OSM"));
+    map.mapTypes.set("OSM/DE", osmDeProvider("OSM/DE"));
+    map.mapTypes.set("OCM", ocmProvider("OCM"));
+    map.mapTypes.set("OUTD", thunderforestOutdoorsProvider("OUTD"));
+    map.mapTypes.set("TOPO", opentopomapProvider("TOPO"));
     map.setMapTypeId(maptype);
 
     Sidebar.init(map);

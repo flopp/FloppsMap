@@ -64,6 +64,7 @@ JS=(
     js/hillshading-layer.js
     js/coordinates.js
     js/freifunk.js
+    js/id.js
     js/txtoverlay.js
     js/lines.js
     js/markers.js
@@ -72,6 +73,7 @@ JS=(
     js/npa-layer.js
     js/okapi.js
     js/sidebar.js
+    js/tileprovider.js
     js/tracking.js
     js/ui.js
     js/uploadgpx.js
