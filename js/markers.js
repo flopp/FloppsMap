@@ -3,7 +3,7 @@
 */
 
 /*global
-  $, Lines, google, Cookies, Coordinates
+  $, Lines, google, Cookies, Coordinates, trackMarker
 */
 
 function id2alpha(id) {
@@ -261,6 +261,10 @@ Markers.prototype.getSize = function () {
 Markers.prototype.getById = function (id) {
     'use strict';
 
+    if (id < 0 || id >= this.m_markers.length) {
+        return null;
+    }
+
     return this.m_markers[id];
 };
 
@@ -380,4 +384,28 @@ Markers.prototype.handleMarkerCleared = function () {
     }
 
     this.saveMarkersList();
+};
+
+
+Markers.prototype.goto = function (id) {
+    'use strict';
+
+    trackMarker('goto');
+
+    var m = this.getById(id);
+    if (m) {
+        this.m_map.setCenter(m.getPosition());
+    }
+};
+
+
+Markers.prototype.center = function (id) {
+    'use strict';
+
+    trackMarker('center');
+
+    var m = this.getById(id);
+    if (m) {
+        m.setPosition(this.m_map.getCenter());
+    }
 };
