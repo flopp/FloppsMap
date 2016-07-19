@@ -6,7 +6,12 @@
   $, google, Lines, Markers, Conversion, Cookies, Coordinates, trackMarker, mytrans, showAlert,
   id2alpha, alpha2id,
   showProjectionDialog, showLinkDialog,
-  osmProvider, osmDeProvider, ocmProvider, thunderforestOutdoorsProvider, opentopomapProvider
+  osmProvider, osmDeProvider, ocmProvider, thunderforestOutdoorsProvider, opentopomapProvider,
+  get_cookie_int, get_cookie_float, get_cookie_string,
+  Sidebar, ExternalLinks, Hillshading, Geolocation, NPA, CDDA, Freifunk,
+  restoreCoordinatesFormat,
+  okapi_show_cache, okapi_toggle_load_caches, okapi_schedule_load_caches, restoreGeocaches,
+  document, setTimeout
 */
 
 //var boundariesLayer = null;
@@ -406,6 +411,10 @@ function repairMaptype(t, d) {
 function parseMarkersFromUrl(urlarg) {
     'use strict';
 
+    if (urlarg === null) {
+        return [];
+    }
+
     var markers = [],
         data;
 
@@ -453,16 +462,12 @@ function parseMarkersFromUrl(urlarg) {
             return;
         }
 
-        m.r = parseFloat(dataitem[index]);
-        if (m.r === null || m.r < 0 || m.r > 100000000000) {
-            m.r = 0;
-        }
+        m.r = repairRadius(parseFloat(dataitem[index]), 0);
         index = index + 1;
 
-        if (index < dataitem.length) {
-            if (/^([a-zA-Z0-9-_]*)$/.test(dataitem[index])) {
-                m.name = dataitem[index];
-            }
+        if (index < dataitem.length &&
+                /^([a-zA-Z0-9-_]*)$/.test(dataitem[index])) {
+            m.name = dataitem[index];
         }
 
         markers.push(m);
@@ -474,6 +479,10 @@ function parseMarkersFromUrl(urlarg) {
 
 function parseCenterFromUrl(urlarg) {
     'use strict';
+
+    if (urlarg === null) {
+        return null;
+    }
 
     var data = urlarg.split(':'),
         lat,
@@ -495,19 +504,134 @@ function parseCenterFromUrl(urlarg) {
 }
 
 
+function parseLinesFromUrl(urlarg) {
+    'use strict';
+
+    if (urlarg === null) {
+        return [];
+    }
+
+    var lines = [];
+
+    /* be backwards compatible */
+    if (urlarg.length === 3
+            && alpha2id(urlarg[0]) >= 0
+            && urlarg[1] === '*'
+            && alpha2id(urlarg[1]) >= 0) {
+        urlarg = urlarg[0] + ':' + urlarg[2];
+    }
+
+    urlarg.split('*').map(function (pair_string) {
+        var m = {source: -1, target: -1},
+            pair = pair_string.split(':');
+
+        if (pair.length !== 2) {
+            return;
+        }
+
+        m.source = alpha2id(pair[0]);
+        m.target = alpha2id(pair[1]);
+
+        lines.push(m);
+    });
+
+    return lines;
+}
+
+
+function parseMarkersFromCookies() {
+    'use strict';
+
+    var raw_ids = Cookies.get('markers'),
+        markers = [];
+
+    if (raw_ids === null || raw_ids === undefined) {
+        return markers;
+    }
+
+    raw_ids.split(':').map(function (id_string) {
+        var m = {id: null, name: null, coords: null, r: 0},
+            raw_data,
+            data,
+            lat,
+            lon;
+
+        m.id = parseInt(id_string, 10);
+        if (m.id === null || m.id < 0 || m.id >= 26 * 10) {
+            return;
+        }
+
+        raw_data = Cookies.get('marker' + m.id);
+        if (raw_data === null || raw_data === undefined) {
+            return;
+        }
+
+        data = raw_data.split(':');
+        if (data.length !== 4) {
+            return;
+        }
+
+        lat = parseFloat(data[0]);
+        lon = parseFloat(data[1]);
+        if (lat === null || isNaN(lat) || lat < -90 || lat > 90 ||
+                lon === null || isNaN(lon) || lon < -180 || lon > 180) {
+            return;
+        }
+        m.coords = new google.LatLng(lat, lon);
+
+        m.r = repairRadius(parseFloat(data[2]), 0);
+
+        if (/^([a-zA-Z0-9-_]*)$/.test(data[3])) {
+            m.name = data[3];
+        }
+
+        markers.push(m);
+    });
+
+    return markers;
+}
+
+
+function parseLinesFromCookies() {
+    'use strict';
+
+    var raw_lines = Cookies.get('lines'),
+        lines = [];
+
+    if (raw_lines === null || raw_lines === undefined) {
+        return lines;
+    }
+
+    raw_lines.split('*').map(function (pair_string) {
+        var m = {source: -1, target: -1},
+            pair = pair_string.split(':');
+
+        if (pair.length !== 2) {
+            return;
+        }
+
+        m.source = alpha2id(pair[0]);
+        m.target = alpha2id(pair[1]);
+
+        lines.push(m);
+    });
+
+    return lines;
+}
+
+
 function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocache) {
     'use strict';
 
-    var center = null;
-    var atDefaultCenter = false;
-    var zoom = parseInt(xzoom, 10);
-    var maptype = xmap;
-
-    // parse markers
-    var markerdata = parseMarkersFromUrl(xmarkers);
-    var markercenter = null;
-    var clat = 0;
-    var clon = 0;
+    var center = null,
+        atDefaultCenter = false,
+        zoom = parseInt(xzoom, 10),
+        maptype = xmap,
+        loadfromcookies = false,
+        markerdata = parseMarkersFromUrl(xmarkers),
+        markercenter = null,
+        clat = 0,
+        clon = 0;
     if (markerdata.length > 0) {
         markerdata.map(function (m) {
             clat += m.coords.lat();
@@ -516,7 +640,6 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocache
         markercenter = new google.maps.LatLng(clat / markerdata.length, clon / markerdata.length);
     }
 
-    var loadfromcookies = false;
     if (xcenter && xcenter !== '') {
         center = parseCenterFromUrl(xcenter);
     } else if (markercenter) {
@@ -527,7 +650,7 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocache
         /* try to read coordinats from cookie */
         clat = get_cookie_float('clat', CLAT_DEFAULT);
         clon = get_cookie_float('clon', CLON_DEFAULT);
-        if (clat == CLAT_DEFAULT && clon == CLON_DEFAULT) {
+        if (clat === CLAT_DEFAULT && clon === CLON_DEFAULT) {
             atDefaultCenter = true;
         }
 
@@ -546,16 +669,17 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocache
 
     zoom = repairZoom(zoom, ZOOM_DEFAULT);
     maptype = repairMaptype(maptype, MAPTYPE_DEFAULT);
-
-    var myOptions = {
-        zoom: zoom,
-        center: center,
-        scaleControl: true,
-        streetViewControl: false,
-        mapTypeControlOptions: { mapTypeIds: ['OSM', 'OSM/DE', 'OCM', 'OUTD', 'TOPO', google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.SATELLITE, google.maps.MapTypeId.HYBRID, google.maps.MapTypeId.TERRAIN] },
-        mapTypeId: google.maps.MapTypeId.ROADMAP };
-
-    map = new google.maps.Map(document.getElementById("themap"), myOptions);
+    map = new google.maps.Map(
+        document.getElementById("themap"),
+        {
+            zoom: zoom,
+            center: center,
+            scaleControl: true,
+            streetViewControl: false,
+            mapTypeControlOptions: { mapTypeIds: ['OSM', 'OSM/DE', 'OCM', 'OUTD', 'TOPO', google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.SATELLITE, google.maps.MapTypeId.HYBRID, google.maps.MapTypeId.TERRAIN] },
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        }
+    );
 
     map.mapTypes.set("OSM", osmProvider("OSM"));
     map.mapTypes.set("OSM/DE", osmDeProvider("OSM/DE"));
@@ -601,98 +725,53 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocache
 
     map.setCenter(center, zoom);
 
-    google.maps.event.addListener(map, "center_changed", function() { storeZoom(); storeCenter(); okapi_schedule_load_caches(); });
-    google.maps.event.addListener(map, "zoom_changed", function() { storeZoom(); storeCenter(); okapi_schedule_load_caches(); });
-    google.maps.event.addListener(map, "maptypeid_changed", function(){ updateCopyrights()});
+    google.maps.event.addListener(map, "center_changed", function () {
+        storeZoom();
+        storeCenter();
+        okapi_schedule_load_caches();
+    });
+    google.maps.event.addListener(map, "zoom_changed", function () {
+        storeZoom();
+        storeCenter();
+        okapi_schedule_load_caches();
+    });
+    google.maps.event.addListener(map, "maptypeid_changed", function () {
+        updateCopyrights();
+    });
 
     if (loadfromcookies) {
-        var raw_ids = Cookies.get('markers');
-        if (raw_ids != undefined) {
-            var ids = raw_ids.split(':');
-            for (var i = 0; i != ids.length; ++i) {
-                var id = parseInt(ids[i], 10);
-                if (id === null || id < 0 || id >= 26*10) continue;
+        parseMarkersFromCookies().map(function (m) {
+            newMarker(m.coords, m.id, m.r, m.name);
+        });
 
-                var raw_data = Cookies.get('marker' + id);
-                if (raw_data == undefined) continue;
-
-                var data = raw_data.split(':')
-                if (data.length != 3 && data.length != 4) continue;
-
-                var lat = parseFloat(data[0]);
-                if (lat < -90 || lat > 90) continue;
-                var lon = parseFloat(data[1]);
-                if (lon < -180 || lon > 180) continue;
-                var r = parseFloat(data[2]);
-                if (r < 0 || r > 100000000000) continue;
-
-                var name = null;
-                if (data.length == 4) {
-                    if (/^([a-zA-Z0-9-_]*)$/.test(data[3])) {
-                        name = data[3];
-                    }
-                }
-
-                newMarker(new google.maps.LatLng(lat, lon), id, r, name);
+        parseLinesFromCookies().map(function (m) {
+            if (m.source >= 0 && theMarkers.getById(m.source).isFree()) {
+                m.source = -1;
             }
-        }
-
-        var raw_lines = Cookies.get('lines');
-        if (raw_lines != undefined) {
-            var linesarray = raw_lines.split('*');
-            for (var i = 0; i < linesarray.length; ++i) {
-                var line = linesarray[i].split(':');
-                if (line.length != 2) continue;
-
-                var id1 = alpha2id(line[0]);
-                if (id1 != -1 && theMarkers.getById(id1).isFree()) {
-                    id1 = -1;
-                }
-                var id2 = alpha2id(line[1]);
-                if (id2 != -1 && theMarkers.getById(id2).isFree()) {
-                    id2 = -1;
-                }
-
-                Lines.newLine(id1, id2);
+            if (m.target >= 0 && theMarkers.getById(m.target).isFree()) {
+                m.target = -1;
             }
-        }
+            Lines.newLine(m.source, m.target);
+        });
     } else {
-        for (var i = 0; i < markerdata.length; ++i) {
-            newMarker(markerdata[i].coords, markerdata[i].id, markerdata[i].r, markerdata[i].name);
-        }
+        markerdata.map(function (m) {
+            newMarker(m.coords, m.id, m.r, m.name);
+        });
 
-        var raw_lines = xlines;
-        if (raw_lines != null) {
-            /* be backwards compatible */
-            if (raw_lines.length == 3
-                && raw_lines[0] >= 'A' && raw_lines[0] <= 'Z'
-                && raw_lines[1] == '*'
-                && raw_lines[2] >= 'A' && raw_lines[2] <= 'Z') {
-                    raw_lines = raw_lines[0] + ':' + raw_lines[2];
+        parseLinesFromUrl(xlines).map(function (m) {
+            if (m.source >= 0 && theMarkers.getById(m.source).isFree()) {
+                m.source = -1;
             }
-
-            var linesarray = raw_lines.split('*');
-            for (var i = 0; i < linesarray.length; ++i) {
-                var line = linesarray[i].split(':');
-                if (line.length != 2) continue;
-
-                var id1 = alpha2id(line[0]);
-                if (id1 != -1 && theMarkers.getById(id1).isFree()) {
-                    id1 = -1;
-                }
-                var id2 = alpha2id(line[1]);
-                if (id2 != -1 && theMarkers.getById(id2).isFree()) {
-                    id2 = -1;
-                }
-
-                Lines.newLine(id1, id2);
+            if (m.target >= 0 && theMarkers.getById(m.target).isFree()) {
+                m.target = -1;
             }
-        }
+            Lines.newLine(m.source, m.target);
+        });
     }
 
     okapi_show_cache = xgeocache;
     Sidebar.restore(true);
-    if (xfeatures == '[default]') {
+    if (xfeatures === '[default]') {
         Hillshading.restore(false);
         //restoreBoundaries(false);
         restoreGeocaches(false);
@@ -708,15 +787,19 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocache
     }
     restoreCoordinatesFormat(0);
 
-    if (xgeocache != "") {
+    if (xgeocache !== "") {
         okapi_toggle_load_caches(true);
         atDefaultCenter = false;
     }
 
     // update copyrights + gmap-stuff now, once the map is fully loaded, and in 1s - just to be sure!
     updateCopyrights();
-    google.maps.event.addListenerOnce(map, 'idle', function(){ updateCopyrights(); });
-    setTimeout(function(){ updateCopyrights(); }, 1000);
+    google.maps.event.addListenerOnce(map, 'idle', function () {
+        updateCopyrights();
+    });
+    setTimeout(function () {
+        updateCopyrights();
+    }, 1000);
 
     //if (atDefaultCenter) {
     //  Geolocation.whereAmI();
