@@ -21,6 +21,29 @@ Coordinates.setFormat = function (format) {
 };
 
 
+Coordinates.validLat = function (lat) {
+    'use strict';
+
+    return lat !== null && lat !== undefined && !isNaN(lat) &&
+        -90.0 <= lat && lat <= 90.0;
+};
+
+
+Coordinates.validLng = function (lng) {
+    'use strict';
+
+    return lng !== null && lng !== undefined && !isNaN(lng) &&
+        -180.0 <= lng && lng <= 180.0;
+};
+
+
+Coordinates.valid = function (lat, lng) {
+    'use strict';
+
+    return this.validLat(lat) && this.validLng(lng);
+};
+
+
 Coordinates.fromString = function (coordsString) {
     'use strict';
 

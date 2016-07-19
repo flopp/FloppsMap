@@ -355,22 +355,22 @@ function updateCopyrights() {
 function repairLat(x, d) {
     'use strict';
 
-    if (x === null || isNaN(x) || x < -90 || x > +90) {
-        return d;
+    if (Coordinates.validLat(x)) {
+        return x;
     }
 
-    return x;
+    return d;
 }
 
 
 function repairLon(x, d) {
     'use strict';
 
-    if (x === null || isNaN(x) || x < -180 || x > +180) {
-        return d;
+    if (Coordinates.validLng(x)) {
+        return x;
     }
 
-    return x;
+    return d;
 }
 
 
@@ -450,8 +450,7 @@ function parseMarkersFromUrl(urlarg) {
 
         lat = parseFloat(dataitem[index]);
         lon = parseFloat(dataitem[index + 1]);
-        if (lat !== null && -90 <= lat && lat <= 90 &&
-                lon !== null && -180 <= lon && lon <= 180) {
+        if (Coordinates.valid(lat, lon)) {
             index += 2;
             m.coords = new google.maps.LatLng(lat, lon);
         } else {
@@ -495,7 +494,7 @@ function parseCenterFromUrl(urlarg) {
     if (data.length === 2) {
         lat = parseFloat(data[0]);
         lon = parseFloat(data[1]);
-        if (lat >= -90 && lat <= 90 && lon >= -180 && lon <= 180) {
+        if (Coordinates.valid(lat, lon)) {
             return new google.maps.LatLng(lat, lon);
         }
     }
@@ -573,8 +572,7 @@ function parseMarkersFromCookies() {
 
         lat = parseFloat(data[0]);
         lon = parseFloat(data[1]);
-        if (lat === null || isNaN(lat) || lat < -90 || lat > 90 ||
-                lon === null || isNaN(lon) || lon < -180 || lon > 180) {
+        if (Coordinates.valid(lat, lon)) {
             return;
         }
         m.coords = new google.LatLng(lat, lon);
@@ -771,6 +769,7 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocache
 
     okapi_show_cache = xgeocache;
     Sidebar.restore(true);
+    xfeatures = xfeatures.toLowerCase();
     if (xfeatures === '[default]') {
         Hillshading.restore(false);
         //restoreBoundaries(false);
@@ -779,11 +778,11 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocache
         CDDA.toggle(false);
         Freifunk.toggle(false);
     } else {
-        Hillshading.toggle(xfeatures.indexOf('h') >= 0 || xfeatures.indexOf('H') >= 0);
-        //toggleBoundaries(xfeatures.indexOf('b') >= 0 || xfeatures.indexOf('B') >= 0);
-        okapi_toggle_load_caches(xfeatures.indexOf('g') >= 0 || xfeatures.indexOf('G') >= 0);
-        NPA.toggle(xfeatures.indexOf('n') >= 0 || xfeatures.indexOf('N') >= 0);
-        Freifunk.toggle(xfeatures.indexOf('f') >= 0 || xfeatures.indexOf('F') >= 0);
+        Hillshading.toggle(xfeatures.indexOf('h') >= 0);
+        //toggleBoundaries(xfeatures.indexOf('b') >= 0);
+        okapi_toggle_load_caches(xfeatures.indexOf('g') >= 0);
+        NPA.toggle(xfeatures.indexOf('n') >= 0);
+        Freifunk.toggle(xfeatures.indexOf('f') >= 0);
     }
     restoreCoordinatesFormat(0);
 

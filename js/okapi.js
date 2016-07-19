@@ -66,7 +66,7 @@ function okapi_setup_sites()
             {
                 okapi_schedule_load_caches( true );
             }
-            
+
             if (okapi_show_cache != null && okapi_show_cache != "") {
                 okapi_center_map_on_cache(okapi_show_cache);
                 okapi_show_cache = null;
@@ -116,21 +116,21 @@ function okapi_get_icon( type )
 
 function guess_okapi_siteid(code) {
     var site_name = null;
-    
-    if (/^OC/i.test(code)) { site_name = "Opencaching.DE"; } 
-    else if (/^OP/i.test(code)) { site_name = "Opencaching.PL"; } 
-    else if (/^OB/i.test(code)) { site_name = "Opencaching.NL"; } 
+
+    if (/^OC/i.test(code)) { site_name = "Opencaching.DE"; }
+    else if (/^OP/i.test(code)) { site_name = "Opencaching.PL"; }
+    else if (/^OB/i.test(code)) { site_name = "Opencaching.NL"; }
     else if (/^OU/i.test(code)) { site_name = "Opencaching.US"; }
     else if (/^OK/i.test(code)) { site_name = "Opencaching.ORG.UK"; }
     else if (/^OR/i.test(code)) { site_name = "Opencaching.RO"; }
     else { return -1; }
-    
+
     for (var siteid in okapi_sites) {
         if (okapi_sites[siteid].name == site_name) {
             return siteid;
         }
     }
-    
+
     return -1;
 }
 
@@ -141,13 +141,13 @@ function okapi_center_map_on_cache(code) {
         console.log("okapi not ready");
         return;
     }
-    
+
     var siteid = guess_okapi_siteid(code);
     if (siteid < 0) {
         console.log("bad code. cannot determine okapi site");
         return;
     }
-    
+
     _okapi_show_popup(null, code.toUpperCase(), siteid)
 }
 
@@ -172,7 +172,7 @@ function _okapi_show_popup(m, code, siteid) {
             var loc = response.location.split("|");
             var coords = new google.maps.LatLng(parseFloat(loc[0]), parseFloat(loc[1]));
             map.setCenter(coords);
-            
+
             if (!m) {
                 m = new google.maps.Marker( {
                     position: coords,
@@ -183,11 +183,11 @@ function _okapi_show_popup(m, code, siteid) {
                     okapi_show_cache_marker.setMap(null);
                     delete(okapi_show_cache_marker);
                 }
-                
+
                 okapi_register_popup(m, code, siteid);
                 okapi_show_cache_marker = m;
             }
-            
+
             var content =
                 '<a href="' + response.url + '" target="_blank">' + code + ' <b>' + response.name + '</b></a><br />'
                 + '<table>'
@@ -203,7 +203,7 @@ function _okapi_show_popup(m, code, siteid) {
             okapi_popup.setContent(content);
             okapi_popup.open(map, m);
         }
-    });    
+    });
 }
 
 
@@ -237,7 +237,7 @@ function okapi_remove_caches() {
     for (var siteid in okapi_sites) {
         okapi_remove_caches_site(okapi_sites[siteid].markers);
     }
-    
+
     if (okapi_show_cache_marker) {
         okapi_show_cache_marker.setMap(null);
         delete(okapi_show_cache_marker);
