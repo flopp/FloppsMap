@@ -47,18 +47,48 @@ Coordinates.valid = function (lat, lng) {
 Coordinates.fromString = function (coordsString) {
     'use strict';
 
-    coordsString = coordsString.trim();
+    var coords;
+
+    coords = this.fromStringHDM(coordsString);
+    if (coords) {
+        return coords;
+    }
+
+    coords = this.fromStringHDMS(coordsString);
+    if (coords) {
+        return coords;
+    }
+
+    coords = this.fromStringHD(coordsString);
+    if (coords) {
+        return coords;
+    }
+
+    coords = this.fromStringD(coordsString);
+    if (coords) {
+        return coords;
+    }
+
+    return null;
+};
+
+
+Coordinates.fromStringHDM = function (coordsString) {
+    'use strict';
+
+    coordsString = coordsString.upperCase().trim();
 
     var matches, pattern,
-        lat, lat_sign, lat_d, lat_m, lat_s,
-        lng, lng_sign, lng_d, lng_m, lng_s;
+        lat, lat_sign, lat_d, lat_m,
+        lng, lng_sign, lng_d, lng_m;
 
     // H DDD MM.MMM
-    pattern = /^[^A-Za-z0-9.\-]*([ns])[^A-Za-z0-9.\-]*(\d+)[^A-Za-z0-9.\-]+([\d\.]+)[^A-Za-z0-9.\-]+([we])[^A-Za-z0-9.\-]*(\d+)[^A-Za-z0-9.\-]+([\d\.]+)[^A-Za-z0-9.\-]*$/i;
+    pattern = /^[^A-Z0-9.\-]*([NS])[^A-Z0-9.\-]*(\d+)[^A-Z0-9.\-]+([\d\.]+)[^A-Z0-9.\-]+([EW])[^A-Z0-9.\-]*(\d+)[^A-Z0-9.\-]+([\d\.]+)[^A-Z0-9.\-]*$/i;
+    //
     matches = coordsString.match(pattern);
     if (matches) {
-        lat_sign = (matches[1] === 's' || matches[1] === 'S') ? -1 : 1;
-        lng_sign = (matches[4] === 'w' || matches[4] === 'W') ? -1 : 1;
+        lat_sign = (matches[1] === 'S') ? -1 : 1;
+        lng_sign = (matches[4] === 'W') ? -1 : 1;
 
         lat_d = parseFloat(matches[2]);
         lat_m = parseFloat(matches[3]);
@@ -72,12 +102,26 @@ Coordinates.fromString = function (coordsString) {
         return new google.maps.LatLng(lat, lng);
     }
 
+    return null;
+};
+
+
+Coordinates.fromStringHDMS = function (coordsString) {
+    'use strict';
+
+    coordsString = coordsString.upperCase().trim();
+
+    var matches, pattern,
+        lat, lat_sign, lat_d, lat_m, lat_s,
+        lng, lng_sign, lng_d, lng_m, lng_s;
+
     // H DDD MM SS.SSS
-    pattern = /^[^A-Za-z0-9.\-]*([ns])[^A-Za-z0-9.\-]*(\d+)[^A-Za-z0-9.\-]+(\d+)[^A-Za-z0-9.\-]+([\d\.]+)[^A-Za-z0-9.\-]+([we])[^A-Za-z0-9.\-]*(\d+)[^A-Za-z0-9.\-]+(\d+)[^A-Za-z0-9.\-]+([\d\.]+)[^A-Za-z0-9.\-]*$/i;
+    pattern = /^[^A-Z0-9.\-]*([NS])[^A-Z0-9.\-]*(\d+)[^A-Z0-9.\-]+(\d+)[^A-Z0-9.\-]+([\d\.]+)[^A-Z0-9.\-]+([EW])[^A-Z0-9.\-]*(\d+)[^A-Z0-9.\-]+(\d+)[^A-Z0-9.\-]+([\d\.]+)[^A-Z0-9.\-]*$/i;
+    //
     matches = coordsString.match(pattern);
     if (matches) {
-        lat_sign = (matches[1] === 's' || matches[1] === 'S') ? -1 : 1;
-        lng_sign = (matches[5] === 'w' || matches[5] === 'W') ? -1 : 1;
+        lat_sign = (matches[1] === 'S') ? -1 : 1;
+        lng_sign = (matches[5] === 'W') ? -1 : 1;
 
         lat_d = parseFloat(matches[2]);
         lat_m = parseFloat(matches[3]);
@@ -92,13 +136,25 @@ Coordinates.fromString = function (coordsString) {
 
         return new google.maps.LatLng(lat, lng);
     }
+    return null;
+};
+
+
+Coordinates.fromStringHD = function (coordsString) {
+    'use strict';
+
+    coordsString = coordsString.upperCase().trim();
+
+    var matches, pattern,
+        lat, lat_sign,
+        lng, lng_sign;
 
     // H DDD.DDDDD
-    pattern = /^[^A-Za-z0-9.\-]*([ns])[^A-Za-z0-9.\-]*([\d\.]+)[^A-Za-z0-9.\-]+([we])[^A-Za-z0-9.\-]*([\d\.]+)[^A-Za-z0-9.\-]*$/i;
+    pattern = /^[^A-Z0-9.\-]*([NS])[^A-Z0-9.\-]*([\d\.]+)[^A-Z0-9.\-]+([EW])[^A-Z0-9.\-]*([\d\.]+)[^A-Z0-9.\-]*$/i;
     matches = coordsString.match(pattern);
     if (matches) {
-        lat_sign = (matches[1] === 's' || matches[1] === 'S') ? -1 : 1;
-        lng_sign = (matches[3] === 'w' || matches[3] === 'W') ? -1 : 1;
+        lat_sign = (matches[1] === 'S') ? -1 : 1;
+        lng_sign = (matches[3] === 'W') ? -1 : 1;
 
         lat = lat_sign * parseFloat(matches[2]);
         lng = lng_sign * parseFloat(matches[4]);
@@ -106,8 +162,21 @@ Coordinates.fromString = function (coordsString) {
         return new google.maps.LatLng(lat, lng);
     }
 
-    // H DDD.DDDDD
-    pattern = /^[^A-Za-z0-9.\-]*(-?)([\d\.]+)[^A-Za-z0-9.\-]+(-?)([\d\.]+)[^A-Za-z0-9.\-]*$/i;
+    return null;
+};
+
+
+Coordinates.fromStringD = function (coordsString) {
+    'use strict';
+
+    coordsString = coordsString.upperCase().trim();
+
+    var matches, pattern,
+        lat, lat_sign,
+        lng, lng_sign;
+
+    // DDD.DDDDD
+    pattern = /^[^A-Z0-9.\-]*(-?)([\d\.]+)[^A-Z0-9.\-]+(-?)([\d\.]+)[^A-Z0-9.\-]*$/i;
     matches = coordsString.match(pattern);
     if (matches) {
         lat_sign = (matches[1] === '-') ? -1 : 1;

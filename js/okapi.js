@@ -149,7 +149,7 @@ Okapi.guessSiteId = function (code) {
 
     code = code.upperCase();
     for (siteid in this.m_sites) {
-        if code.startsWith(this.m_sites[siteid].prefix) {
+        if (code.startsWith(this.m_sites[siteid].prefix)) {
             return siteid;
         }
     }
@@ -411,7 +411,7 @@ Okapi.scheduleLoad = function () {
     this.unscheduleLoad();
     this.m_timer = window.setTimeout(function () {
         self.loadBbox();
-    } 500);
+    }, 500);
 };
 
 
