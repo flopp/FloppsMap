@@ -3,7 +3,7 @@
 */
 
 /*global
-  $, google, mytrans, window, Cookies, Coordinates, get_cookie_string, console
+  $, google, mytrans, window, Cookies, Coordinates, get_cookie_string
 */
 
 
@@ -64,6 +64,14 @@ Okapi.setupSites = function () {
             "Opencaching.US" : "GvgyCMvwfH42GqJGL494",
             "Opencaching.ORG.UK" : "7t7VfpkCd4HuxPabfbHd",
             "Opencaching.RO" : "gqSWmVJhZGDwc4sRhyy7"
+        },
+        prefixes = {
+            "Opencaching.DE" : "OC",
+            "Opencaching.PL" : "OP",
+            "Opencaching.NL" : "OB",
+            "Opencaching.US" : "OU",
+            "Opencaching.ORG.UK" : "OK",
+            "Opencaching.RO" : "OR"
         };
 
     this.m_sites = {};
@@ -76,12 +84,13 @@ Okapi.setupSites = function () {
             for (siteid in response) {
                 site = response[siteid];
                 if (site.site_name in keys) {
-                    console.log("adding OC site: " + site.site_name);
+                    //console.log("adding OC site: " + site.site_name);
                     self.m_sites[siteid] = {
                         siteid: siteid,
                         name: site.site_name,
                         site_url: site.site_url,
                         url: site.okapi_base_url,
+                        prefix: prefixes[site.site_name],
                         key: keys[site.site_name],
                         ignore_user: null,
                         markers: {},
@@ -138,27 +147,9 @@ Okapi.icon = function (type) {
 Okapi.guessSiteId = function (code) {
     'use strict';
 
-    var site_name = null,
-        siteid = -1;
-
-    if (/^OC/i.test(code)) {
-        site_name = "Opencaching.DE";
-    } else if (/^OP/i.test(code)) {
-        site_name = "Opencaching.PL";
-    } else if (/^OB/i.test(code)) {
-        site_name = "Opencaching.NL";
-    } else if (/^OU/i.test(code)) {
-        site_name = "Opencaching.US";
-    } else if (/^OK/i.test(code)) {
-        site_name = "Opencaching.ORG.UK";
-    } else if (/^OR/i.test(code)) {
-        site_name = "Opencaching.RO";
-    } else {
-        return -1;
-    }
-
+    code = code.upperCase();
     for (siteid in this.m_sites) {
-        if (this.m_sites[siteid].name === site_name) {
+        if code.startsWith(this.m_sites[siteid].prefix) {
             return siteid;
         }
     }
@@ -171,13 +162,13 @@ Okapi.centerMap = function (code) {
     'use strict';
 
     if (!this.m_ready) {
-        console.log("okapi not ready");
+        //console.log("okapi not ready");
         return;
     }
 
     var siteid = this.guessSiteId(code);
     if (siteid < 0) {
-        console.log("bad code. cannot determine okapi site");
+        //console.log("bad code. cannot determine okapi site");
         return;
     }
 
@@ -371,7 +362,7 @@ Okapi.loadBboxSite = function (siteid) {
             site.finished = true;
         },
         error: function () {
-            console.log("okapi request failed: " + site.name);
+            //console.log("okapi request failed: " + site.name);
             self.removeMarkersSite(site.markers);
             site.markers = {};
             site.finished = true;
@@ -415,8 +406,12 @@ Okapi.scheduleLoad = function () {
         return;
     }
 
+    var self = this;
+
     this.unscheduleLoad();
-    this.m_timer = window.setTimeout('Okapi.loadBbox()', 500);
+    this.m_timer = window.setTimeout(function () {
+        self.loadBbox();
+    } 500);
 };
 
 
