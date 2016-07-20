@@ -8,15 +8,14 @@
   showProjectionDialog, showLinkDialog,
   osmProvider, osmDeProvider, ocmProvider, thunderforestOutdoorsProvider, opentopomapProvider,
   get_cookie_int, get_cookie_float, get_cookie_string,
-  Sidebar, ExternalLinks, Hillshading, Geolocation, NPA, CDDA, Freifunk, Okapi,
+  Attribution, Sidebar, ExternalLinks, Hillshading, Geolocation, NPA, CDDA, Freifunk, Okapi,
   restoreCoordinatesFormat,
-  document, setTimeout
+  document
 */
 
 //var boundariesLayer = null;
 //var boundariesLayerShown = false;
 var map = null;
-var copyrightDiv = null;
 var theMarkers = new Markers();
 
 var CLAT_DEFAULT = 51.163375;
@@ -274,6 +273,13 @@ function storeZoom() {
 }
 
 
+function storeMapType() {
+    'use strict';
+
+    Cookies.set('maptype', map.getMapTypeId(), {expires: 30});
+}
+
+
 function getFeaturesString() {
     'use strict';
 
@@ -308,47 +314,6 @@ function generatePermalink() {
 
     var link = getPermalink();
     showLinkDialog(link);
-}
-
-
-function updateCopyrights() {
-    'use strict';
-
-    var newMapType = map.getMapTypeId(),
-        isGoogleMap = true,
-        copyright = "";
-
-    Cookies.set('maptype', newMapType, {expires: 30});
-
-    if (newMapType === "OSM" || newMapType === "OSM/DE") {
-        isGoogleMap = false;
-        copyright = "Map data (C) by <a href=\"http://www.openstreetmap.org/\">OpenStreetMap.org</a> and its contributors; <a href=\"http://opendatacommons.org/licenses/odbl/\">Open Database License</a>";
-    } else if (newMapType === "OCM") {
-        isGoogleMap = false;
-        copyright = "Map data (C) by <a href=\"http://www.openstreetmap.org/\">OpenStreetMap.org</a> and its contributors; <a href=\"http://opendatacommons.org/licenses/odbl/\">Open Database License</a>, tiles (C) by <a href=\"http://opencyclemap.org\">OpenCycleMap.org</a>";
-    } else if (newMapType === "OUTD") {
-        isGoogleMap = false;
-        copyright = "Map data (C) by <a href=\"http://www.openstreetmap.org/\">OpenStreetMap.org</a> and its contributors; <a href=\"http://opendatacommons.org/licenses/odbl/\">Open Database License</a>, tiles (C) by <a href=\"http://www.thunderforest.com/outdoors/\">Thunderforest</a>";
-    } else if (newMapType === "TOPO") {
-        isGoogleMap = false;
-        copyright = "Map data (C) by <a href=\"http://www.openstreetmap.org/\">OpenStreetMap.org</a> and its contributors; <a href=\"http://opendatacommons.org/licenses/odbl/\">Open Database License</a>, height data by SRTM, tiles (C) by <a href=\"http://www.opentopomap.org/\">OpenTopoMap</a>";
-    }
-
-    if (copyrightDiv) {
-        copyrightDiv.innerHTML = copyright;
-    }
-
-    if (isGoogleMap) {
-        $(".gmnoprint a, .gmnoprint span, .gm-style-cc").css("display", "block");
-        $("a[href*='maps.google.com/maps']").show();
-        map.setOptions({streetViewControl: true});
-    } else {
-        // hide logo for non-g-maps
-        $("a[href*='maps.google.com/maps']").hide();
-        // hide term-of-use for non-g-maps
-        $(".gmnoprint a, .gmnoprint span, .gm-style-cc").css("display", "none");
-        map.setOptions({streetViewControl: false});
-    }
 }
 
 
@@ -686,6 +651,7 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocache
     map.mapTypes.set("TOPO", opentopomapProvider("TOPO"));
     map.setMapTypeId(maptype);
 
+    Attribution.init(map);
     Sidebar.init(map);
     ExternalLinks.init(map);
     Lines.init(map);
@@ -712,16 +678,6 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocache
     //  alt: "Administrative Boundaries",
     //  maxZoom: 16 });
 
-    // Create div for showing copyrights.
-    copyrightDiv = document.createElement("div");
-    copyrightDiv.id = "map-copyright";
-    copyrightDiv.style.fontSize = "11px";
-    copyrightDiv.style.fontFamily = "Arial, sans-serif";
-    copyrightDiv.style.margin = "0 2px 2px 0";
-    copyrightDiv.style.whiteSpace = "nowrap";
-    copyrightDiv.style.background = "#FFFFFF";
-    map.controls[google.maps.ControlPosition.BOTTOM_RIGHT].push(copyrightDiv);
-
     map.setCenter(center, zoom);
 
     google.maps.event.addListener(map, "center_changed", function () {
@@ -733,7 +689,7 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocache
         storeCenter();
     });
     google.maps.event.addListener(map, "maptypeid_changed", function () {
-        updateCopyrights();
+        storeMapType();
     });
 
     if (loadfromcookies) {
@@ -790,14 +746,7 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocache
         //atDefaultCenter = false;
     }
 
-    // update copyrights + gmap-stuff now, once the map is fully loaded, and in 1s - just to be sure!
-    updateCopyrights();
-    google.maps.event.addListenerOnce(map, 'idle', function () {
-        updateCopyrights();
-    });
-    setTimeout(function () {
-        updateCopyrights();
-    }, 1000);
+    Attribution.forceUpdate();
 
     //if (atDefaultCenter) {
     //  Geolocation.whereAmI();

@@ -56,6 +56,7 @@ $MONTAGE
 
 
 JS=(
+    js/attribution.js
     js/cdda-layer.js
     js/conversion.js
     js/cookies.js
