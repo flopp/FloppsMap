@@ -37,8 +37,7 @@ function Line(themap, id, source, target) {
             "</div>"
     );
 
-    this.updateMarkerAdded();
-
+    this.updateLists();
     this.setSource(source);
     this.setTarget(target);
 }
@@ -181,31 +180,18 @@ Line.prototype.updateMarkerRemoved = function (markerId) {
         this.clearMapObject();
     }
 
-    var source = $('#dynlinesource' + this.m_id),
-        target = $('#dynlinetarget' + this.m_id),
-        i,
-        m;
-
-    source.empty();
-    target.empty();
-
-    source.append('<option value="-1">?</option>');
-    target.append('<option value="-1">?</option>');
-
-    for (i = 0; i < theMarkers.getSize(); i = i + 1) {
-        m = theMarkers.getById(i);
-        if (!m.isFree()) {
-            source.append('<option value="' + i + '">' + m.getAlpha() + '</option>');
-            target.append('<option value="' + i + '">' + m.getAlpha() + '</option>');
-        }
-    }
-
-    $("#dynlinesource" + this.m_id + " > option[value=" + this.m_source + "]").attr("selected", "selected");
-    $("#dynlinetarget" + this.m_id + " > option[value=" + this.m_target + "]").attr("selected", "selected");
+    this.updateLists();
 };
 
 
 Line.prototype.updateMarkerAdded = function () {
+    'use strict';
+
+    this.updateLists();
+};
+
+
+Line.prototype.updateLists = function () {
     'use strict';
 
     var source = $('#dynlinesource' + this.m_id),
