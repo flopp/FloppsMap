@@ -41,7 +41,6 @@ function init_lang() {
 function set_lang(lang) {
     'use strict';
 
-    console.log("changing lang to " + lang);
     i18next.changeLanguage(lang, function (err, t) {
         if (err) {
             console.log(err);

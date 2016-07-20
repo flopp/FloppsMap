@@ -74,19 +74,17 @@ Okapi.setupSites = function () {
             "Opencaching.RO" : "OR"
         };
 
-    this.m_sites = {};
+    this.m_sites = [];
 
     $.ajax({
         url: main_url,
         dataType: 'json',
         success: function (response) {
-            var siteid, site;
-            for (siteid in response) {
-                site = response[siteid];
-                if (site.site_name in keys) {
+            response.map(function (site) {
+                if (keys[site.site_name] !== undefined) {
                     //console.log("adding OC site: " + site.site_name);
-                    self.m_sites[siteid] = {
-                        siteid: siteid,
+                    self.m_sites.push({
+                        siteid: self.m_sites.length,
                         name: site.site_name,
                         site_url: site.site_url,
                         url: site.okapi_base_url,
@@ -95,9 +93,9 @@ Okapi.setupSites = function () {
                         ignore_user: null,
                         markers: {},
                         finished: true
-                    };
+                    });
                 }
-            }
+            });
 
             self.m_ready = true;
             if (self.m_enabled) {
@@ -119,28 +117,29 @@ Okapi.setupIcons = function () {
         return;
     }
 
-    this.m_icons = {};
-    this.m_icons["Other"] = new google.maps.MarkerImage("img/cachetype-1.png");
-    this.m_icons["Traditional"] = new google.maps.MarkerImage("img/cachetype-2.png");
-    this.m_icons["Multi"] = new google.maps.MarkerImage("img/cachetype-3.png");
-    this.m_icons["Virtual"] = new google.maps.MarkerImage("img/cachetype-4.png");
-    this.m_icons["Webcam"] = new google.maps.MarkerImage("img/cachetype-5.png");
-    this.m_icons["Event"] = new google.maps.MarkerImage("img/cachetype-6.png");
-    this.m_icons["Quiz"] = new google.maps.MarkerImage("img/cachetype-7.png");
-    this.m_icons["Math/Physics"] = new google.maps.MarkerImage("img/cachetype-8.png");
-    this.m_icons["Moving"] = new google.maps.MarkerImage("img/cachetype-9.png");
-    this.m_icons["Drive-In"] = new google.maps.MarkerImage("img/cachetype-10.png");
+    this.m_icons = {
+        "Other": new google.maps.MarkerImage("img/cachetype-1.png"),
+        "Traditional": new google.maps.MarkerImage("img/cachetype-2.png"),
+        "Multi": new google.maps.MarkerImage("img/cachetype-3.png"),
+        "Virtual": new google.maps.MarkerImage("img/cachetype-4.png"),
+        "Webcam": new google.maps.MarkerImage("img/cachetype-5.png"),
+        "Event": new google.maps.MarkerImage("img/cachetype-6.png"),
+        "Quiz": new google.maps.MarkerImage("img/cachetype-7.png"),
+        "Math/Physics": new google.maps.MarkerImage("img/cachetype-8.png"),
+        "Moving": new google.maps.MarkerImage("img/cachetype-9.png"),
+        "Drive-In": new google.maps.MarkerImage("img/cachetype-10.png")
+    };
 };
 
 
 Okapi.icon = function (type) {
     'use strict';
 
-    if (type in this.m_icons) {
+    if (this.m_icons[type] !== undefined) {
         return this.m_icons[type];
     }
 
-    return this.m_icons["Other"];
+    return this.m_icons.Other;
 };
 
 
@@ -148,7 +147,8 @@ Okapi.guessSiteId = function (code) {
     'use strict';
 
     code = code.upperCase();
-    for (siteid in this.m_sites) {
+    var siteid;
+    for (siteid = 0; siteid < this.m_sites.length; siteid += 1) {
         if (code.startsWith(this.m_sites[siteid].prefix)) {
             return siteid;
         }
@@ -259,11 +259,9 @@ Okapi.removeMarkersSite = function (markers) {
     }
 
     if (markers) {
-        var m;
-        for (m in markers) {
-            markers[m].setMap(null);
-            delete markers[m];
-        }
+        markers.map(function (m) {
+            m.setMap(null);
+        });
     }
 };
 
@@ -275,11 +273,11 @@ Okapi.removeMarkers = function () {
         return;
     }
 
-    var siteid;
-    for (siteid in this.m_sites) {
-        this.removeMarkersSite(this.m_sites[siteid].markers);
-        this.m_sites[siteid].markers = {};
-    }
+    var self = this;
+    this.m_sites.map(function (site) {
+        self.removeMarkersSite(site.markers);
+        site.markers = {};
+    });
 
     if (this.m_marker) {
         this.m_marker.setMap(null);
@@ -328,35 +326,37 @@ Okapi.loadBboxSite = function (siteid) {
         },
         success: function (response) {
             var addedCaches = {},
-                code,
                 cache,
-                m;
+                code;
 
             for (code in response) {
-                cache = response[code];
+                if (!response.hasOwnProperty(code)) {
+                    continue;
+                }
 
+                cache = response[code];
                 if (cache.status !== "Available") {
                     continue;
                 }
+
                 addedCaches[cache.code] = true;
-                if (cache.code in site.markers) {
+                if (site.markers[cache.code] !== undefined) {
                     continue;
                 }
 
-                m = new google.maps.Marker({
+                site.markers[cache.code] = new google.maps.Marker({
                     position: self.parseLocation(cache.location),
                     map: self.m_map,
                     icon: self.icon(cache.type)
                 });
 
-                site.markers[cache.code] = m;
-                self.registerPopup(m, cache.code, siteid);
+                self.registerPopup(site.markers[cache.code], cache.code, siteid);
             }
 
-            for (m in site.markers) {
-                if (!(m in addedCaches)) {
-                    site.markers[m].setMap(null);
-                    delete site.markers[m];
+            for (code in site.markers) {
+                if (site.markers.hasOwnProperty(code) && addedCaches[code] === undefined) {
+                    site.markers[code].setMap(null);
+                    delete site.markers[code];
                 }
             }
             site.finished = true;
@@ -378,10 +378,10 @@ Okapi.loadBbox = function () {
         return;
     }
 
-    var siteid;
-    for (siteid in this.m_sites) {
-        this.loadBboxSite(siteid);
-    }
+    var self = this;
+    this.m_sites.map(function (site) {
+        self.loadBboxSite(site.siteid);
+    });
 };
 
 
