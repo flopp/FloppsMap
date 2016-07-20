@@ -32,12 +32,12 @@ function enterEditMode(id) {
     trackMarker('edit');
     var m = theMarkers.getById(id);
 
-    $('#edit_name' + m.getAlpha()).val(m.getName());
+    $('#dyn' + id + ' > .markeredit .edit_name').val(m.getName());
     $('#edit_coordinates' + m.getAlpha()).val(Coordinates.toString(m.getPosition()));
     $('#edit_circle' + m.getAlpha()).val(m.getRadius());
 
-    $('#dynview' + id).hide();
-    $('#dynedit' + id).show();
+    $('#dyn' + id + ' > .markerview').hide();
+    $('#dyn' + id + ' > .markeredit').show();
 }
 
 
@@ -46,7 +46,7 @@ function leaveEditMode(id, takenew) {
 
     if (takenew) {
         var m = theMarkers.getById(id),
-            name = $('#edit_name' + m.getAlpha()).val(),
+            name = $('#dyn' + id + ' > .markeredit .edit_name').val(),
             name_ok = /^([a-zA-Z0-9-_]*)$/.test(name),
             s_coordinates = $('#edit_coordinates' + m.getAlpha()).val(),
             coordinates = Coordinates.fromString(s_coordinates),
@@ -68,12 +68,12 @@ function leaveEditMode(id, takenew) {
             showAlert(mytrans("dialog.error"), errors.join("<br /><br />"));
         } else {
             m.setNamePositionRadius(name, coordinates, radius);
-            $('#dynview' + id).show();
-            $('#dynedit' + id).hide();
+            $('#dyn' + id + ' > .markerview').show();
+            $('#dyn' + id + ' > .markeredit').hide();
         }
     } else {
-        $('#dynview' + id).show();
-        $('#dynedit' + id).hide();
+        $('#dyn' + id + ' > .markerview').show();
+        $('#dyn' + id + ' > .markeredit').hide();
     }
 }
 
@@ -88,7 +88,8 @@ function createMarkerDiv(id) {
         offsety = Math.floor(id / 26) * iconh;
 
     return "<div id=\"dyn" + id + "\">" +
-        "<table id=\"dynview" + id + "\" style=\"width: 100%; vertical-align: middle;\">\n" +
+        //"<table id=\"dynview" + id + "\" style=\"width: 100%; vertical-align: middle;\">\n" +
+        "<table class=\"markerview\" style=\"width: 100%; vertical-align: middle;\">\n" +
         "    <tr>\n" +
         "        <td rowspan=\"3\" style=\"vertical-align: top\">\n" +
         "            <span style=\"width:" + iconw + "px; height:" + iconh + "px; float: left; display: block; background-image: url(img/markers.png); background-repeat: no-repeat; background-position: -" + offsetx + "px -" + offsety + "px;\">&nbsp;</span>\n" +
@@ -114,11 +115,11 @@ function createMarkerDiv(id) {
         "        </td>\n" +
         "    </tr>\n" +
         "</table>\n" +
-        "<table id=\"dynedit" + id + "\" style=\"display: none; width: 100%; vertical-align: middle;\">\n" +
+        "<table class=\"markeredit\" style=\"display: none; width: 100%; vertical-align: middle;\">\n" +
         "    <tr>\n" +
         "        <td rowspan=\"4\" style=\"vertical-align: top\"><span style=\"width:" + iconw + "px; height:" + iconh + "px; float: left; display: block; background-image: url(img/markers.png); background-repeat: no-repeat; background-position: -" + offsetx + "px -" + offsety + "px;\">&nbsp;</span>\n" +
         "        <td style=\"text-align: center; vertical-align: middle;\"><i class=\"icon-map-marker\"></i></td>\n" +
-        "        <td><input id=\"edit_name" + alpha + "\" data-i18n=\"[title]sidebar.markers.name;[placeholder]sidebar.markers.name_placeholder\" class=\"form-control input-block-level\" type=\"text\" style=\"margin-bottom: 0px;\" value=\"n/a\" /></td>\n" +
+        "        <td><input data-i18n=\"[title]sidebar.markers.name;[placeholder]sidebar.markers.name_placeholder\" class=\"edit_name form-control input-block-level\" type=\"text\" style=\"margin-bottom: 0px;\" value=\"n/a\" /></td>\n" +
         "    </tr>\n" +
         "    <tr>\n" +
         "        <td style=\"text-align: center; vertical-align: middle;\"><i class=\"icon-globe\"></i></td>\n" +
@@ -177,7 +178,7 @@ function newMarker(coordinates, id, radius, name) {
         $(div).insertBefore('#dyn' + nextid);
     }
 
-    $('#edit_name' + alpha).keydown(function (e) {
+    $('#dyn' + id + ' > .markeredit .edit_name').keydown(function (e) {
         if (e.which === 27) {
             leaveEditMode(id, false);
         } else if (e.which === 13) {
@@ -571,10 +572,10 @@ function parseMarkersFromCookies() {
 
         lat = parseFloat(data[0]);
         lon = parseFloat(data[1]);
-        if (Coordinates.valid(lat, lon)) {
+        if (!Coordinates.valid(lat, lon)) {
             return;
         }
-        m.coords = new google.LatLng(lat, lon);
+        m.coords = new google.maps.LatLng(lat, lon);
 
         m.r = repairRadius(parseFloat(data[2]), 0);
 
@@ -621,7 +622,7 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocache
     'use strict';
 
     var center = null,
-        atDefaultCenter = false,
+        //atDefaultCenter = false,
         zoom = parseInt(xzoom, 10),
         maptype = xmap,
         loadfromcookies = false,
@@ -647,9 +648,9 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocache
         /* try to read coordinats from cookie */
         clat = get_cookie_float('clat', CLAT_DEFAULT);
         clon = get_cookie_float('clon', CLON_DEFAULT);
-        if (clat === CLAT_DEFAULT && clon === CLON_DEFAULT) {
-            atDefaultCenter = true;
-        }
+        //if (clat === CLAT_DEFAULT && clon === CLON_DEFAULT) {
+        //    atDefaultCenter = true;
+        //}
 
         clat = repairLat(clat, CLAT_DEFAULT);
         clon = repairLon(clon, CLON_DEFAULT);
@@ -661,7 +662,7 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocache
 
     if (!center) {
         center = new google.maps.LatLng(CLAT_DEFAULT, CLON_DEFAULT);
-        atDefaultCenter = true;
+        //atDefaultCenter = true;
     }
 
     zoom = repairZoom(zoom, ZOOM_DEFAULT);
@@ -726,12 +727,10 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocache
     google.maps.event.addListener(map, "center_changed", function () {
         storeZoom();
         storeCenter();
-        Okapi.scheduleLoad();
     });
     google.maps.event.addListener(map, "zoom_changed", function () {
         storeZoom();
         storeCenter();
-        Okapi.scheduleLoad();
     });
     google.maps.event.addListener(map, "maptypeid_changed", function () {
         updateCopyrights();
@@ -788,7 +787,7 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocache
 
     if (xgeocache !== "") {
         Okapi.toggle(true);
-        atDefaultCenter = false;
+        //atDefaultCenter = false;
     }
 
     // update copyrights + gmap-stuff now, once the map is fully loaded, and in 1s - just to be sure!

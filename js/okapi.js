@@ -23,6 +23,14 @@ Okapi.init = function (themap) {
     'use strict';
 
     this.m_map = themap;
+    var self = this;
+
+    google.maps.event.addListener(this.m_map, "center_changed", function () {
+        self.scheduleLoad();
+    });
+    google.maps.event.addListener(this.m_map, "zoom_changed", function () {
+        self.scheduleLoad();
+    });
 };
 
 
@@ -146,7 +154,7 @@ Okapi.icon = function (type) {
 Okapi.guessSiteId = function (code) {
     'use strict';
 
-    code = code.upperCase();
+    code = code.toUpperCase();
     var siteid;
     for (siteid = 0; siteid < this.m_sites.length; siteid += 1) {
         if (code.startsWith(this.m_sites[siteid].prefix)) {

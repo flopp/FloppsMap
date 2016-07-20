@@ -24,16 +24,14 @@ Coordinates.setFormat = function (format) {
 Coordinates.validLat = function (lat) {
     'use strict';
 
-    return lat !== null && lat !== undefined && !isNaN(lat) &&
-        -90.0 <= lat && lat <= 90.0;
+    return lat !== null && lat !== undefined && !isNaN(lat) && -90.0 <= lat && lat <= 90.0;
 };
 
 
 Coordinates.validLng = function (lng) {
     'use strict';
 
-    return lng !== null && lng !== undefined && !isNaN(lng) &&
-        -180.0 <= lng && lng <= 180.0;
+    return lng !== null && lng !== undefined && !isNaN(lng) && -180.0 <= lng && lng <= 180.0;
 };
 
 
@@ -76,8 +74,6 @@ Coordinates.fromString = function (coordsString) {
 Coordinates.fromStringHDM = function (coordsString) {
     'use strict';
 
-    coordsString = coordsString.upperCase().trim();
-
     var matches, pattern,
         lat, lat_sign, lat_d, lat_m,
         lng, lng_sign, lng_d, lng_m;
@@ -85,7 +81,7 @@ Coordinates.fromStringHDM = function (coordsString) {
     // H DDD MM.MMM
     pattern = /^[^A-Z0-9.\-]*([NS])[^A-Z0-9.\-]*(\d+)[^A-Z0-9.\-]+([\d\.]+)[^A-Z0-9.\-]+([EW])[^A-Z0-9.\-]*(\d+)[^A-Z0-9.\-]+([\d\.]+)[^A-Z0-9.\-]*$/i;
     //
-    matches = coordsString.match(pattern);
+    matches = coordsString.toUpperCase().trim().match(pattern);
     if (matches) {
         lat_sign = (matches[1] === 'S') ? -1 : 1;
         lng_sign = (matches[4] === 'W') ? -1 : 1;
@@ -109,8 +105,6 @@ Coordinates.fromStringHDM = function (coordsString) {
 Coordinates.fromStringHDMS = function (coordsString) {
     'use strict';
 
-    coordsString = coordsString.upperCase().trim();
-
     var matches, pattern,
         lat, lat_sign, lat_d, lat_m, lat_s,
         lng, lng_sign, lng_d, lng_m, lng_s;
@@ -118,7 +112,7 @@ Coordinates.fromStringHDMS = function (coordsString) {
     // H DDD MM SS.SSS
     pattern = /^[^A-Z0-9.\-]*([NS])[^A-Z0-9.\-]*(\d+)[^A-Z0-9.\-]+(\d+)[^A-Z0-9.\-]+([\d\.]+)[^A-Z0-9.\-]+([EW])[^A-Z0-9.\-]*(\d+)[^A-Z0-9.\-]+(\d+)[^A-Z0-9.\-]+([\d\.]+)[^A-Z0-9.\-]*$/i;
     //
-    matches = coordsString.match(pattern);
+    matches = coordsString.toUpperCase().trim().match(pattern);
     if (matches) {
         lat_sign = (matches[1] === 'S') ? -1 : 1;
         lng_sign = (matches[5] === 'W') ? -1 : 1;
@@ -143,15 +137,13 @@ Coordinates.fromStringHDMS = function (coordsString) {
 Coordinates.fromStringHD = function (coordsString) {
     'use strict';
 
-    coordsString = coordsString.upperCase().trim();
-
     var matches, pattern,
         lat, lat_sign,
         lng, lng_sign;
 
     // H DDD.DDDDD
     pattern = /^[^A-Z0-9.\-]*([NS])[^A-Z0-9.\-]*([\d\.]+)[^A-Z0-9.\-]+([EW])[^A-Z0-9.\-]*([\d\.]+)[^A-Z0-9.\-]*$/i;
-    matches = coordsString.match(pattern);
+    matches = coordsString.toUpperCase().trim().match(pattern);
     if (matches) {
         lat_sign = (matches[1] === 'S') ? -1 : 1;
         lng_sign = (matches[3] === 'W') ? -1 : 1;
@@ -169,15 +161,13 @@ Coordinates.fromStringHD = function (coordsString) {
 Coordinates.fromStringD = function (coordsString) {
     'use strict';
 
-    coordsString = coordsString.upperCase().trim();
-
     var matches, pattern,
         lat, lat_sign,
         lng, lng_sign;
 
     // DDD.DDDDD
     pattern = /^[^A-Z0-9.\-]*(-?)([\d\.]+)[^A-Z0-9.\-]+(-?)([\d\.]+)[^A-Z0-9.\-]*$/i;
-    matches = coordsString.match(pattern);
+    matches = coordsString.toUpperCase().trim().match(pattern);
     if (matches) {
         lat_sign = (matches[1] === '-') ? -1 : 1;
         lng_sign = (matches[3] === '-') ? -1 : 1;
