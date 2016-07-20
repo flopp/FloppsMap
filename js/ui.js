@@ -1,3 +1,13 @@
+/*jslint
+  indent: 4
+*/
+
+/*global
+  $, document, gapi, setTimeout,
+  CDDA, Cookies, Coordinates, Freifunk, Hillshading, NPA, Okapi, Sidebar,
+  showMulticoordinatesDialog, theMarkers, get_cookie_string
+*/
+
 ///* boundaries layer */
 //function toggleBoundaries(t)
 //{
@@ -38,92 +48,96 @@
 
 
 /* coordinate format */
-function setCoordinatesFormat(t)
-{
-  Cookies.set('coordinatesFormat', t, {expires:30});
+function setCoordinatesFormat(t) {
+    'use strict';
 
-  if ($('#coordinatesFormat').val() != t)
-  {
-    $('#coordinatesFormat').val(t);
-  }
+    Cookies.set('coordinatesFormat', t, {expires: 30});
 
-  Coordinates.setFormat(t);
+    if ($('#coordinatesFormat').val() !== t) {
+        $('#coordinatesFormat').val(t);
+    }
 
-  theMarkers.update();
+    Coordinates.setFormat(t);
+    theMarkers.update();
 }
 
-function restoreCoordinatesFormat(defaultValue)
-{
-  var t = get_cookie_string("coordinatesFormat", "DM");
 
-  if (t == "DM" || t == "DMS" || t == "D")
-  {
-    setCoordinatesFormat(t);
-  }
-  else
-  {
-    setCoordinatesFormat("DM");
-  }
+function restoreCoordinatesFormat(defaultValue) {
+    'use strict';
+
+    var t = get_cookie_string("coordinatesFormat", "DM");
+
+    if (t === "DM" || t === "DMS" || t === "D") {
+        setCoordinatesFormat(t);
+    } else {
+        setCoordinatesFormat(defaultValue);
+    }
 }
 
 
 /* info dialog */
-function showInfoDialog()
-{
-  $('#dlgInfoAjax').modal({show : true, backdrop: "static", keyboard: true});
+function showInfoDialog() {
+    'use strict';
+
+    $('#dlgInfoAjax').modal({show : true, backdrop: "static", keyboard: true});
 }
+
 
 /* alert dialog */
-function showAlert(title, msg)
-{
-  $("#dlgAlertHeader").html(title);
-  $("#dlgAlertMessage").html(msg);
-  $("#dlgAlert").modal({show : true, backdrop: "static", keyboard: true});
+function showAlert(title, msg) {
+    'use strict';
+
+    $("#dlgAlertHeader").html(title);
+    $("#dlgAlertMessage").html(msg);
+    $("#dlgAlert").modal({show : true, backdrop: "static", keyboard: true});
 }
+
 
 /* projection dialog */
-function showProjectionDialog(callback)
-{
-  $('#projectionDialogOk').off( 'click' );
-  $('#projectionDialogOk').click(function(){
-    $('body').removeClass('modal-open');
-    $('.modal-backdrop').remove();
-    $('#projectionDialog').modal('hide');
-    if (callback)
-    {
-      setTimeout(function(){callback($("#projectionBearing").val(), $("#projectionDistance").val());}, 10);
-    }
-  });
-  $("#projectionDialog").modal({show : true, backdrop: "static", keyboard: true});
+function showProjectionDialog(callback) {
+    'use strict';
+
+    $('#projectionDialogOk').off('click');
+    $('#projectionDialogOk').click(function () {
+        $('body').removeClass('modal-open');
+        $('.modal-backdrop').remove();
+        $('#projectionDialog').modal('hide');
+        if (callback) {
+            setTimeout(function () {
+                callback($("#projectionBearing").val(), $("#projectionDistance").val());
+            }, 10);
+        }
+    });
+    $("#projectionDialog").modal({show : true, backdrop: "static", keyboard: true});
 }
+
 
 /* permalink dialog */
-function showLinkDialog(linkUrl)
-{
-  $('#linkDialogLink').val(linkUrl);
-  $('#linkDialog').modal({show : true, backdrop: "static", keyboard: true});
-  $('#linkDialogLink').select();
+function showLinkDialog(linkUrl) {
+    'use strict';
+
+    $('#linkDialogLink').val(linkUrl);
+    $('#linkDialog').modal({show : true, backdrop: "static", keyboard: true});
+    $('#linkDialogLink').select();
 }
 
-function linkDialogShortenLink()
-{
-  var longUrl = $('#linkDialogLink').val();
-  gapi.client.setApiKey('AIzaSyC_KjqwiB6tKCcrq2aa8B3z-c7wNN8CTA0');
 
-  gapi.client.load('urlshortener', 'v1', function() {
-    var request = gapi.client.urlshortener.url.insert({'resource': {'longUrl': longUrl}});
-    var resp = request.execute(function(resp) {
-      if (resp.error)
-      {
-        $('#linkDialogError').html('Error: ' + resp.error.message);
-      }
-      else
-      {
-        $('#linkDialogLink').val(resp.id);
-        $('#linkDialogLink').select();
-      }
+function linkDialogShortenLink() {
+    'use strict';
+
+    var longUrl = $('#linkDialogLink').val();
+    gapi.client.setApiKey('AIzaSyC_KjqwiB6tKCcrq2aa8B3z-c7wNN8CTA0');
+    gapi.client.load('urlshortener', 'v1', function () {
+        var request = gapi.client.urlshortener.url.insert({'resource': {'longUrl': longUrl}});
+        request.execute(function (resp) {
+            if (resp.error) {
+                $('#linkDialogError').html('Error: ' + resp.error.message);
+            } else {
+                $('#linkDialogLink').val(resp.id);
+                $('#linkDialogLink').select();
+            }
+        });
     });
-  });
 }
 
 //function showHillshadingDialog()
@@ -138,16 +152,18 @@ function linkDialogShortenLink()
 
 
 /* setup button events */
-$(document).ready(function() {
-  $("#sidebartoggle").click(function() { if ($('#sidebar').is(':visible')) Sidebar.hide(); else Sidebar.show(); });
-  //$('#buttonWhereAmI').click(function() { Geolocation.whereAmI(); });
-  $("#hillshading").click(function() { Hillshading.toggle($('#hillshading').is(':checked')); });
-  //$("#boundaries").click(function() { toggleBoundaries($('#boundaries').is(':checked')); });
-  $("#npa").click(function() { NPA.toggle($('#npa').is(':checked')); });
-  $("#cdda").click(function() { CDDA.toggle($('#cdda').is(':checked')); });
-  $("#geocaches").click(function() { okapi_toggle_load_caches($('#geocaches').is(':checked')); });
-  $('#coordinatesFormat').change(function() { setCoordinatesFormat($('#coordinatesFormat').val()); });
-  $("#freifunk").click(function() { Freifunk.toggle($('#freifunk').is(':checked')); });
-  $("#buttonUploadGPX").click(function(e) { $("#buttonUploadGPXinput").click(); e.preventDefault(); });
-  $("#buttonMulticoordinates").click(function() { showMulticoordinatesDialog(); });
+$(document).ready(function () {
+    'use strict';
+
+    $("#sidebartoggle").click(function () { if ($('#sidebar').is(':visible')) { Sidebar.hide(); } else { Sidebar.show(); } });
+    //$('#buttonWhereAmI').click(function () { Geolocation.whereAmI(); });
+    $("#hillshading").click(function () { Hillshading.toggle($('#hillshading').is(':checked')); });
+    //$("#boundaries").click(function () { toggleBoundaries($('#boundaries').is(':checked')); });
+    $("#npa").click(function () { NPA.toggle($('#npa').is(':checked')); });
+    $("#cdda").click(function () { CDDA.toggle($('#cdda').is(':checked')); });
+    $("#geocaches").click(function () { Okapi.toggle($('#geocaches').is(':checked')); });
+    $('#coordinatesFormat').change(function () { setCoordinatesFormat($('#coordinatesFormat').val()); });
+    $("#freifunk").click(function () { Freifunk.toggle($('#freifunk').is(':checked')); });
+    $("#buttonUploadGPX").click(function (e) { $("#buttonUploadGPXinput").click(); e.preventDefault(); });
+    $("#buttonMulticoordinates").click(function () { showMulticoordinatesDialog(); });
 });

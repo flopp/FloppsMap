@@ -8,9 +8,8 @@
   showProjectionDialog, showLinkDialog,
   osmProvider, osmDeProvider, ocmProvider, thunderforestOutdoorsProvider, opentopomapProvider,
   get_cookie_int, get_cookie_float, get_cookie_string,
-  Sidebar, ExternalLinks, Hillshading, Geolocation, NPA, CDDA, Freifunk,
+  Sidebar, ExternalLinks, Hillshading, Geolocation, NPA, CDDA, Freifunk, Okapi,
   restoreCoordinatesFormat,
-  okapi_show_cache, okapi_toggle_load_caches, okapi_schedule_load_caches, restoreGeocaches,
   document, setTimeout
 */
 
@@ -694,6 +693,7 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocache
     NPA.init(map);
     CDDA.init(map);
     Freifunk.init(map);
+    Okapi.init(map);
 
     //boundariesLayer = new google.maps.ImageMapType({
     //  getTileUrl: function(coord, zoom) {
@@ -726,12 +726,12 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocache
     google.maps.event.addListener(map, "center_changed", function () {
         storeZoom();
         storeCenter();
-        okapi_schedule_load_caches();
+        Okapi.scheduleLoad();
     });
     google.maps.event.addListener(map, "zoom_changed", function () {
         storeZoom();
         storeCenter();
-        okapi_schedule_load_caches();
+        Okapi.scheduleLoad();
     });
     google.maps.event.addListener(map, "maptypeid_changed", function () {
         updateCopyrights();
@@ -767,27 +767,27 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocache
         });
     }
 
-    okapi_show_cache = xgeocache;
+    Okapi.setShowCache(xgeocache);
     Sidebar.restore(true);
     xfeatures = xfeatures.toLowerCase();
     if (xfeatures === '[default]') {
         Hillshading.restore(false);
         //restoreBoundaries(false);
-        restoreGeocaches(false);
+        Okapi.restore(false);
         NPA.toggle(false);
         CDDA.toggle(false);
         Freifunk.toggle(false);
     } else {
         Hillshading.toggle(xfeatures.indexOf('h') >= 0);
         //toggleBoundaries(xfeatures.indexOf('b') >= 0);
-        okapi_toggle_load_caches(xfeatures.indexOf('g') >= 0);
+        Okapi.toggle(xfeatures.indexOf('g') >= 0);
         NPA.toggle(xfeatures.indexOf('n') >= 0);
         Freifunk.toggle(xfeatures.indexOf('f') >= 0);
     }
-    restoreCoordinatesFormat(0);
+    restoreCoordinatesFormat("DM");
 
     if (xgeocache !== "") {
-        okapi_toggle_load_caches(true);
+        Okapi.toggle(true);
         atDefaultCenter = false;
     }
 
