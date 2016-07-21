@@ -194,28 +194,32 @@ Marker.prototype.update = function () {
 
 
 /// Markers
+var Markers = {};
+Markers.m_map = null;
+Markers.m_markers = null;
 
-var Markers = function () {
+
+Markers.init = function (themap) {
     'use strict';
 
-    var id;
-
+    this.m_map = themap;
     this.m_markers = new Array(26 * 10);
 
+    var id;
     for (id = 0; id !== this.m_markers.length; id = id + 1) {
         this.m_markers[id] = new Marker(this, id);
     }
 };
 
 
-Markers.prototype.getSize = function () {
+Markers.getSize = function () {
     'use strict';
 
     return this.m_markers.length;
 };
 
 
-Markers.prototype.getById = function (id) {
+Markers.getById = function (id) {
     'use strict';
 
     if (id < 0 || id >= this.m_markers.length) {
@@ -226,7 +230,7 @@ Markers.prototype.getById = function (id) {
 };
 
 
-Markers.prototype.getUsedMarkers = function () {
+Markers.getUsedMarkers = function () {
     'use strict';
 
     var count = 0;
@@ -239,18 +243,17 @@ Markers.prototype.getUsedMarkers = function () {
 };
 
 
-Markers.prototype.getFreeMarkers = function () {
+Markers.getFreeMarkers = function () {
     'use strict';
 
     return this.getSize() - this.getUsedMarkers();
 };
 
 
-Markers.prototype.getFreeId = function () {
+Markers.getFreeId = function () {
     'use strict';
 
     var id;
-
     for (id = 0; id < this.m_markers.length; id = id + 1) {
         if (this.m_markers[id].isFree()) {
             return id;
@@ -260,11 +263,10 @@ Markers.prototype.getFreeId = function () {
 };
 
 
-Markers.prototype.getNextUsedId = function (id) {
+Markers.getNextUsedId = function (id) {
     'use strict';
 
     var i;
-
     for (i = id + 1; i < this.m_markers.length; i = i + 1) {
         if (!this.m_markers[i].isFree()) {
             return i;
@@ -274,14 +276,16 @@ Markers.prototype.getNextUsedId = function (id) {
 };
 
 
-Markers.prototype.removeById = function (id) {
+Markers.removeById = function (id) {
     'use strict';
 
-    this.m_markers[id].clear();
+    if (id >= 0 && id < this.m_markers.length) {
+        this.m_markers[id].clear();
+    }
 };
 
 
-Markers.prototype.deleteAll = function () {
+Markers.deleteAll = function () {
     'use strict';
 
     this.m_markers.map(
@@ -292,7 +296,7 @@ Markers.prototype.deleteAll = function () {
 };
 
 
-Markers.prototype.saveMarkersList = function () {
+Markers.saveMarkersList = function () {
     'use strict';
 
     var ids = [];
@@ -307,7 +311,7 @@ Markers.prototype.saveMarkersList = function () {
 };
 
 
-Markers.prototype.toString = function () {
+Markers.toString = function () {
     'use strict';
 
     var parts = [];
@@ -322,7 +326,7 @@ Markers.prototype.toString = function () {
 };
 
 
-Markers.prototype.update = function () {
+Markers.update = function () {
     'use strict';
 
     this.m_markers.map(
@@ -333,7 +337,7 @@ Markers.prototype.update = function () {
 };
 
 
-Markers.prototype.handleMarkerCleared = function () {
+Markers.handleMarkerCleared = function () {
     'use strict';
 
     if (this.getUsedMarkers() === 0) {
@@ -344,7 +348,7 @@ Markers.prototype.handleMarkerCleared = function () {
 };
 
 
-Markers.prototype.goto = function (id) {
+Markers.goto = function (id) {
     'use strict';
 
     trackMarker('goto');
@@ -356,7 +360,7 @@ Markers.prototype.goto = function (id) {
 };
 
 
-Markers.prototype.center = function (id) {
+Markers.center = function (id) {
     'use strict';
 
     trackMarker('center');

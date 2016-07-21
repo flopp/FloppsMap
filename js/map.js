@@ -16,8 +16,6 @@
 //var boundariesLayer = null;
 //var boundariesLayerShown = false;
 var map = null;
-var theMarkers = new Markers();
-
 var CLAT_DEFAULT = 51.163375;
 var CLON_DEFAULT = 10.447683;
 var ZOOM_DEFAULT = 12;
@@ -29,7 +27,7 @@ function enterEditMode(id) {
     'use strict';
 
     trackMarker('edit');
-    var m = theMarkers.getById(id);
+    var m = Markers.getById(id);
 
     $('#dyn' + id + ' > .markeredit .edit_name').val(m.getName());
     $('#edit_coordinates' + m.getAlpha()).val(Coordinates.toString(m.getPosition()));
@@ -44,7 +42,7 @@ function leaveEditMode(id, takenew) {
     'use strict';
 
     if (takenew) {
-        var m = theMarkers.getById(id),
+        var m = Markers.getById(id),
             name = $('#dyn' + id + ' > .markeredit .edit_name').val(),
             name_ok = /^([a-zA-Z0-9-_]*)$/.test(name),
             s_coordinates = $('#edit_coordinates' + m.getAlpha()).val(),
@@ -106,9 +104,9 @@ function createMarkerDiv(id) {
         "        <td>\n" +
         "            <div class=\"btn-group\" style=\"padding-bottom: 2px; padding-top: 2px; float: right\">\n" +
         "            <button class=\"my-button btn btn-mini btn-warning\" data-i18n=\"[title]sidebar.markers.edit_marker\" type=\"button\"  onclick=\"enterEditMode(" + id + ");\"><i class=\"fa fa-edit\"></i></button>\n" +
-        "            <button class=\"my-button btn btn-mini btn-danger\" data-i18n=\"[title]sidebar.markers.delete_marker\" type=\"button\" onClick=\"theMarkers.removeById(" + id + ")\"><i class=\"fa fa-trash-o\"></i></button>\n" +
-        "            <button class=\"my-button btn btn-mini btn-info\" data-i18n=\"[title]sidebar.markers.move_to\" type=\"button\" onClick=\"theMarkers.goto(" + id + ")\"><i class=\"fa fa-search\"></i></button>\n" +
-        "            <button class=\"my-button btn btn-mini btn-warning\" data-i18n=\"[title]sidebar.markers.center\" type=\"button\" onClick=\"theMarkers.center(" + id + ")\"><i class=\"fa fa-crosshairs\"></i></button>\n" +
+        "            <button class=\"my-button btn btn-mini btn-danger\" data-i18n=\"[title]sidebar.markers.delete_marker\" type=\"button\" onClick=\"Markers.removeById(" + id + ")\"><i class=\"fa fa-trash-o\"></i></button>\n" +
+        "            <button class=\"my-button btn btn-mini btn-info\" data-i18n=\"[title]sidebar.markers.move_to\" type=\"button\" onClick=\"Markers.goto(" + id + ")\"><i class=\"fa fa-search\"></i></button>\n" +
+        "            <button class=\"my-button btn btn-mini btn-warning\" data-i18n=\"[title]sidebar.markers.center\" type=\"button\" onClick=\"Markers.center(" + id + ")\"><i class=\"fa fa-crosshairs\"></i></button>\n" +
         "            <button class=\"my-button btn btn-mini btn-success\" data-i18n=\"[title]sidebar.markers.project\" type=\"button\" onClick=\"projectFromMarker(" + id + ")\"><i class=\"fa fa-location-arrow\"></i></button>\n" +
         "            </div>\n" +
         "        </td>\n" +
@@ -146,13 +144,13 @@ function newMarker(coordinates, id, radius, name) {
         radius = RADIUS_DEFAULT;
     }
 
-    if (id < 0 || id >= theMarkers.getSize() || !theMarkers.getById(id).isFree()) {
-        id = theMarkers.getFreeId();
+    if (id < 0 || id >= Markers.getSize() || !Markers.getById(id).isFree()) {
+        id = Markers.getFreeId();
     }
     if (id < 0) {
         showAlert(
             mytrans("dialog.error"),
-            mytrans("dialog.toomanymarkers_error.content").replace(/%1/, theMarkers.getSize())
+            mytrans("dialog.toomanymarkers_error.content").replace(/%1/, Markers.getSize())
         );
         return null;
     }
@@ -166,11 +164,11 @@ function newMarker(coordinates, id, radius, name) {
         name = "marker_" + alpha;
     }
 
-    marker = theMarkers.getById(id);
+    marker = Markers.getById(id);
     marker.initialize(map, name, coordinates, radius);
     div = createMarkerDiv(id);
 
-    nextid = theMarkers.getNextUsedId(id);
+    nextid = Markers.getNextUsedId(id);
     if (nextid < 0) {
         $('#dynMarkerDiv').append(div);
     } else {
@@ -206,7 +204,7 @@ function newMarker(coordinates, id, radius, name) {
     $('#btnmarkersdelete2').removeAttr('disabled');
 
     marker.update();
-    theMarkers.saveMarkersList();
+    Markers.saveMarkersList();
     Lines.updateLinesMarkerAdded();
 
     return marker;
@@ -218,7 +216,7 @@ function projectFromMarker(id) {
 
     trackMarker('project');
 
-    var mm = theMarkers.getById(id),
+    var mm = Markers.getById(id),
         oldpos = mm.getPosition();
 
     showProjectionDialog(
@@ -305,7 +303,7 @@ function getPermalink() {
         "&z=" + map.getZoom() +
         "&t=" + map.getMapTypeId() +
         "&f=" + getFeaturesString() +
-        "&m=" + theMarkers.toString() +
+        "&m=" + Markers.toString() +
         "&d=" + Lines.getLinesText();
 }
 
@@ -586,7 +584,7 @@ function parseLinesFromCookies() {
 function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocache) {
     'use strict';
 
-    var center = null,
+    var center,
         //atDefaultCenter = false,
         zoom = parseInt(xzoom, 10),
         maptype = xmap,
@@ -654,6 +652,7 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocache
     Attribution.init(map);
     Sidebar.init(map);
     ExternalLinks.init(map);
+    Markers.init(map);
     Lines.init(map);
     Geolocation.init(map);
     Hillshading.init(map);
@@ -698,12 +697,6 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocache
         });
 
         parseLinesFromCookies().map(function (m) {
-            if (m.source >= 0 && theMarkers.getById(m.source).isFree()) {
-                m.source = -1;
-            }
-            if (m.target >= 0 && theMarkers.getById(m.target).isFree()) {
-                m.target = -1;
-            }
             Lines.newLine(m.source, m.target);
         });
     } else {
@@ -712,12 +705,6 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocache
         });
 
         parseLinesFromUrl(xlines).map(function (m) {
-            if (m.source >= 0 && theMarkers.getById(m.source).isFree()) {
-                m.source = -1;
-            }
-            if (m.target >= 0 && theMarkers.getById(m.target).isFree()) {
-                m.target = -1;
-            }
             Lines.newLine(m.source, m.target);
         });
     }

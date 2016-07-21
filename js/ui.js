@@ -5,7 +5,7 @@
 /*global
   $, document, gapi, setTimeout,
   CDDA, Cookies, Coordinates, Freifunk, Hillshading, NPA, Okapi, Sidebar,
-  showMulticoordinatesDialog, theMarkers, get_cookie_string
+  showMulticoordinatesDialog, Markers, get_cookie_string
 */
 
 ///* boundaries layer */
@@ -58,7 +58,7 @@ function setCoordinatesFormat(t) {
     }
 
     Coordinates.setFormat(t);
-    theMarkers.update();
+    Markers.update();
 }
 
 

@@ -3,7 +3,7 @@
 */
 
 /*global
-  $, Coordinates, mytrans, showAlert, newMarker, theMarkers
+  $, Coordinates, mytrans, showAlert, newMarker, Markers
 */
 
 function showMulticoordinatesDialog() {
@@ -38,8 +38,8 @@ function showMulticoordinatesDialog() {
         });
 
         len = coordsArray.length;
-        if (len >= theMarkers.getFreeMarkers()) {
-            errorsArray.push(mytrans("dialog.multicoordinates.error_maxmarkers").replace('%1', theMarkers.getFreeMarkers()));
+        if (len >= Markers.getFreeMarkers()) {
+            errorsArray.push(mytrans("dialog.multicoordinates.error_maxmarkers").replace('%1', Markers.getFreeMarkers()));
         }
 
         if (errorsArray.length > 0) {

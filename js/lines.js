@@ -4,7 +4,7 @@
 */
 
 /*global
-  $, google, theMarkers, id2alpha, Cookies, Coordinates, TxtOverlay
+  $, google, Markers, id2alpha, Cookies, Coordinates, TxtOverlay
 */
 
 function Line(themap, id, source, target) {
@@ -143,8 +143,8 @@ Line.prototype.update = function () {
         return;
     }
 
-    var pos1 = theMarkers.getById(this.m_source).getPosition(),
-        pos2 = theMarkers.getById(this.m_target).getPosition(),
+    var pos1 = Markers.getById(this.m_source).getPosition(),
+        pos2 = Markers.getById(this.m_target).getPosition(),
         dist_angle = Coordinates.dist_angle_geodesic(pos1, pos2),
         centerPos = Coordinates.projection_geodesic(pos1, dist_angle.angle, 0.5 * dist_angle.dist);
 
@@ -209,8 +209,8 @@ Line.prototype.updateLists = function () {
     source.append('<option value="-1">?</option>');
     target.append('<option value="-1">?</option>');
 
-    for (i = 0; i < theMarkers.getSize(); i = i + 1) {
-        m = theMarkers.getById(i);
+    for (i = 0; i < Markers.getSize(); i = i + 1) {
+        m = Markers.getById(i);
         if (!m.isFree()) {
             source.append('<option value="' + i + '">' + m.getAlpha() + '</option>');
             target.append('<option value="' + i + '">' + m.getAlpha() + '</option>');
@@ -239,6 +239,16 @@ Lines.init = function (themap) {
 
 Lines.newLine = function (source, target) {
     'use strict';
+
+    var m1 = Markers.getById(source),
+        m2 = Markers.getById(target);
+
+    if (!m1 || m1.isFree()) {
+        source= -1;
+    }
+    if (!m2 || m2.isFree()) {
+        target = -1;
+    }
 
     this.m_lines.push(new Line(Lines.m_map, this.m_nextLineId, source, target));
     this.m_nextLineId += 1;
