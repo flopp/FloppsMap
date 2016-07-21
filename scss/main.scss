@@ -13,7 +13,7 @@ html, body { height: 100%; overflow: hidden}
   color: $foreground;
   border-radius: 0;
 }
-  
+
 .navbar-custom .navbar-nav > li > a {
   color: $foreground;
   padding-left: 20px;
@@ -24,16 +24,16 @@ html, body { height: 100%; overflow: hidden}
   color: $foreground;
   background-color: transparent;
 }
-   
+
 .navbar-custom .icon-bar {
   background-color: $foreground;
-}   
+}
 
 .navbar-custom .navbar-nav > li > a:hover, .nav > li > a:focus {
   text-decoration: none;
   background-color: $highlighted;
 }
-      
+
 .navbar-custom .navbar-brand {
   color: $foreground;
   font-size: 24px;
@@ -44,27 +44,27 @@ html, body { height: 100%; overflow: hidden}
   background-color: $highlighted;
 }
 
-#sidebar { 
+#sidebar {
   background-color: $background;
-  overflow: auto; 
-  position: absolute; 
-  padding: 4px; 
-  width: $sidebarwidth; 
-  right: 0; 
-  top: 50px; 
-  bottom: 0px; 
-  float: right; 
+  overflow: auto;
+  position: absolute;
+  padding: 4px;
+  width: $sidebarwidth;
+  right: 0;
+  top: 50px;
+  bottom: 0px;
+  float: right;
 }
 
-#sidebartoggle { 
+#sidebartoggle {
   background-color: $background;
   color: $foreground;
-  position: absolute; 
-  display: block; 
-  right: $sidebarwidth; 
-  width: 24px; 
-  height: 60px; 
-  top: 50%; 
+  position: absolute;
+  display: block;
+  right: $sidebarwidth;
+  width: 24px;
+  height: 60px;
+  top: 50%;
   border-top: 1px solid #ddd;
   border-left: 1px solid #ddd;
   border-bottom: 1px solid #ddd;
@@ -73,15 +73,15 @@ html, body { height: 100%; overflow: hidden}
   border-radius: 8px 0 0 8px;
 }
 
-#sidebartogglebutton { 
-  position: absolute; 
-  display: block; 
-  width: 14px; 
-  height: 14px; 
-  top: 50%; 
-  left: 50%; 
-  margin-left: -5px; 
-  margin-top: -10px; 
+#sidebartogglebutton {
+  position: absolute;
+  display: block;
+  width: 14px;
+  height: 14px;
+  top: 50%;
+  left: 50%;
+  margin-left: -5px;
+  margin-top: -10px;
 }
 
 @media(max-width:599px){.only-small{display:inherit!important}.only-large{display:none!important}}
@@ -142,12 +142,12 @@ html, body { height: 100%; overflow: hidden}
 }
 
 .my-small-select {
-  width: 55px; 
-  height:26px; 
+  width: 55px;
+  height:26px;
   padding-left: 2px;
   padding-right: 2px;
-  padding-top: 1px; 
-  padding-bottom: 1px; 
+  padding-top: 1px;
+  padding-bottom: 1px;
   margin-bottom: 4px;
 }
 
@@ -155,4 +155,13 @@ html, body { height: 100%; overflow: hidden}
   background-image:url(../img/new.png);
   background-repeat:no-repeat;
   background-position: 2px 2px;
+}
+
+.mapDistanceLabel {
+    background-color: #ffffff;
+    padding-left: 3px;
+    padding-right: 3px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
 }

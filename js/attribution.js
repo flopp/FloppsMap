@@ -37,36 +37,27 @@ Attribution.init = function (themap) {
 Attribution.update = function () {
     'use strict';
 
-    var m = this.m_map.getMapTypeId(),
-        g = true,
-        c = "";
+    var nonGoogleMapAttribution = {
+            "OSM": "Map data (C) by <a href=\"http://www.openstreetmap.org/\">OpenStreetMap.org</a> and its contributors; <a href=\"http://opendatacommons.org/licenses/odbl/\">Open Database License</a>",
+            "OSM/DE": "Map data (C) by <a href=\"http://www.openstreetmap.org/\">OpenStreetMap.org</a> and its contributors; <a href=\"http://opendatacommons.org/licenses/odbl/\">Open Database License</a>",
+            "OCM": "Map data (C) by <a href=\"http://www.openstreetmap.org/\">OpenStreetMap.org</a> and its contributors; <a href=\"http://opendatacommons.org/licenses/odbl/\">Open Database License</a>, tiles (C) by <a href=\"http://opencyclemap.org\">OpenCycleMap.org</a>",
+            "OUTD": "Map data (C) by <a href=\"http://www.openstreetmap.org/\">OpenStreetMap.org</a> and its contributors; <a href=\"http://opendatacommons.org/licenses/odbl/\">Open Database License</a>, tiles (C) by <a href=\"http://www.thunderforest.com/outdoors/\">Thunderforest</a>",
+            "TOPO": "Map data (C) by <a href=\"http://www.openstreetmap.org/\">OpenStreetMap.org</a> and its contributors; <a href=\"http://opendatacommons.org/licenses/odbl/\">Open Database License</a>, height data by SRTM, tiles (C) by <a href=\"http://www.opentopomap.org/\">OpenTopoMap</a>"
+        },
+        a = nonGoogleMapAttribution[this.m_map.getMapTypeId()];
 
-    if (m === "OSM" || m === "OSM/DE") {
-        g = false;
-        c = "Map data (C) by <a href=\"http://www.openstreetmap.org/\">OpenStreetMap.org</a> and its contributors; <a href=\"http://opendatacommons.org/licenses/odbl/\">Open Database License</a>";
-    } else if (m === "OCM") {
-        g = false;
-        c = "Map data (C) by <a href=\"http://www.openstreetmap.org/\">OpenStreetMap.org</a> and its contributors; <a href=\"http://opendatacommons.org/licenses/odbl/\">Open Database License</a>, tiles (C) by <a href=\"http://opencyclemap.org\">OpenCycleMap.org</a>";
-    } else if (m === "OUTD") {
-        g = false;
-        c = "Map data (C) by <a href=\"http://www.openstreetmap.org/\">OpenStreetMap.org</a> and its contributors; <a href=\"http://opendatacommons.org/licenses/odbl/\">Open Database License</a>, tiles (C) by <a href=\"http://www.thunderforest.com/outdoors/\">Thunderforest</a>";
-    } else if (m === "TOPO") {
-        g = false;
-        c = "Map data (C) by <a href=\"http://www.openstreetmap.org/\">OpenStreetMap.org</a> and its contributors; <a href=\"http://opendatacommons.org/licenses/odbl/\">Open Database License</a>, height data by SRTM, tiles (C) by <a href=\"http://www.opentopomap.org/\">OpenTopoMap</a>";
-    }
-
-    this.m_div.innerHTML = c;
-
-    if (g) {
+    if (a !== undefined) {
+        // non google map -> hide google stuff
+        this.m_div.innerHTML = a;
+        $("a[href*='maps.google.com/maps']").hide();
+        $(".gmnoprint a, .gmnoprint span, .gm-style-cc").css("display", "none");
+        this.m_map.setOptions({streetViewControl: false});
+    } else {
+        // google map -> show google stuff
+        this.m_div.innerHTML = "";
         $(".gmnoprint a, .gmnoprint span, .gm-style-cc").css("display", "block");
         $("a[href*='maps.google.com/maps']").show();
         this.m_map.setOptions({streetViewControl: true});
-    } else {
-        // hide logo for non-g-maps
-        $("a[href*='maps.google.com/maps']").hide();
-        // hide term-of-use for non-g-maps
-        $(".gmnoprint a, .gmnoprint span, .gm-style-cc").css("display", "none");
-        this.m_map.setOptions({streetViewControl: false});
     }
 };
 

@@ -73,6 +73,35 @@ Line.prototype.clearMapObject = function () {
 };
 
 
+Line.prototype.updateMapObject = function (pos1, pos2, center) {
+    'use strict';
+
+    if (!this.m_lineMapObject) {
+        this.m_lineMapObject = new google.maps.Polyline({
+            strokeColor: '#ff0000',
+            strokeWeight: 2,
+            strokeOpacity: 0.7,
+            geodesic: true,
+            icons: [{
+                icon: {
+                    path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
+                },
+                repeat: '0'
+            }]
+        });
+        this.m_lineMapObject.setMap(this.m_map);
+        this.m_distanceLabel = new TxtOverlay(center, "n/a", "mapDistanceLabel", this.m_map);
+    }
+
+    var path = new google.maps.MVCArray();
+    path.push(pos1);
+    path.push(pos2);
+    this.m_lineMapObject.setPath(path);
+
+    this.m_distanceLabel.setPos(center);
+};
+
+
 Line.prototype.getEndpointsString = function () {
     'use strict';
 
@@ -116,42 +145,17 @@ Line.prototype.update = function () {
 
     var pos1 = theMarkers.getById(this.m_source).getPosition(),
         pos2 = theMarkers.getById(this.m_target).getPosition(),
-        path = new google.maps.MVCArray(),
-        dist_angle = { dist: 0, angle: 0 },
-        centerPos;
+        dist_angle = Coordinates.dist_angle_geodesic(pos1, pos2),
+        centerPos = Coordinates.projection_geodesic(pos1, dist_angle.angle, 0.5 * dist_angle.dist);
 
-    if (!this.m_lineMapObject) {
-        this.m_lineMapObject = new google.maps.Polyline({
-            strokeColor: '#ff0000',
-            strokeWeight: 2,
-            strokeOpacity: 0.7,
-            geodesic: true,
-            icons: [{
-                icon: {
-                    path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
-                },
-                repeat: '0'
-            }]
-        });
-        this.m_lineMapObject.setMap(this.m_map);
-        this.m_distanceLabel = new TxtOverlay(pos2, "n/a", "mapDistanceLabel", this.m_map);
-    }
-
-    path.push(pos1);
-    path.push(pos2);
-    this.m_lineMapObject.setPath(path);
-    if (this.m_source !== this.m_target) {
-        dist_angle = Coordinates.dist_angle_geodesic(pos1, pos2);
-    }
-
-    centerPos = Coordinates.projection_geodesic(pos1, dist_angle.angle, 0.5 * dist_angle.dist);
-    this.m_distanceLabel.setPos(centerPos);
-    this.m_distanceLabel.setText(dist_angle.dist.toFixed() + "m");
+    this.updateMapObject(pos1, pos2, centerPos);
 
     if (dist_angle.dist <= 0) {
+        this.m_distanceLabel.setText("");
         $("#dynlinedist" + this.m_id).html("0m");
         $("#dynlineangle" + this.m_id).html("n/a");
     } else {
+        this.m_distanceLabel.setText(dist_angle.dist.toFixed() + "m");
         $("#dynlinedist" + this.m_id).html(dist_angle.dist.toFixed() + "m");
         $("#dynlineangle" + this.m_id).html(dist_angle.angle.toFixed(1) + "°");
     }
