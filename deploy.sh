@@ -67,7 +67,9 @@ JS=(
     js/freifunk.js
     js/id.js
     js/txtoverlay.js
+    js/line.js
     js/lines.js
+    js/marker.js
     js/markers.js
     js/map.js
     js/multicoordinates.js
