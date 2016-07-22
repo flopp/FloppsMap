@@ -200,23 +200,22 @@ Markers.newMarker = function (coordinates, id, radius, name) {
 
     if (id < 0 || id >= this.getSize() || !this.getById(id).isFree()) {
         id = this.getFreeId();
-    }
-    if (id < 0) {
-        showAlert(
-            mytrans("dialog.error"),
-            mytrans("dialog.toomanymarkers_error.content").replace(/%1/, Markers.getSize())
-        );
-        return null;
+        if (id < 0) {
+            showAlert(
+                mytrans("dialog.error"),
+                mytrans("dialog.toomanymarkers_error.content").replace(/%1/, Markers.getSize())
+            );
+            return null;
+        }
     }
 
     var self = this,
-        alpha = id2alpha(id),
         marker,
         div,
         nextid;
 
-    if (!name || name === "") {
-        name = "marker_" + alpha;
+    if (!name) {
+        name = "marker_" + id2alpha(id);
     }
 
     marker = this.getById(id);
@@ -238,7 +237,7 @@ Markers.newMarker = function (coordinates, id, radius, name) {
         }
     });
 
-    $('#edit_coordinates' + alpha).keydown(function (e) {
+    $('#dyn' + id + ' > .markeredit .edit_coordinates').keydown(function (e) {
         if (e.which === 27) {
             self.leaveEditMode(id, false);
         } else if (e.which === 13) {
@@ -246,7 +245,7 @@ Markers.newMarker = function (coordinates, id, radius, name) {
         }
     });
 
-    $('#edit_circle' + alpha).keydown(function (e) {
+    $('#dyn' + id + ' > .markeredit .edit_circle').keydown(function (e) {
         if (e.which === 27) {
             self.leaveEditMode(id, false);
         } else if (e.which === 13) {
@@ -284,18 +283,18 @@ Markers.createMarkerDiv = function (id) {
         "            <span style=\"width:" + iconw + "px; height:" + iconh + "px; float: left; display: block; background-image: url(img/markers.png); background-repeat: no-repeat; background-position: -" + offsetx + "px -" + offsety + "px;\">&nbsp;</span>\n" +
         "        </td>\n" +
         "        <td style=\"text-align: center\"><i class=\"fa fa-map-marker\"></i></td>\n" +
-        "        <td id=\"view_name" + alpha + "\" colspan=\"2\">marker</td>\n" +
+        "        <td class\"view_name\" colspan=\"2\">marker</td>\n" +
         "    </tr>\n" +
         "    <tr>\n" +
         "        <td style=\"text-align: center\"><i class=\"fa fa-globe\"></i></td>\n" +
-        "        <td id=\"view_coordinates" + alpha + "\" colspan=\"2\">N 48° 00.123 E 007° 51.456</td>\n" +
+        "        <td class=\"view_coordinates\" colspan=\"2\">N 48° 00.123 E 007° 51.456</td>\n" +
         "    </tr>\n" +
         "    <tr>\n" +
         "        <td style=\"text-align: center\"><i class=\"fa fa-circle-o\"></i></td>\n" +
-        "        <td id=\"view_circle" + alpha + "\">16100 m</td>\n" +
+        "        <td class=\"view_circle\">16100 m</td>\n" +
         "        <td>\n" +
         "            <div class=\"btn-group\" style=\"padding-bottom: 2px; padding-top: 2px; float: right\">\n" +
-        "            <button class=\"my-button btn btn-mini btn-warning\" data-i18n=\"[title]sidebar.markers.edit_marker\" type=\"button\"  onclick=\"Marker.enterEditMode(" + id + ");\"><i class=\"fa fa-edit\"></i></button>\n" +
+        "            <button class=\"my-button btn btn-mini btn-warning\" data-i18n=\"[title]sidebar.markers.edit_marker\" type=\"button\"  onclick=\"Markers.enterEditMode(" + id + ");\"><i class=\"fa fa-edit\"></i></button>\n" +
         "            <button class=\"my-button btn btn-mini btn-danger\" data-i18n=\"[title]sidebar.markers.delete_marker\" type=\"button\" onClick=\"Markers.removeById(" + id + ");\"><i class=\"fa fa-trash-o\"></i></button>\n" +
         "            <button class=\"my-button btn btn-mini btn-info\" data-i18n=\"[title]sidebar.markers.move_to\" type=\"button\" onClick=\"Markers.goto(" + id + ");\"><i class=\"fa fa-search\"></i></button>\n" +
         "            <button class=\"my-button btn btn-mini btn-warning\" data-i18n=\"[title]sidebar.markers.center\" type=\"button\" onClick=\"Markers.center(" + id + ");\"><i class=\"fa fa-crosshairs\"></i></button>\n" +
@@ -312,16 +311,16 @@ Markers.createMarkerDiv = function (id) {
         "    </tr>\n" +
         "    <tr>\n" +
         "        <td style=\"text-align: center; vertical-align: middle;\"><i class=\"icon-globe\"></i></td>\n" +
-        "        <td><input id=\"edit_coordinates" + alpha + "\" data-i18n=\"[title]sidebar.markers.coordinates;[placeholder]sidebar.markers.coordinates_placeholder\" class=\"form-control input-block-level\" type=\"text\" style=\"margin-bottom: 0px;\" value=\"n/a\" /></td>\n" +
+        "        <td><input data-i18n=\"[title]sidebar.markers.coordinates;[placeholder]sidebar.markers.coordinates_placeholder\" class=\"edit_coordinates form-control input-block-level\" type=\"text\" style=\"margin-bottom: 0px;\" value=\"n/a\" /></td>\n" +
         "    </tr>\n" +
         "    <tr>\n" +
         "        <td style=\"text-align: center; vertical-align: middle;\"><i class=\"icon-circle-blank\"></i></td>\n" +
-        "        <td><input id=\"edit_circle" + alpha + "\" data-i18n=\"[title]sidebar.markers.radius;[placeholder]sidebar.markers.radius_placeholder\" class=\"form-control input-block-level\" type=\"text\" style=\"margin-bottom: 0px;\" value=\"n/a\" /></td>\n" +
+        "        <td><input data-i18n=\"[title]sidebar.markers.radius;[placeholder]sidebar.markers.radius_placeholder\" class=\"edit_circle form-control input-block-level\" type=\"text\" style=\"margin-bottom: 0px;\" value=\"n/a\" /></td>\n" +
         "    </tr>\n" +
         "    <tr>\n" +
         "        <td colspan=\"2\" style=\"text-align: right\">\n" +
         "            <button class=\"btn btn-small btn-primary\" type=\"button\" onclick=\"Markers.leaveEditMode(" + id + ", true);\" data-i18n=\"dialog.ok\">OK</button>\n" +
-        "            <button class=\"btn btn-small\" type=\"button\" onclick=\"Marker.leaveEditMode(" + id + ", false);\" data-i18n=\"dialog.cancel\">CANCEL</button>\n" +
+        "            <button class=\"btn btn-small\" type=\"button\" onclick=\"Markers.leaveEditMode(" + id + ", false);\" data-i18n=\"dialog.cancel\">CANCEL</button>\n" +
         "        </td>\n" +
         "    </tr>\n" +
         "</table>" +
@@ -339,8 +338,8 @@ Markers.enterEditMode = function (id) {
     }
 
     $('#dyn' + id + ' > .markeredit .edit_name').val(m.getName());
-    $('#edit_coordinates' + m.getAlpha()).val(Coordinates.toString(m.getPosition()));
-    $('#edit_circle' + m.getAlpha()).val(m.getRadius());
+    $('#dyn' + id + ' > .markeredit .edit_coordinates').val(Coordinates.toString(m.getPosition()));
+    $('#dyn' + id + ' > .markeredit .edit_circle').val(m.getRadius());
 
     $('#dyn' + id + ' > .markerview').hide();
     $('#dyn' + id + ' > .markeredit').show();
@@ -358,9 +357,9 @@ Markers.leaveEditMode = function (id, takenew) {
         var m = this.getById(id),
             name = $('#dyn' + id + ' > .markeredit .edit_name').val(),
             name_ok = /^([a-zA-Z0-9-_]*)$/.test(name),
-            s_coordinates = $('#edit_coordinates' + m.getAlpha()).val(),
+            s_coordinates = $('#dyn' + id + ' > .markeredit .edit_coordinates').val(),
             coordinates = Coordinates.fromString(s_coordinates),
-            s_radius = $('#edit_circle' + m.getAlpha()).val(),
+            s_radius = $('#dyn' + id + ' > .markeredit .edit_circle').val(),
             radius = Conversion.getInteger(s_radius, 0, 100000000000),
             errors = [];
 
