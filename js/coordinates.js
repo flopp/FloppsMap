@@ -42,6 +42,17 @@ Coordinates.valid = function (lat, lng) {
 };
 
 
+Coordinates.toLatLng = function (lat, lng) {
+    'use strict';
+
+    if (this.valid(lat, lng)) {
+        return new google.maps.LatLng(lat, lng);
+    }
+
+    return null;
+};
+
+
 Coordinates.fromString = function (coordsString) {
     'use strict';
 

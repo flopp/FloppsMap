@@ -4,7 +4,8 @@
 */
 
 /*global
-  $, google, newMarker, FileReader, DOMParser
+  $, google, FileReader, DOMParser,
+  Markers
 */
 
 
@@ -63,12 +64,12 @@ function handleGpxFiles(files) {
         wpts = xml.getElementsByTagName('wpt');
         for (i = 0; i < wpts.length; i = i + 1) {
             wpt = parseWpt(wpts[i], 'wpt_' + i);
-            if (!newMarker(wpt.coords, -1, wpt.radius, wpt.name)) {
+            if (!Markers.newMarker(wpt.coords, -1, wpt.radius, wpt.name)) {
                 return;
             }
         }
 
-        // todo: pan to center of imported markers, adjust zoom
+        // TODO pan to center of imported markers, adjust zoom
     };
 
     // reset file input

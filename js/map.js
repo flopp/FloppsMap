@@ -20,195 +20,6 @@ var CLAT_DEFAULT = 51.163375;
 var CLON_DEFAULT = 10.447683;
 var ZOOM_DEFAULT = 12;
 var MAPTYPE_DEFAULT = "OSM";
-var RADIUS_DEFAULT = 0;
-
-
-function enterEditMode(id) {
-    'use strict';
-
-    trackMarker('edit');
-    var m = Markers.getById(id);
-
-    $('#dyn' + id + ' > .markeredit .edit_name').val(m.getName());
-    $('#edit_coordinates' + m.getAlpha()).val(Coordinates.toString(m.getPosition()));
-    $('#edit_circle' + m.getAlpha()).val(m.getRadius());
-
-    $('#dyn' + id + ' > .markerview').hide();
-    $('#dyn' + id + ' > .markeredit').show();
-}
-
-
-function leaveEditMode(id, takenew) {
-    'use strict';
-
-    if (takenew) {
-        var m = Markers.getById(id),
-            name = $('#dyn' + id + ' > .markeredit .edit_name').val(),
-            name_ok = /^([a-zA-Z0-9-_]*)$/.test(name),
-            s_coordinates = $('#edit_coordinates' + m.getAlpha()).val(),
-            coordinates = Coordinates.fromString(s_coordinates),
-            s_radius = $('#edit_circle' + m.getAlpha()).val(),
-            radius = Conversion.getInteger(s_radius, 0, 100000000000),
-            errors = [];
-
-        if (!name_ok) {
-            errors.push(mytrans("sidebar.markers.error_badname").replace(/%1/, name));
-        }
-        if (!coordinates) {
-            errors.push(mytrans("sidebar.markers.error_badcoordinates").replace(/%1/, s_coordinates));
-        }
-        if (radius === null) {
-            errors.push(mytrans("sidebar.markers.error_badradius").replace(/%1/, s_radius));
-        }
-
-        if (errors.length > 0) {
-            showAlert(mytrans("dialog.error"), errors.join("<br /><br />"));
-        } else {
-            m.setNamePositionRadius(name, coordinates, radius);
-            $('#dyn' + id + ' > .markerview').show();
-            $('#dyn' + id + ' > .markeredit').hide();
-        }
-    } else {
-        $('#dyn' + id + ' > .markerview').show();
-        $('#dyn' + id + ' > .markeredit').hide();
-    }
-}
-
-
-function createMarkerDiv(id) {
-    'use strict';
-
-    var alpha = id2alpha(id),
-        iconw = 33,
-        iconh = 37,
-        offsetx = (id % 26) * iconw,
-        offsety = Math.floor(id / 26) * iconh;
-
-    return "<div id=\"dyn" + id + "\">" +
-        //"<table id=\"dynview" + id + "\" style=\"width: 100%; vertical-align: middle;\">\n" +
-        "<table class=\"markerview\" style=\"width: 100%; vertical-align: middle;\">\n" +
-        "    <tr>\n" +
-        "        <td rowspan=\"3\" style=\"vertical-align: top\">\n" +
-        "            <span style=\"width:" + iconw + "px; height:" + iconh + "px; float: left; display: block; background-image: url(img/markers.png); background-repeat: no-repeat; background-position: -" + offsetx + "px -" + offsety + "px;\">&nbsp;</span>\n" +
-        "        </td>\n" +
-        "        <td style=\"text-align: center\"><i class=\"fa fa-map-marker\"></i></td>\n" +
-        "        <td id=\"view_name" + alpha + "\" colspan=\"2\">marker</td>\n" +
-        "    </tr>\n" +
-        "    <tr>\n" +
-        "        <td style=\"text-align: center\"><i class=\"fa fa-globe\"></i></td>\n" +
-        "        <td id=\"view_coordinates" + alpha + "\" colspan=\"2\">N 48° 00.123 E 007° 51.456</td>\n" +
-        "    </tr>\n" +
-        "    <tr>\n" +
-        "        <td style=\"text-align: center\"><i class=\"fa fa-circle-o\"></i></td>\n" +
-        "        <td id=\"view_circle" + alpha + "\">16100 m</td>\n" +
-        "        <td>\n" +
-        "            <div class=\"btn-group\" style=\"padding-bottom: 2px; padding-top: 2px; float: right\">\n" +
-        "            <button class=\"my-button btn btn-mini btn-warning\" data-i18n=\"[title]sidebar.markers.edit_marker\" type=\"button\"  onclick=\"enterEditMode(" + id + ");\"><i class=\"fa fa-edit\"></i></button>\n" +
-        "            <button class=\"my-button btn btn-mini btn-danger\" data-i18n=\"[title]sidebar.markers.delete_marker\" type=\"button\" onClick=\"Markers.removeById(" + id + ")\"><i class=\"fa fa-trash-o\"></i></button>\n" +
-        "            <button class=\"my-button btn btn-mini btn-info\" data-i18n=\"[title]sidebar.markers.move_to\" type=\"button\" onClick=\"Markers.goto(" + id + ")\"><i class=\"fa fa-search\"></i></button>\n" +
-        "            <button class=\"my-button btn btn-mini btn-warning\" data-i18n=\"[title]sidebar.markers.center\" type=\"button\" onClick=\"Markers.center(" + id + ")\"><i class=\"fa fa-crosshairs\"></i></button>\n" +
-        "            <button class=\"my-button btn btn-mini btn-success\" data-i18n=\"[title]sidebar.markers.project\" type=\"button\" onClick=\"projectFromMarker(" + id + ")\"><i class=\"fa fa-location-arrow\"></i></button>\n" +
-        "            </div>\n" +
-        "        </td>\n" +
-        "    </tr>\n" +
-        "</table>\n" +
-        "<table class=\"markeredit\" style=\"display: none; width: 100%; vertical-align: middle;\">\n" +
-        "    <tr>\n" +
-        "        <td rowspan=\"4\" style=\"vertical-align: top\"><span style=\"width:" + iconw + "px; height:" + iconh + "px; float: left; display: block; background-image: url(img/markers.png); background-repeat: no-repeat; background-position: -" + offsetx + "px -" + offsety + "px;\">&nbsp;</span>\n" +
-        "        <td style=\"text-align: center; vertical-align: middle;\"><i class=\"icon-map-marker\"></i></td>\n" +
-        "        <td><input data-i18n=\"[title]sidebar.markers.name;[placeholder]sidebar.markers.name_placeholder\" class=\"edit_name form-control input-block-level\" type=\"text\" style=\"margin-bottom: 0px;\" value=\"n/a\" /></td>\n" +
-        "    </tr>\n" +
-        "    <tr>\n" +
-        "        <td style=\"text-align: center; vertical-align: middle;\"><i class=\"icon-globe\"></i></td>\n" +
-        "        <td><input id=\"edit_coordinates" + alpha + "\" data-i18n=\"[title]sidebar.markers.coordinates;[placeholder]sidebar.markers.coordinates_placeholder\" class=\"form-control input-block-level\" type=\"text\" style=\"margin-bottom: 0px;\" value=\"n/a\" /></td>\n" +
-        "    </tr>\n" +
-        "    <tr>\n" +
-        "        <td style=\"text-align: center; vertical-align: middle;\"><i class=\"icon-circle-blank\"></i></td>\n" +
-        "        <td><input id=\"edit_circle" + alpha + "\" data-i18n=\"[title]sidebar.markers.radius;[placeholder]sidebar.markers.radius_placeholder\" class=\"form-control input-block-level\" type=\"text\" style=\"margin-bottom: 0px;\" value=\"n/a\" /></td>\n" +
-        "    </tr>\n" +
-        "    <tr>\n" +
-        "        <td colspan=\"2\" style=\"text-align: right\">\n" +
-        "            <button class=\"btn btn-small btn-primary\" type=\"button\" onclick=\"javascript: leaveEditMode(" + id + ", true);\" data-i18n=\"dialog.ok\">OK</button>\n" +
-        "            <button class=\"btn btn-small\" type=\"button\" onclick=\"leaveEditMode(" + id + ", false);\" data-i18n=\"dialog.cancel\">CANCEL</button>\n" +
-        "        </td>\n" +
-        "    </tr>\n" +
-        "</table>" +
-        "</div>";
-}
-
-
-function newMarker(coordinates, id, radius, name) {
-    'use strict';
-
-    if (radius < 0) {
-        radius = RADIUS_DEFAULT;
-    }
-
-    if (id < 0 || id >= Markers.getSize() || !Markers.getById(id).isFree()) {
-        id = Markers.getFreeId();
-    }
-    if (id < 0) {
-        showAlert(
-            mytrans("dialog.error"),
-            mytrans("dialog.toomanymarkers_error.content").replace(/%1/, Markers.getSize())
-        );
-        return null;
-    }
-
-    var alpha = id2alpha(id),
-        marker,
-        div,
-        nextid;
-
-    if (!name || name === "") {
-        name = "marker_" + alpha;
-    }
-
-    marker = Markers.getById(id);
-    marker.initialize(map, name, coordinates, radius);
-    div = createMarkerDiv(id);
-
-    nextid = Markers.getNextUsedId(id);
-    if (nextid < 0) {
-        $('#dynMarkerDiv').append(div);
-    } else {
-        $(div).insertBefore('#dyn' + nextid);
-    }
-
-    $('#dyn' + id + ' > .markeredit .edit_name').keydown(function (e) {
-        if (e.which === 27) {
-            leaveEditMode(id, false);
-        } else if (e.which === 13) {
-            leaveEditMode(id, true);
-        }
-    });
-
-    $('#edit_coordinates' + alpha).keydown(function (e) {
-        if (e.which === 27) {
-            leaveEditMode(id, false);
-        } else if (e.which === 13) {
-            leaveEditMode(id, true);
-        }
-    });
-
-    $('#edit_circle' + alpha).keydown(function (e) {
-        if (e.which === 27) {
-            leaveEditMode(id, false);
-        } else if (e.which === 13) {
-            leaveEditMode(id, true);
-        }
-    });
-
-    $('#btnmarkers2').show();
-    $('#btnmarkersdelete1').removeAttr('disabled');
-    $('#btnmarkersdelete2').removeAttr('disabled');
-
-    marker.update();
-    Markers.saveMarkersList();
-    Lines.updateLinesMarkerAdded();
-
-    return marker;
-}
 
 
 function projectFromMarker(id) {
@@ -243,7 +54,7 @@ function projectFromMarker(id) {
             }
 
             newpos = Coordinates.projection_geodesic(oldpos, angle, dist);
-            newmarker = newMarker(newpos, -1, RADIUS_DEFAULT, null);
+            newmarker = Markers.newMarker(newpos, -1, 0, null);
             if (newmarker) {
                 showAlert(
                     mytrans("dialog.information"),
@@ -362,8 +173,11 @@ function repairZoom(x, d) {
 function repairMaptype(t, d) {
     'use strict';
 
-    if (t ===  "OSM" || t ===  "OSM/DE" || t ===  "OCM" || t ===  "OUTD" || t ===  "TOPO" ||
-            t ===  "satellite" || t ===  "hybrid" || t ===  "roadmap" || t ===  "terrain") {
+    var mapTypes = {
+        "OSM": 1, "OSM/DE": 1, "OCM": 1, "OUTD": 1, "TOPO": 1, "satellite": 1, "hybrid": 1, "roadmap": 1, "terrain": 1
+    };
+
+    if (mapTypes[t]) {
         return t;
     }
 
@@ -446,20 +260,14 @@ function parseCenterFromUrl(urlarg) {
         return null;
     }
 
-    var data = urlarg.split(':'),
-        lat,
-        lon;
+    var data = urlarg.split(':');
 
     if (data.length === 1) {
         return Coordinates.fromString(data[0]);
     }
 
     if (data.length === 2) {
-        lat = parseFloat(data[0]);
-        lon = parseFloat(data[1]);
-        if (Coordinates.valid(lat, lon)) {
-            return new google.maps.LatLng(lat, lon);
-        }
+        return Coordinates.toLatLng(parseFloat(data[0]), parseFloat(data[1]));
     }
 
     return null;
@@ -484,17 +292,11 @@ function parseLinesFromUrl(urlarg) {
     }
 
     urlarg.split('*').map(function (pair_string) {
-        var m = {source: -1, target: -1},
-            pair = pair_string.split(':');
-
-        if (pair.length !== 2) {
-            return;
+        var pair = pair_string.split(':');
+        if (pair.length === 2) {
+            lines.push({source: alpha2id(pair[0]), target: alpha2id(pair[1])});
         }
 
-        m.source = alpha2id(pair[0]);
-        m.target = alpha2id(pair[1]);
-
-        lines.push(m);
     });
 
     return lines;
@@ -514,9 +316,7 @@ function parseMarkersFromCookies() {
     raw_ids.split(':').map(function (id_string) {
         var m = {id: null, name: null, coords: null, r: 0},
             raw_data,
-            data,
-            lat,
-            lon;
+            data;
 
         m.id = parseInt(id_string, 10);
         if (m.id === null || m.id < 0 || m.id >= 26 * 10) {
@@ -524,7 +324,7 @@ function parseMarkersFromCookies() {
         }
 
         raw_data = Cookies.get('marker' + m.id);
-        if (raw_data === null || raw_data === undefined) {
+        if (!raw_data) {
             return;
         }
 
@@ -533,12 +333,10 @@ function parseMarkersFromCookies() {
             return;
         }
 
-        lat = parseFloat(data[0]);
-        lon = parseFloat(data[1]);
-        if (!Coordinates.valid(lat, lon)) {
+        m.coords = Coordinates.toLatLng(parseFloat(data[0]), parseFloat(data[1]));
+        if (!m.coords) {
             return;
         }
-        m.coords = new google.maps.LatLng(lat, lon);
 
         m.r = repairRadius(parseFloat(data[2]), 0);
 
@@ -559,22 +357,15 @@ function parseLinesFromCookies() {
     var raw_lines = Cookies.get('lines'),
         lines = [];
 
-    if (raw_lines === null || raw_lines === undefined) {
+    if (!raw_lines) {
         return lines;
     }
 
     raw_lines.split('*').map(function (pair_string) {
-        var m = {source: -1, target: -1},
-            pair = pair_string.split(':');
-
-        if (pair.length !== 2) {
-            return;
+        var pair = pair_string.split(':');
+        if (pair.length === 2) {
+            lines.push({source: alpha2id(pair[0]), target: alpha2id(pair[1])});
         }
-
-        m.source = alpha2id(pair[0]);
-        m.target = alpha2id(pair[1]);
-
-        lines.push(m);
     });
 
     return lines;
@@ -693,7 +484,7 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocache
 
     if (loadfromcookies) {
         parseMarkersFromCookies().map(function (m) {
-            newMarker(m.coords, m.id, m.r, m.name);
+            Markers.newMarker(m.coords, m.id, m.r, m.name);
         });
 
         parseLinesFromCookies().map(function (m) {
@@ -701,7 +492,7 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocache
         });
     } else {
         markerdata.map(function (m) {
-            newMarker(m.coords, m.id, m.r, m.name);
+            Markers.newMarker(m.coords, m.id, m.r, m.name);
         });
 
         parseLinesFromUrl(xlines).map(function (m) {
