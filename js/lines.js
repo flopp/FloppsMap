@@ -101,7 +101,7 @@ Lines.selectLineSource = function (id) {
     'use strict';
 
     var markerId = -1,
-        opt = $("#dynlinesource" + id + " option:selected");
+        opt = $("#dynline" + id + " .source option:selected");
 
     if (opt) {
         markerId = parseInt(opt.val(), 10);
@@ -123,7 +123,7 @@ Lines.selectLineTarget = function (id) {
     'use strict';
 
     var markerId = -1,
-        opt = $("#dynlinetarget" + id + " option:selected");
+        opt = $("#dynline" + id + " .target option:selected");
 
     if (opt) {
         markerId = parseInt(opt.val(), 10);
@@ -182,7 +182,7 @@ Lines.updateLine = function (id) {
 Lines.deleteLine = function (id) {
     'use strict';
 
-    $('#dynLine' + id).remove();
+    $('#dynline' + id).remove();
 
     var index = this.getLineIndex(id);
     if (index < 0 || !this.m_lines[index]) {

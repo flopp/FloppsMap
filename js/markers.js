@@ -229,23 +229,7 @@ Markers.newMarker = function (coordinates, id, radius, name) {
         $(div).insertBefore('#dyn' + nextid);
     }
 
-    $('#dyn' + id + ' > .markeredit .edit_name').keydown(function (e) {
-        if (e.which === 27) {
-            self.leaveEditMode(id, false);
-        } else if (e.which === 13) {
-            self.leaveEditMode(id, true);
-        }
-    });
-
-    $('#dyn' + id + ' > .markeredit .edit_coordinates').keydown(function (e) {
-        if (e.which === 27) {
-            self.leaveEditMode(id, false);
-        } else if (e.which === 13) {
-            self.leaveEditMode(id, true);
-        }
-    });
-
-    $('#dyn' + id + ' > .markeredit .edit_circle').keydown(function (e) {
+    $('#dyn' + id + ' > .edit').keydown(function (e) {
         if (e.which === 27) {
             self.leaveEditMode(id, false);
         } else if (e.which === 13) {
@@ -270,28 +254,27 @@ Markers.newMarker = function (coordinates, id, radius, name) {
 Markers.createMarkerDiv = function (id) {
     'use strict';
 
-    var alpha = id2alpha(id),
-        iconw = 33,
+    var iconw = 33,
         iconh = 37,
         offsetx = (id % 26) * iconw,
         offsety = Math.floor(id / 26) * iconh;
 
     return "<div id=\"dyn" + id + "\">" +
-        "<table class=\"markerview\" style=\"width: 100%; vertical-align: middle;\">\n" +
+        "<table class=\"view\" style=\"width: 100%; vertical-align: middle;\">\n" +
         "    <tr>\n" +
         "        <td rowspan=\"3\" style=\"vertical-align: top\">\n" +
         "            <span style=\"width:" + iconw + "px; height:" + iconh + "px; float: left; display: block; background-image: url(img/markers.png); background-repeat: no-repeat; background-position: -" + offsetx + "px -" + offsety + "px;\">&nbsp;</span>\n" +
         "        </td>\n" +
         "        <td style=\"text-align: center\"><i class=\"fa fa-map-marker\"></i></td>\n" +
-        "        <td class\"view_name\" colspan=\"2\">marker</td>\n" +
+        "        <td class\"name\" colspan=\"2\">marker</td>\n" +
         "    </tr>\n" +
         "    <tr>\n" +
         "        <td style=\"text-align: center\"><i class=\"fa fa-globe\"></i></td>\n" +
-        "        <td class=\"view_coordinates\" colspan=\"2\">N 48° 00.123 E 007° 51.456</td>\n" +
+        "        <td class=\"coords\" colspan=\"2\">N 48° 00.123 E 007° 51.456</td>\n" +
         "    </tr>\n" +
         "    <tr>\n" +
         "        <td style=\"text-align: center\"><i class=\"fa fa-circle-o\"></i></td>\n" +
-        "        <td class=\"view_circle\">16100 m</td>\n" +
+        "        <td class=\"radius\">16100 m</td>\n" +
         "        <td>\n" +
         "            <div class=\"btn-group\" style=\"padding-bottom: 2px; padding-top: 2px; float: right\">\n" +
         "            <button class=\"my-button btn btn-mini btn-warning\" data-i18n=\"[title]sidebar.markers.edit_marker\" type=\"button\"  onclick=\"Markers.enterEditMode(" + id + ");\"><i class=\"fa fa-edit\"></i></button>\n" +
@@ -303,19 +286,19 @@ Markers.createMarkerDiv = function (id) {
         "        </td>\n" +
         "    </tr>\n" +
         "</table>\n" +
-        "<table class=\"markeredit\" style=\"display: none; width: 100%; vertical-align: middle;\">\n" +
+        "<table class=\"edit\" style=\"display: none; width: 100%; vertical-align: middle;\">\n" +
         "    <tr>\n" +
         "        <td rowspan=\"4\" style=\"vertical-align: top\"><span style=\"width:" + iconw + "px; height:" + iconh + "px; float: left; display: block; background-image: url(img/markers.png); background-repeat: no-repeat; background-position: -" + offsetx + "px -" + offsety + "px;\">&nbsp;</span>\n" +
         "        <td style=\"text-align: center; vertical-align: middle;\"><i class=\"icon-map-marker\"></i></td>\n" +
-        "        <td><input data-i18n=\"[title]sidebar.markers.name;[placeholder]sidebar.markers.name_placeholder\" class=\"edit_name form-control input-block-level\" type=\"text\" style=\"margin-bottom: 0px;\" value=\"n/a\" /></td>\n" +
+        "        <td><input data-i18n=\"[title]sidebar.markers.name;[placeholder]sidebar.markers.name_placeholder\" class=\"name form-control input-block-level\" type=\"text\" style=\"margin-bottom: 0px;\" value=\"n/a\" /></td>\n" +
         "    </tr>\n" +
         "    <tr>\n" +
         "        <td style=\"text-align: center; vertical-align: middle;\"><i class=\"icon-globe\"></i></td>\n" +
-        "        <td><input data-i18n=\"[title]sidebar.markers.coordinates;[placeholder]sidebar.markers.coordinates_placeholder\" class=\"edit_coordinates form-control input-block-level\" type=\"text\" style=\"margin-bottom: 0px;\" value=\"n/a\" /></td>\n" +
+        "        <td><input data-i18n=\"[title]sidebar.markers.coordinates;[placeholder]sidebar.markers.coordinates_placeholder\" class=\"coords form-control input-block-level\" type=\"text\" style=\"margin-bottom: 0px;\" value=\"n/a\" /></td>\n" +
         "    </tr>\n" +
         "    <tr>\n" +
         "        <td style=\"text-align: center; vertical-align: middle;\"><i class=\"icon-circle-blank\"></i></td>\n" +
-        "        <td><input data-i18n=\"[title]sidebar.markers.radius;[placeholder]sidebar.markers.radius_placeholder\" class=\"edit_circle form-control input-block-level\" type=\"text\" style=\"margin-bottom: 0px;\" value=\"n/a\" /></td>\n" +
+        "        <td><input data-i18n=\"[title]sidebar.markers.radius;[placeholder]sidebar.markers.radius_placeholder\" class=\"radius form-control input-block-level\" type=\"text\" style=\"margin-bottom: 0px;\" value=\"n/a\" /></td>\n" +
         "    </tr>\n" +
         "    <tr>\n" +
         "        <td colspan=\"2\" style=\"text-align: right\">\n" +
@@ -337,51 +320,49 @@ Markers.enterEditMode = function (id) {
         return;
     }
 
-    $('#dyn' + id + ' > .markeredit .edit_name').val(m.getName());
-    $('#dyn' + id + ' > .markeredit .edit_coordinates').val(Coordinates.toString(m.getPosition()));
-    $('#dyn' + id + ' > .markeredit .edit_circle').val(m.getRadius());
+    $('#dyn' + id + ' > .edit .name').val(m.getName());
+    $('#dyn' + id + ' > .edit .coords').val(Coordinates.toString(m.getPosition()));
+    $('#dyn' + id + ' > .edit .radius').val(m.getRadius());
 
-    $('#dyn' + id + ' > .markerview').hide();
-    $('#dyn' + id + ' > .markeredit').show();
+    $('#dyn' + id + ' > .view').hide();
+    $('#dyn' + id + ' > .edit').show();
 };
 
 
 Markers.leaveEditMode = function (id, takenew) {
     'use strict';
 
-    if (!this.isValid(id)) {
+    if (!takenew) {
+        $('#dyn' + id + ' > .view').show();
+        $('#dyn' + id + ' > .edit').hide();
         return;
     }
 
-    if (takenew) {
-        var m = this.getById(id),
-            name = $('#dyn' + id + ' > .markeredit .edit_name').val(),
-            name_ok = /^([a-zA-Z0-9-_]*)$/.test(name),
-            s_coordinates = $('#dyn' + id + ' > .markeredit .edit_coordinates').val(),
-            coordinates = Coordinates.fromString(s_coordinates),
-            s_radius = $('#dyn' + id + ' > .markeredit .edit_circle').val(),
-            radius = Conversion.getInteger(s_radius, 0, 100000000000),
-            errors = [];
+    var m = this.getById(id),
+        name = $('#dyn' + id + ' > .edit .name').val(),
+        s_coords = $('#dyn' + id + ' > .edit .coords').val(),
+        s_radius = $('#dyn' + id + ' > .edit .radius').val(),
+        name_ok = /^([a-zA-Z0-9-_]*)$/.test(name),
+        coords = Coordinates.fromString(s_coords),
+        radius = Conversion.getInteger(s_radius, 0, 100000000000),
+        errors = [];
 
-        if (!name_ok) {
-            errors.push(mytrans("sidebar.markers.error_badname").replace(/%1/, name));
-        }
-        if (!coordinates) {
-            errors.push(mytrans("sidebar.markers.error_badcoordinates").replace(/%1/, s_coordinates));
-        }
-        if (radius === null) {
-            errors.push(mytrans("sidebar.markers.error_badradius").replace(/%1/, s_radius));
-        }
-
-        if (errors.length > 0) {
-            showAlert(mytrans("dialog.error"), errors.join("<br /><br />"));
-        } else {
-            m.setNamePositionRadius(name, coordinates, radius);
-            $('#dyn' + id + ' > .markerview').show();
-            $('#dyn' + id + ' > .markeredit').hide();
-        }
-    } else {
-        $('#dyn' + id + ' > .markerview').show();
-        $('#dyn' + id + ' > .markeredit').hide();
+    if (!name_ok) {
+        errors.push(mytrans("sidebar.markers.error_badname").replace(/%1/, name));
     }
+    if (!coords) {
+        errors.push(mytrans("sidebar.markers.error_badcoordinates").replace(/%1/, s_coords));
+    }
+    if (radius === null) {
+        errors.push(mytrans("sidebar.markers.error_badradius").replace(/%1/, s_radius));
+    }
+
+    if (errors.length > 0) {
+        showAlert(mytrans("dialog.error"), errors.join("<br /><br />"));
+        return;
+    }
+
+    m.setNamePositionRadius(name, coords, radius);
+    $('#dyn' + id + ' > .view').show();
+    $('#dyn' + id + ' > .edit').hide();
 };

@@ -20,21 +20,21 @@ function Line(themap, id, source, target) {
     this.m_distanceLabel = null;
 
     $('#dynLineDiv').append(
-        "<div id=\"dynLine" + id + "\">" +
+        "<div id=\"dynline" + id + "\">" +
             "<table style=\"width: 100%\">" +
             "<tr>" +
             "<td>" +
-            "<select id=\"dynlinesource" + id + "\" class=\"my-small-select\" data-i18n=\"[title]sidebar.lines.source\" onchange=\"Lines.selectLineSource(" + id + ")\"><option value=\"-1\">?</option></select>" +
+            "<select class=\"source my-small-select\" data-i18n=\"[title]sidebar.lines.source\" onchange=\"Lines.selectLineSource(" + id + ");\"><option value=\"-1\">?</option></select>" +
             "&nbsp;&rarr;&nbsp;" +
-            "<select id=\"dynlinetarget" + id + "\" class=\"my-small-select\" data-i18n=\"[title]sidebar.lines.destination\" onchange=\"Lines.selectLineTarget(" + id + ")\"><option value=\"-1\">?</option></select>" +
+            "<select class=\"target my-small-select\" data-i18n=\"[title]sidebar.lines.destination\" onchange=\"Lines.selectLineTarget(" + id + ");\"><option value=\"-1\">?</option></select>" +
             "</td>" +
             "<td>" +
-            "<button class=\"my-button btn btn-mini btn-danger\" style=\"float: right\" data-i18n=\"[title]sidebar.lines.delete_line\" type=\"button\" onClick=\"trackLine('delete'); Lines.deleteLine(" + id + ")\"><i class=\"fa fa-trash-o\"></i></button>" +
+            "<button class=\"my-button btn btn-mini btn-danger\" style=\"float: right\" data-i18n=\"[title]sidebar.lines.delete_line\" type=\"button\" onClick=\"trackLine('delete'); Lines.deleteLine(" + id + ");\"><i class=\"fa fa-trash-o\"></i></button>" +
             "<div>" +
             "</div>" +
             "</td>" +
             "</tr>" +
-            "<tr><td colspan=\"2\"><i class=\"fa fa-arrows-h\"></i> <span id=\"dynlinedist" + id + "\">n/a</span> <i class=\"fa fa-compass\"></i> <span id=\"dynlineangle" + id + "\">n/a</span></td></tr>" +
+            "<tr><td colspan=\"2\"><i class=\"fa fa-arrows-h\"></i> <span class=\"dist\">n/a</span> <i class=\"fa fa-compass\"></i> <span class=\"angle\">n/a</span></td></tr>" +
             "</table>" +
             "</div>"
     );
@@ -117,7 +117,7 @@ Line.prototype.setSource = function (markerId) {
     if (markerId !== this.m_source) {
         this.m_source = markerId;
         this.update();
-        $("#dynlinesource" + this.m_id + " > option[value=" + markerId + "]").attr("selected", "selected");
+        $("#dynline" + this.m_id + " .source > option[value=" + markerId + "]").attr("selected", "selected");
     }
 };
 
@@ -128,7 +128,7 @@ Line.prototype.setTarget = function (markerId) {
     if (markerId !== this.m_target) {
         this.m_target = markerId;
         this.update();
-        $("#dynlinetarget" + this.m_id + " > option[value=" + markerId + "]").attr("selected", "selected");
+        $("#dynline" + this.m_id + " .target > option[value=" + markerId + "]").attr("selected", "selected");
     }
 };
 
@@ -139,8 +139,8 @@ Line.prototype.update = function () {
     if (this.m_source === -1 || this.m_target === -1) {
         this.clearMapObject();
 
-        $("#dynlinedist" + this.m_id).html("n/a");
-        $("#dynlineangle" + this.m_id).html("n/a");
+        $("#dynline" + this.m_id + " .dist").html("n/a");
+        $("#dynline" + this.m_id + " .angle").html("n/a");
 
         return;
     }
@@ -154,12 +154,12 @@ Line.prototype.update = function () {
 
     if (dist_angle.dist <= 0) {
         this.m_distanceLabel.setText("");
-        $("#dynlinedist" + this.m_id).html("0m");
-        $("#dynlineangle" + this.m_id).html("n/a");
+        $("#dynline" + this.m_id + " .dist").html("0m");
+        $("#dynline" + this.m_id + " .angle").html("n/a");
     } else {
         this.m_distanceLabel.setText(dist_angle.dist.toFixed() + "m");
-        $("#dynlinedist" + this.m_id).html(dist_angle.dist.toFixed() + "m");
-        $("#dynlineangle" + this.m_id).html(dist_angle.angle.toFixed(1) + "°");
+        $("#dynline" + this.m_id + " .dist").html(dist_angle.dist.toFixed() + "m");
+        $("#dynline" + this.m_id + " .angle").html(dist_angle.angle.toFixed(1) + "°");
     }
 };
 
@@ -200,8 +200,8 @@ Line.prototype.updateMarkerAdded = function () {
 Line.prototype.updateLists = function () {
     'use strict';
 
-    var source = $('#dynlinesource' + this.m_id),
-        target = $('#dynlinetarget' + this.m_id),
+    var source = $("#dynline" + this.m_id + " .source"),
+        target = $("#dynline" + this.m_id + " .target"),
         i,
         m;
 
@@ -219,6 +219,6 @@ Line.prototype.updateLists = function () {
         }
     }
 
-    $("#dynlinesource" + this.m_id + " > option[value=" + this.m_source + "]").attr("selected", "selected");
-    $("#dynlinetarget" + this.m_id + " > option[value=" + this.m_target + "]").attr("selected", "selected");
+    $("#dynline" + this.m_id + " .source > option[value=" + this.m_source + "]").attr("selected", "selected");
+    $("#dynline" + this.m_id + " .target > option[value=" + this.m_target + "]").attr("selected", "selected");
 };

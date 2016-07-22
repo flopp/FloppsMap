@@ -181,12 +181,12 @@ Marker.prototype.update = function () {
     this.m_circle.setCenter(pos);
 
     Cookies.set('marker' + this.m_id, pos.lat().toFixed(6) + ":" + pos.lng().toFixed(6) + ":" + radius + ":" + this.m_name, {expires: 30});
-    $('#dyn' + this.m_id + ' > .markerview .view_name').html(this.m_name);
-    $('#dyn' + this.m_id + ' > .markerview .view_coordinates').html(Coordinates.toString(pos));
-    $('#dyn' + this.m_id + ' > .markerview .view_circle').html(radius);
-    $('#dyn' + this.m_id + ' > .markeredit .edit_name').val(this.m_name);
-    $('#dyn' + this.m_id + ' > .markeredit .edit_coordinates').val(Coordinates.toString(pos));
-    $('#dyn' + this.m_id + ' > .markeredit .edit_circle').val(radius);
+    $('#dyn' + this.m_id + ' > .view .name').html(this.m_name);
+    $('#dyn' + this.m_id + ' > .view .coords').html(Coordinates.toString(pos));
+    $('#dyn' + this.m_id + ' > .view .radius').html(radius);
+    $('#dyn' + this.m_id + ' > .edit .name').val(this.m_name);
+    $('#dyn' + this.m_id + ' > .edit .coords').val(Coordinates.toString(pos));
+    $('#dyn' + this.m_id + ' > .edit .radius').val(radius);
 
     Lines.updateLinesMarkerMoved(this.m_id);
 };
