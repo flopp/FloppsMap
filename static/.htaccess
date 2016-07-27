@@ -1,4 +1,5 @@
 RewriteEngine on 
+RewriteBase /
 
 Redirect /oc.html http://flopp.grus.uberspace.de/oc-monitor/
 
