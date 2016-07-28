@@ -259,21 +259,6 @@ Okapi.registerPopup = function (m, code, siteid) {
 };
 
 
-Okapi.removeMarkersSite = function (markers) {
-    'use strict';
-
-    if (!this.m_ready) {
-        return;
-    }
-
-    if (markers) {
-        markers.map(function (m) {
-            m.setMap(null);
-        });
-    }
-};
-
-
 Okapi.removeMarkers = function () {
     'use strict';
 
@@ -283,7 +268,13 @@ Okapi.removeMarkers = function () {
 
     var self = this;
     this.m_sites.map(function (site) {
-        self.removeMarkersSite(site.markers);
+        var key;
+        for (key in site.markers) {
+            if (!site.markers.hasOwnProperty(key)) {
+                continue;
+            }
+            site.markers[key].setMap(null);
+        }
         site.markers = {};
     });
 
