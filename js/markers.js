@@ -249,8 +249,6 @@ Markers.newMarker = function (coordinates, id, radius, name) {
 };
 
 
-
-
 Markers.createMarkerDiv = function (id) {
     'use strict';
 
@@ -266,7 +264,7 @@ Markers.createMarkerDiv = function (id) {
         "            <span style=\"width:" + iconw + "px; height:" + iconh + "px; float: left; display: block; background-image: url(img/markers.png); background-repeat: no-repeat; background-position: -" + offsetx + "px -" + offsety + "px;\">&nbsp;</span>\n" +
         "        </td>\n" +
         "        <td style=\"text-align: center\"><i class=\"fa fa-map-marker\"></i></td>\n" +
-        "        <td class\"name\" colspan=\"2\">marker</td>\n" +
+        "        <td class=\"name\" colspan=\"2\">marker</td>\n" +
         "    </tr>\n" +
         "    <tr>\n" +
         "        <td style=\"text-align: center\"><i class=\"fa fa-globe\"></i></td>\n" +
