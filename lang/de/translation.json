@@ -155,5 +155,14 @@
         "difficulty": "Schwierigkeit",
         "terrain": "Gelände",
         "finds": "Funde"
+    },
+    
+    "uploadgpx": {
+        "info": "GPX Upload - Info",
+        "error": "GPX Upload - Fehler",
+        "error_no_files": "Keine GPX-Datei angegeben.",
+        "error_bad_xml": "Fehler beim XML-Parsen.",
+        "error_failed_after": "Fehler beim XML-Parsen, nachdem schon %1 Marker hinzugefügt wurden.",
+        "msg_created_markers": "%1 Marker erzeugt."
     }
 }

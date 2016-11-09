@@ -166,5 +166,14 @@
         "difficulty": "Difficulty",
         "terrain": "Terrain",
         "finds": "Finds"
+    },
+    
+    "uploadgpx": {
+        "info": "GPX Upload - Info",
+        "error": "GPX Upload - Error",
+        "error_no_files": "No GPX file given.",
+        "error_bad_xml": "Failed to parse XML.",
+        "error_failed_after": "Failed to parse XML after adding %1 marker(s).",
+        "msg_created_markers": "Created %1 marker(s)."
     }
 }
