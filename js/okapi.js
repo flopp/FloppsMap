@@ -70,7 +70,7 @@ Okapi.setupSites = function () {
             "Opencaching.PL" : "jhRyc6rGmT6XEvxva29B",
             "Opencaching.NL" : "gcwaesuq3REu8RtCgLDj",
             "Opencaching.US" : "GvgyCMvwfH42GqJGL494",
-            "Opencaching.ORG.UK" : "7t7VfpkCd4HuxPabfbHd",
+            "Opencache.UK" : "7t7VfpkCd4HuxPabfbHd",
             "Opencaching.RO" : "gqSWmVJhZGDwc4sRhyy7"
         },
         prefixes = {
@@ -78,7 +78,7 @@ Okapi.setupSites = function () {
             "Opencaching.PL" : "OP",
             "Opencaching.NL" : "OB",
             "Opencaching.US" : "OU",
-            "Opencaching.ORG.UK" : "OK",
+            "Opencache.UK" : "OK",
             "Opencaching.RO" : "OR"
         };
 
@@ -266,7 +266,6 @@ Okapi.removeMarkers = function () {
         return;
     }
 
-    var self = this;
     this.m_sites.map(function (site) {
         var key;
         for (key in site.markers) {
