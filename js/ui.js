@@ -165,5 +165,6 @@ $(document).ready(function () {
     $('#coordinatesFormat').change(function () { setCoordinatesFormat($('#coordinatesFormat').val()); });
     $("#freifunk").click(function () { Freifunk.toggle($('#freifunk').is(':checked')); });
     $("#buttonUploadGPX").click(function (e) { $("#buttonUploadGPXinput").click(); e.preventDefault(); });
+    $("#buttonExportGPX").click(function () { DownloadGPX.initiateDownload(); });
     $("#buttonMulticoordinates").click(function () { showMulticoordinatesDialog(); });
 });

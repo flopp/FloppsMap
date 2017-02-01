@@ -450,6 +450,7 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocache
     CDDA.init(map);
     Freifunk.init(map);
     Okapi.init(map);
+    DownloadGPX.init(map);
 
     //boundariesLayer = new google.maps.ImageMapType({
     //  getTileUrl: function(coord, zoom) {

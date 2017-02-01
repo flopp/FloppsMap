@@ -195,7 +195,7 @@ $(document).ready( function() { init_lang(); });
     <a id="buttonUploadGPX" class="btn btn-block btn-sm btn-success my-new" role="button" data-i18n="sidebar.misc.uploadgpx">UPLOAD GPX</a>
   </div>
   <div style="margin-bottom: 10px">
-    <a id="buttonExportGPX" class="btn btn-block btn-sm btn-info" role="button" href="download.php" data-i18n="sidebar.misc.gpx">EXPORT GPX</a>
+    <a id="buttonExportGPX" class="btn btn-block btn-sm btn-info" role="button" data-i18n="sidebar.misc.gpx">EXPORT GPX</a>
   </div>
   <div style="margin-bottom: 10px">
     <button id="buttonPermalink" class="btn btn-block btn-sm btn-info" type="button" onClick="generatePermalink();" data-i18n="sidebar.misc.permalink">CREATE PERMALINK</button>

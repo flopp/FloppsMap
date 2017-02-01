@@ -24,7 +24,7 @@ Geolocation.search = function (address) {
     trackSearch(address);
 
     var coords = Coordinates.fromString(address),
-        url = "http://nominatim.openstreetmap.org/search?format=json&limit=1&q=" + address,
+        url = "https://nominatim.openstreetmap.org/search?format=json&limit=1&q=" + address,
         the_map = this.m_map;
 
     if (!coords) {
