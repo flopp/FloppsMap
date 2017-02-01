@@ -28,6 +28,26 @@ Marker.prototype.toString = function () {
 };
 
 
+Marker.prototype.toXmlWpt = function () {
+    'use strict';
+
+    var data = '';
+    data += '<wpt lat="' + this.getPosition().lat().toFixed(8) + '" lon="' + this.getPosition().lng().toFixed(8) + '">\n';
+    data += '    <name>' + this.getName() + '</name>\n';
+    data += '    <sym>flag</sym>\n';
+    if (this.getRadius() > 0) {
+        data += '    <extensions>\n';
+        data += '      <wptx1:WaypointExtension>\n';
+        data += '        <wptx1:Proximity>' + this.getRadius() + '</wptx1:Proximity>\n';
+        data += '      </wptx1:WaypointExtension>\n';
+        data += '    </extensions>\n';
+    }
+    data += '</wpt>';
+
+    return data;
+};
+
+
 Marker.prototype.isFree = function () {
     'use strict';
 

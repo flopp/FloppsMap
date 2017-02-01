@@ -147,6 +147,24 @@ Markers.toString = function () {
 };
 
 
+Markers.toXmlWpts = function () {
+    'use strict';
+
+    var id,
+        data = '';
+
+    for (id = 0; id < this.m_markers.length; id = id + 1) {
+        if (this.m_markers[id].isFree()) {
+            continue;
+        }
+        data += this.m_markers[id].toXmlWpt();
+        data += '\n';
+    }
+
+    return data;
+};
+
+
 Markers.update = function () {
     'use strict';
 

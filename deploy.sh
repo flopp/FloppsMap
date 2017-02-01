@@ -60,6 +60,7 @@ JS=(
     js/cdda-layer.js
     js/conversion.js
     js/cookies.js
+    js/downloadgpx.js
     js/externallinks.js
     js/geolocation.js
     js/hillshading-layer.js
@@ -101,7 +102,6 @@ IMG=(
 
 ROOT=(
     img/apple-touch-icon.png
-    php/download.php
     php/proxy.php
     private/google7caa54246d4da45f.html
     private/BingSiteAuth.xml
@@ -121,6 +121,7 @@ cp -a lang/* $D/lang/
 #### external stuff
 
 # js cookie
+echo "-- fetching js-cookie"
 if [ -d $L/js-cookie/.git ] ; then
     (cd $L/js-cookie/ ; git pull origin master)
 else
@@ -129,6 +130,7 @@ fi
 cp $L/js-cookie/src/js.cookie.js $D/js
 
 # jquery ajax cross origin plugin
+echo "-- fetching ajax-cross-origin"
 if [ ! -f $L/ajax-cross-origin/js/jquery.ajax-cross-origin.min.js ] ; then
     if [ ! -f $L/ajax-cross-origin.zip ] ; then
         (cd $L ; wget http://www.ajax-cross-origin.com/ajax-cross-origin.zip)
@@ -138,12 +140,14 @@ fi
 cp $L/ajax-cross-origin/js/jquery.ajax-cross-origin.min.js $D/js
 
 # geographiclib
+echo "-- fetching geographiclib"
 if [ ! -f $L/geographiclib.js ] ; then
   (cd $L ; wget http://geographiclib.sourceforge.net/scripts/geographiclib.js)
 fi
 cp $L/geographiclib.js $D/js
 
 # i18next xhr backend
+echo "-- fetching i18next-xhr-backend"
 if [ -d $L/i18next-xhr-backend/.git ] ; then
     (cd $L/i18next-xhr-backend/ ; git pull origin master)
 else
@@ -153,6 +157,7 @@ cp $L/i18next-xhr-backend/i18nextXHRBackend.min.js $D/js
 
 
 #### upload
+echo "-- uploading"
 if [[ "$@" = *production* ]]; then
     source ~/.server.data
     lftp -u $LOGIN:$PASSWD $SERVER -e "mirror -v -R ${D} $BASE ; quit"
