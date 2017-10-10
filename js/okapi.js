@@ -189,7 +189,7 @@ Okapi.createPopupContent = function (code, response) {
 
     var content =
         '<a href="' + response.url + '" target="_blank">' + code + ' <b>' + response.name + '</b></a><br />'
-        + '<table>'
+        + '<table class="cache-popup">'
         + '<tr><td>' + mytrans("geocache.owner") + '</td><td>' + '<a href="' + response.owner.profile_url + '" target="_blank"><b>' + response.owner.username + '</b></a></td></tr>'
         + '<tr><td>' + mytrans("geocache.type") + '</td><td>' + response.type + '</td></tr>'
         + '<tr><td>' + mytrans("geocache.size") + '</td><td>' + response.size2 + '</td></tr>'
