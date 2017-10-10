@@ -179,6 +179,10 @@ $(document).ready( function() { init_lang(); });
     <button id="buttonLinesDeleteAll" class="btn btn-sm btn-danger" type="button" onClick="Lines.deleteAllLines();"><i class="fa fa-trash-o"></i> <span data-i18n="sidebar.lines.deleteall">DELETE ALL</span></button>
   </div>
   <div id="dynLineDiv"></div>
+  <div id="lineDistDiv" style="display: none">
+      <span data-i18n="sidebar.lines.total">TOTAL:</span>
+      <span id="lineDist">0 m</span>
+  </div>
 </div> <!-- section -->
 
 <div class="my-section">

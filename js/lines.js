@@ -38,6 +38,7 @@ Lines.newLine = function (source, target) {
 
     this.m_lines.push(new Line(Lines.m_map, this.m_nextLineId, source, target));
     this.m_nextLineId += 1;
+    this.updateTotalDistance();
     this.saveCookie();
 };
 
@@ -93,6 +94,7 @@ Lines.selectLineSourceById = function (id, markerId) {
     'use strict';
 
     this.getLineById(id).setSource(markerId);
+    this.updateTotalDistance();
     this.saveCookie();
 };
 
@@ -115,6 +117,7 @@ Lines.selectLineTargetById = function (id, markerId) {
     'use strict';
 
     this.getLineById(id).setTarget(markerId);
+    this.updateTotalDistance();
     this.saveCookie();
 };
 
@@ -141,6 +144,8 @@ Lines.updateLinesMarkerMoved = function (markerId) {
             line.updateMarkerMoved(markerId);
         }
     });
+    
+    this.updateTotalDistance();
 };
 
 
@@ -163,6 +168,8 @@ Lines.updateLinesMarkerRemoved = function (markerId) {
             line.updateMarkerRemoved(markerId);
         }
     });
+    
+    this.updateTotalDistance();
     this.saveCookie();
 };
 
@@ -176,6 +183,7 @@ Lines.updateLine = function (id) {
     }
 
     this.m_lines[index].update();
+    this.updateTotalDistance();
 };
 
 
@@ -191,7 +199,8 @@ Lines.deleteLine = function (id) {
 
     this.m_lines[index].clearMapObject();
     this.m_lines[index] = null;
-
+    
+    this.updateTotalDistance();
     this.saveCookie();
 };
 
@@ -205,4 +214,31 @@ Lines.deleteAllLines = function () {
             self.deleteLine(line.getId());
         }
     });
+    
+    this.updateTotalDistance();
+};
+
+
+Lines.updateTotalDistance = function () {
+    'use strict';
+
+    var lines = 0;
+    var distance = 0;
+
+    this.m_lines.map(function (line) {
+        if (line) {
+            var d = line.distance();
+            lines += 1;
+            if (d > 0) {
+                distance += d;
+            }
+        }
+    });
+
+    if (lines > 0) {
+        $('#lineDist').html(distance.toFixed() + "m");
+        $('#lineDistDiv').show();
+    } else {
+        $('#lineDistDiv').hide();
+    }
 };

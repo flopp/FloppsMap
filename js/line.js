@@ -18,6 +18,7 @@ function Line(themap, id, source, target) {
     this.m_source = -1;
     this.m_target = -1;
     this.m_distanceLabel = null;
+    this.m_distance = -1;
 
     $('#dynLineDiv').append(
         "<div id=\"dynline" + id + "\">" +
@@ -51,7 +52,7 @@ Line.prototype.m_lineMapObject = null;
 Line.prototype.m_source = -1;
 Line.prototype.m_target = -1;
 Line.prototype.m_distanceLabel = null;
-
+Line.prototype.m_distance = -1;
 
 Line.prototype.getId = function () {
     'use strict';
@@ -138,6 +139,7 @@ Line.prototype.update = function () {
 
     if (this.m_source === -1 || this.m_target === -1) {
         this.clearMapObject();
+        this.m_distance = -1;
 
         $("#dynline" + this.m_id + " .dist").html("n/a");
         $("#dynline" + this.m_id + " .angle").html("n/a");
@@ -151,6 +153,7 @@ Line.prototype.update = function () {
         centerPos = Coordinates.projection_geodesic(pos1, dist_angle.angle, 0.5 * dist_angle.dist);
 
     this.updateMapObject(pos1, pos2, centerPos);
+    this.m_distance = dist_angle.dist;
 
     if (dist_angle.dist <= 0) {
         this.m_distanceLabel.setText("");
@@ -221,4 +224,13 @@ Line.prototype.updateLists = function () {
 
     $("#dynline" + this.m_id + " .source > option[value=" + this.m_source + "]").attr("selected", "selected");
     $("#dynline" + this.m_id + " .target > option[value=" + this.m_target + "]").attr("selected", "selected");
+    
+    this.update();
+};
+
+
+Line.prototype.distance = function () {
+    'use strict';
+    
+    return this.m_distance;
 };

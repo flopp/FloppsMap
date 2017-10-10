@@ -165,6 +165,7 @@ Markers.handleMarkerCleared = function () {
         $('#btnmarkers2').hide();
     }
 
+    Lines.updateTotalDistance();
     this.saveMarkersList();
 };
 

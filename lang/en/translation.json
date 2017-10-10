@@ -46,7 +46,8 @@
             "deleteall": "Delete all",
             "source": "Source",
             "destination": "Destination",
-            "delete_line": "Delete line"
+            "delete_line": "Delete line",
+            "total": "Total:"
         },
         "misc": {
             "title": "Misc",
