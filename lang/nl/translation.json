@@ -36,7 +36,6 @@
             "coordinates_placeholder": "Coördinaten",
             "radius": "Radius (m) van cirkel rond marker",
             "radius_placeholder": "Radius (m)",
-            "error_badname": "Verkeerd tekens in 'naam': \"%1\".<br />Toegestane tekens: a-z, A-Z, 0-9, - en _.",
             "error_badcoordinates": "Verkeerd coördinatenformaat: \"%1\".",
             "error_badradius": "Verkeerde waarde 'radius': \"%1\".<br />Toegestane waardes: Hele getallen &geq; 0."
         },

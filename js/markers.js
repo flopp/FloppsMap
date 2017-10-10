@@ -341,14 +341,12 @@ Markers.leaveEditMode = function (id, takenew) {
         name = $('#dyn' + id + ' > .edit .name').val(),
         s_coords = $('#dyn' + id + ' > .edit .coords').val(),
         s_radius = $('#dyn' + id + ' > .edit .radius').val(),
-        name_ok = /^([a-zA-Z0-9-_]*)$/.test(name),
         coords = Coordinates.fromString(s_coords),
         radius = Conversion.getInteger(s_radius, 0, 100000000000),
         errors = [];
 
-    if (!name_ok) {
-        errors.push(mytrans("sidebar.markers.error_badname").replace(/%1/, name));
-    }
+    name = name.replace(/[^a-zA-Z0-9-_]/g, "_");
+
     if (!coords) {
         errors.push(mytrans("sidebar.markers.error_badcoordinates").replace(/%1/, s_coords));
     }

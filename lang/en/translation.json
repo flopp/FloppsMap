@@ -36,7 +36,6 @@
             "coordinates_placeholder": "Coordinates",
             "radius": "Radius (m) of circle around marker",
             "radius_placeholder": "Radius (m)",
-            "error_badname": "Bad character in 'name': \"%1\".<br />Allowed characters: a-z, A-Z, 0-9, - and _.",
             "error_badcoordinates": "Bad coordinate format: \"%1\".",
             "error_badradius": "Bad value of 'radius': \"%1\".<br />Allowed values: integers &geq; 0."
         },

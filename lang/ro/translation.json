@@ -36,7 +36,6 @@
             "coordinates_placeholder": "Coordonate",
             "radius": "Raza cercului (m) în jurul marcajului",
             "radius_placeholder": "Raza (m)",
-            "error_badname": "Caracter invalid în 'Nume': \"%1\".<br />Caracterele permise sunt: a-z, A-Z, 0-9, - şi _.",
             "error_badcoordinates": "Formatul coordonatelor este greşit: \"%1\".",
             "error_badradius": "Valoare greşită pentru 'rază': \"%1\".<br />Valori permise: numere întregi &geq; 0."
         },

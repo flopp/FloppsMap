@@ -36,7 +36,6 @@
             "coordinates_placeholder": "Współrzędne",
             "radius": "Promień (m) okręgu wokół markera",
             "radius_placeholder": "Promień (m)",
-            "error_badname": "Niedozwolony znak w polu 'nazwa': \"%1\".<br />Dozwolone znaki: a-z, A-Z, 0-9, - oraz _.",
             "error_badcoordinates": "Niepoprawny format współrzędnych: \"%1\".",
             "error_badradius": "Niedozwolona warość pola 'promień': \"%1\".<br />Dozwolone wartości: Liczby całkowite &geq; 0."
         },
