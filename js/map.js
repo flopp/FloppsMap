@@ -6,7 +6,7 @@
   $, google, Lines, Markers, Conversion, Cookies, Coordinates, trackMarker, mytrans, showAlert,
   id2alpha, alpha2id,
   showProjectionDialog, showLinkDialog,
-  osmProvider, osmDeProvider, ocmProvider, thunderforestOutdoorsProvider, opentopomapProvider,
+  osmProvider, osmDeProvider, thunderforestProvider, opentopomapProvider,
   get_cookie_int, get_cookie_float, get_cookie_string,
   Attribution, Sidebar, ExternalLinks, Hillshading, Geolocation, NPA, CDDA, Freifunk, Okapi,
   restoreCoordinatesFormat,
@@ -20,7 +20,6 @@ var CLAT_DEFAULT = 51.163375;
 var CLON_DEFAULT = 10.447683;
 var ZOOM_DEFAULT = 12;
 var MAPTYPE_DEFAULT = "OSM";
-
 
 function projectFromMarker(id) {
     'use strict';
@@ -435,8 +434,8 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocache
 
     map.mapTypes.set("OSM", osmProvider("OSM"));
     map.mapTypes.set("OSM/DE", osmDeProvider("OSM/DE"));
-    map.mapTypes.set("OCM", ocmProvider("OCM"));
-    map.mapTypes.set("OUTD", thunderforestOutdoorsProvider("OUTD"));
+    map.mapTypes.set("OCM", thunderforestProvider("OCM", "cycle", API_KEY_THUNDERFOREST));
+    map.mapTypes.set("OUTD", thunderforestProvider("OUTD", "outdoors", API_KEY_THUNDERFOREST));
     map.mapTypes.set("TOPO", opentopomapProvider("TOPO"));
     map.setMapTypeId(maptype);
 

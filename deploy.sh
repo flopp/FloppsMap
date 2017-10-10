@@ -56,6 +56,7 @@ $MONTAGE
 
 
 JS=(
+    private/api_keys.js
     js/attribution.js
     js/cdda-layer.js
     js/conversion.js
