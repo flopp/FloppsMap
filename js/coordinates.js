@@ -57,23 +57,24 @@ Coordinates.fromString = function (coordsString) {
     'use strict';
 
     var coords;
+    var s = coordsString.replace(/,/g, ".");
 
-    coords = this.fromStringHDM(coordsString);
+    coords = this.fromStringHDM(s);
     if (coords) {
         return coords;
     }
 
-    coords = this.fromStringHDMS(coordsString);
+    coords = this.fromStringHDMS(s);
     if (coords) {
         return coords;
     }
 
-    coords = this.fromStringHD(coordsString);
+    coords = this.fromStringHD(s);
     if (coords) {
         return coords;
     }
 
-    coords = this.fromStringD(coordsString);
+    coords = this.fromStringD(s);
     if (coords) {
         return coords;
     }
