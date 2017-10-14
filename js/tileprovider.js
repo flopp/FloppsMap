@@ -24,7 +24,7 @@ function osmProvider(name) {
 
     return new google.maps.ImageMapType({
         getTileUrl: function (coord, zoom) {
-            return tileUrl("http://%s.tile.openstreetmap.org/%z/%x/%y.png", ["a", "b", "c"], coord, zoom);
+            return tileUrl("https://%s.tile.openstreetmap.org/%z/%x/%y.png", ["a", "b", "c"], coord, zoom);
         },
         tileSize: new google.maps.Size(256, 256),
         name: name,
@@ -39,7 +39,7 @@ function osmDeProvider(name) {
 
     return new google.maps.ImageMapType({
         getTileUrl: function (coord, zoom) {
-            return tileUrl("http://%s.tile.openstreetmap.de/tiles/osmde/%z/%x/%y.png", ["a", "b", "c"], coord, zoom);
+            return tileUrl("https://%s.tile.openstreetmap.de/tiles/osmde/%z/%x/%y.png", ["a", "b", "c"], coord, zoom);
         },
         tileSize: new google.maps.Size(256, 256),
         name: name,
@@ -49,27 +49,12 @@ function osmDeProvider(name) {
 }
 
 
-function ocmProvider(name) {
-    'use strict';
-
-    return new google.maps.ImageMapType({
-        getTileUrl: function (coord, zoom) {
-            return tileUrl("http://%s.tile.opencyclemap.org/cycle/%z/%x/%y.png", ["a", "b", "c"], coord, zoom);
-        },
-        tileSize: new google.maps.Size(256, 256),
-        name: name,
-        alt: "OpenCycleMap",
-        maxZoom: 17
-    });
-}
-
-
 function thunderforestProvider(name, style, key) {
     'use strict';
 
     return new google.maps.ImageMapType({
         getTileUrl: function (coord, zoom) {
-            return tileUrl("http://%s.tile.thunderforest.com/" + style + "/%z/%x/%y.png?apikey=" + key, ["a", "b", "c"], coord, zoom);
+            return tileUrl("https://%s.tile.thunderforest.com/" + style + "/%z/%x/%y.png?apikey=" + key, ["a", "b", "c"], coord, zoom);
         },
         tileSize: new google.maps.Size(256, 256),
         name: name,

@@ -35,7 +35,7 @@ NPA.getLayer = function () {
                     bot = proj.fromPointToLatLng(new google.maps.Point((coord.x + 1) * zfactor, (coord.y + 1) * zfactor)),
                     bbox = top.lng() + "," + bot.lat() + "," + bot.lng() + "," + top.lat(),
                     url;
-                url = "http://geodienste.bfn.de/ogc/wms/schutzgebiet?" +
+                url = "https://geodienste.bfn.de/ogc/wms/schutzgebiet?" +
                     "&REQUEST=GetMap" +
                     "&SERVICE=WMS" +
                     "&VERSION=1.3.0" +
@@ -77,7 +77,7 @@ NPA.getInfo = function (coords) {
     'use strict';
 
     var self = this,
-        url = 'http://geodienste.bfn.de/ogc/wms/schutzgebiet?REQUEST=GetFeatureInfo&SERVICE=WMS&VERSION=1.3.0&CRS=CRS:84' +
+        url = 'https://geodienste.bfn.de/ogc/wms/schutzgebiet?REQUEST=GetFeatureInfo&SERVICE=WMS&VERSION=1.3.0&CRS=CRS:84' +
             '&BBOX=' + coords.lng() + ',' + coords.lat() + ',' + (coords.lng() + 0.001) + ',' + (coords.lat() + 0.001) +
             '&WIDTH=256&HEIGHT=256&INFO_FORMAT=application/geojson&FEATURE_COUNT=1&QUERY_LAYERS=Naturschutzgebiete&X=0&Y=0';
 

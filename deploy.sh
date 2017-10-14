@@ -104,6 +104,7 @@ IMG=(
 ROOT=(
     img/apple-touch-icon.png
     php/proxy.php
+    php/proxy2.php
     private/google7caa54246d4da45f.html
     private/BingSiteAuth.xml
     static/.htaccess

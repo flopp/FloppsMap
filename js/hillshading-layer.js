@@ -24,7 +24,7 @@ Hillshading.getLayer = function () {
 
     if (!this.m_layer) {
         var tileSize = 256,
-            url = 'http://%s.tiles.wmflabs.org/hillshading/%z/%x/%y.png';
+            url = 'proxy2.php?url=http://%s.tiles.wmflabs.org/hillshading/%z/%x/%y.png';
 
         this.m_layer = new google.maps.ImageMapType({
             getTileUrl: function (coord, zoom) {

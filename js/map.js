@@ -9,6 +9,7 @@
   osmProvider, osmDeProvider, thunderforestProvider, opentopomapProvider,
   get_cookie_int, get_cookie_float, get_cookie_string,
   Attribution, Sidebar, ExternalLinks, Hillshading, Geolocation, NPA, CDDA, Freifunk, Okapi,
+  DownloadGPX,
   restoreCoordinatesFormat,
   document
 */

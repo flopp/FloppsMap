@@ -30,7 +30,7 @@ DownloadGPX.initiateDownload = function () {
     data += '    </metadata>\n';
     data += Markers.toXmlWpts();
     data += '</gpx>\n';
-    console.log(data);
+
     var element = document.createElement('a');
     element.setAttribute('href', 'data:application/gpx+xml;charset=utf-8,' + encodeURIComponent(data));
     element.setAttribute('download', 'markers.gpx');

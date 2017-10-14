@@ -288,7 +288,7 @@ $(document).ready( function() { init_lang(); });
   </div>
 </div> <!-- section -->
 
-<div style="text-align: center; color: white;">&copy; 2012-2016, <a href="http://www.florian-pigorsch.de/" target="_blank">Florian Pigorsch</a> &amp; contributors</div>
+<div style="text-align: center; color: white;">&copy; 2012-2017, <a href="https://www.florian-pigorsch.de/" target="_blank">Florian Pigorsch</a> &amp; contributors</div>
 
 </div> <!-- sidebar -->
 

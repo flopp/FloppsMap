@@ -64,7 +64,7 @@ Okapi.setupSites = function () {
     }
 
     var self = this,
-        main_url = "http://www.opencaching.pl/okapi/services/apisrv/installations",
+        main_url = "proxy2.php?url=http://www.opencaching.de/okapi/services/apisrv/installations",
         keys = {
             "Opencaching.DE" : "YSqPufH82encfJ67ZxV2",
             "Opencaching.PL" : "jhRyc6rGmT6XEvxva29B",
@@ -96,6 +96,7 @@ Okapi.setupSites = function () {
                         name: site.site_name,
                         site_url: site.site_url,
                         url: site.okapi_base_url,
+                        proxy: site.okapi_base_url.startsWith('http:'),
                         prefix: prefixes[site.site_name],
                         key: keys[site.site_name],
                         ignore_user: null,
@@ -210,16 +211,28 @@ Okapi.showPopup = function (m, code, siteid) {
     }
 
     var self = this,
-        site = this.m_sites[siteid];
+        site = this.m_sites[siteid],
+        url,
+        data;
+
+    url = site.url + 'services/caches/geocache';
+    data = {
+        'consumer_key': site.key,
+        'cache_code': code,
+        'fields' : 'name|type|status|url|owner|founds|size2|difficulty|terrain|location'
+    };
+
+    if (site.proxy) {
+        data = {
+            url: url + "?" + $.param(data),
+        };
+        url = "proxy2.php";
+    }
 
     $.ajax({
-        url: site.url + 'services/caches/geocache',
+        url: url,
         dataType: 'json',
-        data: {
-            'consumer_key': site.key,
-            'cache_code': code,
-            'fields' : 'name|type|status|url|owner|founds|size2|difficulty|terrain|location'
-        },
+        data: data,
         success: function (response) {
             var coords = self.parseLocation(response.location);
             self.m_map.setCenter(coords);
@@ -295,7 +308,9 @@ Okapi.loadBboxSite = function (siteid) {
     var self = this,
         site = this.m_sites[siteid],
         b,
-        bbox;
+        bbox,
+        url,
+        data;
 
     if (!this.m_enabled) {
         site.finished = true;
@@ -311,17 +326,27 @@ Okapi.loadBboxSite = function (siteid) {
     b = this.m_map.getBounds();
     bbox = b.getSouthWest().lat() + "|" + b.getSouthWest().lng() + "|" + b.getNorthEast().lat() + "|" + b.getNorthEast().lng();
 
+    url = site.url + 'services/caches/shortcuts/search_and_retrieve';
+    data = {
+        'consumer_key': site.key,
+        'search_method': 'services/caches/search/bbox',
+        'search_params': '{"bbox" : "' + bbox + '", "limit" : "500"}',
+        'retr_method': 'services/caches/geocaches',
+        'retr_params': '{"fields": "code|name|location|type|status|url"}',
+        'wrap': 'false'
+    };
+
+    if (site.proxy) {
+        data = {
+            url: url + "?" + $.param(data),
+        };
+        url = "proxy2.php";
+    }
+
     $.ajax({
-        url: site.url + 'services/caches/shortcuts/search_and_retrieve',
+        url: url,
         dataType: 'json',
-        data: {
-            'consumer_key': site.key,
-            'search_method': 'services/caches/search/bbox',
-            'search_params': '{"bbox" : "' + bbox + '", "limit" : "500"}',
-            'retr_method': 'services/caches/geocaches',
-            'retr_params': '{"fields": "code|name|location|type|status|url"}',
-            'wrap': 'false'
-        },
+        data: data,
         success: function (response) {
             var addedCaches = {},
                 cache,
@@ -361,7 +386,7 @@ Okapi.loadBboxSite = function (siteid) {
         },
         error: function () {
             //console.log("okapi request failed: " + site.name);
-            self.removeMarkersSite(site.markers);
+            //self.removeMarkersSite(site.markers);
             site.markers = {};
             site.finished = true;
         }

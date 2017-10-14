@@ -35,7 +35,7 @@ CDDA.getLayer = function () {
                     bot = proj.fromPointToLatLng(new google.maps.Point((coord.x + 1) * zfactor, (coord.y + 1) * zfactor)),
                     bbox = top.lng() + "," + bot.lat() + "," + bot.lng() + "," + top.lat(),
                     url;
-                url = "http://bio.discomap.eea.europa.eu/arcgis/rest/services/ProtectedSites/CDDA_Dyna_WM/MapServer/export?" +
+                url = "https://bio.discomap.eea.europa.eu/arcgis/rest/services/ProtectedSites/CDDA_Dyna_WM/MapServer/export?" +
                     "dpi=96" +
                     "&transparent=true" +
                     "&format=png32" +
@@ -95,7 +95,7 @@ CDDA.getInfo = function (coords) {
     'use strict';
 
     var self = this,
-        url = "http://bio.discomap.eea.europa.eu/arcgis/rest/services/ProtectedSites/CDDA_Dyna_WM/MapServer/identify" +
+        url = "https://bio.discomap.eea.europa.eu/arcgis/rest/services/ProtectedSites/CDDA_Dyna_WM/MapServer/identify" +
             "?geometry=" + coords.lng() + "%2C" + coords.lat() +
             "&geometryType=esriGeometryPoint" +
             "&sr=4326" +
