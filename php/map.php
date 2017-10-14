@@ -188,11 +188,11 @@ $(document).ready( function() { init_lang(); });
 <div class="my-section">
   <div class="my-section-header" data-i18n="sidebar.misc.title">MISC</div>
   <div style="margin-bottom: 10px">
-    <button id="buttonMulticoordinates" class="btn btn-block btn-sm btn-success my-new" type="button" data-i18n="sidebar.misc.multicoordinates">MULTICOORDINATES</button>
+    <button id="buttonMulticoordinates" class="btn btn-block btn-sm btn-success" type="button" data-i18n="sidebar.misc.multicoordinates">MULTICOORDINATES</button>
   </div>
   <div style="margin-bottom: 10px">
     <input id="buttonUploadGPXinput" style="display:none" type="file" name="files" onchange="handleGpxFiles(this.files);">
-    <a id="buttonUploadGPX" class="btn btn-block btn-sm btn-success my-new" role="button" data-i18n="sidebar.misc.uploadgpx">UPLOAD GPX</a>
+    <a id="buttonUploadGPX" class="btn btn-block btn-sm btn-success" role="button" data-i18n="sidebar.misc.uploadgpx">UPLOAD GPX</a>
   </div>
   <div style="margin-bottom: 10px">
     <a id="buttonExportGPX" class="btn btn-block btn-sm btn-info" role="button" data-i18n="sidebar.misc.gpx">EXPORT GPX</a>
@@ -252,7 +252,6 @@ $(document).ready( function() { init_lang(); });
             <button class="btn btn-info btn-xs" onClick="CDDA.showDialog();">
                 <i class="fa fa-info"></i>
             </button>
-            <span class="my-new" style="width: 30px; height: 16px; display: inline-block;">&nbsp;</span>
         </label>
     </div>
     <div id="cdda_details" style="display: none;">
