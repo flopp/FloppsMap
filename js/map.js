@@ -9,7 +9,7 @@
   osmProvider, osmDeProvider, thunderforestProvider, opentopomapProvider,
   get_cookie_int, get_cookie_float, get_cookie_string,
   Attribution, Sidebar, ExternalLinks, Hillshading, Geolocation, NPA, CDDA, Freifunk, Okapi,
-  DownloadGPX,
+  DownloadGPX, API_KEY_THUNDERFOREST,
   restoreCoordinatesFormat,
   document
 */
@@ -109,7 +109,7 @@ function getPermalink() {
     var lat = map.getCenter().lat(),
         lng = map.getCenter().lng();
 
-    return "http://flopp.net/" +
+    return "https://flopp.net/" +
         "?c=" + lat.toFixed(6) + ":" + lng.toFixed(6) +
         "&z=" + map.getZoom() +
         "&t=" + map.getMapTypeId() +
