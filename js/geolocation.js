@@ -56,10 +56,12 @@ Geolocation.whereAmI = function () {
 
     trackSearch("whereami");
 
+    var the_map = this.m_map;
+
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
             function (position) {
-                this.m_map.setCenter(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
+                the_map.setCenter(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
             },
             function () {
                 showAlert(

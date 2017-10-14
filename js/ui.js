@@ -157,7 +157,7 @@ $(document).ready(function () {
     'use strict';
 
     $("#sidebartoggle").click(function () { if ($('#sidebar').is(':visible')) { Sidebar.hide(); } else { Sidebar.show(); } });
-    //$('#buttonWhereAmI').click(function () { Geolocation.whereAmI(); });
+    $('#buttonWhereAmI').click(function () { Geolocation.whereAmI(); });
     $("#hillshading").click(function () { Hillshading.toggle($('#hillshading').is(':checked')); });
     //$("#boundaries").click(function () { toggleBoundaries($('#boundaries').is(':checked')); });
     $("#npa").click(function () { NPA.toggle($('#npa').is(':checked')); });

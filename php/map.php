@@ -145,7 +145,7 @@ $(document).ready( function() { init_lang(); });
 
 <div class="my-section">
   <div class="my-section-header" data-i18n="sidebar.search.title">SEARCH</div>
-  <!--<button id="buttonWhereAmI" class="btn btn-info btn-sm my-section-buttons-top" type="button"><i class="fa fa-crosshairs"></i> <span data-i18n="sidebar.search.whereami">WHERE AM I?</span></button>-->
+  <button id="buttonWhereAmI" class="btn btn-info btn-sm my-section-buttons-top" type="button"><i class="fa fa-crosshairs"></i> <span data-i18n="sidebar.search.whereami">WHERE AM I?</span></button>
 
   <div>
     <form action="javascript:Geolocation.search($('#txtSearch').val())">

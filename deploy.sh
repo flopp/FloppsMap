@@ -161,19 +161,11 @@ cp $L/i18next-xhr-backend/i18nextXHRBackend.min.js $D/js
 #### upload
 echo "-- uploading"
 if [[ "$@" = *production* ]]; then
-    source ~/.server.data
-    lftp -u $LOGIN:$PASSWD $SERVER -e "mirror -v -R ${D} $BASE ; quit"
-    lftp -u $LOGIN:$PASSWD $SERVER -e "mirror -v -R ${D}/img $BASE/img ; quit"
-    lftp -u $LOGIN:$PASSWD $SERVER -e "mirror -v -R ${D}/js $BASE/js ; quit"
-    lftp -u $LOGIN:$PASSWD $SERVER -e "mirror -v -R ${D}/lang $BASE/lang ; quit"
-    lftp -u $LOGIN:$PASSWD $SERVER -e "mirror -v -R ${D}/lang/de $BASE/lang/de ; quit"
-    lftp -u $LOGIN:$PASSWD $SERVER -e "mirror -v -R ${D}/lang/en $BASE/lang/en ; quit"
-    lftp -u $LOGIN:$PASSWD $SERVER -e "mirror -v -R ${D}/lang/nl $BASE/lang/nl ; quit"
-    lftp -u $LOGIN:$PASSWD $SERVER -e "mirror -v -R ${D}/lang/pl $BASE/lang/pl ; quit"
-    lftp -u $LOGIN:$PASSWD $SERVER -e "mirror -v -R ${D}/lang/ro $BASE/lang/ro ; quit"
-    lftp -u $LOGIN:$PASSWD $SERVER -e "mirror -v -R ${D}/css $BASE/css ; quit"
-else
     SERVER=flopp@grus.uberspace.de
     BASE=html/map
-    scp -r ${D}/* $SERVER:$BASE
+    scp -r ${D}/* ${D}/.* $SERVER:$BASE
+else
+    SERVER=flopp@grus.uberspace.de
+    BASE=html/map-beta
+    scp -r ${D}/* ${D}/.* $SERVER:$BASE
 fi
