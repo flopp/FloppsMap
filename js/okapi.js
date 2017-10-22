@@ -14,6 +14,7 @@ Okapi.m_ready = false;
 Okapi.m_showCache = null;
 Okapi.m_enabled = false;
 Okapi.m_popup = null;
+Okapi.m_popupCacheCode = null;
 Okapi.m_marker = null;
 Okapi.m_icons = null;
 Okapi.m_timer = null;
@@ -90,7 +91,6 @@ Okapi.setupSites = function () {
         success: function (response) {
             response.map(function (site) {
                 if (keys[site.site_name] !== undefined) {
-                    //console.log("adding OC site: " + site.site_name);
                     self.m_sites.push({
                         siteid: self.m_sites.length,
                         name: site.site_name,
@@ -171,17 +171,29 @@ Okapi.centerMap = function (code) {
     'use strict';
 
     if (!this.m_ready) {
-        //console.log("okapi not ready");
         return;
     }
 
     var siteid = this.guessSiteId(code);
     if (siteid < 0) {
-        //console.log("bad code. cannot determine okapi site");
         return;
     }
 
     this.showPopup(null, code.toUpperCase(), siteid);
+};
+
+
+Okapi.popupCacheCode = function () {
+    if (!this.m_popup) {
+        return null;
+    }
+
+    var m = this.m_popup.getMap();
+    if (!m || typeof m === "undefined") {
+        return null;
+    }
+
+    return this.m_popupCacheCode;
 };
 
 
@@ -205,6 +217,8 @@ Okapi.createPopupContent = function (code, response) {
 
 Okapi.showPopup = function (m, code, siteid) {
     'use strict';
+
+    this.m_popupCacheCode = code;
 
     if (!this.m_popup) {
         this.m_popup = new google.maps.InfoWindow();
@@ -385,8 +399,6 @@ Okapi.loadBboxSite = function (siteid) {
             site.finished = true;
         },
         error: function () {
-            //console.log("okapi request failed: " + site.name);
-            //self.removeMarkersSite(site.markers);
             site.markers = {};
             site.finished = true;
         }

@@ -107,15 +107,19 @@ function getPermalink() {
     'use strict';
 
     var lat = map.getCenter().lat(),
-        lng = map.getCenter().lng();
-
-    return "https://flopp.net/" +
-        "?c=" + lat.toFixed(6) + ":" + lng.toFixed(6) +
-        "&z=" + map.getZoom() +
-        "&t=" + map.getMapTypeId() +
-        "&f=" + getFeaturesString() +
-        "&m=" + Markers.toString() +
-        "&d=" + Lines.getLinesText();
+        lng = map.getCenter().lng(),
+        geocache = Okapi.popupCacheCode(),
+        url = "https://flopp.net/" +
+            "?c=" + lat.toFixed(6) + ":" + lng.toFixed(6) +
+            "&z=" + map.getZoom() +
+            "&t=" + map.getMapTypeId() +
+            "&f=" + getFeaturesString() +
+            "&m=" + Markers.toString() +
+            "&d=" + Lines.getLinesText();
+    if (geocache) {
+        url += "&g=" + geocache;
+    }
+    return url;
 }
 
 function generatePermalink() {
@@ -376,7 +380,7 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocache
     'use strict';
 
     var center,
-        //atDefaultCenter = false,
+        atDefaultCenter = false,
         zoom = parseInt(xzoom, 10),
         maptype = xmap,
         loadfromcookies = false,
@@ -402,9 +406,9 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocache
         /* try to read coordinats from cookie */
         clat = get_cookie_float('clat', CLAT_DEFAULT);
         clon = get_cookie_float('clon', CLON_DEFAULT);
-        //if (clat === CLAT_DEFAULT && clon === CLON_DEFAULT) {
-        //    atDefaultCenter = true;
-        //}
+        if (clat === CLAT_DEFAULT && clon === CLON_DEFAULT) {
+            atDefaultCenter = true;
+        }
 
         clat = repairLat(clat, CLAT_DEFAULT);
         clon = repairLon(clon, CLON_DEFAULT);
@@ -416,7 +420,7 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocache
 
     if (!center) {
         center = new google.maps.LatLng(CLAT_DEFAULT, CLON_DEFAULT);
-        //atDefaultCenter = true;
+        atDefaultCenter = true;
     }
 
     zoom = repairZoom(zoom, ZOOM_DEFAULT);
@@ -522,12 +526,12 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocache
 
     if (xgeocache !== "") {
         Okapi.toggle(true);
-        //atDefaultCenter = false;
+        atDefaultCenter = false;
     }
 
     Attribution.forceUpdate();
 
-    //if (atDefaultCenter) {
-    //  Geolocation.whereAmI();
-    //}
+    if (atDefaultCenter) {
+        Geolocation.whereAmI();
+    }
 }
