@@ -204,12 +204,7 @@ Marker.prototype.initialize = function (map, name, position, radius) {
     this.m_name = name;
     this.m_iconLabel = name;
 
-    // marker.png is 26x10 icons (each: 33px x 37px)
     var self = this,
-        iconw = 33,
-        iconh = 37,
-        offsetx = (this.m_id % 26) * iconw,
-        offsety = Math.floor(this.m_id / 26) * iconh,
         color = "#0090ff",
         icon = this.createSvgIcon(this.m_name);
 
