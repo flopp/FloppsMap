@@ -77,15 +77,14 @@ $lines = "";
 $features = "[default]";
 $geocache = "";
 
-if(!empty($_GET))
-{
-  if(isset($_GET['c'])) { $cntr = $_GET['c']; }
-  if(isset($_GET['z'])) { $zoom = $_GET['z']; }
-  if(isset($_GET['t'])) { $maptype = $_GET['t']; }
-  if(isset($_GET['m'])) { $markers = $_GET['m']; }
-  if(isset($_GET['d'])) { $lines = $_GET['d']; }
-  if(isset($_GET['f'])) { $features = $_GET['f']; }
-  if(isset($_GET['g'])) { $geocache = $_GET['g']; }
+if (!empty($_GET)) {
+  if (isset($_GET['c'])) { $cntr     = urldecode($_GET['c']); }
+  if (isset($_GET['z'])) { $zoom     = urldecode($_GET['z']); }
+  if (isset($_GET['t'])) { $maptype  = urldecode($_GET['t']); }
+  if (isset($_GET['m'])) { $markers  = urldecode($_GET['m']); }
+  if (isset($_GET['d'])) { $lines    = urldecode($_GET['d']); }
+  if (isset($_GET['f'])) { $features = urldecode($_GET['f']); }
+  if (isset($_GET['g'])) { $geocache = urldecode($_GET['g']); }
 }
 
 echo "\$(function() {";

@@ -160,12 +160,10 @@ cp $L/i18next-xhr-backend/i18nextXHRBackend.min.js $D/js
 
 #### upload
 echo "-- uploading"
+SERVER=flopp@grus.uberspace.de
 if [[ "$@" = *production* ]]; then
-    SERVER=flopp@grus.uberspace.de
     BASE=html/map
-    scp -r ${D}/* ${D}/.* $SERVER:$BASE
 else
-    SERVER=flopp@grus.uberspace.de
     BASE=html/map-beta
-    scp -r ${D}/* ${D}/.* $SERVER:$BASE
 fi
+scp -r ${D}/* ${D}/.htaccess $SERVER:$BASE

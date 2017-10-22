@@ -3,6 +3,7 @@ RewriteEngine on
 RewriteBase /
 
 Redirect /oc.html http://flopp.grus.uberspace.de/oc-monitor/
+Redirect /safari https://safari.flopp.net
 
 ### normal
 RewriteRule ^$ map.php

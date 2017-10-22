@@ -5,7 +5,7 @@
 /*global
   $, document, gapi, setTimeout,
   CDDA, Cookies, Coordinates, Freifunk, Hillshading, NPA, Okapi, Sidebar,
-  DownloadGPX,
+  DownloadGPX, Geolocation,
   showMulticoordinatesDialog, Markers, get_cookie_string
 */
 
