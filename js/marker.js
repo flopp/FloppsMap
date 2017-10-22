@@ -166,8 +166,7 @@ Marker.prototype.createSvgIcon = function () {
         w2       = 0.5 * w,
         color    = ["#FF0000", "#00FF00", "#0000FF", "#FFFF00", "#FF00FF", "#00FFFF", "#FFFFFF"][this.m_id % 7],
         txtcolor = ["#FFFFFF", "#000000", "#FFFFFF", "#000000", "#000000", "#000000", "#000000"][this.m_id % 7],
-        url      = 'data:image/svg+xml;utf-8, \
-<svg \
+        svg = '<svg \
    xmlns:svg="http://www.w3.org/2000/svg" \
    xmlns="http://www.w3.org/2000/svg" \
    width="' + w + '" height="37" \
@@ -187,7 +186,8 @@ Marker.prototype.createSvgIcon = function () {
     <text \
        style="text-anchor:middle;font-style:normal;font-weight:normal;font-size:16px;line-height:100%;font-family:Roboto;letter-spacing:0px;word-spacing:0px;fill:' + txtcolor + ';fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" \
        x="' + (w2) + '" y="21">' + this.m_name + '</text> \
-</svg>';
+</svg>',
+        url = 'data:image/svg+xml;charset=UTF-8;base64,' + btoa(svg);
 
     return {
         url: url, 
