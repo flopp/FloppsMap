@@ -162,7 +162,7 @@ function getTextWidth(text, font) {
 Marker.prototype.createSvgIcon = function () {
     'use strict';
 
-    var w        = 24.0 + getTextWidth(this.m_name, "16px roboto"),
+    var w        = 24.0 + getTextWidth(this.m_name, "16px sans"),
         w2       = 0.5 * w,
         color    = ["#FF0000", "#00FF00", "#0000FF", "#FFFF00", "#FF00FF", "#00FFFF", "#FFFFFF"][this.m_id % 7],
         txtcolor = ["#FFFFFF", "#000000", "#FFFFFF", "#000000", "#000000", "#000000", "#000000"][this.m_id % 7],
@@ -184,7 +184,7 @@ Marker.prototype.createSvgIcon = function () {
        d="M 4 4 L 4 26 L ' + (w2 - 4.0) + ' 26 L ' + (w2) + ' 33 L ' + (w2 + 4.0) + ' 26 L ' + (w - 4.0) + ' 26 L ' + (w - 4.0) + ' 4 L 4 4 z" \
        filter="url(#shadow)" /> \
     <text \
-       style="text-anchor:middle;font-style:normal;font-weight:normal;font-size:16px;line-height:100%;font-family:Roboto;letter-spacing:0px;word-spacing:0px;fill:' + txtcolor + ';fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" \
+       style="text-anchor:middle;font-style:normal;font-weight:normal;font-size:16px;line-height:100%;font-family:sans;letter-spacing:0px;word-spacing:0px;fill:' + txtcolor + ';fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" \
        x="' + (w2) + '" y="21">' + this.m_name + '</text> \
 </svg>',
         url = 'data:image/svg+xml;charset=UTF-8;base64,' + btoa(svg);
@@ -192,6 +192,7 @@ Marker.prototype.createSvgIcon = function () {
     return {
         url: url, 
         size: new google.maps.Size(w, 37),
+        scaledSize: new google.maps.Size(w, 37),
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(w2, 37 - 1.0)};
 };
@@ -212,6 +213,7 @@ Marker.prototype.initialize = function (map, name, position, radius) {
         position: position,
         map: map,
         icon: icon,
+        optimized: false,
         draggable: true
     });
 

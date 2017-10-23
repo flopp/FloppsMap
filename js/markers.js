@@ -234,7 +234,7 @@ Markers.newMarker = function (coordinates, id, radius, name) {
         nextid;
 
     if (!name) {
-        name = "marker_" + id2alpha(id);
+        name = id2alpha(id);
     }
 
     marker = this.getById(id);
