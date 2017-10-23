@@ -11,7 +11,7 @@
 function trackMarker(action) {
     'use strict';
 
-    _paq.push(['setCustomVariable', 2, 'markers', action, 'page']);
+    _paq.push(['trackEvent', 'markers', action]);
     _paq.push(['trackPageView']);
 }
 
@@ -19,7 +19,7 @@ function trackMarker(action) {
 function trackLine(action) {
     'use strict';
 
-    _paq.push(['setCustomVariable', 3, 'lines', action, 'page']);
+    _paq.push(['trackEvent', 'lines', action]);
     _paq.push(['trackPageView']);
 }
 
@@ -27,7 +27,7 @@ function trackLine(action) {
 function trackAction(action) {
     'use strict';
 
-    _paq.push(['setCustomVariable', 1, 'general', action, 'page']);
+    _paq.push(['trackEvent', 'general', action]);
     _paq.push(['trackPageView']);
 }
 
