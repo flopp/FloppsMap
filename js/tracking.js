@@ -12,7 +12,7 @@ function trackMarker(action) {
     'use strict';
 
     _paq.push(['trackEvent', 'markers', action]);
-    _paq.push(['trackPageView']);
+    //_paq.push(['trackPageView']);
 }
 
 
@@ -20,7 +20,7 @@ function trackLine(action) {
     'use strict';
 
     _paq.push(['trackEvent', 'lines', action]);
-    _paq.push(['trackPageView']);
+    //_paq.push(['trackPageView']);
 }
 
 
@@ -28,7 +28,7 @@ function trackAction(action) {
     'use strict';
 
     _paq.push(['trackEvent', 'general', action]);
-    _paq.push(['trackPageView']);
+    //_paq.push(['trackPageView']);
 }
 
 
@@ -45,8 +45,6 @@ $(document).ready(function () {
     $("#navbarHelp").click(function () { trackAction("navbar.help"); });
     $("#navbarInfo").click(function () { trackAction("navbar.info"); });
 
-    //$("#buttonWhereAmI").click(function () { trackSearch("whereami"); });
-
     $("#buttonExportGPX").click(function () { trackAction("export.gpx"); });
 
     $("#buttonPermalink").click(function () { trackAction("permalink.create"); });
@@ -62,7 +60,7 @@ $(document).ready(function () {
 
     $("#sidebartoggle").click(function () { trackAction("sidebar.toggle"); });
     $("#hillshading").click(function () { trackAction("hillshading.toggle"); });
+    $("#npa").click(function () { trackAction("cdda.toggle"); });
     $("#npa").click(function () { trackAction("npa.toggle"); });
-    $("#boundaries").click(function () { trackAction("boundaries.toggle"); });
     $("#geocaches").click(function () { trackAction("geocaches.toggle"); });
 });
