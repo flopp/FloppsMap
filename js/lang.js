@@ -4,7 +4,7 @@
 */
 
 /*global
-  $, console, document, trackAction, i18next, i18nextXHRBackend, i18nextBrowserLanguageDetector, i18nextJquery
+  $, document, trackAction, i18next, i18nextXHRBackend, i18nextBrowserLanguageDetector, i18nextJquery
 */
 
 function init_lang() {
@@ -29,9 +29,6 @@ function init_lang() {
                 caches: ['localStorage', 'cookie']
             }
         }, function (err, t) {
-            if (err) {
-                console.log(err);
-            }
             i18nextJquery.init(i18next, $);
             $(document).localize();
         });
@@ -42,9 +39,7 @@ function set_lang(lang) {
     'use strict';
 
     i18next.changeLanguage(lang, function (err, t) {
-        if (err) {
-            console.log(err);
-        } else {
+        if (!err) {
             $(document).localize();
         }
     });

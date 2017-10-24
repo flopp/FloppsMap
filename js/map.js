@@ -376,6 +376,75 @@ function parseLinesFromCookies() {
 }
 
 
+function createMap(id, center, zoom, maptype) {
+    'use strict';
+
+    var m = new google.maps.Map(
+        document.getElementById(id),
+        {
+            zoom: zoom,
+            center: center,
+            scaleControl: true,
+            streetViewControl: false,
+            mapTypeControlOptions: { mapTypeIds: ['OSM', 'OSM/DE', 'OCM', 'OUTD', 'TOPO', google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.SATELLITE, google.maps.MapTypeId.HYBRID, google.maps.MapTypeId.TERRAIN] },
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        }
+    );
+
+    m.mapTypes.set("OSM", osmProvider("OSM"));
+    m.mapTypes.set("OSM/DE", osmDeProvider("OSM/DE"));
+    m.mapTypes.set("OCM", thunderforestProvider("OCM", "cycle", API_KEY_THUNDERFOREST));
+    m.mapTypes.set("OUTD", thunderforestProvider("OUTD", "outdoors", API_KEY_THUNDERFOREST));
+    m.mapTypes.set("TOPO", opentopomapProvider("TOPO"));
+    m.setMapTypeId(maptype);
+
+    Attribution.init(m);
+    Sidebar.init(m);
+    ExternalLinks.init(m);
+    Markers.init(m);
+    Lines.init(m);
+    Geolocation.init(m);
+    Hillshading.init(m);
+    NPA.init(m);
+    CDDA.init(m);
+    Freifunk.init(m);
+    Okapi.init(m);
+    DownloadGPX.init(m);
+
+    //boundariesLayer = new google.maps.ImageMapType({
+    //  getTileUrl: function(coord, zoom) {
+    //    if (6 <= zoom && zoom <= 16)
+    //    {
+    //      return tileUrl("http://korona.geog.uni-heidelberg.de/tiles/adminb/?x=%x&y=%y&z=%z", ["dummy"], coord, zoom);
+    //    }
+    //    else
+    //    {
+    //      return null;
+    //    }
+    //  },
+    //  tileSize: new google.maps.Size(256, 256),
+    //  name: "adminb",
+    //  alt: "Administrative Boundaries",
+    //  maxZoom: 16 });
+
+    m.setCenter(center, zoom);
+
+    google.maps.event.addListener(m, "center_changed", function () {
+        storeZoom();
+        storeCenter();
+    });
+    google.maps.event.addListener(m, "zoom_changed", function () {
+        storeZoom();
+        storeCenter();
+    });
+    google.maps.event.addListener(m, "maptypeid_changed", function () {
+        storeMapType();
+    });
+
+    return m;
+}
+
+
 function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocache) {
     'use strict';
 
@@ -425,67 +494,7 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocache
 
     zoom = repairZoom(zoom, ZOOM_DEFAULT);
     maptype = repairMaptype(maptype, MAPTYPE_DEFAULT);
-    map = new google.maps.Map(
-        document.getElementById("themap"),
-        {
-            zoom: zoom,
-            center: center,
-            scaleControl: true,
-            streetViewControl: false,
-            mapTypeControlOptions: { mapTypeIds: ['OSM', 'OSM/DE', 'OCM', 'OUTD', 'TOPO', google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.SATELLITE, google.maps.MapTypeId.HYBRID, google.maps.MapTypeId.TERRAIN] },
-            mapTypeId: google.maps.MapTypeId.ROADMAP
-        }
-    );
-
-    map.mapTypes.set("OSM", osmProvider("OSM"));
-    map.mapTypes.set("OSM/DE", osmDeProvider("OSM/DE"));
-    map.mapTypes.set("OCM", thunderforestProvider("OCM", "cycle", API_KEY_THUNDERFOREST));
-    map.mapTypes.set("OUTD", thunderforestProvider("OUTD", "outdoors", API_KEY_THUNDERFOREST));
-    map.mapTypes.set("TOPO", opentopomapProvider("TOPO"));
-    map.setMapTypeId(maptype);
-
-    Attribution.init(map);
-    Sidebar.init(map);
-    ExternalLinks.init(map);
-    Markers.init(map);
-    Lines.init(map);
-    Geolocation.init(map);
-    Hillshading.init(map);
-    NPA.init(map);
-    CDDA.init(map);
-    Freifunk.init(map);
-    Okapi.init(map);
-    DownloadGPX.init(map);
-
-    //boundariesLayer = new google.maps.ImageMapType({
-    //  getTileUrl: function(coord, zoom) {
-    //    if (6 <= zoom && zoom <= 16)
-    //    {
-    //      return tileUrl("http://korona.geog.uni-heidelberg.de/tiles/adminb/?x=%x&y=%y&z=%z", ["dummy"], coord, zoom);
-    //    }
-    //    else
-    //    {
-    //      return null;
-    //    }
-    //  },
-    //  tileSize: new google.maps.Size(256, 256),
-    //  name: "adminb",
-    //  alt: "Administrative Boundaries",
-    //  maxZoom: 16 });
-
-    map.setCenter(center, zoom);
-
-    google.maps.event.addListener(map, "center_changed", function () {
-        storeZoom();
-        storeCenter();
-    });
-    google.maps.event.addListener(map, "zoom_changed", function () {
-        storeZoom();
-        storeCenter();
-    });
-    google.maps.event.addListener(map, "maptypeid_changed", function () {
-        storeMapType();
-    });
+    map = createMap("themap", center, zoom, maptype);
 
     if (loadfromcookies) {
         parseMarkersFromCookies().map(function (m) {

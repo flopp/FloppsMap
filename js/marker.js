@@ -16,7 +16,7 @@ function Marker(parent, id) {
     this.m_alpha = id2alpha(id);
     this.m_free = true;
     this.m_name = "";
-    this.m_color = ["#FF0000", "#00FF00", "#0000FF", "#FFFF00", "#FF00FF", "#00FFFF", "#FFFFFF"][id % 7],
+    this.m_color = ["#FF0000", "#00FF00", "#0000FF", "#FFFF00", "#FF00FF", "#00FFFF", "#FFFFFF"][id % 7];
     this.m_iconColor = "";
     this.m_iconLabel = "";
     this.m_miniIconUrl = "";
@@ -161,15 +161,14 @@ Marker.prototype.initialize = function (map, name, position, radius) {
     this.m_iconColor = this.m_color;
 
     var self = this,
-        color = "#0090ff",
-        icon = IconFactory.createMapIcon(this.m_name, this.m_color);
+        color = "#0090ff";
 
     this.m_miniIconUrl = IconFactory.createMiniIcon(this.m_alpha, this.m_color);
 
     this.m_marker = new google.maps.Marker({
         position: position,
         map: map,
-        icon: icon,
+        icon: IconFactory.createMapIcon(this.m_name, this.m_color),
         optimized: false,
         draggable: true
     });
@@ -198,8 +197,7 @@ Marker.prototype.update = function () {
     }
 
     var pos = this.m_marker.getPosition(),
-        radius = this.m_circle.getRadius(),
-        icon;
+        radius = this.m_circle.getRadius();
 
     this.m_circle.setCenter(pos);
 
