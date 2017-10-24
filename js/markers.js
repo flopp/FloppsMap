@@ -280,7 +280,8 @@ Markers.createMarkerDiv = function (id) {
         "<table class=\"view\" style=\"width: 100%; vertical-align: middle;\">\n" +
         "    <tr>\n" +
         "        <td rowspan=\"3\" style=\"vertical-align: top\">\n" +
-        "            <span style=\"width:" + iconw + "px; height:" + iconh + "px; float: left; display: block; background-image: url(img/markers.png); background-repeat: no-repeat; background-position: -" + offsetx + "px -" + offsety + "px;\">&nbsp;</span>\n" +
+        "            <img style=\"width: 100%; height: 100%;\" class=\"icon\" src=\"\" />\n" +
+        //"            <span style=\"width:" + iconw + "px; height:" + iconh + "px; float: left; display: block; background-image: url(img/markers.png); background-repeat: no-repeat; background-position: -" + offsetx + "px -" + offsety + "px;\">&nbsp;</span>\n" +
         "        </td>\n" +
         "        <td style=\"text-align: center\"><i class=\"fa fa-map-marker\"></i></td>\n" +
         "        <td class=\"name\" colspan=\"2\">marker</td>\n" +

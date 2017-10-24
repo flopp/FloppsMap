@@ -12,7 +12,6 @@ function trackMarker(action) {
     'use strict';
 
     _paq.push(['trackEvent', 'markers', action]);
-    //_paq.push(['trackPageView']);
 }
 
 
@@ -20,7 +19,6 @@ function trackLine(action) {
     'use strict';
 
     _paq.push(['trackEvent', 'lines', action]);
-    //_paq.push(['trackPageView']);
 }
 
 
@@ -28,7 +26,6 @@ function trackAction(action) {
     'use strict';
 
     _paq.push(['trackEvent', 'general', action]);
-    //_paq.push(['trackPageView']);
 }
 
 

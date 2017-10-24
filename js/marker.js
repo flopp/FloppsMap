@@ -4,7 +4,7 @@
 
 /*global
   $, google,
-  Cookies, Coordinates, Lines,
+  Cookies, Coordinates, IconFactory, Lines,
   id2alpha
 */
 
@@ -16,7 +16,10 @@ function Marker(parent, id) {
     this.m_alpha = id2alpha(id);
     this.m_free = true;
     this.m_name = "";
+    this.m_color = ["#FF0000", "#00FF00", "#0000FF", "#FFFF00", "#FF00FF", "#00FFFF", "#FFFFFF"][id % 7],
+    this.m_iconColor = "";
     this.m_iconLabel = "";
+    this.m_miniIconUrl = "";
     this.m_marker = null;
     this.m_circle = null;
 }
@@ -68,6 +71,8 @@ Marker.prototype.clear = function () {
     this.m_marker = null;
     this.m_circle.setMap(null);
     this.m_circle = null;
+    this.m_iconColor = "";
+    this.m_iconLabel = "";
 
     $('#dyn' + this.m_id).remove();
 
@@ -147,67 +152,19 @@ Marker.prototype.setNamePositionRadius = function (name, position, radius) {
 };
 
 
-function getTextWidth(text, font) {
-    'use strict';
-
-    // re-use canvas object for better performance
-    var canvas = getTextWidth.canvas || (getTextWidth.canvas = document.createElement("canvas")),
-        context = canvas.getContext("2d");
-    context.font = font;
-
-    return context.measureText(text).width;
-}
-
-
-Marker.prototype.createSvgIcon = function () {
-    'use strict';
-
-    var w        = 24.0 + getTextWidth(this.m_name, "16px sans"),
-        w2       = 0.5 * w,
-        color    = ["#FF0000", "#00FF00", "#0000FF", "#FFFF00", "#FF00FF", "#00FFFF", "#FFFFFF"][this.m_id % 7],
-        txtcolor = ["#FFFFFF", "#000000", "#FFFFFF", "#000000", "#000000", "#000000", "#000000"][this.m_id % 7],
-        svg = '<svg \
-   xmlns:svg="http://www.w3.org/2000/svg" \
-   xmlns="http://www.w3.org/2000/svg" \
-   width="' + w + '" height="37" \
-   viewBox="0 0 ' + w + ' 37" \
-   version="1.1"> \
-   <defs> \
-    <filter id="shadow" x="0" y="0" width="200%" height="200%"> \
-      <feOffset result="offOut" in="SourceAlpha" dx="2" dy="2" /> \
-      <feGaussianBlur result="blurOut" in="offOut" stdDeviation="4" /> \
-      <feBlend in="SourceGraphic" in2="blurOut" mode="normal" /> \
-    </filter> \
-  </defs> \
-    <path \
-       fill="' + color + '" stroke="#000000" \
-       d="M 4 4 L 4 26 L ' + (w2 - 4.0) + ' 26 L ' + (w2) + ' 33 L ' + (w2 + 4.0) + ' 26 L ' + (w - 4.0) + ' 26 L ' + (w - 4.0) + ' 4 L 4 4 z" \
-       filter="url(#shadow)" /> \
-    <text \
-       style="text-anchor:middle;font-style:normal;font-weight:normal;font-size:16px;line-height:100%;font-family:sans;letter-spacing:0px;word-spacing:0px;fill:' + txtcolor + ';fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" \
-       x="' + (w2) + '" y="21">' + this.m_name + '</text> \
-</svg>',
-        url = 'data:image/svg+xml;charset=UTF-8;base64,' + btoa(svg);
-
-    return {
-        url: url, 
-        size: new google.maps.Size(w, 37),
-        scaledSize: new google.maps.Size(w, 37),
-        origin: new google.maps.Point(0, 0),
-        anchor: new google.maps.Point(w2, 37 - 1.0)};
-};
-
-
 Marker.prototype.initialize = function (map, name, position, radius) {
     'use strict';
 
     this.m_free = false;
     this.m_name = name;
     this.m_iconLabel = name;
+    this.m_iconColor = this.m_color;
 
     var self = this,
         color = "#0090ff",
-        icon = this.createSvgIcon(this.m_name);
+        icon = IconFactory.createMapIcon(this.m_name, this.m_color);
+
+    this.m_miniIconUrl = IconFactory.createMiniIcon(this.m_alpha, this.m_color);
 
     this.m_marker = new google.maps.Marker({
         position: position,
@@ -241,7 +198,8 @@ Marker.prototype.update = function () {
     }
 
     var pos = this.m_marker.getPosition(),
-        radius = this.m_circle.getRadius();
+        radius = this.m_circle.getRadius(),
+        icon;
 
     this.m_circle.setCenter(pos);
 
@@ -253,9 +211,13 @@ Marker.prototype.update = function () {
     $('#dyn' + this.m_id + ' > .edit .coords').val(Coordinates.toString(pos));
     $('#dyn' + this.m_id + ' > .edit .radius').val(radius);
 
-    if (this.m_iconLabel != this.m_name) {
+    if ((this.m_iconLabel != this.m_name) != (this.m_iconColor != this.m_color)) {
         this.m_iconLabel = this.m_name;
-        this.m_marker.setIcon(this.createSvgIcon());
+        this.m_iconColor = this.m_color;
+        this.m_marker.setIcon(IconFactory.createMapIcon(this.m_name, this.m_color));
+        this.m_miniIconUrl = IconFactory.createMiniIcon(this.m_alpha, this.m_color);
     }
+    $('#dyn' + this.m_id + ' > .view .icon').attr("src", this.m_miniIconUrl);
+
     Lines.updateLinesMarkerMoved(this.m_id);
 };
