@@ -380,4 +380,6 @@ Markers.leaveEditMode = function (id, takenew) {
     m.setNamePositionRadius(name, coords, radius);
     $('#dyn' + id + ' > .view').show();
     $('#dyn' + id + ' > .edit').hide();
+
+    Lines.updateLinesMarkerAdded();
 };
