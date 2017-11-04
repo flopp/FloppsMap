@@ -2,7 +2,8 @@ RewriteEngine on
 
 RewriteBase /
 
-Redirect /oc.html http://flopp.grus.uberspace.de/oc-monitor/
+Redirect /oc.html https://flopp.grus.uberspace.de/oc-monitor/
+Redirect /heatmap https://flopp.grus.uberspace.de/oc-heatmap/
 Redirect /safari https://safari.flopp.net
 
 ### normal
