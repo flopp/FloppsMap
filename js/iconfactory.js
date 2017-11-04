@@ -74,7 +74,7 @@ IconFactory.createMiniIcon = function (text, hexcolor) {
 </svg>',
         url = 'data:image/svg+xml;charset=UTF-8;base64,' + btoa(svg);
 
-    return url;
+    return {url: url, width: w, height: 33.0};
 };
 
 

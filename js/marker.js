@@ -163,7 +163,7 @@ Marker.prototype.initialize = function (map, name, position, radius) {
     var self = this,
         color = "#0090ff";
 
-    this.m_miniIconUrl = IconFactory.createMiniIcon(this.m_alpha, this.m_color);
+    this.m_miniIcon = IconFactory.createMiniIcon(this.m_alpha, this.m_color);
 
     this.m_marker = new google.maps.Marker({
         position: position,
@@ -213,9 +213,10 @@ Marker.prototype.update = function () {
         this.m_iconLabel = this.m_name;
         this.m_iconColor = this.m_color;
         this.m_marker.setIcon(IconFactory.createMapIcon(this.m_name, this.m_color));
-        this.m_miniIconUrl = IconFactory.createMiniIcon(this.m_alpha, this.m_color);
+        this.m_miniIcon = IconFactory.createMiniIcon(this.m_alpha, this.m_color);
     }
-    $('#dyn' + this.m_id + ' > .view .icon').attr("src", this.m_miniIconUrl);
+    $('#dyn' + this.m_id + ' > .view .icon').attr("src", this.m_miniIcon.url);
+    $('#dyn' + this.m_id + ' > .view .icon').attr("style", "width: " + this.m_miniIcon.width + "px; height: " + this.m_miniIcon.height + "px;");
 
     Lines.updateLinesMarkerMoved(this.m_id);
 };
