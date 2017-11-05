@@ -53,7 +53,7 @@ Coordinates.toLatLng = function (lat, lng) {
 };
 
 
-Coordinates.fromString = function (coordsString) {
+Coordinates.fromStringXXX = function (coordsString) {
     'use strict';
 
     var coords;
@@ -120,7 +120,7 @@ Coordinates.create = function (h1, d1, m1, s1, h2, d2, m2, s2) {
 
     var c1, c2, lat, lng;
 
-    if (h1 && d1 < 0) {
+    if (h1 !== '+' && d1 < 0) {
         return null;
     }
     if (m1 < 0 || m1 >= 60) {
@@ -130,7 +130,7 @@ Coordinates.create = function (h1, d1, m1, s1, h2, d2, m2, s2) {
         return null;
     }
 
-    if (h2 && d2 < 0) {
+    if (h2 !== '+' && d2 < 0) {
         return null;
     }
     if (m2 < 0 || m2 >= 60) {
@@ -143,7 +143,7 @@ Coordinates.create = function (h1, d1, m1, s1, h2, d2, m2, s2) {
     c1 = d1 + (m1 / 60.0) + (s1 / 3600.0);
     c2 = d2 + (m2 / 60.0) + (s2 / 3600.0);
 
-    if (!h1 && !h2) {
+    if (h1 === '+' && h2 === '+') {
         lat = c1;
         lng = c2;
     } else if ((h1 === 'N' || h1 === 'S') && (h2 === 'E' || h2 === 'W')) {
@@ -168,167 +168,76 @@ Coordinates.create = function (h1, d1, m1, s1, h2, d2, m2, s2) {
         return null;
     }
 
-    if (!this.valid(lat, lng)) {
-        return null;
-    }
-
     return Coordinates.toLatLng(lat, lng);
 };
 
 
-Coordinates.fromStringDMS = function (coordsString) {
+Coordinates.fromString = function (coordsString) {
     'use strict';
 
-    var s = this.sanitize(coordsString),
-        pattern,
+    var s = Coordinates.sanitize(coordsString),
+        i,
+        p,
         m,
-        coords;
+        c,
+        patterns = [
+            // DM / H D M
+            [/^\s*([NEWS])\s*(\d+)\s+(\d+\.?\d*)\s*([NEWS])\s*(\d+)\s+(\d+\.?\d*)\s*$/, 1, 2, 3, 0, 4, 5, 6, 0],
+            // DM / D H M
+            [/^\s*(\d+)\s*([NEWS])\s*(\d+\.?\d*)\s+(\d+)\s*([NEWS])\s*(\d+\.?\d*)\s*$/, 2, 1, 3, 0, 5, 4, 6, 0],
+            // DM / D M H
+            [/^\s*(\d+)\s+(\d+\.?\d*)\s*([NEWS])\s*(\d+)\s+(\d+\.?\d*)\s*([NEWS])\s*$/, 3, 1, 2, 0, 6, 4, 5, 0],
+            // DM / D M
+            [/^\s*(\d+)\s+(\d+\.?\d*)\s+(\d+)\s+(\d+\.?\d*)\s*$/, 'N', 1, 2, 0, 'E', 3, 4, 0],
+            // DMS / H D M S
+            [/^\s*([NEWS])\s*(\d+)\s+(\d+)\s+(\d+\.?\d*)\s*([NEWS])\s*(\d+)\s+(\d+)\s+(\d+\.?\d*)\s*$/, 1, 2, 3, 4, 5, 6, 7, 8],
+            // DMS / D H M S
+            [/^\s*(\d+)\s*([NEWS])\s*(\d+)\s+(\d+\.?\d*)\s+(\d+)\s*([NEWS])\s*(\d+)\s+(\d+\.?\d*)\s*$/, 2, 1, 3, 4, 6, 5, 7, 8],
+            // DMS / D M S H
+            [/^\s*(\d+)\s+(\d+)\s+(\d+\.?\d*)\s*([NEWS])\s*(\d+)\s+(\d+)\s+(\d+\.?\d*)\s*([NEWS])\s*$/, 4, 1, 2, 3, 6, 5, 6, 7],
+            // DMS / D M S
+            [/^\s*(\d+)\s+(\d+)\s+(\d+\.?\d*)\s+(\d+)\s+(\d+)\s+(\d+\.?\d*)\s*$/, 'N', 1, 2, 3, 'E', 4, 5, 6],
+            // D / H D
+            [/^\s*([NEWS])\s*(\d+\.?\d*)\s*([NEWS])\s*(\d+\.?\d*)\s*$/, 1, 2, 0, 0, 3, 4, 0, 0],
+            // D / D H
+            [/^\s*(\d+\.?\d*)\s*([NEWS])\s*(\d+\.?\d*)\s*([NEWS])\s*$/, 2, 1, 0, 0, 4, 3, 0, 0],
+            // D / D
+            [/^\s*(-?\d+\.?\d*)\s+(-?\d+\.?\d*)\s*$/, '+', 1, 0, 0, '+', 2, 0, 0]
+        ];
 
-    // H D M S.S
-    pattern = /^\s*([NEWS])\s*(\d+)\s+(\d+)\s+(\d+\.?\d*)\s*([NEWS])\s*(\d+)\s+(\d+)\s+(\d+\.?\d*)\s*$/;
-    m = s.match(pattern);
-    if (m) {
-        coords = Coordinates.create(m[1], parseFloat(m[2]), parseFloat(m[3]), parseFloat(m[4]),
-                                    m[5], parseFloat(m[6]), parseFloat(m[7]), parseFloat(m[8]));
-        if (coords) {
-            return coords;
+    function mm(match, index) {
+        var mi;
+        if (typeof(index) === 'number') {
+            if (index > 0) {
+                mi = match[index];
+                if (mi === '+' || mi === 'N' || mi === 'E' || mi === 'W' || mi === 'S') {
+                    return mi;
+                }
+                return parseFloat(mi);
+            }
         }
+        return index;
     }
 
-    // D H M S.S
-    pattern = /^\s*(\d+)\s*([NEWS])\s*(\d+)\s+(\d+\.?\d*)\s+(\d+)\s*([NEWS])\s*(\d+)\s+(\d+\.?\d*)\s*$/;
-    m = s.match(pattern);
-    if (m) {
-        coords = Coordinates.create(m[2], parseFloat(m[1]), parseFloat(m[3]), parseFloat(m[4]),
-                                    m[6], parseFloat(m[5]), parseFloat(m[7]), parseFloat(m[8]));
-        if (coords) {
-            return coords;
+    for (i = 0; i < patterns.length; i = i + 1) {
+        p = patterns[i];
+        m = s.match(p[0]);
+        if (m) {
+            c = Coordinates.create(
+                mm(m, p[1]),
+                mm(m, p[2]),
+                mm(m, p[3]),
+                mm(m, p[4]),
+                mm(m, p[5]),
+                mm(m, p[6]),
+                mm(m, p[7]),
+                mm(m, p[8])
+            );
+            if (c) {
+                return c;
+            }
         }
     }
-
-    // D M S.S H
-    pattern = /^\s*(\d+)\s+(\d+)\s+(\d+\.?\d*)\s*([NEWS])\s*(\d+)\s+(\d+)\s+(\d+\.?\d*)\s*([NEWS])\s*$/;
-    m = s.match(pattern);
-    if (m) {
-        coords = Coordinates.create(m[4], parseFloat(m[1]), parseFloat(m[2]), parseFloat(m[3]),
-                                    m[8], parseFloat(m[5]), parseFloat(m[6]), parseFloat(m[7]));
-        if (coords) {
-            return coords;
-        }
-    }
-
-    // D M S.S
-    pattern = /^\s*(\d+)\s+(\d+)\s+(\d+\.?\d*)\s+(\d+)\s+(\d+)\s+(\d+\.?\d*)\s*$/;
-    m = s.match(pattern);
-    if (m) {
-        coords = Coordinates.create('N', parseFloat(m[1]), parseFloat(m[2]), parseFloat(m[3]),
-                                    'E', parseFloat(m[4]), parseFloat(m[5]), parseFloat(m[6]));
-        if (coords) {
-            return coords;
-        }
-    }
-
-    return null;
-};
-
-
-Coordinates.fromStringDM = function (coordsString) {
-    'use strict';
-
-    var s = this.sanitize(coordsString),
-        pattern,
-        m,
-        coords;
-
-    // H D M.M
-    pattern = /^\s*([NEWS])\s*(\d+)\s+(\d+\.?\d*)\s*([NEWS])\s*(\d+)\s+(\d+\.?\d*)\s*$/;
-    m = s.match(pattern);
-    if (m) {
-        coords = Coordinates.create(m[1], parseFloat(m[2]), parseFloat(m[3]), 0,
-                                    m[4], parseFloat(m[5]), parseFloat(m[6]), 0);
-        if (coords) {
-            return coords;
-        }
-    }
-
-    // D H M.M
-    pattern = /^\s*(\d+)\s*([NEWS])\s*(\d+\.?\d*)\s+(\d+)\s*([NEWS])\s*(\d+\.?\d*)\s*$/;
-    m = s.match(pattern);
-    if (m) {
-        coords = Coordinates.create(m[2], parseFloat(m[1]), parseFloat(m[3]), 0,
-                                    m[5], parseFloat(m[4]), parseFloat(m[6]), 0);
-        if (coords) {
-            return coords;
-        }
-    }
-
-    // D M.M H
-    pattern = /^\s*(\d+)\s+(\d+\.?\d*)\s*([NEWS])\s*(\d+)\s+(\d+\.?\d*)\s*([NEWS])\s*$/;
-    m = s.match(pattern);
-    if (m) {
-        coords = Coordinates.create(m[3], parseFloat(m[1]), parseFloat(m[2]), 0,
-                                    m[6], parseFloat(m[4]), parseFloat(m[5]), 0);
-        if (coords) {
-            return coords;
-        }
-    }
-
-    // D M.M
-    pattern = /^\s*(\d+)\s+(\d+\.?\d*)\s+(\d+)\s+(\d+\.?\d*)\s*$/;
-    m = s.match(pattern);
-    if (m) {
-        coords = Coordinates.create('N', parseFloat(m[1]), parseFloat(m[2]), 0,
-                                    'E', parseFloat(m[3]), parseFloat(m[4]), 0);
-        if (coords) {
-            return coords;
-        }
-    }
-
-    return null;
-};
-
-
-Coordinates.fromStringD = function (coordsString) {
-    'use strict';
-
-    var s = this.sanitize(coordsString),
-        pattern,
-        m,
-        coords;
-
-    // H D.D
-    pattern = /^\s*([NEWS])\s*(\d+\.?\d*)\s*([NEWS])\s*(\d+\.?\d*)\s*$/;
-    m = s.match(pattern);
-    if (m) {
-        coords = Coordinates.create(m[1], parseFloat(m[2]), 0, 0,
-                                     m[3], parseFloat(m[4]), 0, 0);
-        if (coords) {
-            return coords;
-        }
-    }
-
-    // D.D H
-    pattern = /^\s*(\d+\.?\d*)\s*([NEWS])\s*(\d+\.?\d*)\s*([NEWS])\s*$/;
-    m = s.match(pattern);
-    if (m) {
-        coords = Coordinates.create(m[2], parseFloat(m[1]), 0, 0,
-                                     m[4], parseFloat(m[3]), 0, 0);
-        if (coords) {
-            return coords;
-        }
-    }
-
-    // D.D
-    pattern = /^\s*(-?\d+\.?\d*)\s+(-?\d+\.?\d*)\s*$/;
-    m = s.match(pattern);
-    if (m) {
-        coords = Coordinates.create(null, parseFloat(m[1]), 0, 0,
-                                     null, parseFloat(m[2]), 0, 0);
-        if (coords) {
-            return coords;
-        }
-    }
-
     return null;
 };
 
@@ -337,12 +246,12 @@ Coordinates.toStringDM = function (coords) {
     'use strict';
 
     var lat = Math.abs(coords.lat()),
-        lat_h = (coords.lat() >= 0) ? "N" : "S",
+        lat_h = ((coords.lat() >= 0) ? "N" : "S"),
         lat_deg,
         lat_min,
         lat_mmin,
         lng = Math.abs(coords.lng()),
-        lng_h = (coords.lng() >= 0) ? "E" : "W",
+        lng_h = ((coords.lng() >= 0) ? "E" : "W"),
         lng_deg,
         lng_min,
         lng_mmin,
@@ -369,20 +278,20 @@ Coordinates.toStringDM = function (coords) {
     }
 
     s = lat_h +
-        " " +
-        this.zeropad(lat_deg, 2) +
-        " " +
-        this.zeropad(lat_min, 2) +
-        "." +
-        this.zeropad(lat_mmin, 3) +
-        " " +
-        lng_h +
-        " " +
-        this.zeropad(lng_deg, 3) +
-        " " +
-        this.zeropad(lng_min, 2) +
-        "." +
-        this.zeropad(lng_mmin, 3);
+            " " +
+            this.zeropad(lat_deg, 2) +
+            " " +
+            this.zeropad(lat_min, 2) +
+            "." +
+            this.zeropad(lat_mmin, 3) +
+            " " +
+            lng_h +
+            " " +
+            this.zeropad(lng_deg, 3) +
+            " " +
+            this.zeropad(lng_min, 2) +
+            "." +
+            this.zeropad(lng_mmin, 3);
     return s;
 };
 
@@ -415,20 +324,20 @@ Coordinates.toStringDMS = function (coords) {
     lng_sec = lng * 60.0;
 
     s = lat_h +
-        " " +
-        this.zeropad(lat_deg, 2) +
-        " " +
-        this.zeropad(lat_min, 2) +
-        " " +
-        this.zeropad(lat_sec.toFixed(2), 5) +
-        " " +
-        lng_h +
-        " " +
-        this.zeropad(lng_deg, 3) +
-        " " +
-        this.zeropad(lng_min, 2) +
-        " " +
-        this.zeropad(lng_sec.toFixed(2), 5);
+            " " +
+            this.zeropad(lat_deg, 2) +
+            " " +
+            this.zeropad(lat_min, 2) +
+            " " +
+            this.zeropad(lat_sec.toFixed(2), 5) +
+            " " +
+            lng_h +
+            " " +
+            this.zeropad(lng_deg, 3) +
+            " " +
+            this.zeropad(lng_min, 2) +
+            " " +
+            this.zeropad(lng_sec.toFixed(2), 5);
 
     return s;
 };
