@@ -12,7 +12,8 @@
 function parseWpt(wpt, default_name) {
     'use strict';
 
-    var el, i,
+    var el,
+        i,
         name = '',
         radius = 0;
 

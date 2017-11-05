@@ -53,30 +53,6 @@ Coordinates.toLatLng = function (lat, lng) {
 };
 
 
-Coordinates.fromStringXXX = function (coordsString) {
-    'use strict';
-
-    var coords;
-
-    coords = this.fromStringDM(coordsString);
-    if (coords) {
-        return coords;
-    }
-
-    coords = this.fromStringDMS(coordsString);
-    if (coords) {
-        return coords;
-    }
-
-    coords = this.fromStringD(coordsString);
-    if (coords) {
-        return coords;
-    }
-
-    return null;
-};
-
-
 Coordinates.sanitize = function (s) {
     'use strict';
 
@@ -241,17 +217,34 @@ Coordinates.fromString = function (coordsString) {
     return null;
 };
 
+Coordinates.NS = function (lat) {
+    'use strict';
+
+    if (lat >= 0) {
+        return 'N';
+    }
+    return 'S';
+};
+
+
+Coordinates.EW = function (lng) {
+    'use strict';
+
+    if (lng >= 0) {
+        return 'E';
+    }
+    return 'W';
+};
+
 
 Coordinates.toStringDM = function (coords) {
     'use strict';
 
     var lat = Math.abs(coords.lat()),
-        lat_h = ((coords.lat() >= 0) ? "N" : "S"),
         lat_deg,
         lat_min,
         lat_mmin,
         lng = Math.abs(coords.lng()),
-        lng_h = ((coords.lng() >= 0) ? "E" : "W"),
         lng_deg,
         lng_min,
         lng_mmin,
@@ -277,7 +270,7 @@ Coordinates.toStringDM = function (coords) {
         lng_min += 1;
     }
 
-    s = lat_h +
+    s = this.NS(coords.lat()) +
             " " +
             this.zeropad(lat_deg, 2) +
             " " +
@@ -285,7 +278,7 @@ Coordinates.toStringDM = function (coords) {
             "." +
             this.zeropad(lat_mmin, 3) +
             " " +
-            lng_h +
+            this.EW(coords.lng()) +
             " " +
             this.zeropad(lng_deg, 3) +
             " " +
@@ -300,12 +293,10 @@ Coordinates.toStringDMS = function (coords) {
     'use strict';
 
     var lat = Math.abs(coords.lat()),
-        lat_h = ((coords.lat() >= 0) ? "N" : "S"),
         lat_deg,
         lat_min,
         lat_sec,
         lng = Math.abs(coords.lng()),
-        lng_h = ((coords.lng() >= 0) ? "E" : "W"),
         lng_deg,
         lng_min,
         lng_sec,
@@ -323,7 +314,7 @@ Coordinates.toStringDMS = function (coords) {
     lng = lng * 60 - lng_min;
     lng_sec = lng * 60.0;
 
-    s = lat_h +
+    s = this.NS(coords.lat()) +
             " " +
             this.zeropad(lat_deg, 2) +
             " " +
@@ -331,7 +322,7 @@ Coordinates.toStringDMS = function (coords) {
             " " +
             this.zeropad(lat_sec.toFixed(2), 5) +
             " " +
-            lng_h +
+            this.EW(coords.lng()) +
             " " +
             this.zeropad(lng_deg, 3) +
             " " +
@@ -347,11 +338,15 @@ Coordinates.toStringD = function (coords) {
     'use strict';
 
     var lat = Math.abs(coords.lat()),
-        lat_h = ((coords.lat() >= 0) ? "N" : "S"),
-        lng = Math.abs(coords.lng()),
-        lng_h = ((coords.lng() >= 0) ? "E" : "W");
+        lng = Math.abs(coords.lng());
 
-    return lat_h + " " + lat.toFixed(6) + " " + lng_h + " " + lng.toFixed(6);
+    return this.NS(coords.lat()) +
+            " " +
+            lat.toFixed(6) +
+            " " +
+            this.EW(coords.lng()) +
+            " " +
+            lng.toFixed(6);
 };
 
 

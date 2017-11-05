@@ -80,7 +80,7 @@ function restoreCoordinatesFormat(defaultValue) {
 function showInfoDialog() {
     'use strict';
 
-    $('#dlgInfoAjax').modal({show : true, backdrop: "static", keyboard: true});
+    $('#dlgInfoAjax').modal({show: true, backdrop: "static", keyboard: true});
 }
 
 
@@ -90,7 +90,7 @@ function showAlert(title, msg) {
 
     $("#dlgAlertHeader").html(title);
     $("#dlgAlertMessage").html(msg);
-    $("#dlgAlert").modal({show : true, backdrop: "static", keyboard: true});
+    $("#dlgAlert").modal({show: true, backdrop: "static", keyboard: true});
 }
 
 
@@ -109,7 +109,7 @@ function showProjectionDialog(callback) {
             }, 10);
         }
     });
-    $("#projectionDialog").modal({show : true, backdrop: "static", keyboard: true});
+    $("#projectionDialog").modal({show: true, backdrop: "static", keyboard: true});
 }
 
 
@@ -118,7 +118,7 @@ function showLinkDialog(linkUrl) {
     'use strict';
 
     $('#linkDialogLink').val(linkUrl);
-    $('#linkDialog').modal({show : true, backdrop: "static", keyboard: true});
+    $('#linkDialog').modal({show: true, backdrop: "static", keyboard: true});
     $('#linkDialogLink').select();
 }
 
@@ -129,7 +129,7 @@ function linkDialogShortenLink() {
     var longUrl = $('#linkDialogLink').val();
     gapi.client.setApiKey('AIzaSyC_KjqwiB6tKCcrq2aa8B3z-c7wNN8CTA0');
     gapi.client.load('urlshortener', 'v1', function () {
-        var request = gapi.client.urlshortener.url.insert({'resource': {'longUrl': longUrl}});
+        var request = gapi.client.urlshortener.url.insert({resource: {longUrl: longUrl}});
         request.execute(function (resp) {
             if (resp.error) {
                 $('#linkDialogError').html('Error: ' + resp.error.message);
@@ -156,16 +156,43 @@ function linkDialogShortenLink() {
 $(document).ready(function () {
     'use strict';
 
-    $("#sidebartoggle").click(function () { if ($('#sidebar').is(':visible')) { Sidebar.hide(); } else { Sidebar.show(); } });
-    $('#buttonWhereAmI').click(function () { Geolocation.whereAmI(); });
-    $("#hillshading").click(function () { Hillshading.toggle($('#hillshading').is(':checked')); });
+    $("#sidebartoggle").click(function () {
+        if ($('#sidebar').is(':visible')) {
+            Sidebar.hide();
+        } else {
+            Sidebar.show();
+        }
+    });
+    $('#buttonWhereAmI').click(function () {
+        Geolocation.whereAmI();
+    });
+    $("#hillshading").click(function () {
+        Hillshading.toggle($('#hillshading').is(':checked'));
+    });
     //$("#boundaries").click(function () { toggleBoundaries($('#boundaries').is(':checked')); });
-    $("#npa").click(function () { NPA.toggle($('#npa').is(':checked')); });
-    $("#cdda").click(function () { CDDA.toggle($('#cdda').is(':checked')); });
-    $("#geocaches").click(function () { Okapi.toggle($('#geocaches').is(':checked')); });
-    $('#coordinatesFormat').change(function () { setCoordinatesFormat($('#coordinatesFormat').val()); });
-    $("#freifunk").click(function () { Freifunk.toggle($('#freifunk').is(':checked')); });
-    $("#buttonUploadGPX").click(function (e) { $("#buttonUploadGPXinput").click(); e.preventDefault(); });
-    $("#buttonExportGPX").click(function () { DownloadGPX.initiateDownload(); });
-    $("#buttonMulticoordinates").click(function () { showMulticoordinatesDialog(); });
+    $("#npa").click(function () {
+        NPA.toggle($('#npa').is(':checked'));
+    });
+    $("#cdda").click(function () {
+        CDDA.toggle($('#cdda').is(':checked'));
+    });
+    $("#geocaches").click(function () {
+        Okapi.toggle($('#geocaches').is(':checked'));
+    });
+    $('#coordinatesFormat').change(function () {
+        setCoordinatesFormat($('#coordinatesFormat').val());
+    });
+    $("#freifunk").click(function () {
+        Freifunk.toggle($('#freifunk').is(':checked'));
+    });
+    $("#buttonUploadGPX").click(function (e) {
+        $("#buttonUploadGPXinput").click();
+        e.preventDefault();
+    });
+    $("#buttonExportGPX").click(function () {
+        DownloadGPX.initiateDownload();
+    });
+    $("#buttonMulticoordinates").click(function () {
+        showMulticoordinatesDialog();
+    });
 });

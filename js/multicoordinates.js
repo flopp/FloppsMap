@@ -19,7 +19,7 @@ function showMulticoordinatesDialog() {
             len,
             i;
 
-        if (!(/^([a-zA-Z0-9-_]*)$/.test(prefix))) {
+        if (!(/^([a-zA-Z0-9\-_]*)$/.test(prefix))) {
             errorsArray.push(mytrans("dialog.multicoordinates.error_badprefix").replace('%1', prefix));
         }
         strings.map(function (s) {
@@ -59,7 +59,7 @@ function showMulticoordinatesDialog() {
         }
     });
 
-    $('#multicoordinatesDialog').modal({show : true, backdrop: "static", keyboard: true});
+    $('#multicoordinatesDialog').modal({show: true, backdrop: "static", keyboard: true});
     $('#multicoordinatesError').html('');
     $('#multicoordinatesDialogText').select();
 }

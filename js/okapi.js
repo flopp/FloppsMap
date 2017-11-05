@@ -184,6 +184,8 @@ Okapi.centerMap = function (code) {
 
 
 Okapi.popupCacheCode = function () {
+    'use strict';
+
     if (!this.m_popup) {
         return null;
     }
@@ -231,14 +233,14 @@ Okapi.showPopup = function (m, code, siteid) {
 
     url = site.url + 'services/caches/geocache';
     data = {
-        'consumer_key': site.key,
-        'cache_code': code,
-        'fields' : 'name|type|status|url|owner|founds|size2|difficulty|terrain|location'
+        consumer_key: site.key,
+        cache_code: code,
+        fields: 'name|type|status|url|owner|founds|size2|difficulty|terrain|location'
     };
 
     if (site.proxy) {
         data = {
-            url: url + "?" + $.param(data),
+            url: url + "?" + $.param(data)
         };
         url = "proxy2.php";
     }
@@ -296,10 +298,9 @@ Okapi.removeMarkers = function () {
     this.m_sites.map(function (site) {
         var key;
         for (key in site.markers) {
-            if (!site.markers.hasOwnProperty(key)) {
-                continue;
+            if (site.markers.hasOwnProperty(key)) {
+                site.markers[key].setMap(null);
             }
-            site.markers[key].setMap(null);
         }
         site.markers = {};
     });
@@ -342,17 +343,17 @@ Okapi.loadBboxSite = function (siteid) {
 
     url = site.url + 'services/caches/shortcuts/search_and_retrieve';
     data = {
-        'consumer_key': site.key,
-        'search_method': 'services/caches/search/bbox',
-        'search_params': '{"bbox" : "' + bbox + '", "limit" : "500"}',
-        'retr_method': 'services/caches/geocaches',
-        'retr_params': '{"fields": "code|name|location|type|status|url"}',
-        'wrap': 'false'
+        consumer_key: site.key,
+        search_method: 'services/caches/search/bbox',
+        search_params: '{"bbox" : "' + bbox + '", "limit" : "500"}',
+        retr_method: 'services/caches/geocaches',
+        retr_params: '{"fields": "code|name|location|type|status|url"}',
+        wrap: 'false'
     };
 
     if (site.proxy) {
         data = {
-            url: url + "?" + $.param(data),
+            url: url + "?" + $.param(data)
         };
         url = "proxy2.php";
     }

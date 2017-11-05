@@ -16,7 +16,8 @@ function Marker(parent, id) {
     this.m_alpha = id2alpha(id);
     this.m_free = true;
     this.m_name = "";
-    this.m_color = ["#FF0000", "#00FF00", "#0000FF", "#FFFF00", "#FF00FF", "#00FFFF", "#FFFFFF"][id % 7];
+    var colors = ["#FF0000", "#00FF00", "#0000FF", "#FFFF00", "#FF00FF", "#00FFFF", "#FFFFFF"];
+    this.m_color = colors[id % 7];
     this.m_iconColor = "";
     this.m_iconLabel = "";
     this.m_miniIconUrl = "";
@@ -173,8 +174,12 @@ Marker.prototype.initialize = function (map, name, position, radius) {
         draggable: true
     });
 
-    google.maps.event.addListener(this.m_marker, "drag", function () { self.update(); });
-    google.maps.event.addListener(this.m_marker, "dragend", function () { self.update(); });
+    google.maps.event.addListener(this.m_marker, "drag", function () {
+        self.update();
+    });
+    google.maps.event.addListener(this.m_marker, "dragend", function () {
+        self.update();
+    });
 
     this.m_circle = new google.maps.Circle({
         center: position,
@@ -209,7 +214,7 @@ Marker.prototype.update = function () {
     $('#dyn' + this.m_id + ' > .edit .coords').val(Coordinates.toString(pos));
     $('#dyn' + this.m_id + ' > .edit .radius').val(radius);
 
-    if ((this.m_iconLabel != this.m_name) != (this.m_iconColor != this.m_color)) {
+    if ((this.m_iconLabel !== this.m_name) || (this.m_iconColor !== this.m_color)) {
         this.m_iconLabel = this.m_name;
         this.m_iconColor = this.m_color;
         this.m_marker.setIcon(IconFactory.createMapIcon(this.m_name, this.m_color));

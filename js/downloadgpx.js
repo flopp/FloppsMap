@@ -1,5 +1,5 @@
 /*jslint
-  regexp: true
+  regexp: true,
   indent: 4
 */
 

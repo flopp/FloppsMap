@@ -17,10 +17,10 @@ Markers.init = function (themap) {
     'use strict';
 
     this.m_map = themap;
-    this.m_markers = new Array(26 * 10);
+    this.m_markers = [];
 
     var id;
-    for (id = 0; id !== this.m_markers.length; id = id + 1) {
+    for (id = 0; id !== 26 * 10; id = id + 1) {
         this.m_markers[id] = new Marker(this, id);
     }
 };
@@ -154,11 +154,10 @@ Markers.toXmlWpts = function () {
         data = '';
 
     for (id = 0; id < this.m_markers.length; id = id + 1) {
-        if (this.m_markers[id].isFree()) {
-            continue;
+        if (!this.m_markers[id].isFree()) {
+            data += this.m_markers[id].toXmlWpt();
+            data += '\n';
         }
-        data += this.m_markers[id].toXmlWpt();
-        data += '\n';
     }
 
     return data;
@@ -280,8 +279,7 @@ Markers.createMarkerDiv = function (id) {
         "<table class=\"view\" style=\"width: 100%; vertical-align: middle;\">\n" +
         "    <tr>\n" +
         "        <td rowspan=\"3\" style=\"vertical-align: top\">\n" +
-        "            <img style=\"width: 100%; height: 100%;\" class=\"icon\" src=\"\" />\n" +
-        //"            <span style=\"width:" + iconw + "px; height:" + iconh + "px; float: left; display: block; background-image: url(img/markers.png); background-repeat: no-repeat; background-position: -" + offsetx + "px -" + offsety + "px;\">&nbsp;</span>\n" +
+        "            <img class=\"icon\" src=\"\" />\n" +
         "        </td>\n" +
         "        <td style=\"text-align: center\"><i class=\"fa fa-map-marker\"></i></td>\n" +
         "        <td class=\"name\" colspan=\"2\">marker</td>\n" +
@@ -364,7 +362,7 @@ Markers.leaveEditMode = function (id, takenew) {
         radius = Conversion.getInteger(s_radius, 0, 100000000000),
         errors = [];
 
-    name = name.replace(/[^a-zA-Z0-9-_]/g, "_");
+    name = name.replace(/[^a-zA-Z0-9\-_]/g, "_");
 
     if (!coords) {
         errors.push(mytrans("sidebar.markers.error_badcoordinates").replace(/%1/, s_coords));

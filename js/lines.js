@@ -144,7 +144,7 @@ Lines.updateLinesMarkerMoved = function (markerId) {
             line.updateMarkerMoved(markerId);
         }
     });
-    
+
     this.updateTotalDistance();
 };
 
@@ -168,7 +168,7 @@ Lines.updateLinesMarkerRemoved = function (markerId) {
             line.updateMarkerRemoved(markerId);
         }
     });
-    
+
     this.updateTotalDistance();
     this.saveCookie();
 };
@@ -199,7 +199,7 @@ Lines.deleteLine = function (id) {
 
     this.m_lines[index].clearMapObject();
     this.m_lines[index] = null;
-    
+
     this.updateTotalDistance();
     this.saveCookie();
 };
@@ -214,7 +214,7 @@ Lines.deleteAllLines = function () {
             self.deleteLine(line.getId());
         }
     });
-    
+
     this.updateTotalDistance();
 };
 

@@ -24,7 +24,7 @@ function Line(themap, id, source, target) {
         "<div id=\"dynline" + id + "\">" +
             "<table style=\"width: 100%\">" +
                 "<tr>" +
-                    "<td>1:</td>" + 
+                    "<td>1:</td>" +
                     "<td>" +
                         "<select class=\"source my-small-select\" data-i18n=\"[title]sidebar.lines.source\" onchange=\"Lines.selectLineSource(" + id + ");\"><option value=\"-1\">?</option></select>" +
                     "</td>" +
@@ -33,15 +33,15 @@ function Line(themap, id, source, target) {
                     "</td>" +
                 "</tr>" +
                 "<tr>" +
-                    "<td>2:</td>" + 
+                    "<td>2:</td>" +
                     "<td>" +
                         "<select class=\"target my-small-select\" data-i18n=\"[title]sidebar.lines.destination\" onchange=\"Lines.selectLineTarget(" + id + ");\"><option value=\"-1\">?</option></select>" +
                     "</td>" +
                 "</tr>" +
-                "<tr>" + 
-                    "<td colspan=\"3\">" + 
-                        "<i class=\"fa fa-arrows-h\"></i> <span class=\"dist\">n/a</span> <i class=\"fa fa-compass\"></i> <span class=\"angle\">n/a</span>" + 
-                    "</td>" + 
+                "<tr>" +
+                    "<td colspan=\"3\">" +
+                        "<i class=\"fa fa-arrows-h\"></i> <span class=\"dist\">n/a</span> <i class=\"fa fa-compass\"></i> <span class=\"angle\">n/a</span>" +
+                    "</td>" +
                 "</tr>" +
             "</table>" +
         "</div>"
@@ -225,19 +225,19 @@ Line.prototype.updateLists = function () {
         m = Markers.getById(i);
         if (!m.isFree()) {
             source.append('<option value="' + i + '">' + m.getAlpha() + ': ' + m.getName() + '</option>');
-            target.append('<option value="' + i + '">' + m.getAlpha() + ': ' + m.getName()  + '</option>');
+            target.append('<option value="' + i + '">' + m.getAlpha() + ': ' + m.getName() + '</option>');
         }
     }
 
     $("#dynline" + this.m_id + " .source > option[value=" + this.m_source + "]").attr("selected", "selected");
     $("#dynline" + this.m_id + " .target > option[value=" + this.m_target + "]").attr("selected", "selected");
-    
+
     this.update();
 };
 
 
 Line.prototype.distance = function () {
     'use strict';
-    
+
     return this.m_distance;
 };

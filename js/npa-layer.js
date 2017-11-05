@@ -141,7 +141,7 @@ NPA.toggle = function (t) {
 NPA.showDialog = function () {
     'use strict';
 
-    $('#dialogNPA').modal({show : true, backdrop: "static", keyboard: true});
+    $('#dialogNPA').modal({show: true, backdrop: "static", keyboard: true});
 };
 
 
