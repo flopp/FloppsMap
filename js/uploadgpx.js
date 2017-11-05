@@ -80,7 +80,7 @@ function handleGpxFiles(files) {
                 return;
             }
         }
-        
+
         showAlert(
             mytrans("uploadgpx.info"),
             mytrans("uploadgpx.msg_created_markers").replace(/%1/, wpts.length)
