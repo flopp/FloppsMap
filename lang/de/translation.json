@@ -34,8 +34,11 @@
             "coordinates_placeholder": "Koordinaten",
             "radius": "Radius (m) des Kreises um den Marker",
             "radius_placeholder": "Radius (m)",
+            "color": "Farbe des Markers (RRGGBB)",
+            "color_placeholder": "Farbe (RRGGBB)",
             "error_badcoordinates": "Ungültiges Koordinatenformat: \"%1\".",
-            "error_badradius": "Ungültiger Wert für 'Radius': \"%1\".<br />Erlaubte Werte: Ganzzahlen &geq; 0."
+            "error_badradius": "Ungültiger Wert für 'Radius': \"%1\".<br />Erlaubte Werte: Ganzzahlen &geq; 0.",
+            "error_badcolor": "Ungültiger Wert für 'Farbe': \"%1\".<br />Erlaubtes Format: RRGGBB."
         },
         "lines": {
             "title": "Linien",

@@ -36,8 +36,11 @@
             "coordinates_placeholder": "Coördinaten",
             "radius": "Radius (m) van cirkel rond marker",
             "radius_placeholder": "Radius (m)",
+            "color": "Color of the marker (RRGGBB)",
+            "color_placeholder": "Color (RRGGBB)",
             "error_badcoordinates": "Verkeerd coördinatenformaat: \"%1\".",
-            "error_badradius": "Verkeerde waarde 'radius': \"%1\".<br />Toegestane waardes: Hele getallen &geq; 0."
+            "error_badradius": "Verkeerde waarde 'radius': \"%1\".<br />Toegestane waardes: Hele getallen &geq; 0.",
+            "error_badcolor": "Bad value of 'color': \"%1\".<br />Allowed format: RRGGBB."
         },
         "lines": {
             "title": "Lijnen",

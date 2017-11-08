@@ -211,7 +211,7 @@ Markers.center = function (id) {
 };
 
 
-Markers.newMarker = function (coordinates, id, radius, name) {
+Markers.newMarker = function (coordinates, id, radius, name, color) {
     'use strict';
 
     radius = Math.max(radius, 0);
@@ -237,7 +237,7 @@ Markers.newMarker = function (coordinates, id, radius, name) {
     }
 
     marker = this.getById(id);
-    marker.initialize(this.m_map, name, coordinates, radius);
+    marker.initialize(this.m_map, name, coordinates, radius, color);
     div = this.createMarkerDiv(id);
 
     nextid = this.getNextUsedId(id);
@@ -304,17 +304,20 @@ Markers.createMarkerDiv = function (id) {
         "</table>\n" +
         "<table class=\"edit\" style=\"display: none; width: 100%; vertical-align: middle;\">\n" +
         "    <tr>\n" +
-        "        <td rowspan=\"4\" style=\"vertical-align: top\"><span style=\"width:" + iconw + "px; height:" + iconh + "px; float: left; display: block; background-image: url(img/markers.png); background-repeat: no-repeat; background-position: -" + offsetx + "px -" + offsety + "px;\">&nbsp;</span>\n" +
-        "        <td style=\"text-align: center; vertical-align: middle;\"><i class=\"icon-map-marker\"></i></td>\n" +
+        "        <td style=\"text-align: center; vertical-align: middle;\"><i class=\"fa fa-map-marker\"></i>&nbsp;</td>\n" +
         "        <td><input data-i18n=\"[title]sidebar.markers.name;[placeholder]sidebar.markers.name_placeholder\" class=\"name form-control input-block-level\" type=\"text\" style=\"margin-bottom: 0px;\" value=\"n/a\" /></td>\n" +
         "    </tr>\n" +
         "    <tr>\n" +
-        "        <td style=\"text-align: center; vertical-align: middle;\"><i class=\"icon-globe\"></i></td>\n" +
+        "        <td style=\"text-align: center; vertical-align: middle;\"><i class=\"fa fa-globe\"></i>&nbsp;</td>\n" +
         "        <td><input data-i18n=\"[title]sidebar.markers.coordinates;[placeholder]sidebar.markers.coordinates_placeholder\" class=\"coords form-control input-block-level\" type=\"text\" style=\"margin-bottom: 0px;\" value=\"n/a\" /></td>\n" +
         "    </tr>\n" +
         "    <tr>\n" +
-        "        <td style=\"text-align: center; vertical-align: middle;\"><i class=\"icon-circle-blank\"></i></td>\n" +
+        "        <td style=\"text-align: center; vertical-align: middle;\"><i class=\"fa fa-circle-o\"></i>&nbsp;</td>\n" +
         "        <td><input data-i18n=\"[title]sidebar.markers.radius;[placeholder]sidebar.markers.radius_placeholder\" class=\"radius form-control input-block-level\" type=\"text\" style=\"margin-bottom: 0px;\" value=\"n/a\" /></td>\n" +
+        "    </tr>\n" +
+        "    <tr>\n" +
+        "        <td style=\"text-align: center; vertical-align: middle;\"><i class=\"fa fa-paint-brush\"></i>&nbsp;</td>\n" +
+        "        <td><input data-i18n=\"[title]sidebar.markers.color;[placeholder]sidebar.markers.color_placeholder\" class=\"color form-control input-block-level\" type=\"text\" style=\"margin-bottom: 0px;\" value=\"#FF0000\" /></td>\n" +
         "    </tr>\n" +
         "    <tr>\n" +
         "        <td colspan=\"2\" style=\"text-align: right\">\n" +
@@ -358,11 +361,13 @@ Markers.leaveEditMode = function (id, takenew) {
         name = $('#dyn' + id + ' > .edit .name').val(),
         s_coords = $('#dyn' + id + ' > .edit .coords').val(),
         s_radius = $('#dyn' + id + ' > .edit .radius').val(),
+        s_color = $('#dyn' + id + ' > .edit .color').val(),
         coords = Coordinates.fromString(s_coords),
         radius = Conversion.getInteger(s_radius, 0, 100000000000),
         errors = [];
 
     name = name.replace(/[^a-zA-Z0-9\-_]/g, "_");
+
 
     if (!coords) {
         errors.push(mytrans("sidebar.markers.error_badcoordinates").replace(/%1/, s_coords));
@@ -370,13 +375,17 @@ Markers.leaveEditMode = function (id, takenew) {
     if (radius === null) {
         errors.push(mytrans("sidebar.markers.error_badradius").replace(/%1/, s_radius));
     }
+    if (!(/^[a-fA-F0-9]{6}$/.test(s_color))) {
+        errors.push(mytrans("sidebar.markers.error_badcolor").replace(/%1/, s_color));
+    }
 
     if (errors.length > 0) {
         showAlert(mytrans("dialog.error"), errors.join("<br /><br />"));
         return;
     }
 
-    m.setNamePositionRadius(name, coords, radius);
+    m.setNamePositionRadiusColor(name, coords, radius, s_color);
+
     $('#dyn' + id + ' > .view').show();
     $('#dyn' + id + ' > .edit').hide();
 

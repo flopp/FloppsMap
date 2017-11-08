@@ -51,7 +51,7 @@ function showMulticoordinatesDialog() {
             $('#multicoordinatesDialog').modal('hide');
 
             for (i = 0; i < len; i += 1) {
-                if (!Markers.newMarker(coordsArray[i], -1, 0, prefix + i)) {
+                if (!Markers.newMarker(coordsArray[i], -1, 0, prefix + i, "")) {
                     showAlert(mytrans("dialog.multicoordinates.title"), mytrans("dialog.multicoordinates.error_message").replace('%1', '???'));
                     break;
                 }

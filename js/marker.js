@@ -16,7 +16,7 @@ function Marker(parent, id) {
     this.m_alpha = id2alpha(id);
     this.m_free = true;
     this.m_name = "";
-    var colors = ["#FF0000", "#00FF00", "#0000FF", "#FFFF00", "#FF00FF", "#00FFFF", "#FFFFFF"];
+    var colors = ["FF0000", "00FF00", "0000FF", "FFFF00", "FF00FF", "00FFFF", "FFFFFF"];
     this.m_color = colors[id % 7];
     this.m_iconColor = "";
     this.m_iconLabel = "";
@@ -29,7 +29,12 @@ function Marker(parent, id) {
 Marker.prototype.toString = function () {
     'use strict';
 
-    return this.getAlpha() + ":" + this.getPosition().lat().toFixed(6) + ":" + this.getPosition().lng().toFixed(6) + ":" + this.getRadius() + ":" + this.getName();
+    return this.getAlpha() + ":" +
+            this.getPosition().lat().toFixed(6) + ":" +
+            this.getPosition().lng().toFixed(6) + ":" +
+            this.getRadius() + ":" +
+            this.getName() + ":" +
+            this.m_color;
 };
 
 
@@ -72,6 +77,8 @@ Marker.prototype.clear = function () {
     this.m_marker = null;
     this.m_circle.setMap(null);
     this.m_circle = null;
+    var colors = ["FF0000", "00FF00", "0000FF", "FFFF00", "FF00FF", "00FFFF", "FFFFFF"];
+    this.m_color = colors[this.m_id % 7];
     this.m_iconColor = "";
     this.m_iconLabel = "";
 
@@ -142,27 +149,30 @@ Marker.prototype.getRadius = function () {
 };
 
 
-Marker.prototype.setNamePositionRadius = function (name, position, radius) {
+Marker.prototype.setNamePositionRadiusColor = function (name, position, radius, color) {
     'use strict';
 
     this.m_name = name;
     this.m_marker.setPosition(position);
     this.m_circle.setCenter(position);
     this.m_circle.setRadius(radius);
+    this.m_color = color;
     this.update();
 };
 
 
-Marker.prototype.initialize = function (map, name, position, radius) {
+Marker.prototype.initialize = function (map, name, position, radius, color) {
     'use strict';
 
     this.m_free = false;
     this.m_name = name;
+    if (color !== "") {
+        this.m_color = color;
+    }
     this.m_iconLabel = name;
     this.m_iconColor = this.m_color;
 
-    var self = this,
-        color = "#0090ff";
+    var self = this;
 
     this.m_miniIcon = IconFactory.createMiniIcon(this.m_alpha, this.m_color);
 
@@ -184,9 +194,9 @@ Marker.prototype.initialize = function (map, name, position, radius) {
     this.m_circle = new google.maps.Circle({
         center: position,
         map: map,
-        strokeColor: color,
+        strokeColor: "#" + this.m_color,
         strokeOpacity: 1,
-        fillColor: color,
+        fillColor: "#" + this.m_color,
         fillOpacity: 0.25,
         strokeWeight: 1,
         radius: radius
@@ -206,19 +216,21 @@ Marker.prototype.update = function () {
 
     this.m_circle.setCenter(pos);
 
-    Cookies.set('marker' + this.m_id, pos.lat().toFixed(6) + ":" + pos.lng().toFixed(6) + ":" + radius + ":" + this.m_name, {expires: 30});
+    Cookies.set('marker' + this.m_id, pos.lat().toFixed(6) + ":" + pos.lng().toFixed(6) + ":" + radius + ":" + this.m_name + ":" + this.m_color, {expires: 30});
     $('#dyn' + this.m_id + ' > .view .name').html(this.m_name);
     $('#dyn' + this.m_id + ' > .view .coords').html(Coordinates.toString(pos));
     $('#dyn' + this.m_id + ' > .view .radius').html(radius);
     $('#dyn' + this.m_id + ' > .edit .name').val(this.m_name);
     $('#dyn' + this.m_id + ' > .edit .coords').val(Coordinates.toString(pos));
     $('#dyn' + this.m_id + ' > .edit .radius').val(radius);
+    $('#dyn' + this.m_id + ' > .edit .color').val(this.m_color);
 
     if ((this.m_iconLabel !== this.m_name) || (this.m_iconColor !== this.m_color)) {
         this.m_iconLabel = this.m_name;
         this.m_iconColor = this.m_color;
         this.m_marker.setIcon(IconFactory.createMapIcon(this.m_name, this.m_color));
         this.m_miniIcon = IconFactory.createMiniIcon(this.m_alpha, this.m_color);
+        this.m_circle.setOptions({strokeColor: "#" + this.m_color, fillColor: "#" + this.m_color});
     }
     $('#dyn' + this.m_id + ' > .view .icon').attr("src", this.m_miniIcon.url);
     $('#dyn' + this.m_id + ' > .view .icon').attr("style", "width: " + this.m_miniIcon.width + "px; height: " + this.m_miniIcon.height + "px;");

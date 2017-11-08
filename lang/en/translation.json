@@ -36,8 +36,11 @@
             "coordinates_placeholder": "Coordinates",
             "radius": "Radius (m) of circle around marker",
             "radius_placeholder": "Radius (m)",
+            "color": "Color of the marker (RRGGBB)",
+            "color_placeholder": "Color (RRGGBB)",
             "error_badcoordinates": "Bad coordinate format: \"%1\".",
-            "error_badradius": "Bad value of 'radius': \"%1\".<br />Allowed values: integers &geq; 0."
+            "error_badradius": "Bad value of 'radius': \"%1\".<br />Allowed values: integers &geq; 0.",
+            "error_badcolor": "Bad value of 'color': \"%1\".<br />Allowed format: RRGGBB."
         },
         "lines": {
             "title": "Lines",

@@ -54,7 +54,7 @@ function projectFromMarker(id) {
             }
 
             newpos = Coordinates.projection_geodesic(oldpos, angle, dist);
-            newmarker = Markers.newMarker(newpos, -1, 0, null);
+            newmarker = Markers.newMarker(newpos, -1, 0, null, "");
             if (newmarker) {
                 showAlert(
                     mytrans("dialog.information"),
@@ -94,10 +94,18 @@ function getFeaturesString() {
 
     var s = "";
     //if ($('#boundaries').is(':checked')) { s += "b"; }
-    if ($('#geocaches').is(':checked')) { s += "g"; }
-    if ($('#hillshading').is(':checked')) { s += "h"; }
-    if ($('#npa').is(':checked')) { s += "n"; }
-    if ($('#freifunk').is(':checked')) { s += "f"; }
+    if ($('#geocaches').is(':checked')) {
+        s += "g";
+    }
+    if ($('#hillshading').is(':checked')) {
+        s += "h";
+    }
+    if ($('#npa').is(':checked')) {
+        s += "n";
+    }
+    if ($('#freifunk').is(':checked')) {
+        s += "f";
+    }
 
     return s;
 }
@@ -178,7 +186,15 @@ function repairMaptype(t, d) {
     'use strict';
 
     var mapTypes = {
-        "OSM": 1, "OSM/DE": 1, "OCM": 1, "OUTD": 1, "TOPO": 1, "satellite": 1, "hybrid": 1, "roadmap": 1, "terrain": 1
+        "OSM": 1,
+        "OSM/DE": 1,
+        "OCM": 1,
+        "OUTD": 1,
+        "TOPO": 1,
+        "satellite": 1,
+        "hybrid": 1,
+        "roadmap": 1,
+        "terrain": 1
     };
 
     if (mapTypes[t]) {
@@ -210,7 +226,7 @@ function parseMarkersFromUrl(urlarg) {
 
     data.map(function (dataitem) {
         dataitem = dataitem.split(':');
-        if (dataitem.length < 3 || dataitem.length > 5) {
+        if (dataitem.length < 3 || dataitem.length > 6) {
             return;
         }
 
@@ -219,7 +235,8 @@ function parseMarkersFromUrl(urlarg) {
                 id: alpha2id(dataitem[0]),
                 name: null,
                 coords: null,
-                r: 0
+                r: 0,
+                color: ""
             },
             index = 1,
             lat,
@@ -246,8 +263,14 @@ function parseMarkersFromUrl(urlarg) {
         index = index + 1;
 
         if (index < dataitem.length &&
-                /^([a-zA-Z0-9-_]*)$/.test(dataitem[index])) {
+                (/^([a-zA-Z0-9\-_]*)$/).test(dataitem[index])) {
             m.name = dataitem[index];
+        }
+
+        index = index + 1;
+        if (index < dataitem.length &&
+                (/^([a-fA-F0-9]{6})$/).test(dataitem[index])) {
+            m.color = dataitem[index];
         }
 
         markers.push(m);
@@ -318,7 +341,7 @@ function parseMarkersFromCookies() {
     }
 
     raw_ids.split(':').map(function (id_string) {
-        var m = {id: null, name: null, coords: null, r: 0},
+        var m = {id: null, name: null, coords: null, r: 0, color: ""},
             raw_data,
             data;
 
@@ -333,7 +356,7 @@ function parseMarkersFromCookies() {
         }
 
         data = raw_data.split(':');
-        if (data.length !== 4) {
+        if (data.length !== 4 && data.length !== 5) {
             return;
         }
 
@@ -344,8 +367,12 @@ function parseMarkersFromCookies() {
 
         m.r = repairRadius(parseFloat(data[2]), 0);
 
-        if (/^([a-zA-Z0-9-_]*)$/.test(data[3])) {
+        if ((/^([a-zA-Z0-9\-_]*)$/).test(data[3])) {
             m.name = data[3];
+        }
+
+        if (data.length === 5 && (/^([a-fA-F0-9]{6})$/).test(data[4])) {
+            m.color = data[4];
         }
 
         markers.push(m);
@@ -386,7 +413,7 @@ function createMap(id, center, zoom, maptype) {
             center: center,
             scaleControl: true,
             streetViewControl: false,
-            mapTypeControlOptions: { mapTypeIds: ['OSM', 'OSM/DE', 'OCM', 'OUTD', 'TOPO', google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.SATELLITE, google.maps.MapTypeId.HYBRID, google.maps.MapTypeId.TERRAIN] },
+            mapTypeControlOptions: {mapTypeIds: ['OSM', 'OSM/DE', 'OCM', 'OUTD', 'TOPO', google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.SATELLITE, google.maps.MapTypeId.HYBRID, google.maps.MapTypeId.TERRAIN]},
             mapTypeId: google.maps.MapTypeId.ROADMAP
         }
     );
@@ -498,7 +525,7 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocache
 
     if (loadfromcookies) {
         parseMarkersFromCookies().map(function (m) {
-            Markers.newMarker(m.coords, m.id, m.r, m.name);
+            Markers.newMarker(m.coords, m.id, m.r, m.name, m.color);
         });
 
         parseLinesFromCookies().map(function (m) {
@@ -506,7 +533,7 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocache
         });
     } else {
         markerdata.map(function (m) {
-            Markers.newMarker(m.coords, m.id, m.r, m.name);
+            Markers.newMarker(m.coords, m.id, m.r, m.name, m.color);
         });
 
         parseLinesFromUrl(xlines).map(function (m) {

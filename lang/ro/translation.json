@@ -11,7 +11,7 @@
         "english": "English",
         "german": "Deutsch",
         "dutch": "Nederlands",
-		"romanian": "Română <i class=\"fa fa-check\"></i>",
+        "romanian": "Română <i class=\"fa fa-check\"></i>",
         "polish": "Polski"
     },
 
@@ -36,8 +36,11 @@
             "coordinates_placeholder": "Coordonate",
             "radius": "Raza cercului (m) în jurul marcajului",
             "radius_placeholder": "Raza (m)",
+            "color": "Color of the marker (RRGGBB)",
+            "color_placeholder": "Color (RRGGBB)",
             "error_badcoordinates": "Formatul coordonatelor este greşit: \"%1\".",
-            "error_badradius": "Valoare greşită pentru 'rază': \"%1\".<br />Valori permise: numere întregi &geq; 0."
+            "error_badradius": "Valoare greşită pentru 'rază': \"%1\".<br />Valori permise: numere întregi &geq; 0.",
+            "error_badcolor": "Bad value of 'color': \"%1\".<br />Allowed format: RRGGBB."
         },
         "lines": {
             "title": "Lini",

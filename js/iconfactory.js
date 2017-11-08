@@ -33,7 +33,7 @@ IconFactory.createMapIcon = function (text, hexcolor) {
     </filter> \
   </defs> \
     <path \
-       fill="' + hexcolor + '" stroke="#000000" \
+       fill="#' + hexcolor + '" stroke="#000000" \
        d="M 4 4 L 4 26 L ' + (w2 - 4.0) + ' 26 L ' + (w2) + ' 33 L ' + (w2 + 4.0) + ' 26 L ' + (w - 4.0) + ' 26 L ' + (w - 4.0) + ' 4 L 4 4 z" \
        filter="url(#shadow)" /> \
     <text \
@@ -65,7 +65,7 @@ IconFactory.createMiniIcon = function (text, hexcolor) {
    viewBox="0 0 ' + w + ' 30" \
    version="1.1"> \
     <path \
-       fill="' + hexcolor + '" stroke="#000000" \
+       fill="#' + hexcolor + '" stroke="#000000" \
        d="M 4 4 L 4 26 L ' + (w - 4.0) + ' 26 L ' + (w - 4.0) + ' 4 L 4 4 z" \
        /> \
     <text \
@@ -96,11 +96,10 @@ IconFactory.computeTextWidth = function(text, font) {
 IconFactory.computeLuma = function(hexcolor) {
     'use strict';
 
-    var c    = hexcolor.substring(1), // strip #
-        rgb  = parseInt(c, 16),       // convert rrggbb to decimal
-        r    = (rgb >> 16) & 0xff,    // extract red
-        g    = (rgb >>  8) & 0xff,    // extract green
-        b    = (rgb >>  0) & 0xff,    // extract blue
+    var rgb  = parseInt(hexcolor, 16), // convert rrggbb to decimal
+        r    = (rgb >> 16) & 0xff,     // extract red
+        g    = (rgb >>  8) & 0xff,     // extract green
+        b    = (rgb >>  0) & 0xff,     // extract blue
         luma = 0.2126 * r + 0.7152 * g + 0.0722 * b; // per ITU-R BT.709
     return luma;
 };

@@ -73,7 +73,7 @@ function handleGpxFiles(files) {
         wpts = xml.getElementsByTagName('wpt');
         for (i = 0; i < wpts.length; i = i + 1) {
             wpt = parseWpt(wpts[i], 'wpt_' + i);
-            if (!Markers.newMarker(wpt.coords, -1, wpt.radius, wpt.name)) {
+            if (!Markers.newMarker(wpt.coords, -1, wpt.radius, wpt.name, "")) {
                 showAlert(
                     mytrans("uploadgpx.error"),
                     mytrans("uploadgpx.error_failed_after").replace(/%1/, i)

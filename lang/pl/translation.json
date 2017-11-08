@@ -36,8 +36,11 @@
             "coordinates_placeholder": "Współrzędne",
             "radius": "Promień (m) okręgu wokół markera",
             "radius_placeholder": "Promień (m)",
+            "color": "Color of the marker (RRGGBB)",
+            "color_placeholder": "Color (RRGGBB)",
             "error_badcoordinates": "Niepoprawny format współrzędnych: \"%1\".",
-            "error_badradius": "Niedozwolona warość pola 'promień': \"%1\".<br />Dozwolone wartości: Liczby całkowite &geq; 0."
+            "error_badradius": "Niedozwolona warość pola 'promień': \"%1\".<br />Dozwolone wartości: Liczby całkowite &geq; 0.",
+            "error_badcolor": "Bad value of 'color': \"%1\".<br />Allowed format: RRGGBB."
         },
         "lines": {
             "title": "Linie",
