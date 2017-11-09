@@ -270,11 +270,6 @@ Markers.newMarker = function (coordinates, id, radius, name, color) {
 Markers.createMarkerDiv = function (id) {
     'use strict';
 
-    var iconw = 33,
-        iconh = 37,
-        offsetx = (id % 26) * iconw,
-        offsety = Math.floor(id / 26) * iconh;
-
     return "<div id=\"dyn" + id + "\">" +
         "<table class=\"view\" style=\"width: 100%; vertical-align: middle;\">\n" +
         "    <tr>\n" +

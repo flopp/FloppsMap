@@ -16,8 +16,7 @@ function Marker(parent, id) {
     this.m_alpha = id2alpha(id);
     this.m_free = true;
     this.m_name = "";
-    var colors = ["FF0000", "00FF00", "0000FF", "FFFF00", "FF00FF", "00FFFF", "FFFFFF"];
-    this.m_color = colors[id % 7];
+    this.m_color = "FF0000";
     this.m_iconColor = "";
     this.m_iconLabel = "";
     this.m_miniIconUrl = "";
@@ -77,8 +76,7 @@ Marker.prototype.clear = function () {
     this.m_marker = null;
     this.m_circle.setMap(null);
     this.m_circle = null;
-    var colors = ["FF0000", "00FF00", "0000FF", "FFFF00", "FF00FF", "00FFFF", "FFFFFF"];
-    this.m_color = colors[this.m_id % 7];
+    this.m_color = "FF0000";
     this.m_iconColor = "";
     this.m_iconLabel = "";
 
@@ -166,8 +164,10 @@ Marker.prototype.initialize = function (map, name, position, radius, color) {
 
     this.m_free = false;
     this.m_name = name;
-    if (color !== "") {
-        this.m_color = color;
+    this.m_color = color;
+    if (!((/^([a-fA-F0-9]{6})$/).test(this.m_color))) {
+        var colors = ["FF0000", "00FF00", "0000FF", "FFFF00", "FF00FF", "00FFFF", "FFFFFF"];
+        this.m_color = colors[this.m_id % 7];
     }
     this.m_iconLabel = name;
     this.m_iconColor = this.m_color;
