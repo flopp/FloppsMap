@@ -223,7 +223,7 @@ Marker.prototype.update = function () {
     $('#dyn' + this.m_id + ' > .edit .name').val(this.m_name);
     $('#dyn' + this.m_id + ' > .edit .coords').val(Coordinates.toString(pos));
     $('#dyn' + this.m_id + ' > .edit .radius').val(radius);
-    $('#dyn' + this.m_id + ' > .edit .color').val(this.m_color);
+    $('#dyn' + this.m_id + ' > .edit .color').val('#' + this.m_color);
 
     if ((this.m_iconLabel !== this.m_name) || (this.m_iconColor !== this.m_color)) {
         this.m_iconLabel = this.m_name;

@@ -312,7 +312,7 @@ Markers.createMarkerDiv = function (id) {
         "    </tr>\n" +
         "    <tr>\n" +
         "        <td style=\"text-align: center; vertical-align: middle;\"><i class=\"fa fa-paint-brush\"></i>&nbsp;</td>\n" +
-        "        <td><input data-i18n=\"[title]sidebar.markers.color;[placeholder]sidebar.markers.color_placeholder\" class=\"color form-control input-block-level\" type=\"text\" style=\"margin-bottom: 0px;\" value=\"#FF0000\" /></td>\n" +
+        "        <td><input data-i18n=\"[title]sidebar.markers.color;[placeholder]sidebar.markers.color_placeholder\" class=\"color form-control input-block-level\" type=\"color\" style=\"margin-bottom: 0px;\" value=\"#FF0000\" /></td>\n" +
         "    </tr>\n" +
         "    <tr>\n" +
         "        <td colspan=\"2\" style=\"text-align: right\">\n" +
@@ -337,6 +337,7 @@ Markers.enterEditMode = function (id) {
     $('#dyn' + id + ' > .edit .name').val(m.getName());
     $('#dyn' + id + ' > .edit .coords').val(Coordinates.toString(m.getPosition()));
     $('#dyn' + id + ' > .edit .radius').val(m.getRadius());
+    $('#dyn' + id + ' > .edit .color').val('#' + m.m_color);
 
     $('#dyn' + id + ' > .view').hide();
     $('#dyn' + id + ' > .edit').show();
@@ -370,7 +371,7 @@ Markers.leaveEditMode = function (id, takenew) {
     if (radius === null) {
         errors.push(mytrans("sidebar.markers.error_badradius").replace(/%1/, s_radius));
     }
-    if (!(/^[a-fA-F0-9]{6}$/.test(s_color))) {
+    if (!(/#[a-fA-F0-9]{6}$/.test(s_color))) {
         errors.push(mytrans("sidebar.markers.error_badcolor").replace(/%1/, s_color));
     }
 
@@ -379,7 +380,7 @@ Markers.leaveEditMode = function (id, takenew) {
         return;
     }
 
-    m.setNamePositionRadiusColor(name, coords, radius, s_color);
+    m.setNamePositionRadiusColor(name, coords, radius, s_color.substr(1));
 
     $('#dyn' + id + ' > .view').show();
     $('#dyn' + id + ' > .edit').hide();
