@@ -77,41 +77,12 @@ cp -a lang/* $D/lang/
 
 #### external stuff
 
-# js cookie
-echo "-- fetching js-cookie"
-if [ -d $L/js-cookie/.git ] ; then
-    (cd $L/js-cookie/ ; git pull origin master)
-else
-    (cd $L ; git clone https://github.com/js-cookie/js-cookie.git)
-fi
-cp $L/js-cookie/src/js.cookie.js $D/js
-
-# jquery ajax cross origin plugin
-echo "-- fetching ajax-cross-origin"
-if [ ! -f $L/ajax-cross-origin/js/jquery.ajax-cross-origin.min.js ] ; then
-    if [ ! -f $L/ajax-cross-origin.zip ] ; then
-        (cd $L ; wget http://www.ajax-cross-origin.com/ajax-cross-origin.zip)
-    fi
-    (cd $L ; unzip ajax-cross-origin.zip)
-fi
-cp $L/ajax-cross-origin/js/jquery.ajax-cross-origin.min.js $D/js
-
 # geographiclib
 echo "-- fetching geographiclib"
 if [ ! -f $L/geographiclib.js ] ; then
   (cd $L ; wget http://geographiclib.sourceforge.net/scripts/geographiclib.js)
 fi
 cp $L/geographiclib.js $D/js
-
-# i18next xhr backend
-echo "-- fetching i18next-xhr-backend"
-if [ -d $L/i18next-xhr-backend/.git ] ; then
-    (cd $L/i18next-xhr-backend/ ; git pull origin master)
-else
-    (cd $L ; git clone https://github.com/i18next/i18next-xhr-backend.git)
-fi
-cp $L/i18next-xhr-backend/i18nextXHRBackend.min.js $D/js
-
 
 #### upload
 echo "-- uploading"

@@ -22,31 +22,28 @@
     <script type="text/javascript" src="https://maps.google.com/maps/api/js?key=AIzaSyC_KjqwiB6tKCcrq2aa8B3z-c7wNN8CTA0&amp;language=en"></script>
     <script src="https://apis.google.com/js/client.js"></script>
 
-    <!-- jquery -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <!-- jquery (bootstrap requires < v3) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
 
     <!-- js cookie -->
-    <script src="js/js.cookie.js"></script>
-
-    <!-- jquery.ajax-cross-origin -->
-    <script src="js/jquery.ajax-cross-origin.min.js"></script>
-
-    <!-- geographiclib -->
-    <script src="js/geographiclib.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.0/js.cookie.min.js" integrity="sha256-9Nt2r+tJnSd2A2CRUvnjgsD+ES1ExvjbjBNqidm9doI=" crossorigin="anonymous"></script>
 
     <!-- i18next -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/i18next/3.3.1/i18next.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/i18next-browser-languagedetector/0.3.0/i18nextBrowserLanguageDetector.min.js"></script>
-    <script src="js/i18nextXHRBackend.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-i18next/0.0.14/i18next-jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/i18next/10.0.7/i18next.min.js" integrity="sha256-XwzZwjHS4eK6Dj5FtcxbWPeFzScfeSNL4c8X5CYVUTg=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/i18next-browser-languagedetector/2.1.0/i18nextBrowserLanguageDetector.min.js" integrity="sha256-U0zqWamg4rdxKHke//5X806w0kSyubiv+/HgNqvr4Dg=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/i18next-xhr-backend/1.5.0/i18nextXHRBackend.min.js" integrity="sha256-xS3do6NXmCQau7rHIGJFU/5bYAnAxvvo5pVnieijgJw=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-i18next/1.2.1/jquery-i18next.min.js" integrity="sha256-Vo1wrHjny4hQDPA9SwBUpG/EBawhvUusdqRHb3Ia7x8=" crossorigin="anonymous"></script>
 
     <!-- bootstrap + font-awesome -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" />
 
     <!-- fonts -->
     <link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Norican">
+
+    <!-- geographiclib -->
+    <script src="js/geographiclib.js"></script>
 
     <!-- my own stuff -->
     <script type="text/javascript" src="js/compressed.js?t=TSTAMP"></script>

@@ -24,8 +24,7 @@ Flopp's Map uses the following third party components/services:
 - [Google Maps JavaScript API](https://developers.google.com/maps/documentation/javascript)
 - [Bootstrap](http://getbootstrap.com/) - via Cloudflare's CDNJS
 - [jQuery](https://jquery.com/) - via Cloudflare's CDNJS
-- [jQuery AJAX Cross Origin v1.3](http://www.ajax-cross-origin.com/)
-- [JS Cookie](https://github.com/js-cookie/js-cookie)
+- [JS Cookie](https://github.com/js-cookie/js-cookie) - via Cloudflare's CDNJS
 - [i18next](http://i18next.com/) - via Cloudflare's CDNJS
 - [JS Translation of GeographicLib](http://geographiclib.sf.net/html/other.html#javascript)
 - [Font Awesome](https://fortawesome.github.io/Font-Awesome/) - via Cloudflare's CDNJS

@@ -77,18 +77,30 @@ NPA.getInfo = function (coords) {
     'use strict';
 
     var self = this,
-        url = 'https://geodienste.bfn.de/ogc/wms/schutzgebiet?REQUEST=GetFeatureInfo&SERVICE=WMS&VERSION=1.3.0&CRS=CRS:84' +
-            '&BBOX=' + coords.lng() + ',' + coords.lat() + ',' + (coords.lng() + 0.001) + ',' + (coords.lat() + 0.001) +
-            '&WIDTH=256&HEIGHT=256&INFO_FORMAT=application/geojson&FEATURE_COUNT=1&QUERY_LAYERS=Naturschutzgebiete&X=0&Y=0';
-
+        url = 'https://geodienste.bfn.de/ogc/wms/schutzgebiet',
+        data = {
+            REQUEST: "GetFeatureInfo",
+            SERVICE: "WMS",
+            VERSION: "1.3.0",
+            CRS: "CRS:84",
+            BBOX: coords.lng() + ',' + coords.lat() + ',' + (coords.lng() + 0.001) + ',' + (coords.lat() + 0.001),
+            WIDTH: 256,
+            HEIGHT: 256,
+            INFO_FORMAT: "application/geojson",
+            FEATURE_COUNT: 1,
+            QUERY_LAYERS: "Naturschutzgebiete",
+            X: 0,
+            Y: 0
+        };
     $.ajax({
-        url: url,
-        crossOrigin: true,
-        proxy: 'proxy.php',
+        url: "proxy2.php",
+        dataType: "json",
+        data: {
+            url: url + "?" + $.param(data)
+        },
         timeout: 3000
     }).done(function (data) {
-        var json = $.parseJSON(data),
-            content = self.getPopupContentFromResponse(json),
+        var content = self.getPopupContentFromResponse(data),
             infowindow;
         if (content) {
             infowindow = new google.maps.InfoWindow({

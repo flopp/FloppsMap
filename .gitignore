@@ -2,3 +2,4 @@
 .local
 .deploy
 private
+node_modules

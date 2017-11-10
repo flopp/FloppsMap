@@ -4,20 +4,19 @@
 */
 
 /*global
-  $, document, trackAction, i18next, i18nextXHRBackend, i18nextBrowserLanguageDetector, i18nextJquery
+  $, document, trackAction, i18next, i18nextXHRBackend, i18nextBrowserLanguageDetector, jqueryI18next
 */
 
 function init_lang() {
     'use strict';
-
     i18next
         .use(i18nextXHRBackend)
         .use(i18nextBrowserLanguageDetector)
         .init({
-            debug : false,
+            debug: false,
             load: 'all',
             resGetPath: 'lang/{{lng}}/{{ns}}.json',
-            fallbackLng : "en",
+            fallbackLng: "en",
             backend: {
                 loadPath: 'lang/{{lng}}/{{ns}}.json'
             },
@@ -29,7 +28,7 @@ function init_lang() {
                 caches: ['localStorage', 'cookie']
             }
         }, function (err, t) {
-            i18nextJquery.init(i18next, $);
+            jqueryI18next.init(i18next, $);
             $(document).localize();
         });
 }
