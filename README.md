@@ -1,3 +1,7 @@
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/flopp/FloppsMap/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/flopp/FloppsMap/?branch=master)
+[![Travis CI Build](https://api.travis-ci.org/flopp/FloppsMap.svg?branch=master)](https://travis-ci.org/flopp/FloppsMap)
+[![License MIT](https://img.shields.io/badge/license-MIT-lightgrey.svg?style=flat)](https://github.com/flopp/FloppsMap/blob/master/LICENSE)
+
 # Flopp's Map
 
 *Flopp's Map* is an online map service, based on the Google Maps API and OpenStreetMap, which provides functionalities especially interesting for geocachers:
@@ -44,6 +48,3 @@ Flopp's Map uses the following third party components/services:
 
 ## License
 Flopp's Map is governed by a MIT-style license that can be found in the LICENSE file.
-
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/flopp/FloppsMap/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/flopp/FloppsMap/?branch=master)
-[![Travis CI Build](https://api.travis-ci.org/flopp/FloppsMap.svg?branch=master)](https://travis-ci.org/flopp/FloppsMap)
