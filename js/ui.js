@@ -9,44 +9,6 @@
   showMulticoordinatesDialog, Markers, get_cookie_string
 */
 
-///* boundaries layer */
-//function toggleBoundaries(t)
-//{
-//  Cookies.set('boundaries', t ? "1" : "0", {expires:30});
-//
-//  if ($('#boundaries').is(':checked') != t)
-//  {
-//    $('#boundaries').attr('checked', t);
-//  }
-//
-//  if( boundariesLayerShown == t ) return;
-//  boundariesLayerShown = t;
-//
-//  if (t) {
-//    map.overlayMapTypes.push(boundariesLayer);
-//  } else {
-//    map.overlayMapTypes.removeAt(map.overlayMapTypes.indexOf(boundariesLayer));
-//  }
-//}
-//
-//function restoreBoundaries(defaultValue)
-//{
-//  var state = get_cookie_string("boundaries", "invalid");
-//
-//  if (state == "0")
-//  {
-//    toggleBoundaries(false);
-//  }
-//  else if (state == "1")
-//  {
-//    toggleBoundaries(true);
-//  }
-//  else
-//  {
-//    toggleBoundaries(defaultValue);
-//  }
-//}
-
 
 /* coordinate format */
 function setCoordinatesFormat(t) {
@@ -159,7 +121,6 @@ $(document).ready(function () {
     $("#hillshading").click(function () {
         Hillshading.toggle($('#hillshading').is(':checked'));
     });
-    //$("#boundaries").click(function () { toggleBoundaries($('#boundaries').is(':checked')); });
     $("#npa").click(function () {
         NPA.toggle($('#npa').is(':checked'));
     });

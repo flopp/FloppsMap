@@ -64,9 +64,6 @@
 </script>
 <!-- End Piwik Code -->
 
-<script>
-  $(function() { App.init(); });
-</script>
 </head>
 
 <body>
@@ -190,16 +187,6 @@
             <span data-i18n="sidebar.misc.hillshading">HILL SHADING</span>
         </label>
     </div>
-
-    <!--<div class="checkbox">
-        <label>
-            <input id="boundaries" type="checkbox">
-            <span data-i18n="sidebar.misc.boundaries">ADMINISTRATIVE BOUNDARIES</span>
-            <button class="btn btn-info btn-xs" onClick="showBoundariesDialog()">
-                <i class="fa fa-info"></i>
-            </button>
-        </label>
-    </div>-->
     <div class="checkbox">
         <label>
             <input id="npa" type="checkbox">
@@ -369,22 +356,6 @@
             </div>
         </div>
     </div>
-</div>
-
-<div id="dialogBoundaries" class="modal">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h3 data-i18n="dialog.boundaries.title">ADMINISTRATIVE BOUNDRIES</h3>
-      </div>
-      <div class="modal-body">
-        <div data-i18n="[html]dialog.boundaries.content">BOUNDARIES CONTENT</div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-dismiss="modal" data-i18n="dialog.ok">OK</button>
-      </div>
-    </div>
-  </div>
 </div>
 
 <div id="dialogNPA" class="modal">

@@ -11,7 +11,6 @@
 - Waypoint projection
 - Display of geocaches from the Opencaching network (via OKAPI)
 - Display of German nature protection areas
-- Display of administrative boundaries
 - Permalinking to the current map
 - Translated to English, German, Dutch, Romanian
 
@@ -36,7 +35,6 @@ Flopp's Map uses the following third party components/services:
 - OSM map tiles by http://openstreetmap.org/, http://openstreetmap.de/, http://mapquest.com/, http://opencyclemap.org/, http://www.thunderforest.com/
 - Geocache data via  http://opencaching.de, http://opencaching.pl, http://opencaching.nl, https://opencache.uk, http://opencaching.us, http://opencaching.ro
 - German *Nature Protection Area* data provided by http://www.bfn.de/
-- *Hillshading* and *Administrative Boundary* tiles by [GIScience Research Group @ Heidelberg University](http://korona.geog.uni-heidelberg.de/)
 
 
 ## Authors/Contributors

@@ -5,7 +5,7 @@
 /*global
   $, google, Lang, Lines, Markers, Conversion, Cookies, Coordinates, trackMarker, showAlert,
   id2alpha, alpha2id,
-  showProjectionDialog, showLinkDialog,
+  showLinkDialog,
   osmProvider, osmDeProvider, thunderforestProvider, opentopomapProvider,
   get_cookie_int, get_cookie_float, get_cookie_string,
   Attribution, Sidebar, ExternalLinks, Hillshading, Geolocation, NPA, CDDA, Freifunk, Okapi,
@@ -15,8 +15,6 @@
 */
 
 
-//var boundariesLayer = null;
-//var boundariesLayerShown = false;
 var CLAT_DEFAULT = 51.163375;
 var CLON_DEFAULT = 10.447683;
 var ZOOM_DEFAULT = 12;
@@ -155,7 +153,6 @@ App.restore = function (features, geocache) {
 
     if (features === undefined) {
         Hillshading.restore(false);
-        //restoreBoundaries(false);
         Okapi.restore(false);
         NPA.toggle(false);
         CDDA.toggle(false);
@@ -163,7 +160,6 @@ App.restore = function (features, geocache) {
     } else {
         features = features.toLowerCase();
         Hillshading.toggle(features.indexOf('h') >= 0);
-        //toggleBoundaries(xfeatures.indexOf('b') >= 0);
         Okapi.toggle(features.indexOf('g') >= 0);
         NPA.toggle(features.indexOf('n') >= 0);
         Freifunk.toggle(features.indexOf('f') >= 0);
@@ -204,7 +200,6 @@ App.getFeaturesString = function () {
     'use strict';
 
     var s = "";
-    //if ($('#boundaries').is(':checked')) { s += "b"; }
     if ($('#geocaches').is(':checked')) {
         s += "g";
     }
@@ -414,7 +409,7 @@ App.parseCenterFromUrl = function (urlarg) {
 App.parseLinesFromUrl = function (urlarg) {
     'use strict';
 
-    if (urlarg === undefined || urlarg === null) {
+    if (!urlarg) {
         return [];
     }
 
@@ -520,7 +515,9 @@ App.createMap = function (id, center, zoom, maptype) {
             center: center,
             scaleControl: true,
             streetViewControl: false,
-            mapTypeControlOptions: {mapTypeIds: ['OSM', 'OSM/DE', 'OCM', 'OUTD', 'TOPO', google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.SATELLITE, google.maps.MapTypeId.HYBRID, google.maps.MapTypeId.TERRAIN]},
+            mapTypeControlOptions: {
+                mapTypeIds: ['OSM', 'OSM/DE', 'OCM', 'OUTD', 'TOPO', google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.SATELLITE, google.maps.MapTypeId.HYBRID, google.maps.MapTypeId.TERRAIN]
+            },
             mapTypeId: google.maps.MapTypeId.ROADMAP
         }
     );
@@ -545,24 +542,6 @@ App.createMap = function (id, center, zoom, maptype) {
     Okapi.init(m);
     DownloadGPX.init(m);
 
-    //boundariesLayer = new google.maps.ImageMapType({
-    //  getTileUrl: function(coord, zoom) {
-    //    if (6 <= zoom && zoom <= 16)
-    //    {
-    //      return tileUrl("http://korona.geog.uni-heidelberg.de/tiles/adminb/?x=%x&y=%y&z=%z", ["dummy"], coord, zoom);
-    //    }
-    //    else
-    //    {
-    //      return null;
-    //    }
-    //  },
-    //  tileSize: new google.maps.Size(256, 256),
-    //  name: "adminb",
-    //  alt: "Administrative Boundaries",
-    //  maxZoom: 16 });
-
-    m.setCenter(center, zoom);
-
     google.maps.event.addListener(m, "center_changed", function () {
         App.storeZoom();
         App.storeCenter();
@@ -579,3 +558,9 @@ App.createMap = function (id, center, zoom, maptype) {
 
     return m;
 };
+
+
+$(document).ready(function () {
+    'use strict';
+    App.init();
+});
