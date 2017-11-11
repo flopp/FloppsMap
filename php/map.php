@@ -65,29 +65,7 @@
 <!-- End Piwik Code -->
 
 <script>
-<?php
-$cntr = "";
-$zoom = "";
-$maptype = "";
-$markers = "";
-$lines = "";
-$features = "[default]";
-$geocache = "";
-
-if (!empty($_GET)) {
-  if (isset($_GET['c'])) { $cntr     = urldecode($_GET['c']); }
-  if (isset($_GET['z'])) { $zoom     = urldecode($_GET['z']); }
-  if (isset($_GET['t'])) { $maptype  = urldecode($_GET['t']); }
-  if (isset($_GET['m'])) { $markers  = urldecode($_GET['m']); }
-  if (isset($_GET['d'])) { $lines    = urldecode($_GET['d']); }
-  if (isset($_GET['f'])) { $features = urldecode($_GET['f']); }
-  if (isset($_GET['g'])) { $geocache = urldecode($_GET['g']); }
-}
-
-echo "\$(function() {";
-echo "App.init('$cntr', '$zoom', '$maptype', '$features', '$markers', '$lines', '$geocache');";
-echo "})";
-?>
+  $(function() { App.init(); });
 </script>
 </head>
 

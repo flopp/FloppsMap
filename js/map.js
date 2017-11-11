@@ -11,7 +11,7 @@
   Attribution, Sidebar, ExternalLinks, Hillshading, Geolocation, NPA, CDDA, Freifunk, Okapi,
   DownloadGPX, API_KEY_THUNDERFOREST,
   restoreCoordinatesFormat,
-  document
+  document, window
 */
 
 
@@ -20,88 +20,140 @@
 var CLAT_DEFAULT = 51.163375;
 var CLON_DEFAULT = 10.447683;
 var ZOOM_DEFAULT = 12;
+var ZOOM_DEFAULT_GEOCACHE = 15;
 var MAPTYPE_DEFAULT = "OSM";
 
 
 var App = {};
 App.m_map = null;
 
-App.init = function (xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocache) {
+App.urlParams = function () {
     'use strict';
 
-    var center,
-        atDefaultCenter = false,
-        zoom = parseInt(xzoom, 10),
-        maptype = xmap,
-        loadfromcookies = false,
-        markerdata = this.parseMarkersFromUrl(xmarkers),
-        markercenter = null,
-        clat = 0,
-        clon = 0;
+    var params = {},
+        splitted = window.location.search.substr(1).split('&'),
+        i,
+        p;
+
+    for (i = 0; i < splitted.length; i += 1) {
+        p = splitted[i].split('=', 2);
+        if (p[0] !== "") {
+            if (p.length === 1) {
+                params[p[0]] = "";
+            } else {
+                params[p[0]] = decodeURIComponent(p[1].replace(/\+/g, " "));
+            }
+        }
+    }
+
+    return params;
+};
+
+
+App.init = function () {
+    'use strict';
 
     Lang.init();
 
-    if (markerdata.length > 0) {
+    var params = App.urlParams();
+    if (!App.initFromUrl(params)) {
+        App.initFromCookies();
+    }
+};
+
+
+App.initFromUrl = function (params) {
+    'use strict';
+
+    if (params.c === undefined &&
+            params.z === undefined &&
+            params.t === undefined &&
+            params.m === undefined &&
+            params.d === undefined &&
+            params.f === undefined &&
+            params.g === undefined) {
+        return false;
+    }
+
+    var center = this.parseCenterFromUrl(params.c),
+        zoom = this.repairZoom(parseInt(params.z, 10), (params.g === undefined) ? ZOOM_DEFAULT : ZOOM_DEFAULT_GEOCACHE),
+        maptype = this.repairMaptype(params.t, MAPTYPE_DEFAULT),
+        markerdata = this.parseMarkersFromUrl(params.m),
+        defaultCenter = false;
+
+    if (!center && markerdata.length > 0) {
+        var clat = 0,
+            clng = 0;
         markerdata.map(function (m) {
             clat += m.coords.lat();
-            clon += m.coords.lng();
+            clng += m.coords.lng();
         });
-        markercenter = new google.maps.LatLng(clat / markerdata.length, clon / markerdata.length);
+        center = new google.maps.LatLng(clat / markerdata.length, clng / markerdata.length);
     }
-
-    if (xcenter && xcenter !== '') {
-        center = this.parseCenterFromUrl(xcenter);
-    } else if (markercenter) {
-        center = markercenter;
-    } else {
-        loadfromcookies = true;
-
-        /* try to read coordinats from cookie */
-        clat = get_cookie_float('clat', CLAT_DEFAULT);
-        clon = get_cookie_float('clon', CLON_DEFAULT);
-        if (clat === CLAT_DEFAULT && clon === CLON_DEFAULT) {
-            atDefaultCenter = true;
-        }
-
-        clat = this.repairLat(clat, CLAT_DEFAULT);
-        clon = this.repairLon(clon, CLON_DEFAULT);
-        center = new google.maps.LatLng(clat, clon);
-
-        zoom = get_cookie_int('zoom', ZOOM_DEFAULT);
-        maptype = get_cookie_string('maptype', MAPTYPE_DEFAULT);
-    }
-
     if (!center) {
         center = new google.maps.LatLng(CLAT_DEFAULT, CLON_DEFAULT);
-        atDefaultCenter = true;
+        defaultCenter = true;
     }
 
-    zoom = this.repairZoom(zoom, ZOOM_DEFAULT);
-    maptype = this.repairMaptype(maptype, MAPTYPE_DEFAULT);
     App.m_map = this.createMap("themap", center, zoom, maptype);
 
-    if (loadfromcookies) {
-        this.parseMarkersFromCookies().map(function (m) {
-            Markers.newMarker(m.coords, m.id, m.r, m.name, m.color);
-        });
+    markerdata.map(function (m) {
+        Markers.newMarker(m.coords, m.id, m.r, m.name, m.color);
+    });
 
-        this.parseLinesFromCookies().map(function (m) {
-            Lines.newLine(m.source, m.target);
-        });
-    } else {
-        markerdata.map(function (m) {
-            Markers.newMarker(m.coords, m.id, m.r, m.name, m.color);
-        });
+    this.parseLinesFromUrl(params.d).map(function (m) {
+        Lines.newLine(m.source, m.target);
+    });
 
-        this.parseLinesFromUrl(xlines).map(function (m) {
-            Lines.newLine(m.source, m.target);
-        });
+    App.restore(params.f, params.g);
+
+    if (defaultCenter && params.g !== undefined) {
+        Geolocation.whereAmI();
     }
 
-    Okapi.setShowCache(xgeocache);
+    return true;
+};
+
+
+App.initFromCookies = function () {
+    'use strict';
+
+    var clat = this.repairLat(get_cookie_float('clat', CLAT_DEFAULT)),
+        clon = this.repairLon(get_cookie_float('clon', CLON_DEFAULT)),
+        defaultCenter = (clat === CLAT_DEFAULT && clon === CLON_DEFAULT),
+        center = new google.maps.LatLng(clat, clon),
+        zoom = this.repairZoom(get_cookie_int('zoom', ZOOM_DEFAULT), ZOOM_DEFAULT),
+        maptype = this.repairMaptype(get_cookie_string('maptype', MAPTYPE_DEFAULT), MAPTYPE_DEFAULT);
+
+
+    App.m_map = this.createMap("themap", center, zoom, maptype);
+
+    this.parseMarkersFromCookies().map(function (m) {
+        Markers.newMarker(m.coords, m.id, m.r, m.name, m.color);
+    });
+
+    this.parseLinesFromCookies().map(function (m) {
+        Lines.newLine(m.source, m.target);
+    });
+
+    App.restore(undefined);
+
+    if (defaultCenter) {
+        Geolocation.whereAmI();
+    }
+};
+
+
+App.restore = function (features, geocache) {
+    'use strict';
+
+    if (geocache !== undefined) {
+        Okapi.setShowCache(geocache);
+    }
+
     Sidebar.restore(true);
-    xfeatures = xfeatures.toLowerCase();
-    if (xfeatures === '[default]') {
+
+    if (features === undefined) {
         Hillshading.restore(false);
         //restoreBoundaries(false);
         Okapi.restore(false);
@@ -109,25 +161,21 @@ App.init = function (xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocach
         CDDA.toggle(false);
         Freifunk.toggle(false);
     } else {
-        Hillshading.toggle(xfeatures.indexOf('h') >= 0);
+        features = features.toLowerCase();
+        Hillshading.toggle(features.indexOf('h') >= 0);
         //toggleBoundaries(xfeatures.indexOf('b') >= 0);
-        Okapi.toggle(xfeatures.indexOf('g') >= 0);
-        NPA.toggle(xfeatures.indexOf('n') >= 0);
-        Freifunk.toggle(xfeatures.indexOf('f') >= 0);
+        Okapi.toggle(features.indexOf('g') >= 0);
+        NPA.toggle(features.indexOf('n') >= 0);
+        Freifunk.toggle(features.indexOf('f') >= 0);
     }
+
     restoreCoordinatesFormat("DM");
 
-    if (xgeocache !== "") {
+    if (geocache !== undefined) {
         Okapi.toggle(true);
-        atDefaultCenter = false;
-    }
-
-    Attribution.forceUpdate();
-
-    if (atDefaultCenter) {
-        Geolocation.whereAmI();
     }
 };
+
 
 App.storeCenter = function () {
     'use strict';
@@ -237,7 +285,7 @@ App.repairRadius = function (x, d) {
 App.repairZoom = function (x, d) {
     'use strict';
 
-    if (x === null || isNaN(x) || x < 1 || x > 20) {
+    if (x === undefined || x === null || isNaN(x) || x < 1 || x > 20) {
         return d;
     }
 
@@ -260,7 +308,7 @@ App.repairMaptype = function (t, d) {
         "terrain": 1
     };
 
-    if (mapTypes[t]) {
+    if (t !== undefined && mapTypes[t]) {
         return t;
     }
 
@@ -271,12 +319,11 @@ App.repairMaptype = function (t, d) {
 App.parseMarkersFromUrl = function (urlarg) {
     'use strict';
 
-    if (urlarg === null) {
+    if (!urlarg) {
         return [];
     }
 
-    var markers = [],
-        data;
+    var data;
 
     // ID:COODRS:R(:NAME)?|ID:COORDS:R(:NAME)?
     // COORDS=LAT:LON or DEG or DMMM
@@ -287,10 +334,10 @@ App.parseMarkersFromUrl = function (urlarg) {
         data = urlarg.split('|');
     }
 
-    data.map(function (dataitem) {
+    return data.map(function (dataitem) {
         dataitem = dataitem.split(':');
         if (dataitem.length < 3 || dataitem.length > 6) {
-            return;
+            return null;
         }
 
         var m = {
@@ -306,7 +353,7 @@ App.parseMarkersFromUrl = function (urlarg) {
             lon;
 
         if (m.id < 0) {
-            return;
+            return null;
         }
 
         lat = parseFloat(dataitem[index]);
@@ -319,10 +366,10 @@ App.parseMarkersFromUrl = function (urlarg) {
             index += 1;
         }
         if (!m.coords) {
-            return;
+            return null;
         }
 
-        m.r = this.repairRadius(parseFloat(dataitem[index]), 0);
+        m.r = App.repairRadius(parseFloat(dataitem[index]), 0);
         index = index + 1;
 
         if (index < dataitem.length &&
@@ -336,17 +383,17 @@ App.parseMarkersFromUrl = function (urlarg) {
             m.color = dataitem[index];
         }
 
-        markers.push(m);
+        return m;
+    }).filter(function (thing) {
+        return thing !== null;
     });
-
-    return markers;
 };
 
 
 App.parseCenterFromUrl = function (urlarg) {
     'use strict';
 
-    if (urlarg === null) {
+    if (!urlarg) {
         return null;
     }
 
@@ -367,11 +414,9 @@ App.parseCenterFromUrl = function (urlarg) {
 App.parseLinesFromUrl = function (urlarg) {
     'use strict';
 
-    if (urlarg === null) {
+    if (urlarg === undefined || urlarg === null) {
         return [];
     }
-
-    var lines = [];
 
     /* be backwards compatible */
     if (urlarg.length === 3
@@ -381,51 +426,50 @@ App.parseLinesFromUrl = function (urlarg) {
         urlarg = urlarg[0] + ':' + urlarg[2];
     }
 
-    urlarg.split('*').map(function (pair_string) {
+    return urlarg.split('*').map(function (pair_string) {
         var pair = pair_string.split(':');
         if (pair.length === 2) {
-            lines.push({source: alpha2id(pair[0]), target: alpha2id(pair[1])});
+            return {source: alpha2id(pair[0]), target: alpha2id(pair[1])};
         }
-
+        return null;
+    }).filter(function (thing) {
+        return (thing !== null);
     });
-
-    return lines;
 };
 
 
 App.parseMarkersFromCookies = function () {
     'use strict';
 
-    var raw_ids = Cookies.get('markers'),
-        markers = [];
+    var raw_ids = Cookies.get('markers');
 
-    if (raw_ids === null || raw_ids === undefined) {
-        return markers;
+    if (!raw_ids) {
+        return [];
     }
 
-    raw_ids.split(':').map(function (id_string) {
+    return raw_ids.split(':').map(function (id_string) {
         var m = {id: null, name: null, coords: null, r: 0, color: ""},
             raw_data,
             data;
 
         m.id = parseInt(id_string, 10);
         if (m.id === null || m.id < 0 || m.id >= 26 * 10) {
-            return;
+            return null;
         }
 
         raw_data = Cookies.get('marker' + m.id);
         if (!raw_data) {
-            return;
+            return null;
         }
 
         data = raw_data.split(':');
         if (data.length !== 4 && data.length !== 5) {
-            return;
+            return null;
         }
 
         m.coords = Coordinates.toLatLng(parseFloat(data[0]), parseFloat(data[1]));
         if (!m.coords) {
-            return;
+            return null;
         }
 
         m.r = App.repairRadius(parseFloat(data[2]), 0);
@@ -438,31 +482,31 @@ App.parseMarkersFromCookies = function () {
             m.color = data[4];
         }
 
-        markers.push(m);
+        return m;
+    }).filter(function (thing) {
+        return (thing !== null);
     });
-
-    return markers;
 };
 
 
 App.parseLinesFromCookies = function () {
     'use strict';
 
-    var raw_lines = Cookies.get('lines'),
-        lines = [];
+    var raw_lines = Cookies.get('lines');
 
     if (!raw_lines) {
-        return lines;
+        return [];
     }
 
-    raw_lines.split('*').map(function (pair_string) {
+    return raw_lines.split('*').map(function (pair_string) {
         var pair = pair_string.split(':');
         if (pair.length === 2) {
-            lines.push({source: alpha2id(pair[0]), target: alpha2id(pair[1])});
+            return {source: alpha2id(pair[0]), target: alpha2id(pair[1])};
         }
+        return null;
+    }).filter(function (thing) {
+        return (thing !== null);
     });
-
-    return lines;
 };
 
 
@@ -530,6 +574,8 @@ App.createMap = function (id, center, zoom, maptype) {
     google.maps.event.addListener(m, "maptypeid_changed", function () {
         App.storeMapType();
     });
+
+    Attribution.forceUpdate();
 
     return m;
 };

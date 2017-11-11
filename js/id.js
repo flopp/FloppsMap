@@ -30,11 +30,11 @@ function alpha2id(alpha) {
 
     alpha = alpha.toUpperCase();
 
-    if (/^[a-z]$/.test(alpha)) {
+    if (/^[A-Z]$/.test(alpha)) {
         return alpha.charCodeAt(0) - indexA;
     }
 
-    if (/^[a-z][0-9]$/.test(alpha)) {
+    if (/^[A-Z][0-9]$/.test(alpha)) {
         return (alpha.charCodeAt(0) - indexA) + 26 * (alpha.charCodeAt(1) - index0);
     }
 
