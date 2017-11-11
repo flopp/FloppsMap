@@ -5,7 +5,7 @@
 /*global
   $,
   Conversion, Cookies, Coordinates, Lines, Marker,
-  id2alpha, mytrans, showAlert, trackMarker
+  id2alpha, Lang, showAlert, trackMarker, showProjectionDialog
 */
 
 var Markers = {};
@@ -220,8 +220,8 @@ Markers.newMarker = function (coordinates, id, radius, name, color) {
         id = this.getFreeId();
         if (id < 0) {
             showAlert(
-                mytrans("dialog.error"),
-                mytrans("dialog.toomanymarkers_error.content").replace(/%1/, Markers.getSize())
+                Lang.t("dialog.error"),
+                Lang.t("dialog.toomanymarkers_error.content").replace(/%1/, Markers.getSize())
             );
             return null;
         }
@@ -234,6 +234,9 @@ Markers.newMarker = function (coordinates, id, radius, name, color) {
 
     if (!name) {
         name = id2alpha(id);
+    }
+    if (!coordinates) {
+        coordinates = this.m_map.getCenter();
     }
 
     marker = this.getById(id);
@@ -271,57 +274,57 @@ Markers.createMarkerDiv = function (id) {
     'use strict';
 
     return "<div id=\"dyn" + id + "\">" +
-        "<table class=\"view\" style=\"width: 100%; vertical-align: middle;\">\n" +
-        "    <tr>\n" +
-        "        <td rowspan=\"3\" style=\"vertical-align: top\">\n" +
-        "            <img class=\"icon\" src=\"\" />\n" +
-        "        </td>\n" +
-        "        <td style=\"text-align: center\"><i class=\"fa fa-map-marker\"></i></td>\n" +
-        "        <td class=\"name\" colspan=\"2\">marker</td>\n" +
-        "    </tr>\n" +
-        "    <tr>\n" +
-        "        <td style=\"text-align: center\"><i class=\"fa fa-globe\"></i></td>\n" +
-        "        <td class=\"coords\" colspan=\"2\">N 48° 00.123 E 007° 51.456</td>\n" +
-        "    </tr>\n" +
-        "    <tr>\n" +
-        "        <td style=\"text-align: center\"><i class=\"fa fa-circle-o\"></i></td>\n" +
-        "        <td class=\"radius\">16100 m</td>\n" +
-        "        <td>\n" +
-        "            <div class=\"btn-group\" style=\"padding-bottom: 2px; padding-top: 2px; float: right\">\n" +
-        "            <button class=\"my-button btn btn-mini btn-warning\" data-i18n=\"[title]sidebar.markers.edit_marker\" type=\"button\"  onclick=\"Markers.enterEditMode(" + id + ");\"><i class=\"fa fa-edit\"></i></button>\n" +
-        "            <button class=\"my-button btn btn-mini btn-danger\" data-i18n=\"[title]sidebar.markers.delete_marker\" type=\"button\" onClick=\"Markers.removeById(" + id + ");\"><i class=\"fa fa-trash-o\"></i></button>\n" +
-        "            <button class=\"my-button btn btn-mini btn-info\" data-i18n=\"[title]sidebar.markers.move_to\" type=\"button\" onClick=\"Markers.goto(" + id + ");\"><i class=\"fa fa-search\"></i></button>\n" +
-        "            <button class=\"my-button btn btn-mini btn-warning\" data-i18n=\"[title]sidebar.markers.center\" type=\"button\" onClick=\"Markers.center(" + id + ");\"><i class=\"fa fa-crosshairs\"></i></button>\n" +
-        "            <button class=\"my-button btn btn-mini btn-success\" data-i18n=\"[title]sidebar.markers.project\" type=\"button\" onClick=\"projectFromMarker(" + id + ");\"><i class=\"fa fa-location-arrow\"></i></button>\n" +
-        "            </div>\n" +
-        "        </td>\n" +
-        "    </tr>\n" +
-        "</table>\n" +
-        "<table class=\"edit\" style=\"display: none; width: 100%; vertical-align: middle;\">\n" +
-        "    <tr>\n" +
-        "        <td style=\"text-align: center; vertical-align: middle;\"><i class=\"fa fa-map-marker\"></i>&nbsp;</td>\n" +
-        "        <td><input data-i18n=\"[title]sidebar.markers.name;[placeholder]sidebar.markers.name_placeholder\" class=\"name form-control input-block-level\" type=\"text\" style=\"margin-bottom: 0px;\" value=\"n/a\" /></td>\n" +
-        "    </tr>\n" +
-        "    <tr>\n" +
-        "        <td style=\"text-align: center; vertical-align: middle;\"><i class=\"fa fa-globe\"></i>&nbsp;</td>\n" +
-        "        <td><input data-i18n=\"[title]sidebar.markers.coordinates;[placeholder]sidebar.markers.coordinates_placeholder\" class=\"coords form-control input-block-level\" type=\"text\" style=\"margin-bottom: 0px;\" value=\"n/a\" /></td>\n" +
-        "    </tr>\n" +
-        "    <tr>\n" +
-        "        <td style=\"text-align: center; vertical-align: middle;\"><i class=\"fa fa-circle-o\"></i>&nbsp;</td>\n" +
-        "        <td><input data-i18n=\"[title]sidebar.markers.radius;[placeholder]sidebar.markers.radius_placeholder\" class=\"radius form-control input-block-level\" type=\"text\" style=\"margin-bottom: 0px;\" value=\"n/a\" /></td>\n" +
-        "    </tr>\n" +
-        "    <tr>\n" +
-        "        <td style=\"text-align: center; vertical-align: middle;\"><i class=\"fa fa-paint-brush\"></i>&nbsp;</td>\n" +
-        "        <td><input data-i18n=\"[title]sidebar.markers.color;[placeholder]sidebar.markers.color_placeholder\" class=\"color form-control input-block-level\" type=\"color\" style=\"margin-bottom: 0px;\" value=\"#FF0000\" /></td>\n" +
-        "    </tr>\n" +
-        "    <tr>\n" +
-        "        <td colspan=\"2\" style=\"text-align: right\">\n" +
-        "            <button class=\"btn btn-small btn-primary\" type=\"button\" onclick=\"Markers.leaveEditMode(" + id + ", true);\" data-i18n=\"dialog.ok\">OK</button>\n" +
-        "            <button class=\"btn btn-small\" type=\"button\" onclick=\"Markers.leaveEditMode(" + id + ", false);\" data-i18n=\"dialog.cancel\">CANCEL</button>\n" +
-        "        </td>\n" +
-        "    </tr>\n" +
-        "</table>" +
-        "</div>";
+            "<table class=\"view\" style=\"width: 100%; vertical-align: middle;\">\n" +
+            "    <tr>\n" +
+            "        <td rowspan=\"3\" style=\"vertical-align: top\">\n" +
+            "            <img class=\"icon\" src=\"\" />\n" +
+            "        </td>\n" +
+            "        <td style=\"text-align: center\"><i class=\"fa fa-map-marker\"></i></td>\n" +
+            "        <td class=\"name\" colspan=\"2\">marker</td>\n" +
+            "    </tr>\n" +
+            "    <tr>\n" +
+            "        <td style=\"text-align: center\"><i class=\"fa fa-globe\"></i></td>\n" +
+            "        <td class=\"coords\" colspan=\"2\">N 48° 00.123 E 007° 51.456</td>\n" +
+            "    </tr>\n" +
+            "    <tr>\n" +
+            "        <td style=\"text-align: center\"><i class=\"fa fa-circle-o\"></i></td>\n" +
+            "        <td class=\"radius\">16100 m</td>\n" +
+            "        <td>\n" +
+            "            <div class=\"btn-group\" style=\"padding-bottom: 2px; padding-top: 2px; float: right\">\n" +
+            "            <button class=\"my-button btn btn-mini btn-warning\" data-i18n=\"[title]sidebar.markers.edit_marker\" type=\"button\"  onclick=\"Markers.enterEditMode(" + id + ");\"><i class=\"fa fa-edit\"></i></button>\n" +
+            "            <button class=\"my-button btn btn-mini btn-danger\" data-i18n=\"[title]sidebar.markers.delete_marker\" type=\"button\" onClick=\"Markers.removeById(" + id + ");\"><i class=\"fa fa-trash-o\"></i></button>\n" +
+            "            <button class=\"my-button btn btn-mini btn-info\" data-i18n=\"[title]sidebar.markers.move_to\" type=\"button\" onClick=\"Markers.goto(" + id + ");\"><i class=\"fa fa-search\"></i></button>\n" +
+            "            <button class=\"my-button btn btn-mini btn-warning\" data-i18n=\"[title]sidebar.markers.center\" type=\"button\" onClick=\"Markers.center(" + id + ");\"><i class=\"fa fa-crosshairs\"></i></button>\n" +
+            "            <button class=\"my-button btn btn-mini btn-success\" data-i18n=\"[title]sidebar.markers.project\" type=\"button\" onClick=\"Markers.projectFromMarker(" + id + ");\"><i class=\"fa fa-location-arrow\"></i></button>\n" +
+            "            </div>\n" +
+            "        </td>\n" +
+            "    </tr>\n" +
+            "</table>\n" +
+            "<table class=\"edit\" style=\"display: none; width: 100%; vertical-align: middle;\">\n" +
+            "    <tr>\n" +
+            "        <td style=\"text-align: center; vertical-align: middle;\"><i class=\"fa fa-map-marker\"></i>&nbsp;</td>\n" +
+            "        <td><input data-i18n=\"[title]sidebar.markers.name;[placeholder]sidebar.markers.name_placeholder\" class=\"name form-control input-block-level\" type=\"text\" style=\"margin-bottom: 0px;\" value=\"n/a\" /></td>\n" +
+            "    </tr>\n" +
+            "    <tr>\n" +
+            "        <td style=\"text-align: center; vertical-align: middle;\"><i class=\"fa fa-globe\"></i>&nbsp;</td>\n" +
+            "        <td><input data-i18n=\"[title]sidebar.markers.coordinates;[placeholder]sidebar.markers.coordinates_placeholder\" class=\"coords form-control input-block-level\" type=\"text\" style=\"margin-bottom: 0px;\" value=\"n/a\" /></td>\n" +
+            "    </tr>\n" +
+            "    <tr>\n" +
+            "        <td style=\"text-align: center; vertical-align: middle;\"><i class=\"fa fa-circle-o\"></i>&nbsp;</td>\n" +
+            "        <td><input data-i18n=\"[title]sidebar.markers.radius;[placeholder]sidebar.markers.radius_placeholder\" class=\"radius form-control input-block-level\" type=\"text\" style=\"margin-bottom: 0px;\" value=\"n/a\" /></td>\n" +
+            "    </tr>\n" +
+            "    <tr>\n" +
+            "        <td style=\"text-align: center; vertical-align: middle;\"><i class=\"fa fa-paint-brush\"></i>&nbsp;</td>\n" +
+            "        <td><input data-i18n=\"[title]sidebar.markers.color;[placeholder]sidebar.markers.color_placeholder\" class=\"color form-control input-block-level\" type=\"color\" style=\"margin-bottom: 0px;\" value=\"#FF0000\" /></td>\n" +
+            "    </tr>\n" +
+            "    <tr>\n" +
+            "        <td colspan=\"2\" style=\"text-align: right\">\n" +
+            "            <button class=\"btn btn-small btn-primary\" type=\"button\" onclick=\"Markers.leaveEditMode(" + id + ", true);\" data-i18n=\"dialog.ok\">OK</button>\n" +
+            "            <button class=\"btn btn-small\" type=\"button\" onclick=\"Markers.leaveEditMode(" + id + ", false);\" data-i18n=\"dialog.cancel\">CANCEL</button>\n" +
+            "        </td>\n" +
+            "    </tr>\n" +
+            "</table>" +
+            "</div>";
 };
 
 
@@ -366,17 +369,17 @@ Markers.leaveEditMode = function (id, takenew) {
 
 
     if (!coords) {
-        errors.push(mytrans("sidebar.markers.error_badcoordinates").replace(/%1/, s_coords));
+        errors.push(Lang.t("sidebar.markers.error_badcoordinates").replace(/%1/, s_coords));
     }
     if (radius === null) {
-        errors.push(mytrans("sidebar.markers.error_badradius").replace(/%1/, s_radius));
+        errors.push(Lang.t("sidebar.markers.error_badradius").replace(/%1/, s_radius));
     }
     if (!(/#[a-fA-F0-9]{6}$/.test(s_color))) {
-        errors.push(mytrans("sidebar.markers.error_badcolor").replace(/%1/, s_color));
+        errors.push(Lang.t("sidebar.markers.error_badcolor").replace(/%1/, s_color));
     }
 
     if (errors.length > 0) {
-        showAlert(mytrans("dialog.error"), errors.join("<br /><br />"));
+        showAlert(Lang.t("dialog.error"), errors.join("<br /><br />"));
         return;
     }
 
@@ -386,4 +389,48 @@ Markers.leaveEditMode = function (id, takenew) {
     $('#dyn' + id + ' > .edit').hide();
 
     Lines.updateLinesMarkerAdded();
+};
+
+
+Markers.projectFromMarker = function (id) {
+    'use strict';
+
+    trackMarker('project');
+
+    var mm = Markers.getById(id),
+        oldpos = mm.getPosition();
+
+    showProjectionDialog(
+        function (data1, data2) {
+            var angle = Conversion.getFloat(data1, 0, 360),
+                dist = Conversion.getFloat(data2, 0, 100000000000),
+                newpos,
+                newmarker;
+
+            if (angle === null) {
+                showAlert(
+                    Lang.t("dialog.error"),
+                    Lang.t("dialog.projection.error_bad_bearing").replace(/%1/, data1)
+                );
+                return;
+            }
+
+            if (dist === null) {
+                showAlert(
+                    Lang.t("dialog.error"),
+                    Lang.t("dialog.projection.error_bad_distance").replace(/%1/, data2)
+                );
+                return;
+            }
+
+            newpos = Coordinates.projection_geodesic(oldpos, angle, dist);
+            newmarker = Markers.newMarker(newpos, -1, 0, null, "");
+            if (newmarker) {
+                showAlert(
+                    Lang.t("dialog.information"),
+                    Lang.t("dialog.projection.msg_new_marker").replace(/%1/, newmarker.getAlpha())
+                );
+            }
+        }
+    );
 };

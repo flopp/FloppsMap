@@ -4,7 +4,7 @@
 */
 
 /*global
-  Coordinates, $, google, trackSearch, showAlert, mytrans, navigator
+  Coordinates, $, google, trackSearch, showAlert, Lang, navigator
 */
 
 var Geolocation = {};
@@ -34,15 +34,15 @@ Geolocation.search = function (address) {
                     the_map.setCenter(new google.maps.LatLng(data[0].lat, data[0].lon));
                 } else {
                     showAlert(
-                        mytrans("dialog.search_error.title"),
-                        mytrans("dialog.search_error.content").replace(/%1/, address)
+                        Lang.t("dialog.search_error.title"),
+                        Lang.t("dialog.search_error.content").replace(/%1/, address)
                     );
                 }
             })
             .fail(function () {
                 showAlert(
-                    mytrans("dialog.search_error.title"),
-                    mytrans("dialog.search_error.content").replace(/%1/, address)
+                    Lang.t("dialog.search_error.title"),
+                    Lang.t("dialog.search_error.content").replace(/%1/, address)
                 );
             });
     } else {
@@ -65,15 +65,15 @@ Geolocation.whereAmI = function () {
             },
             function () {
                 showAlert(
-                    mytrans("dialog.whereami_error.title"),
-                    mytrans("dialog.whereami_error.content")
+                    Lang.t("dialog.whereami_error.title"),
+                    Lang.t("dialog.whereami_error.content")
                 );
             }
         );
     } else {
         showAlert(
-            mytrans("dialog.whereami_error.title"),
-            mytrans("dialog.whereami_error.content")
+            Lang.t("dialog.whereami_error.title"),
+            Lang.t("dialog.whereami_error.content")
         );
     }
 };

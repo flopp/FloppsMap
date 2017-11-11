@@ -3,7 +3,7 @@
 */
 
 /*global
-  $, google, showAlert, mytrans
+  $, google, showAlert, Lang
 */
 
 var CDDA = {};
@@ -122,15 +122,15 @@ CDDA.getInfo = function (coords) {
                 infowindow.open(self.m_map);
             } else {
                 showAlert(
-                    mytrans("dialog.information"),
-                    mytrans("dialog.cdda.msg_no_data")
+                    Lang.t("dialog.information"),
+                    Lang.t("dialog.cdda.msg_no_data")
                 );
             }
         })
         .fail(function () {
             showAlert(
-                mytrans("dialog.information"),
-                mytrans("dialog.cdda.msg_failed")
+                Lang.t("dialog.information"),
+                Lang.t("dialog.cdda.msg_failed")
             );
         });
 };

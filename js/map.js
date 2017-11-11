@@ -3,7 +3,7 @@
 */
 
 /*global
-  $, google, Lang, Lines, Markers, Conversion, Cookies, Coordinates, trackMarker, mytrans, showAlert,
+  $, google, Lang, Lines, Markers, Conversion, Cookies, Coordinates, trackMarker, showAlert,
   id2alpha, alpha2id,
   showProjectionDialog, showLinkDialog,
   osmProvider, osmDeProvider, thunderforestProvider, opentopomapProvider,
@@ -14,82 +14,145 @@
   document
 */
 
+
 //var boundariesLayer = null;
 //var boundariesLayerShown = false;
-var map = null;
 var CLAT_DEFAULT = 51.163375;
 var CLON_DEFAULT = 10.447683;
 var ZOOM_DEFAULT = 12;
 var MAPTYPE_DEFAULT = "OSM";
 
-function projectFromMarker(id) {
+
+var Map = {};
+Map.m_map = null;
+
+Map.init = function (xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocache) {
     'use strict';
 
-    trackMarker('project');
+    var center,
+        atDefaultCenter = false,
+        zoom = parseInt(xzoom, 10),
+        maptype = xmap,
+        loadfromcookies = false,
+        markerdata = this.parseMarkersFromUrl(xmarkers),
+        markercenter = null,
+        clat = 0,
+        clon = 0;
 
-    var mm = Markers.getById(id),
-        oldpos = mm.getPosition();
+    Lang.init();
 
-    showProjectionDialog(
-        function (data1, data2) {
-            var angle = Conversion.getFloat(data1, 0, 360),
-                dist = Conversion.getFloat(data2, 0, 100000000000),
-                newpos,
-                newmarker;
+    if (markerdata.length > 0) {
+        markerdata.map(function (m) {
+            clat += m.coords.lat();
+            clon += m.coords.lng();
+        });
+        markercenter = new google.maps.LatLng(clat / markerdata.length, clon / markerdata.length);
+    }
 
-            if (angle === null) {
-                showAlert(
-                    mytrans("dialog.error"),
-                    mytrans("dialog.projection.error_bad_bearing").replace(/%1/, data1)
-                );
-                return;
-            }
+    if (xcenter && xcenter !== '') {
+        center = this.parseCenterFromUrl(xcenter);
+    } else if (markercenter) {
+        center = markercenter;
+    } else {
+        loadfromcookies = true;
 
-            if (dist === null) {
-                showAlert(
-                    mytrans("dialog.error"),
-                    mytrans("dialog.projection.error_bad_distance").replace(/%1/, data2)
-                );
-                return;
-            }
-
-            newpos = Coordinates.projection_geodesic(oldpos, angle, dist);
-            newmarker = Markers.newMarker(newpos, -1, 0, null, "");
-            if (newmarker) {
-                showAlert(
-                    mytrans("dialog.information"),
-                    mytrans("dialog.projection.msg_new_marker").replace(/%1/, newmarker.getAlpha())
-                );
-            }
+        /* try to read coordinats from cookie */
+        clat = get_cookie_float('clat', CLAT_DEFAULT);
+        clon = get_cookie_float('clon', CLON_DEFAULT);
+        if (clat === CLAT_DEFAULT && clon === CLON_DEFAULT) {
+            atDefaultCenter = true;
         }
-    );
-}
 
+        clat = this.repairLat(clat, CLAT_DEFAULT);
+        clon = this.repairLon(clon, CLON_DEFAULT);
+        center = new google.maps.LatLng(clat, clon);
 
-function storeCenter() {
+        zoom = get_cookie_int('zoom', ZOOM_DEFAULT);
+        maptype = get_cookie_string('maptype', MAPTYPE_DEFAULT);
+    }
+
+    if (!center) {
+        center = new google.maps.LatLng(CLAT_DEFAULT, CLON_DEFAULT);
+        atDefaultCenter = true;
+    }
+
+    zoom = this.repairZoom(zoom, ZOOM_DEFAULT);
+    maptype = this.repairMaptype(maptype, MAPTYPE_DEFAULT);
+    Map.m_map = this.createMap("themap", center, zoom, maptype);
+
+    if (loadfromcookies) {
+        this.parseMarkersFromCookies().map(function (m) {
+            Markers.newMarker(m.coords, m.id, m.r, m.name, m.color);
+        });
+
+        this.parseLinesFromCookies().map(function (m) {
+            Lines.newLine(m.source, m.target);
+        });
+    } else {
+        markerdata.map(function (m) {
+            Markers.newMarker(m.coords, m.id, m.r, m.name, m.color);
+        });
+
+        this.parseLinesFromUrl(xlines).map(function (m) {
+            Lines.newLine(m.source, m.target);
+        });
+    }
+
+    Okapi.setShowCache(xgeocache);
+    Sidebar.restore(true);
+    xfeatures = xfeatures.toLowerCase();
+    if (xfeatures === '[default]') {
+        Hillshading.restore(false);
+        //restoreBoundaries(false);
+        Okapi.restore(false);
+        NPA.toggle(false);
+        CDDA.toggle(false);
+        Freifunk.toggle(false);
+    } else {
+        Hillshading.toggle(xfeatures.indexOf('h') >= 0);
+        //toggleBoundaries(xfeatures.indexOf('b') >= 0);
+        Okapi.toggle(xfeatures.indexOf('g') >= 0);
+        NPA.toggle(xfeatures.indexOf('n') >= 0);
+        Freifunk.toggle(xfeatures.indexOf('f') >= 0);
+    }
+    restoreCoordinatesFormat("DM");
+
+    if (xgeocache !== "") {
+        Okapi.toggle(true);
+        atDefaultCenter = false;
+    }
+
+    Attribution.forceUpdate();
+
+    if (atDefaultCenter) {
+        Geolocation.whereAmI();
+    }
+};
+
+Map.storeCenter = function () {
     'use strict';
 
-    var c = map.getCenter();
+    var c = Map.m_map.getCenter();
     Cookies.set('clat', c.lat(), {expires: 30});
     Cookies.set('clon', c.lng(), {expires: 30});
-}
+};
 
 
-function storeZoom() {
+Map.storeZoom = function () {
     'use strict';
 
-    Cookies.set('zoom', map.getZoom(), {expires: 30});
-}
+    Cookies.set('zoom', Map.m_map.getZoom(), {expires: 30});
+};
 
 
-function storeMapType() {
+Map.storeMapType = function () {
     'use strict';
 
-    Cookies.set('maptype', map.getMapTypeId(), {expires: 30});
-}
+    Cookies.set('maptype', Map.m_map.getMapTypeId(), {expires: 30});
+};
 
 
-function getFeaturesString() {
+Map.getFeaturesString = function () {
     'use strict';
 
     var s = "";
@@ -108,37 +171,37 @@ function getFeaturesString() {
     }
 
     return s;
-}
+};
 
 
-function getPermalink() {
+Map.getPermalink = function () {
     'use strict';
 
-    var lat = map.getCenter().lat(),
-        lng = map.getCenter().lng(),
+    var lat = Map.m_map.getCenter().lat(),
+        lng = Map.m_map.getCenter().lng(),
         geocache = Okapi.popupCacheCode(),
         url = "https://flopp.net/" +
-            "?c=" + lat.toFixed(6) + ":" + lng.toFixed(6) +
-            "&z=" + map.getZoom() +
-            "&t=" + map.getMapTypeId() +
-            "&f=" + getFeaturesString() +
-            "&m=" + Markers.toString() +
-            "&d=" + Lines.getLinesText();
+                "?c=" + lat.toFixed(6) + ":" + lng.toFixed(6) +
+                "&z=" + Map.m_map.getZoom() +
+                "&t=" + Map.m_map.getMapTypeId() +
+                "&f=" + this.getFeaturesString() +
+                "&m=" + Markers.toString() +
+                "&d=" + Lines.getLinesText();
     if (geocache) {
         url += "&g=" + geocache;
     }
     return url;
-}
+};
 
-function generatePermalink() {
+Map.generatePermalink = function () {
     'use strict';
 
-    var link = getPermalink();
+    var link = this.getPermalink();
     showLinkDialog(link);
-}
+};
 
 
-function repairLat(x, d) {
+Map.repairLat = function (x, d) {
     'use strict';
 
     if (Coordinates.validLat(x)) {
@@ -146,10 +209,10 @@ function repairLat(x, d) {
     }
 
     return d;
-}
+};
 
 
-function repairLon(x, d) {
+Map.repairLon = function (x, d) {
     'use strict';
 
     if (Coordinates.validLng(x)) {
@@ -157,10 +220,10 @@ function repairLon(x, d) {
     }
 
     return d;
-}
+};
 
 
-function repairRadius(x, d) {
+Map.repairRadius = function (x, d) {
     'use strict';
 
     if (x === null || isNaN(x) || x < 0 || x > 100000000) {
@@ -168,10 +231,10 @@ function repairRadius(x, d) {
     }
 
     return x;
-}
+};
 
 
-function repairZoom(x, d) {
+Map.repairZoom = function (x, d) {
     'use strict';
 
     if (x === null || isNaN(x) || x < 1 || x > 20) {
@@ -179,10 +242,10 @@ function repairZoom(x, d) {
     }
 
     return x;
-}
+};
 
 
-function repairMaptype(t, d) {
+Map.repairMaptype = function (t, d) {
     'use strict';
 
     var mapTypes = {
@@ -202,10 +265,10 @@ function repairMaptype(t, d) {
     }
 
     return d;
-}
+};
 
 
-function parseMarkersFromUrl(urlarg) {
+Map.parseMarkersFromUrl = function (urlarg) {
     'use strict';
 
     if (urlarg === null) {
@@ -259,7 +322,7 @@ function parseMarkersFromUrl(urlarg) {
             return;
         }
 
-        m.r = repairRadius(parseFloat(dataitem[index]), 0);
+        m.r = this.repairRadius(parseFloat(dataitem[index]), 0);
         index = index + 1;
 
         if (index < dataitem.length &&
@@ -277,10 +340,10 @@ function parseMarkersFromUrl(urlarg) {
     });
 
     return markers;
-}
+};
 
 
-function parseCenterFromUrl(urlarg) {
+Map.parseCenterFromUrl = function (urlarg) {
     'use strict';
 
     if (urlarg === null) {
@@ -298,10 +361,10 @@ function parseCenterFromUrl(urlarg) {
     }
 
     return null;
-}
+};
 
 
-function parseLinesFromUrl(urlarg) {
+Map.parseLinesFromUrl = function (urlarg) {
     'use strict';
 
     if (urlarg === null) {
@@ -327,10 +390,10 @@ function parseLinesFromUrl(urlarg) {
     });
 
     return lines;
-}
+};
 
 
-function parseMarkersFromCookies() {
+Map.parseMarkersFromCookies = function () {
     'use strict';
 
     var raw_ids = Cookies.get('markers'),
@@ -365,7 +428,7 @@ function parseMarkersFromCookies() {
             return;
         }
 
-        m.r = repairRadius(parseFloat(data[2]), 0);
+        m.r = Map.repairRadius(parseFloat(data[2]), 0);
 
         if ((/^([a-zA-Z0-9\-_]*)$/).test(data[3])) {
             m.name = data[3];
@@ -379,10 +442,10 @@ function parseMarkersFromCookies() {
     });
 
     return markers;
-}
+};
 
 
-function parseLinesFromCookies() {
+Map.parseLinesFromCookies = function () {
     'use strict';
 
     var raw_lines = Cookies.get('lines'),
@@ -400,10 +463,10 @@ function parseLinesFromCookies() {
     });
 
     return lines;
-}
+};
 
 
-function createMap(id, center, zoom, maptype) {
+Map.createMap = function (id, center, zoom, maptype) {
     'use strict';
 
     var m = new google.maps.Map(
@@ -457,120 +520,16 @@ function createMap(id, center, zoom, maptype) {
     m.setCenter(center, zoom);
 
     google.maps.event.addListener(m, "center_changed", function () {
-        storeZoom();
-        storeCenter();
+        Map.storeZoom();
+        Map.storeCenter();
     });
     google.maps.event.addListener(m, "zoom_changed", function () {
-        storeZoom();
-        storeCenter();
+        Map.storeZoom();
+        Map.storeCenter();
     });
     google.maps.event.addListener(m, "maptypeid_changed", function () {
-        storeMapType();
+        Map.storeMapType();
     });
 
     return m;
-}
-
-
-function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocache) {
-    'use strict';
-
-    var center,
-        atDefaultCenter = false,
-        zoom = parseInt(xzoom, 10),
-        maptype = xmap,
-        loadfromcookies = false,
-        markerdata = parseMarkersFromUrl(xmarkers),
-        markercenter = null,
-        clat = 0,
-        clon = 0;
-
-    Lang.init();
-
-    if (markerdata.length > 0) {
-        markerdata.map(function (m) {
-            clat += m.coords.lat();
-            clon += m.coords.lng();
-        });
-        markercenter = new google.maps.LatLng(clat / markerdata.length, clon / markerdata.length);
-    }
-
-    if (xcenter && xcenter !== '') {
-        center = parseCenterFromUrl(xcenter);
-    } else if (markercenter) {
-        center = markercenter;
-    } else {
-        loadfromcookies = true;
-
-        /* try to read coordinats from cookie */
-        clat = get_cookie_float('clat', CLAT_DEFAULT);
-        clon = get_cookie_float('clon', CLON_DEFAULT);
-        if (clat === CLAT_DEFAULT && clon === CLON_DEFAULT) {
-            atDefaultCenter = true;
-        }
-
-        clat = repairLat(clat, CLAT_DEFAULT);
-        clon = repairLon(clon, CLON_DEFAULT);
-        center = new google.maps.LatLng(clat, clon);
-
-        zoom = get_cookie_int('zoom', ZOOM_DEFAULT);
-        maptype = get_cookie_string('maptype', MAPTYPE_DEFAULT);
-    }
-
-    if (!center) {
-        center = new google.maps.LatLng(CLAT_DEFAULT, CLON_DEFAULT);
-        atDefaultCenter = true;
-    }
-
-    zoom = repairZoom(zoom, ZOOM_DEFAULT);
-    maptype = repairMaptype(maptype, MAPTYPE_DEFAULT);
-    map = createMap("themap", center, zoom, maptype);
-
-    if (loadfromcookies) {
-        parseMarkersFromCookies().map(function (m) {
-            Markers.newMarker(m.coords, m.id, m.r, m.name, m.color);
-        });
-
-        parseLinesFromCookies().map(function (m) {
-            Lines.newLine(m.source, m.target);
-        });
-    } else {
-        markerdata.map(function (m) {
-            Markers.newMarker(m.coords, m.id, m.r, m.name, m.color);
-        });
-
-        parseLinesFromUrl(xlines).map(function (m) {
-            Lines.newLine(m.source, m.target);
-        });
-    }
-
-    Okapi.setShowCache(xgeocache);
-    Sidebar.restore(true);
-    xfeatures = xfeatures.toLowerCase();
-    if (xfeatures === '[default]') {
-        Hillshading.restore(false);
-        //restoreBoundaries(false);
-        Okapi.restore(false);
-        NPA.toggle(false);
-        CDDA.toggle(false);
-        Freifunk.toggle(false);
-    } else {
-        Hillshading.toggle(xfeatures.indexOf('h') >= 0);
-        //toggleBoundaries(xfeatures.indexOf('b') >= 0);
-        Okapi.toggle(xfeatures.indexOf('g') >= 0);
-        NPA.toggle(xfeatures.indexOf('n') >= 0);
-        Freifunk.toggle(xfeatures.indexOf('f') >= 0);
-    }
-    restoreCoordinatesFormat("DM");
-
-    if (xgeocache !== "") {
-        Okapi.toggle(true);
-        atDefaultCenter = false;
-    }
-
-    Attribution.forceUpdate();
-
-    if (atDefaultCenter) {
-        Geolocation.whereAmI();
-    }
-}
+};

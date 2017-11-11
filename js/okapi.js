@@ -3,7 +3,7 @@
 */
 
 /*global
-  $, google, mytrans, window, Cookies, Coordinates, get_cookie_string
+  $, google, Lang, window, Cookies, Coordinates, get_cookie_string
 */
 
 
@@ -205,13 +205,13 @@ Okapi.createPopupContent = function (code, response) {
     var content =
         '<a href="' + response.url + '" target="_blank">' + code + ' <b>' + response.name + '</b></a><br />'
         + '<table class="cache-popup">'
-        + '<tr><td>' + mytrans("geocache.owner") + '</td><td>' + '<a href="' + response.owner.profile_url + '" target="_blank"><b>' + response.owner.username + '</b></a></td></tr>'
-        + '<tr><td>' + mytrans("geocache.type") + '</td><td>' + response.type + '</td></tr>'
-        + '<tr><td>' + mytrans("geocache.size") + '</td><td>' + response.size2 + '</td></tr>'
-        + '<tr><td>' + mytrans("geocache.status") + '</td><td>' + response.status + '</td></tr>'
-        + '<tr><td>' + mytrans("geocache.difficulty") + '</td><td>' + response.difficulty + '/5</td></tr>'
-        + '<tr><td>' + mytrans("geocache.terrain") + '</td><td>' + response.terrain + '/5</td></tr>'
-        + '<tr><td>' + mytrans("geocache.finds") + '</td><td>' + response.founds + '</td></tr>'
+        + '<tr><td>' + Lang.t("geocache.owner") + '</td><td>' + '<a href="' + response.owner.profile_url + '" target="_blank"><b>' + response.owner.username + '</b></a></td></tr>'
+        + '<tr><td>' + Lang.t("geocache.type") + '</td><td>' + response.type + '</td></tr>'
+        + '<tr><td>' + Lang.t("geocache.size") + '</td><td>' + response.size2 + '</td></tr>'
+        + '<tr><td>' + Lang.t("geocache.status") + '</td><td>' + response.status + '</td></tr>'
+        + '<tr><td>' + Lang.t("geocache.difficulty") + '</td><td>' + response.difficulty + '/5</td></tr>'
+        + '<tr><td>' + Lang.t("geocache.terrain") + '</td><td>' + response.terrain + '/5</td></tr>'
+        + '<tr><td>' + Lang.t("geocache.finds") + '</td><td>' + response.founds + '</td></tr>'
         + '</table>';
     return content;
 };

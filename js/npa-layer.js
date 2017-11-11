@@ -3,7 +3,7 @@
 */
 
 /*global
-  $, google, showAlert, mytrans
+  $, google, showAlert, Lang
 */
 
 var NPA = {};
@@ -65,9 +65,9 @@ NPA.getPopupContentFromResponse = function (json) {
 
     if (json && json.features && json.features.length > 0) {
         return '<b>' + json.features[0].properties.NAME + '</b><br/>' +
-                mytrans("dialog.npa.cdda_code") + ' ' + json.features[0].properties.CDDA_CODE + '<br />' +
-                mytrans("dialog.npa.since") + ' ' + json.features[0].properties.JAHR + '<br />' +
-                mytrans("dialog.npa.area") + ' ' + json.features[0].properties.FLAECHE + ' ha<br />';
+                Lang.t("dialog.npa.cdda_code") + ' ' + json.features[0].properties.CDDA_CODE + '<br />' +
+                Lang.t("dialog.npa.since") + ' ' + json.features[0].properties.JAHR + '<br />' +
+                Lang.t("dialog.npa.area") + ' ' + json.features[0].properties.FLAECHE + ' ha<br />';
     }
 
     return null;
@@ -110,14 +110,14 @@ NPA.getInfo = function (coords) {
             infowindow.open(self.m_map);
         } else {
             showAlert(
-                mytrans("dialog.information"),
-                mytrans("dialog.npa.msg_no_npa")
+                Lang.t("dialog.information"),
+                Lang.t("dialog.npa.msg_no_npa")
             );
         }
     }).fail(function () {
         showAlert(
-            mytrans("dialog.error"),
-            mytrans("dialog.npa.error")
+            Lang.t("dialog.error"),
+            Lang.t("dialog.npa.error")
         );
     });
 };

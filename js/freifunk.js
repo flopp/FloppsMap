@@ -3,7 +3,7 @@
 */
 
 /*global
-  Coordinates, $, google, mytrans
+  Coordinates, $, google, Lang
 */
 
 var Freifunk = {};
@@ -70,7 +70,7 @@ Freifunk.showPopup = function (lat, lng) {
     'use strict';
 
     var contentString =
-                "<div>" + mytrans("dialog.freifunk.popuptitle") + "</div>" +
+                "<div>" + Lang.t("dialog.freifunk.popuptitle") + "</div>" +
                 "<textarea readonly rows=5 cols=70>" +
                 "uci set gluon-node-info.@location[0]='location'\n" +
                 "uci set gluon-node-info.@location[0].share_location='1'\n" +

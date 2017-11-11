@@ -5,7 +5,7 @@
 
 /*global
   $, google, FileReader, DOMParser,
-  Markers, showAlert, mytrans
+  Lang, Markers, showAlert
 */
 
 
@@ -47,8 +47,8 @@ function handleGpxFiles(files) {
 
     if (!files || !files.length) {
         showAlert(
-            mytrans("uploadgpx.error"),
-            mytrans("uploadgpx.error_no_files")
+            Lang.t("uploadgpx.error"),
+            Lang.t("uploadgpx.error_no_files")
         );
         return;
     }
@@ -64,8 +64,8 @@ function handleGpxFiles(files) {
             i;
         if (!xml) {
             showAlert(
-                mytrans("uploadgpx.error"),
-                mytrans("uploadgpx.error_bad_xml")
+                Lang.t("uploadgpx.error"),
+                Lang.t("uploadgpx.error_bad_xml")
             );
             return;
         }
@@ -75,16 +75,16 @@ function handleGpxFiles(files) {
             wpt = parseWpt(wpts[i], 'wpt_' + i);
             if (!Markers.newMarker(wpt.coords, -1, wpt.radius, wpt.name, "")) {
                 showAlert(
-                    mytrans("uploadgpx.error"),
-                    mytrans("uploadgpx.error_failed_after").replace(/%1/, i)
+                    Lang.t("uploadgpx.error"),
+                    Lang.t("uploadgpx.error_failed_after").replace(/%1/, i)
                 );
                 return;
             }
         }
 
         showAlert(
-            mytrans("uploadgpx.info"),
-            mytrans("uploadgpx.msg_created_markers").replace(/%1/, wpts.length)
+            Lang.t("uploadgpx.info"),
+            Lang.t("uploadgpx.msg_created_markers").replace(/%1/, wpts.length)
         );
 
         // TODO pan to center of imported markers, adjust zoom

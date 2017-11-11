@@ -85,7 +85,7 @@ Lang.setPL = function () {
 };
 
 
-function mytrans(key) {
+Lang.t = function (key) {
     'use strict';
 
     if (typeof $.t === "function") {
@@ -93,4 +93,4 @@ function mytrans(key) {
     }
 
     return key;
-}
+};

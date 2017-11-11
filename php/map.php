@@ -85,7 +85,7 @@ if (!empty($_GET)) {
 }
 
 echo "\$(function() {";
-echo "initialize('$cntr', '$zoom', '$maptype', '$features', '$markers', '$lines', '$geocache');";
+echo "Map.init('$cntr', '$zoom', '$maptype', '$features', '$markers', '$lines', '$geocache');";
 echo "})";
 ?>
 </script>
@@ -156,12 +156,12 @@ echo "})";
 <div class="my-section-with-footer my-section">
   <div class="my-section-header" data-i18n="sidebar.markers.title">MARKERS</div>
   <div id="btnmarkers1" class="btn-group btn-group-sm my-section-buttons-top">
-    <button id="buttonMarkersNew1" class="btn btn-sm btn-success" type="button" onClick="Markers.newMarker(map.getCenter(), -1, -1, null);"><i class="fa fa-map-marker"></i> <span data-i18n="sidebar.markers.new">NEW</span></button>
+    <button id="buttonMarkersNew1" class="btn btn-sm btn-success" type="button" onClick="Markers.newMarker(null, -1, -1, null);"><i class="fa fa-map-marker"></i> <span data-i18n="sidebar.markers.new">NEW</span></button>
     <button id="buttonMarkersDeleteAll1" class="btn btn-sm btn-danger" type="button" onClick="Markers.deleteAll();"><i class="fa fa-trash-o"></i> <span data-i18n="sidebar.markers.deleteall">DELETE ALL</span></button>
   </div>
   <div id="dynMarkerDiv"></div>
   <div id="btnmarkers2" class="btn-group btn-group-sm my-section-buttons-bottom" style="display: none">
-    <button id="buttonMarkersNew2" class="btn btn-sm btn-success" type="button" onClick="Markers.newMarker(map.getCenter(), -1, -1, null);"><i class="fa fa-map-marker"></i> <span data-i18n="sidebar.markers.new">NEW</span></button>
+    <button id="buttonMarkersNew2" class="btn btn-sm btn-success" type="button" onClick="Markers.newMarker(null, -1, -1, null);"><i class="fa fa-map-marker"></i> <span data-i18n="sidebar.markers.new">NEW</span></button>
     <button id="buttonMarkersDeleteAll2" class="btn btn-sm btn-danger" type="button" onClick="Markers.deleteAll();"><i class="fa fa-trash-o"></i> <span data-i18n="sidebar.markers.deleteall">DELETE ALL</span></button>
   </div>
 </div> <!-- section -->
@@ -192,7 +192,7 @@ echo "})";
     <a id="buttonExportGPX" class="btn btn-block btn-sm btn-info" role="button" data-i18n="sidebar.misc.gpx">EXPORT GPX</a>
   </div>
   <div style="margin-bottom: 10px">
-    <button id="buttonPermalink" class="btn btn-block btn-sm btn-info" type="button" onClick="generatePermalink();" data-i18n="sidebar.misc.permalink">CREATE PERMALINK</button>
+    <button id="buttonPermalink" class="btn btn-block btn-sm btn-info" type="button" onClick="Map.generatePermalink();" data-i18n="sidebar.misc.permalink">CREATE PERMALINK</button>
   </div>
 
   <b data-i18n="sidebar.misc.coordinates">FORMAT OF COORINATES</b>

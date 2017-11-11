@@ -3,7 +3,7 @@
 */
 
 /*global
-  $, google, showAlert, mytrans, tileUrl, Cookies, get_cookie_string
+  $, google, showAlert, Lang, tileUrl, Cookies, get_cookie_string
 */
 
 var Hillshading = {};
