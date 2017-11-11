@@ -88,8 +88,6 @@ echo "\$(function() {";
 echo "initialize('$cntr', '$zoom', '$maptype', '$features', '$markers', '$lines', '$geocache');";
 echo "})";
 ?>
-
-$(document).ready( function() { init_lang(); });
 </script>
 </head>
 
@@ -117,11 +115,11 @@ $(document).ready( function() { init_lang(); });
         <li></li>
       </ul>
       <form class="nav navbar-form navbar-right" style="margin:auto">
-         <span class="btn btn-default btn-sm navbar-btn" onclick="langEN();" data-i18n="[html]nav.english">ENGLISH</span>
-         <span class="btn btn-default btn-sm navbar-btn" onclick="langDE();" data-i18n="[html]nav.german">DEUTSCH</span>
-         <span class="btn btn-default btn-sm navbar-btn" onclick="langNL();" data-i18n="[html]nav.dutch">NEDERLANDS</span>
-         <span class="btn btn-default btn-sm navbar-btn" onclick="langRO();" data-i18n="[html]nav.romanian">ROMANIAN</span>
-         <span class="btn btn-default btn-sm navbar-btn" onclick="langPL();" data-i18n="[html]nav.polish">POLISH</span>
+         <span class="btn btn-default btn-sm navbar-btn" onclick="Lang.setEN();" data-i18n="[html]nav.english">ENGLISH</span>
+         <span class="btn btn-default btn-sm navbar-btn" onclick="Lang.setDE();" data-i18n="[html]nav.german">DEUTSCH</span>
+         <span class="btn btn-default btn-sm navbar-btn" onclick="Lang.setNL();" data-i18n="[html]nav.dutch">NEDERLANDS</span>
+         <span class="btn btn-default btn-sm navbar-btn" onclick="Lang.setRO();" data-i18n="[html]nav.romanian">ROMANIAN</span>
+         <span class="btn btn-default btn-sm navbar-btn" onclick="Lang.setPL();" data-i18n="[html]nav.polish">POLISH</span>
       </form>
     </div>
   </div>
@@ -212,11 +210,6 @@ $(document).ready( function() { init_lang(); });
         <label>
             <input id="hillshading" type="checkbox">
             <span data-i18n="sidebar.misc.hillshading">HILL SHADING</span>
-            <!--
-            <button class="btn btn-info btn-xs" onClick="showHillshadingDialog()">
-                <i class="fa fa-info"></i>
-            </button>
-            -->
         </label>
     </div>
 
@@ -399,25 +392,6 @@ $(document).ready( function() { init_lang(); });
         </div>
     </div>
 </div>
-
-
-<!--
-<div id="dialogHillshading" class="modal">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h3 data-i18n="dialog.hillshading.title">HILL SHADING</h3>
-      </div>
-      <div class="modal-body">
-        <div data-i18n="[html]dialog.hillshading.content">HILL SHADING CONTENT</div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-dismiss="modal" data-i18n="dialog.ok">OK</button>
-      </div>
-    </div>
-  </div>
-</div>
--->
 
 <div id="dialogBoundaries" class="modal">
   <div class="modal-dialog">

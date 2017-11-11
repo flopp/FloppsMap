@@ -7,8 +7,11 @@
   $, document, trackAction, i18next, i18nextXHRBackend, i18nextBrowserLanguageDetector, jqueryI18next
 */
 
-function init_lang() {
+var Lang = {};
+
+Lang.init = function () {
     'use strict';
+
     i18next
         .use(i18nextXHRBackend)
         .use(i18nextBrowserLanguageDetector)
@@ -27,62 +30,59 @@ function init_lang() {
                 lookupLocalStorage: 'i18nextLng',
                 caches: ['localStorage', 'cookie']
             }
-        }, function (err, t) {
-            jqueryI18next.init(i18next, $);
-            $(document).localize();
+        }, function (err) {
+            if (!err) {
+                jqueryI18next.init(i18next, $);
+                $(document).localize();
+            }
         });
-}
+};
 
-
-function set_lang(lang) {
+Lang.set = function (lang) {
     'use strict';
 
-    i18next.changeLanguage(lang, function (err, t) {
+    i18next.changeLanguage(lang, function (err) {
         if (!err) {
             $(document).localize();
         }
     });
-}
+};
 
-
-function langEN() {
+Lang.setEN = function () {
     'use strict';
 
     trackAction("langEN");
-    set_lang("en");
-}
+    this.set("en");
+};
 
 
-function langDE() {
+Lang.setDE = function () {
     'use strict';
 
     trackAction("langDE");
-    set_lang("de");
-}
+    this.set("de");
+};
 
-
-function langNL() {
+Lang.setNL = function () {
     'use strict';
 
     trackAction("langNL");
-    set_lang("nl");
-}
+    this.set("nl");
+};
 
-
-function langRO() {
+Lang.setRO = function () {
     'use strict';
 
     trackAction("langRO");
-    set_lang("ro");
-}
+    this.set("ro");
+};
 
-
-function langPL() {
+Lang.setPL = function () {
     'use strict';
 
     trackAction("langPL");
-    set_lang("pl");
-}
+    this.set("pl");
+};
 
 
 function mytrans(key) {

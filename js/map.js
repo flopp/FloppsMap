@@ -3,7 +3,7 @@
 */
 
 /*global
-  $, google, Lines, Markers, Conversion, Cookies, Coordinates, trackMarker, mytrans, showAlert,
+  $, google, Lang, Lines, Markers, Conversion, Cookies, Coordinates, trackMarker, mytrans, showAlert,
   id2alpha, alpha2id,
   showProjectionDialog, showLinkDialog,
   osmProvider, osmDeProvider, thunderforestProvider, opentopomapProvider,
@@ -484,6 +484,9 @@ function initialize(xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocache
         markercenter = null,
         clat = 0,
         clon = 0;
+
+    Lang.init();
+
     if (markerdata.length > 0) {
         markerdata.map(function (m) {
             clat += m.coords.lat();
