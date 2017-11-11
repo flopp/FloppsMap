@@ -70,14 +70,14 @@ Freifunk.showPopup = function (lat, lng) {
     'use strict';
 
     var contentString =
-        "<div>" + mytrans("dialog.freifunk.popuptitle") + "</div>" +
-        "<textarea readonly rows=5 cols=70>" +
-        "uci set gluon-node-info.@location[0]='location'\n" +
-        "uci set gluon-node-info.@location[0].share_location='1'\n" +
-        "uci set gluon-node-info.@location[0].latitude='" + lat + "'\n" +
-        "uci set gluon-node-info.@location[0].longitude='" + lng + "'\n" +
-        "uci commit" +
-        "</textarea>",
+                "<div>" + mytrans("dialog.freifunk.popuptitle") + "</div>" +
+                "<textarea readonly rows=5 cols=70>" +
+                "uci set gluon-node-info.@location[0]='location'\n" +
+                "uci set gluon-node-info.@location[0].share_location='1'\n" +
+                "uci set gluon-node-info.@location[0].latitude='" + lat + "'\n" +
+                "uci set gluon-node-info.@location[0].longitude='" + lng + "'\n" +
+                "uci commit" +
+                "</textarea>",
         infowindow = new google.maps.InfoWindow({
             content: contentString,
             position: new google.maps.LatLng(lat, lng)
@@ -89,5 +89,5 @@ Freifunk.showPopup = function (lat, lng) {
 Freifunk.showDialog = function () {
     'use strict';
 
-    $('#dialogFreifunk').modal({show : true, backdrop: "static", keyboard: true});
+    $('#dialogFreifunk').modal({show: true, backdrop: "static", keyboard: true});
 };

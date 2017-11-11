@@ -40,7 +40,7 @@ ExternalLinks.init = function (themap) {
     this.m_targets["Wikimapia.org"] = "http://wikimapia.org/#lat=%lat%&lon=%lon%&z=%zoom%";
 
     var key,
-        tag =  $('#externallinks');
+        tag = $('#externallinks');
 
     for (key in this.m_targets) {
         tag.append('<option value="' + key + '">' + key + '</option>');

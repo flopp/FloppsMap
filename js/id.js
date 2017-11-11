@@ -5,12 +5,16 @@
 function id2alpha(id) {
     'use strict';
 
+    var s = 'A0',
+        indexA = s.charCodeAt(0),
+        index0 = s.charCodeAt(1);
+
     if (id >= 0 && id < 26) {
-        return String.fromCharCode('A'.charCodeAt() + (id % 26));
+        return String.fromCharCode(indexA + (id % 26));
     }
 
     if (id >= 26 && id < 260) {
-        return String.fromCharCode('A'.charCodeAt() + (id % 26)) + String.fromCharCode('0'.charCodeAt() + (id / 26));
+        return String.fromCharCode(indexA + (id % 26)) + String.fromCharCode(index0 + (id / 26));
     }
 
     return "";
@@ -20,14 +24,18 @@ function id2alpha(id) {
 function alpha2id(alpha) {
     'use strict';
 
-    alpha = alpha.toLowerCase();
+    var s = 'A0',
+        indexA = s.charCodeAt(0),
+        index0 = s.charCodeAt(1);
+
+    alpha = alpha.toUpperCase();
 
     if (/^[a-z]$/.test(alpha)) {
-        return alpha.charCodeAt(0) - 'a'.charCodeAt(0);
+        return alpha.charCodeAt(0) - indexA;
     }
 
     if (/^[a-z][0-9]$/.test(alpha)) {
-        return (alpha.charCodeAt(0) - 'a'.charCodeAt(0)) + 26 * (alpha.charCodeAt(1) - '0'.charCodeAt(0));
+        return (alpha.charCodeAt(0) - indexA) + 26 * (alpha.charCodeAt(1) - index0);
     }
 
     return -1;

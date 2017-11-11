@@ -141,16 +141,6 @@ function linkDialogShortenLink() {
     });
 }
 
-//function showHillshadingDialog()
-//{
-//  $('#dialogHillshading').modal({show : true, backdrop: "static", keyboard: true});
-//}
-
-//function showBoundariesDialog()
-//{
-//  $('#dialogBoundaries').modal({show : true, backdrop: "static", keyboard: true});
-//}
-
 
 /* setup button events */
 $(document).ready(function () {
