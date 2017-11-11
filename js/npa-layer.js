@@ -8,6 +8,7 @@
 
 var NPA = {};
 NPA.m_map = null;
+NPA.m_url = null;
 NPA.m_layer = null;
 NPA.m_layerShown = false;
 NPA.m_infoMode = false;

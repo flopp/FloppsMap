@@ -8,6 +8,7 @@
 
 var CDDA = {};
 CDDA.m_map = null;
+CDDA.m_url = null;
 CDDA.m_layer = null;
 CDDA.m_layerShown = false;
 CDDA.m_infoMode = false;
@@ -18,6 +19,7 @@ CDDA.init = function (map) {
     'use strict';
 
     this.m_map = map;
+    this.m_url = 'https://bio.discomap.eea.europa.eu/arcgis/rest/services/ProtectedSites/CDDA_Dyna_WM/MapServer';
 };
 
 
@@ -26,25 +28,25 @@ CDDA.getLayer = function () {
 
     if (!this.m_layer) {
         var tileSize = 256,
-            themap = this.m_map;
+            self = this;
         this.m_layer = new google.maps.ImageMapType({
             getTileUrl: function (coord, zoom) {
-                var proj = themap.getProjection(),
+                var proj = self.m_map.getProjection(),
                     zfactor = tileSize / Math.pow(2, zoom),
                     top = proj.fromPointToLatLng(new google.maps.Point(coord.x * zfactor, coord.y * zfactor)),
                     bot = proj.fromPointToLatLng(new google.maps.Point((coord.x + 1) * zfactor, (coord.y + 1) * zfactor)),
-                    bbox = top.lng() + "," + bot.lat() + "," + bot.lng() + "," + top.lat(),
-                    url;
-                url = "https://bio.discomap.eea.europa.eu/arcgis/rest/services/ProtectedSites/CDDA_Dyna_WM/MapServer/export?" +
-                    "dpi=96" +
-                    "&transparent=true" +
-                    "&format=png32" +
-                    "&layers=show%3A0%2C1%2C2%2C3%2C4" +
-                    "&BBOX=" + bbox +
-                    "&bboxSR=4326" +
-                    "&size=" + tileSize + "%2C" + tileSize +
-                    "&f=image";
-                return url;
+                    data;
+                data = {
+                    dpi: 96,
+                    transparent: true,
+                    format: "png32",
+                    layers: "0,1,2,3,4",
+                    BBOX: top.lng() + "," + bot.lat() + "," + bot.lng() + "," + top.lat(),
+                    bboxSR: 4326,
+                    size: tileSize + "," + tileSize,
+                    f: "image"
+                };
+                return self.m_url + "/export?" + $.param(data);
             },
             tileSize: new google.maps.Size(tileSize, tileSize),
             isPng: true,
@@ -95,18 +97,18 @@ CDDA.getInfo = function (coords) {
     'use strict';
 
     var self = this,
-        url = "https://bio.discomap.eea.europa.eu/arcgis/rest/services/ProtectedSites/CDDA_Dyna_WM/MapServer/identify" +
-            "?geometry=" + coords.lng() + "%2C" + coords.lat() +
-            "&geometryType=esriGeometryPoint" +
-            "&sr=4326" +
-            "&layers=all" +
-            "&returnGeometry=false" +
-            "&tolerance=1" +
-            "&mapExtent=1" +
-            "&imageDisplay=1" +
-            "&f=json";
-
-    $.ajax({url: url, timeout: 3000})
+        data = {
+            geometry: coords.lng() + "," + coords.lat(),
+            geometryType: "esriGeometryPoint",
+            sr: 4326,
+            layers: "all",
+            returnGeometry: false,
+            tolerance: 1,
+            mapExtent: 1,
+            imageDisplay: 1,
+            f: "json"
+        };
+    $.ajax({url: self.m_url + "/identify?" + $.param(data), timeout: 3000})
         .done(function (data) {
             var json = $.parseJSON(data),
                 content = self.getPopupContentFromResponse(json),
@@ -164,7 +166,7 @@ CDDA.toggle = function (t) {
 CDDA.showDialog = function () {
     'use strict';
 
-    $('#dialogCDDA').modal({show : true, backdrop: "static", keyboard: true});
+    $('#dialogCDDA').modal({show: true, backdrop: "static", keyboard: true});
 };
 
 
