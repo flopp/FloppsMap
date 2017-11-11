@@ -17,6 +17,7 @@ NPA.m_clickListener = null;
 NPA.init = function (map) {
     'use strict';
 
+    this.m_url = "https://geodienste.bfn.de/ogc/wms/schutzgebiet";
     this.m_map = map;
 };
 
@@ -26,29 +27,28 @@ NPA.getLayer = function () {
 
     if (!this.m_layer) {
         var tileSize = 256,
-            themap = this.m_map;
+            themap = this.m_map,
+            self = this;
         this.m_layer = new google.maps.ImageMapType({
             getTileUrl: function (coord, zoom) {
                 var proj = themap.getProjection(),
                     zfactor = tileSize / Math.pow(2, zoom),
                     top = proj.fromPointToLatLng(new google.maps.Point(coord.x * zfactor, coord.y * zfactor)),
                     bot = proj.fromPointToLatLng(new google.maps.Point((coord.x + 1) * zfactor, (coord.y + 1) * zfactor)),
-                    bbox = top.lng() + "," + bot.lat() + "," + bot.lng() + "," + top.lat(),
-                    url;
-                url = "https://geodienste.bfn.de/ogc/wms/schutzgebiet?" +
-                    "&REQUEST=GetMap" +
-                    "&SERVICE=WMS" +
-                    "&VERSION=1.3.0" +
-                    "&LAYERS=Naturschutzgebiete" +
-                    "&FORMAT=image/png" +
-                    "&BGCOLOR=0xFFFFFF" +
-                    "&STYLES=default" +
-                    "&TRANSPARENT=TRUE" +
-                    "&CRS=CRS:84" +
-                    "&BBOX=" + bbox +
-                    "&WIDTH=" + tileSize +
-                    "&HEIGHT=" + tileSize;
-                return url;
+                    bbox = top.lng() + "," + bot.lat() + "," + bot.lng() + "," + top.lat();
+                return self.m_url + "?" +
+                        "REQUEST=GetMap" +
+                        "&SERVICE=WMS" +
+                        "&VERSION=1.3.0" +
+                        "&LAYERS=Naturschutzgebiete" +
+                        "&FORMAT=image/png" +
+                        "&BGCOLOR=0xFFFFFF" +
+                        "&STYLES=default" +
+                        "&TRANSPARENT=TRUE" +
+                        "&CRS=CRS:84" +
+                        "&BBOX=" + bbox +
+                        "&WIDTH=" + tileSize +
+                        "&HEIGHT=" + tileSize;
             },
             tileSize: new google.maps.Size(tileSize, tileSize),
             isPng: true,
@@ -64,9 +64,9 @@ NPA.getPopupContentFromResponse = function (json) {
 
     if (json && json.features && json.features.length > 0) {
         return '<b>' + json.features[0].properties.NAME + '</b><br/>' +
-            mytrans("dialog.npa.cdda_code") + ' ' + json.features[0].properties.CDDA_CODE + '<br />' +
-            mytrans("dialog.npa.since") + ' ' + json.features[0].properties.JAHR + '<br />' +
-            mytrans("dialog.npa.area") + ' ' + json.features[0].properties.FLAECHE + ' ha<br />';
+                mytrans("dialog.npa.cdda_code") + ' ' + json.features[0].properties.CDDA_CODE + '<br />' +
+                mytrans("dialog.npa.since") + ' ' + json.features[0].properties.JAHR + '<br />' +
+                mytrans("dialog.npa.area") + ' ' + json.features[0].properties.FLAECHE + ' ha<br />';
     }
 
     return null;
@@ -77,7 +77,6 @@ NPA.getInfo = function (coords) {
     'use strict';
 
     var self = this,
-        url = 'https://geodienste.bfn.de/ogc/wms/schutzgebiet',
         data = {
             REQUEST: "GetFeatureInfo",
             SERVICE: "WMS",
@@ -96,7 +95,7 @@ NPA.getInfo = function (coords) {
         url: "proxy2.php",
         dataType: "json",
         data: {
-            url: url + "?" + $.param(data)
+            url: self.m_url + "?" + $.param(data)
         },
         timeout: 3000
     }).done(function (data) {
