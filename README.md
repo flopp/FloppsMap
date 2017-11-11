@@ -46,3 +46,4 @@ Flopp's Map uses the following third party components/services:
 Flopp's Map is governed by a MIT-style license that can be found in the LICENSE file.
 
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/flopp/FloppsMap/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/flopp/FloppsMap/?branch=master)
+[![Travis CI Build](https://api.travis-ci.org/flopp/FloppsMap.svg?branch=master)](https://travis-ci.org/flopp/FloppsMap)
