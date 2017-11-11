@@ -85,7 +85,7 @@ if (!empty($_GET)) {
 }
 
 echo "\$(function() {";
-echo "Map.init('$cntr', '$zoom', '$maptype', '$features', '$markers', '$lines', '$geocache');";
+echo "App.init('$cntr', '$zoom', '$maptype', '$features', '$markers', '$lines', '$geocache');";
 echo "})";
 ?>
 </script>
@@ -192,7 +192,7 @@ echo "})";
     <a id="buttonExportGPX" class="btn btn-block btn-sm btn-info" role="button" data-i18n="sidebar.misc.gpx">EXPORT GPX</a>
   </div>
   <div style="margin-bottom: 10px">
-    <button id="buttonPermalink" class="btn btn-block btn-sm btn-info" type="button" onClick="Map.generatePermalink();" data-i18n="sidebar.misc.permalink">CREATE PERMALINK</button>
+    <button id="buttonPermalink" class="btn btn-block btn-sm btn-info" type="button" onClick="App.generatePermalink();" data-i18n="sidebar.misc.permalink">CREATE PERMALINK</button>
   </div>
 
   <b data-i18n="sidebar.misc.coordinates">FORMAT OF COORINATES</b>

@@ -23,10 +23,10 @@ var ZOOM_DEFAULT = 12;
 var MAPTYPE_DEFAULT = "OSM";
 
 
-var Map = {};
-Map.m_map = null;
+var App = {};
+App.m_map = null;
 
-Map.init = function (xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocache) {
+App.init = function (xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocache) {
     'use strict';
 
     var center,
@@ -78,7 +78,7 @@ Map.init = function (xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocach
 
     zoom = this.repairZoom(zoom, ZOOM_DEFAULT);
     maptype = this.repairMaptype(maptype, MAPTYPE_DEFAULT);
-    Map.m_map = this.createMap("themap", center, zoom, maptype);
+    App.m_map = this.createMap("themap", center, zoom, maptype);
 
     if (loadfromcookies) {
         this.parseMarkersFromCookies().map(function (m) {
@@ -129,30 +129,30 @@ Map.init = function (xcenter, xzoom, xmap, xfeatures, xmarkers, xlines, xgeocach
     }
 };
 
-Map.storeCenter = function () {
+App.storeCenter = function () {
     'use strict';
 
-    var c = Map.m_map.getCenter();
+    var c = App.m_map.getCenter();
     Cookies.set('clat', c.lat(), {expires: 30});
     Cookies.set('clon', c.lng(), {expires: 30});
 };
 
 
-Map.storeZoom = function () {
+App.storeZoom = function () {
     'use strict';
 
-    Cookies.set('zoom', Map.m_map.getZoom(), {expires: 30});
+    Cookies.set('zoom', App.m_map.getZoom(), {expires: 30});
 };
 
 
-Map.storeMapType = function () {
+App.storeMapType = function () {
     'use strict';
 
-    Cookies.set('maptype', Map.m_map.getMapTypeId(), {expires: 30});
+    Cookies.set('maptype', App.m_map.getMapTypeId(), {expires: 30});
 };
 
 
-Map.getFeaturesString = function () {
+App.getFeaturesString = function () {
     'use strict';
 
     var s = "";
@@ -174,16 +174,16 @@ Map.getFeaturesString = function () {
 };
 
 
-Map.getPermalink = function () {
+App.getPermalink = function () {
     'use strict';
 
-    var lat = Map.m_map.getCenter().lat(),
-        lng = Map.m_map.getCenter().lng(),
+    var lat = App.m_map.getCenter().lat(),
+        lng = App.m_map.getCenter().lng(),
         geocache = Okapi.popupCacheCode(),
         url = "https://flopp.net/" +
                 "?c=" + lat.toFixed(6) + ":" + lng.toFixed(6) +
-                "&z=" + Map.m_map.getZoom() +
-                "&t=" + Map.m_map.getMapTypeId() +
+                "&z=" + App.m_map.getZoom() +
+                "&t=" + App.m_map.getMapTypeId() +
                 "&f=" + this.getFeaturesString() +
                 "&m=" + Markers.toString() +
                 "&d=" + Lines.getLinesText();
@@ -193,7 +193,7 @@ Map.getPermalink = function () {
     return url;
 };
 
-Map.generatePermalink = function () {
+App.generatePermalink = function () {
     'use strict';
 
     var link = this.getPermalink();
@@ -201,7 +201,7 @@ Map.generatePermalink = function () {
 };
 
 
-Map.repairLat = function (x, d) {
+App.repairLat = function (x, d) {
     'use strict';
 
     if (Coordinates.validLat(x)) {
@@ -212,7 +212,7 @@ Map.repairLat = function (x, d) {
 };
 
 
-Map.repairLon = function (x, d) {
+App.repairLon = function (x, d) {
     'use strict';
 
     if (Coordinates.validLng(x)) {
@@ -223,7 +223,7 @@ Map.repairLon = function (x, d) {
 };
 
 
-Map.repairRadius = function (x, d) {
+App.repairRadius = function (x, d) {
     'use strict';
 
     if (x === null || isNaN(x) || x < 0 || x > 100000000) {
@@ -234,7 +234,7 @@ Map.repairRadius = function (x, d) {
 };
 
 
-Map.repairZoom = function (x, d) {
+App.repairZoom = function (x, d) {
     'use strict';
 
     if (x === null || isNaN(x) || x < 1 || x > 20) {
@@ -245,7 +245,7 @@ Map.repairZoom = function (x, d) {
 };
 
 
-Map.repairMaptype = function (t, d) {
+App.repairMaptype = function (t, d) {
     'use strict';
 
     var mapTypes = {
@@ -268,7 +268,7 @@ Map.repairMaptype = function (t, d) {
 };
 
 
-Map.parseMarkersFromUrl = function (urlarg) {
+App.parseMarkersFromUrl = function (urlarg) {
     'use strict';
 
     if (urlarg === null) {
@@ -343,7 +343,7 @@ Map.parseMarkersFromUrl = function (urlarg) {
 };
 
 
-Map.parseCenterFromUrl = function (urlarg) {
+App.parseCenterFromUrl = function (urlarg) {
     'use strict';
 
     if (urlarg === null) {
@@ -364,7 +364,7 @@ Map.parseCenterFromUrl = function (urlarg) {
 };
 
 
-Map.parseLinesFromUrl = function (urlarg) {
+App.parseLinesFromUrl = function (urlarg) {
     'use strict';
 
     if (urlarg === null) {
@@ -393,7 +393,7 @@ Map.parseLinesFromUrl = function (urlarg) {
 };
 
 
-Map.parseMarkersFromCookies = function () {
+App.parseMarkersFromCookies = function () {
     'use strict';
 
     var raw_ids = Cookies.get('markers'),
@@ -428,7 +428,7 @@ Map.parseMarkersFromCookies = function () {
             return;
         }
 
-        m.r = Map.repairRadius(parseFloat(data[2]), 0);
+        m.r = App.repairRadius(parseFloat(data[2]), 0);
 
         if ((/^([a-zA-Z0-9\-_]*)$/).test(data[3])) {
             m.name = data[3];
@@ -445,7 +445,7 @@ Map.parseMarkersFromCookies = function () {
 };
 
 
-Map.parseLinesFromCookies = function () {
+App.parseLinesFromCookies = function () {
     'use strict';
 
     var raw_lines = Cookies.get('lines'),
@@ -466,7 +466,7 @@ Map.parseLinesFromCookies = function () {
 };
 
 
-Map.createMap = function (id, center, zoom, maptype) {
+App.createMap = function (id, center, zoom, maptype) {
     'use strict';
 
     var m = new google.maps.Map(
@@ -520,15 +520,15 @@ Map.createMap = function (id, center, zoom, maptype) {
     m.setCenter(center, zoom);
 
     google.maps.event.addListener(m, "center_changed", function () {
-        Map.storeZoom();
-        Map.storeCenter();
+        App.storeZoom();
+        App.storeCenter();
     });
     google.maps.event.addListener(m, "zoom_changed", function () {
-        Map.storeZoom();
-        Map.storeCenter();
+        App.storeZoom();
+        App.storeCenter();
     });
     google.maps.event.addListener(m, "maptypeid_changed", function () {
-        Map.storeMapType();
+        App.storeMapType();
     });
 
     return m;
