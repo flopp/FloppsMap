@@ -9,3 +9,7 @@ before_install:
   - sudo apt-get install ruby-sass
 
 install:
+  - bin/install.sh
+
+script:
+  - bin/travis-ci.sh
