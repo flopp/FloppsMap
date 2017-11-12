@@ -367,7 +367,6 @@ Markers.leaveEditMode = function (id, takenew) {
 
     name = name.replace(/[^a-zA-Z0-9\-_]/g, "_");
 
-
     if (!coords) {
         errors.push(Lang.t("sidebar.markers.error_badcoordinates").replace(/%1/, s_coords));
     }

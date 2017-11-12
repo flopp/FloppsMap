@@ -42,11 +42,7 @@ Okapi.parseLocation = function (s) {
         lat = parseFloat(loc[0]),
         lng = parseFloat(loc[1]);
 
-    if (Coordinates.valid(lat, lng)) {
-        return new google.maps.LatLng(lat, lng);
-    }
-
-    return null;
+    return Coordinates.toLatLng(lat, lng);
 };
 
 
@@ -67,20 +63,20 @@ Okapi.setupSites = function () {
     var self = this,
         main_url = "proxy2.php?url=http://www.opencaching.de/okapi/services/apisrv/installations",
         keys = {
-            "Opencaching.DE" : "YSqPufH82encfJ67ZxV2",
-            "Opencaching.PL" : "jhRyc6rGmT6XEvxva29B",
-            "Opencaching.NL" : "gcwaesuq3REu8RtCgLDj",
-            "Opencaching.US" : "GvgyCMvwfH42GqJGL494",
-            "Opencache.UK" : "7t7VfpkCd4HuxPabfbHd",
-            "Opencaching.RO" : "gqSWmVJhZGDwc4sRhyy7"
+            "Opencaching.DE": "YSqPufH82encfJ67ZxV2",
+            "Opencaching.PL": "jhRyc6rGmT6XEvxva29B",
+            "Opencaching.NL": "gcwaesuq3REu8RtCgLDj",
+            "Opencaching.US": "GvgyCMvwfH42GqJGL494",
+            "Opencache.UK": "7t7VfpkCd4HuxPabfbHd",
+            "Opencaching.RO": "gqSWmVJhZGDwc4sRhyy7"
         },
         prefixes = {
-            "Opencaching.DE" : "OC",
-            "Opencaching.PL" : "OP",
-            "Opencaching.NL" : "OB",
-            "Opencaching.US" : "OU",
-            "Opencache.UK" : "OK",
-            "Opencaching.RO" : "OR"
+            "Opencaching.DE": "OC",
+            "Opencaching.PL": "OP",
+            "Opencaching.NL": "OB",
+            "Opencaching.US": "OU",
+            "Opencache.UK": "OK",
+            "Opencaching.RO": "OR"
         };
 
     this.m_sites = [];
@@ -191,7 +187,7 @@ Okapi.popupCacheCode = function () {
     }
 
     var m = this.m_popup.getMap();
-    if (!m || typeof m === "undefined") {
+    if (!m) {
         return null;
     }
 
@@ -202,18 +198,16 @@ Okapi.popupCacheCode = function () {
 Okapi.createPopupContent = function (code, response) {
     'use strict';
 
-    var content =
-        '<a href="' + response.url + '" target="_blank">' + code + ' <b>' + response.name + '</b></a><br />'
-        + '<table class="cache-popup">'
-        + '<tr><td>' + Lang.t("geocache.owner") + '</td><td>' + '<a href="' + response.owner.profile_url + '" target="_blank"><b>' + response.owner.username + '</b></a></td></tr>'
-        + '<tr><td>' + Lang.t("geocache.type") + '</td><td>' + response.type + '</td></tr>'
-        + '<tr><td>' + Lang.t("geocache.size") + '</td><td>' + response.size2 + '</td></tr>'
-        + '<tr><td>' + Lang.t("geocache.status") + '</td><td>' + response.status + '</td></tr>'
-        + '<tr><td>' + Lang.t("geocache.difficulty") + '</td><td>' + response.difficulty + '/5</td></tr>'
-        + '<tr><td>' + Lang.t("geocache.terrain") + '</td><td>' + response.terrain + '/5</td></tr>'
-        + '<tr><td>' + Lang.t("geocache.finds") + '</td><td>' + response.founds + '</td></tr>'
-        + '</table>';
-    return content;
+    return '<a href="' + response.url + '" target="_blank">' + code + ' <b>' + response.name + '</b></a><br />'
+            + '<table class="cache-popup">'
+            + '<tr><td>' + Lang.t("geocache.owner") + '</td><td>' + '<a href="' + response.owner.profile_url + '" target="_blank"><b>' + response.owner.username + '</b></a></td></tr>'
+            + '<tr><td>' + Lang.t("geocache.type") + '</td><td>' + response.type + '</td></tr>'
+            + '<tr><td>' + Lang.t("geocache.size") + '</td><td>' + response.size2 + '</td></tr>'
+            + '<tr><td>' + Lang.t("geocache.status") + '</td><td>' + response.status + '</td></tr>'
+            + '<tr><td>' + Lang.t("geocache.difficulty") + '</td><td>' + response.difficulty + '/5</td></tr>'
+            + '<tr><td>' + Lang.t("geocache.terrain") + '</td><td>' + response.terrain + '/5</td></tr>'
+            + '<tr><td>' + Lang.t("geocache.finds") + '</td><td>' + response.founds + '</td></tr>'
+            + '</table>';
 };
 
 

@@ -447,8 +447,8 @@ App.parseMarkersFromCookies = function () {
             raw_data,
             data;
 
-        m.id = parseInt(id_string, 10);
-        if (m.id === null || m.id < 0 || m.id >= 26 * 10) {
+        m.id = Conversion.getInteger(id_string, 0, 26 * 10);
+        if (m.id === null) {
             return null;
         }
 
