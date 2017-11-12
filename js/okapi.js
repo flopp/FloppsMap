@@ -291,12 +291,9 @@ Okapi.removeMarkers = function () {
     }
 
     this.m_sites.map(function (site) {
-        var key;
-        for (key in site.markers) {
-            if (site.markers.hasOwnProperty(key)) {
-                site.markers[key].setMap(null);
-            }
-        }
+        $.each(site.markers, function (_, m) {
+            m.setMap(null);
+        });
         site.markers = {};
     });
 
@@ -358,40 +355,33 @@ Okapi.loadBboxSite = function (siteid) {
         dataType: 'json',
         data: data,
         success: function (response) {
-            var addedCaches = {},
-                cache,
-                code;
+            var addedCaches = {};
 
-            for (code in response) {
-                if (!response.hasOwnProperty(code)) {
-                    continue;
-                }
-
-                cache = response[code];
+            $.each(response, function (code, cache) {
                 if (cache.status !== "Available") {
-                    continue;
+                    return true;
                 }
 
-                addedCaches[cache.code] = true;
-                if (site.markers[cache.code] !== undefined) {
-                    continue;
+                addedCaches[code] = true;
+                if (site.markers[code] !== undefined) {
+                    return true;
                 }
 
-                site.markers[cache.code] = new google.maps.Marker({
+                site.markers[code] = new google.maps.Marker({
                     position: self.parseLocation(cache.location),
                     map: self.m_map,
                     icon: self.icon(cache.type)
                 });
 
-                self.registerPopup(site.markers[cache.code], cache.code, siteid);
-            }
+                self.registerPopup(site.markers[code], code, siteid);
+            });
 
-            for (code in site.markers) {
-                if (site.markers.hasOwnProperty(code) && addedCaches[code] === undefined) {
-                    site.markers[code].setMap(null);
+            $.each(site.markers, function (code, m) {
+                if (addedCaches[code] === undefined) {
+                    m.setMap(null);
                     delete site.markers[code];
                 }
-            }
+            });
             site.finished = true;
         },
         error: function () {
