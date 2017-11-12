@@ -7,15 +7,16 @@ Redirect /heatmap https://flopp.grus.uberspace.de/oc-heatmap/
 Redirect /safari https://safari.flopp.net
 
 ### normal
-RewriteRule ^$ map.php
-RewriteRule ^index.php$ map.php
-RewriteRule ^index.html$ map.php
-RewriteRule ^beta.php$ map.php
+RewriteRule ^index.php$ index.html
+RewriteRule ^beta.php$ index.html
+RewriteRule ^map.php$ index.html
 
 ### wartung
 #RewriteRule ^$ disabled.html
 #RewriteRule ^index.html$ disabled.html
 #RewriteRule ^index.php$ disabled.html
+#RewriteRule ^beta.php$ disabled.html
+#RewriteRule ^map.php$ disabled.html
 
 RewriteCond %{HTTPS} !=on
 RewriteCond %{ENV:HTTPS} !=on

@@ -67,13 +67,12 @@ ROOT=(
     static/maintenance.html
     static/disabled.html)
 
-sed "s/TSTAMP/$(date +%s)/g" php/map.php > $D/map.php
+sed "s/TSTAMP/$(date +%s)/g" static/index.html > $D/index.html
 cp -a ${ROOT[@]} $D/
 sass scss/main.scss > $D/css/main.css
 cat ${JS[@]} > $D/js/compressed.js
 cp -a ${IMG[@]} $D/img/
 cp -a lang/* $D/lang/
-
 
 
 #### external stuff
@@ -89,8 +88,7 @@ cp $L/geographiclib.js $D/js
 echo "-- uploading"
 SERVER=flopp@grus.uberspace.de
 if [[ "$@" = *production* ]]; then
-    BASE=html/map
+    scp -r ${D}/* ${D}/.htaccess $SERVER:html/map
 else
-    BASE=html/map-beta
+    scp -r ${D}/* ${D}/.htaccess $SERVER:html/map-beta
 fi
-scp -r ${D}/* ${D}/.htaccess $SERVER:$BASE
