@@ -11,6 +11,7 @@ mkdir -p $L
 
 JS=(
     private/api_keys.js
+    js/app.js
     js/attribution.js
     js/cdda-layer.js
     js/conversion.js
@@ -27,7 +28,6 @@ JS=(
     js/lines.js
     js/marker.js
     js/markers.js
-    js/map.js
     js/multicoordinates.js
     js/npa-layer.js
     js/okapi.js

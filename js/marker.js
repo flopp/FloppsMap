@@ -147,6 +147,13 @@ Marker.prototype.getRadius = function () {
 };
 
 
+Marker.prototype.getColor = function () {
+    'use strict';
+
+    return this.m_color;
+};
+
+
 Marker.prototype.setNamePositionRadiusColor = function (name, position, radius, color) {
     'use strict';
 

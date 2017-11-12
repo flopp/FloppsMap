@@ -7,7 +7,7 @@
   id2alpha, alpha2id,
   showLinkDialog,
   osmProvider, osmDeProvider, thunderforestProvider, opentopomapProvider,
-  Attribution, Sidebar, ExternalLinks, Hillshading, Geolocation, NPA, CDDA, Freifunk, Okapi,
+  Attribution, Sidebar, ExternalLinks, Hillshading, Geolocation, NPA, CDDA, Freifunk, Okapi, Storage,
   DownloadGPX, API_KEY_THUNDERFOREST,
   restoreCoordinatesFormat,
   document

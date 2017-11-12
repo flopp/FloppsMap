@@ -150,15 +150,16 @@ Markers.toString = function () {
 Markers.toXmlWpts = function () {
     'use strict';
 
-    var id,
-        data = '';
+    var data = '';
 
-    for (id = 0; id < this.m_markers.length; id = id + 1) {
-        if (!this.m_markers[id].isFree()) {
-            data += this.m_markers[id].toXmlWpt();
-            data += '\n';
+    this.m_markers.map(
+        function (m) {
+            if (!m.isFree()) {
+                data += m.toXmlWpt();
+                data += '\n';
+            }
         }
-    }
+    );
 
     return data;
 };
@@ -423,7 +424,7 @@ Markers.projectFromMarker = function (id) {
             }
 
             newpos = Coordinates.projection_geodesic(oldpos, angle, dist);
-            newmarker = Markers.newMarker(newpos, -1, 0, null, "");
+            newmarker = Markers.newMarker(newpos, -1, 0, "P_" + mm.getName(), mm.getColor());
             if (newmarker) {
                 showAlert(
                     Lang.t("dialog.information"),

@@ -4,7 +4,13 @@
 
 /*global
   $, google, window,
-  Coordinates, Lang, Storage
+  Coordinates, Lang, Storage,
+  API_KEY_OPENCACHING_DE,
+  API_KEY_OPENCACHING_PL,
+  API_KEY_OPENCACHING_NL,
+  API_KEY_OPENCACHING_US,
+  API_KEY_OPENCACHING_UK,
+  API_KEY_OPENCACHING_RO
 */
 
 
@@ -64,12 +70,12 @@ Okapi.setupSites = function () {
     var self = this,
         main_url = "proxy2.php?url=http://www.opencaching.de/okapi/services/apisrv/installations",
         keys = {
-            "Opencaching.DE": "YSqPufH82encfJ67ZxV2",
-            "Opencaching.PL": "jhRyc6rGmT6XEvxva29B",
-            "Opencaching.NL": "gcwaesuq3REu8RtCgLDj",
-            "Opencaching.US": "GvgyCMvwfH42GqJGL494",
-            "Opencache.UK": "7t7VfpkCd4HuxPabfbHd",
-            "Opencaching.RO": "gqSWmVJhZGDwc4sRhyy7"
+            "Opencaching.DE": API_KEY_OPENCACHING_DE,
+            "Opencaching.PL": API_KEY_OPENCACHING_PL,
+            "Opencaching.NL": API_KEY_OPENCACHING_NL,
+            "Opencaching.US": API_KEY_OPENCACHING_US,
+            "Opencache.UK": API_KEY_OPENCACHING_UK,
+            "Opencaching.RO": API_KEY_OPENCACHING_RO
         },
         prefixes = {
             "Opencaching.DE": "OC",
@@ -374,6 +380,7 @@ Okapi.loadBboxSite = function (siteid) {
                 });
 
                 self.registerPopup(site.markers[code], code, siteid);
+                return true;
             });
 
             $.each(site.markers, function (code, m) {
