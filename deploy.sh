@@ -14,7 +14,6 @@ JS=(
     js/attribution.js
     js/cdda-layer.js
     js/conversion.js
-    js/cookies.js
     js/downloadgpx.js
     js/externallinks.js
     js/geolocation.js
@@ -33,10 +32,12 @@ JS=(
     js/npa-layer.js
     js/okapi.js
     js/sidebar.js
+    js/storage.js
     js/tileprovider.js
     js/tracking.js
     js/ui.js
     js/uploadgpx.js
+    js/url.js
     js/lang.js)
 
 IMG=(

@@ -4,7 +4,7 @@
 
 /*global
   $, google,
-  Cookies, Coordinates, IconFactory, Lines,
+  Coordinates, IconFactory, Lines, Storage,
   id2alpha
 */
 
@@ -216,7 +216,8 @@ Marker.prototype.update = function () {
 
     this.m_circle.setCenter(pos);
 
-    Cookies.set('marker' + this.m_id, pos.lat().toFixed(6) + ":" + pos.lng().toFixed(6) + ":" + radius + ":" + this.m_name + ":" + this.m_color, {expires: 30});
+    this.store();
+
     $('#dyn' + this.m_id + ' > .view .name').html(this.m_name);
     $('#dyn' + this.m_id + ' > .view .coords').html(Coordinates.toString(pos));
     $('#dyn' + this.m_id + ' > .view .radius').html(radius);
@@ -236,4 +237,14 @@ Marker.prototype.update = function () {
     $('#dyn' + this.m_id + ' > .view .icon').attr("style", "width: " + this.m_miniIcon.width + "px; height: " + this.m_miniIcon.height + "px;");
 
     Lines.updateLinesMarkerMoved(this.m_id);
+};
+
+
+Marker.prototype.store = function () {
+    'use strict';
+
+    var pos = this.m_marker.getPosition(),
+        radius = this.m_circle.getRadius();
+
+    Storage.set('marker' + this.m_id, pos.lat().toFixed(6) + ":" + pos.lng().toFixed(6) + ":" + radius + ":" + this.m_name + ":" + this.m_color);
 };

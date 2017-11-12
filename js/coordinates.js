@@ -247,8 +247,7 @@ Coordinates.toStringDM = function (coords) {
         lng = Math.abs(coords.lng()),
         lng_deg,
         lng_min,
-        lng_mmin,
-        s;
+        lng_mmin;
 
     lat_deg = Math.floor(lat);
     lat = lat - lat_deg;
@@ -270,7 +269,7 @@ Coordinates.toStringDM = function (coords) {
         lng_min += 1;
     }
 
-    s = this.NS(coords.lat()) +
+    return this.NS(coords.lat()) +
             " " +
             this.zeropad(lat_deg, 2) +
             " " +
@@ -285,7 +284,6 @@ Coordinates.toStringDM = function (coords) {
             this.zeropad(lng_min, 2) +
             "." +
             this.zeropad(lng_mmin, 3);
-    return s;
 };
 
 
@@ -299,8 +297,7 @@ Coordinates.toStringDMS = function (coords) {
         lng = Math.abs(coords.lng()),
         lng_deg,
         lng_min,
-        lng_sec,
-        s;
+        lng_sec;
 
     lat_deg = Math.floor(lat);
     lat = lat - lat_deg;
@@ -314,7 +311,7 @@ Coordinates.toStringDMS = function (coords) {
     lng = lng * 60 - lng_min;
     lng_sec = lng * 60.0;
 
-    s = this.NS(coords.lat()) +
+    return this.NS(coords.lat()) +
             " " +
             this.zeropad(lat_deg, 2) +
             " " +
@@ -329,8 +326,6 @@ Coordinates.toStringDMS = function (coords) {
             this.zeropad(lng_min, 2) +
             " " +
             this.zeropad(lng_sec.toFixed(2), 5);
-
-    return s;
 };
 
 
@@ -372,13 +367,12 @@ Coordinates.toString = function (coords) {
 Coordinates.dist_angle_geodesic = function (startpos, endpos) {
     'use strict';
 
-    var t = this.m_geod.Inverse(startpos.lat(), startpos.lng(), endpos.lat(), endpos.lng()),
-        a = t.azi1;
-    if (a < 0) {
-        a += 360.0;
+    var t = this.m_geod.Inverse(startpos.lat(), startpos.lng(), endpos.lat(), endpos.lng());
+    if (t.azi1 < 0) {
+        t.azi1 += 360.0;
     }
 
-    return {dist: t.s12, angle: a};
+    return {dist: t.s12, angle: t.azi1};
 };
 
 

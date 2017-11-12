@@ -5,7 +5,7 @@
 
 /*global
   $,
-  Cookies, Line, Markers
+  Line, Markers, Storage
 */
 
 var Lines = {};
@@ -39,7 +39,7 @@ Lines.newLine = function (source, target) {
     this.m_lines.push(new Line(Lines.m_map, this.m_nextLineId, source, target));
     this.m_nextLineId += 1;
     this.updateTotalDistance();
-    this.saveCookie();
+    this.store();
 };
 
 
@@ -83,10 +83,10 @@ Lines.getLinesText = function () {
 };
 
 
-Lines.saveCookie = function () {
+Lines.store = function () {
     'use strict';
 
-    Cookies.set("lines", this.getLinesText(), {expires: 30});
+    Storage.set("lines", this.getLinesText());
 };
 
 
@@ -95,7 +95,7 @@ Lines.selectLineSourceById = function (id, markerId) {
 
     this.getLineById(id).setSource(markerId);
     this.updateTotalDistance();
-    this.saveCookie();
+    this.store();
 };
 
 
@@ -118,7 +118,7 @@ Lines.selectLineTargetById = function (id, markerId) {
 
     this.getLineById(id).setTarget(markerId);
     this.updateTotalDistance();
-    this.saveCookie();
+    this.store();
 };
 
 
@@ -170,7 +170,7 @@ Lines.updateLinesMarkerRemoved = function (markerId) {
     });
 
     this.updateTotalDistance();
-    this.saveCookie();
+    this.store();
 };
 
 
@@ -201,7 +201,7 @@ Lines.deleteLine = function (id) {
     this.m_lines[index] = null;
 
     this.updateTotalDistance();
-    this.saveCookie();
+    this.store();
 };
 
 

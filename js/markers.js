@@ -4,7 +4,7 @@
 
 /*global
   $,
-  Conversion, Cookies, Coordinates, Lines, Marker,
+  Conversion, Coordinates, Lines, Marker, Storage,
   id2alpha, Lang, showAlert, trackMarker, showProjectionDialog
 */
 
@@ -117,7 +117,7 @@ Markers.deleteAll = function () {
 };
 
 
-Markers.saveMarkersList = function () {
+Markers.store = function () {
     'use strict';
 
     var ids = [];
@@ -128,7 +128,7 @@ Markers.saveMarkersList = function () {
             }
         }
     );
-    Cookies.set('markers', ids.join(":"), {expires: 30});
+    Storage.set('markers', ids.join(":"));
 };
 
 
@@ -183,7 +183,7 @@ Markers.handleMarkerCleared = function () {
     }
 
     Lines.updateTotalDistance();
-    this.saveMarkersList();
+    this.store();
 };
 
 
@@ -263,7 +263,7 @@ Markers.newMarker = function (coordinates, id, radius, name, color) {
     $('#btnmarkersdelete2').removeAttr('disabled');
 
     marker.update();
-    this.saveMarkersList();
+    this.store();
     Lines.updateLinesMarkerAdded();
 
     return marker;

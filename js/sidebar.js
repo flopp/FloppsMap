@@ -4,7 +4,8 @@
 */
 
 /*global
-  $, Cookies, get_cookie_string, google
+  $, google,
+  Storage
 */
 
 var Sidebar = {};
@@ -21,7 +22,7 @@ Sidebar.init = function (themap) {
 Sidebar.hide = function () {
     'use strict';
 
-    Cookies.set("sidebar", "hidden", {expires: 30});
+    Storage.set("sidebar", "hidden");
     $('#sidebar').hide();
     $('#sidebartoggle').css("right", "0px");
     $('#sidebartogglebutton').html("<i class=\"fa fa-chevron-left\"></i>");
@@ -33,7 +34,7 @@ Sidebar.hide = function () {
 Sidebar.show = function () {
     'use strict';
 
-    Cookies.set("sidebar", "shown", {expires: 30});
+    Storage.set("sidebar", "shown");
     $('#sidebar').show();
     $('#sidebartoggle').css("right", "280px");
     $('#sidebartogglebutton').html("<i class=\"fa fa-chevron-right\"></i>");
@@ -56,7 +57,7 @@ Sidebar.toggle = function (shown) {
 Sidebar.restore = function (defaultValue) {
     'use strict';
 
-    var state = get_cookie_string("sidebar", "invalid");
+    var state = Storage.getString("sidebar", "invalid");
     if (state === "hidden" || state === "0") {
         this.hide();
     } else if (state === "shown" || state === "1") {

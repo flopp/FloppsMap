@@ -3,15 +3,14 @@
 */
 
 /*global
-  $, google, Lang, Lines, Markers, Conversion, Cookies, Coordinates, trackMarker, showAlert,
+  $, google, Url, Lang, Lines, Markers, Conversion, Coordinates, trackMarker, showAlert,
   id2alpha, alpha2id,
   showLinkDialog,
   osmProvider, osmDeProvider, thunderforestProvider, opentopomapProvider,
-  get_cookie_int, get_cookie_float, get_cookie_string,
   Attribution, Sidebar, ExternalLinks, Hillshading, Geolocation, NPA, CDDA, Freifunk, Okapi,
   DownloadGPX, API_KEY_THUNDERFOREST,
   restoreCoordinatesFormat,
-  document, window
+  document
 */
 
 
@@ -25,36 +24,13 @@ var MAPTYPE_DEFAULT = "OSM";
 var App = {};
 App.m_map = null;
 
-App.urlParams = function () {
-    'use strict';
-
-    var params = {},
-        splitted = window.location.search.substr(1).split('&'),
-        i,
-        p;
-
-    for (i = 0; i < splitted.length; i += 1) {
-        p = splitted[i].split('=', 2);
-        if (p[0] !== "") {
-            if (p.length === 1) {
-                params[p[0]] = "";
-            } else {
-                params[p[0]] = decodeURIComponent(p[1].replace(/\+/g, " "));
-            }
-        }
-    }
-
-    return params;
-};
-
 
 App.init = function () {
     'use strict';
 
     Lang.init();
 
-    var params = App.urlParams();
-    if (!App.initFromUrl(params)) {
+    if (!App.initFromUrl(Url.getParams())) {
         App.initFromCookies();
     }
 };
@@ -73,10 +49,10 @@ App.initFromUrl = function (params) {
         return false;
     }
 
-    var center = this.parseCenterFromUrl(params.c),
+    var center = Url.parseCenter(params.c),
         zoom = this.repairZoom(parseInt(params.z, 10), (params.g === undefined) ? ZOOM_DEFAULT : ZOOM_DEFAULT_GEOCACHE),
         maptype = this.repairMaptype(params.t, MAPTYPE_DEFAULT),
-        markerdata = this.parseMarkersFromUrl(params.m),
+        markerdata = Url.parseMarkers(params.m),
         defaultCenter = false;
 
     if (!center && markerdata.length > 0) {
@@ -99,7 +75,7 @@ App.initFromUrl = function (params) {
         Markers.newMarker(m.coords, m.id, m.r, m.name, m.color);
     });
 
-    this.parseLinesFromUrl(params.d).map(function (m) {
+    Url.parseLines(params.d).map(function (m) {
         Lines.newLine(m.source, m.target);
     });
 
@@ -116,21 +92,21 @@ App.initFromUrl = function (params) {
 App.initFromCookies = function () {
     'use strict';
 
-    var clat = this.repairLat(get_cookie_float('clat', CLAT_DEFAULT)),
-        clon = this.repairLon(get_cookie_float('clon', CLON_DEFAULT)),
+    var clat = this.repairLat(Storage.getFloat('clat', CLAT_DEFAULT)),
+        clon = this.repairLon(Storage.getFloat('clon', CLON_DEFAULT)),
         defaultCenter = (clat === CLAT_DEFAULT && clon === CLON_DEFAULT),
         center = new google.maps.LatLng(clat, clon),
-        zoom = this.repairZoom(get_cookie_int('zoom', ZOOM_DEFAULT), ZOOM_DEFAULT),
-        maptype = this.repairMaptype(get_cookie_string('maptype', MAPTYPE_DEFAULT), MAPTYPE_DEFAULT);
+        zoom = this.repairZoom(Storage.getInt('zoom', ZOOM_DEFAULT), ZOOM_DEFAULT),
+        maptype = this.repairMaptype(Storage.getString('maptype', MAPTYPE_DEFAULT), MAPTYPE_DEFAULT);
 
 
     App.m_map = this.createMap("themap", center, zoom, maptype);
 
-    this.parseMarkersFromCookies().map(function (m) {
+    Storage.parseMarkers().map(function (m) {
         Markers.newMarker(m.coords, m.id, m.r, m.name, m.color);
     });
 
-    this.parseLinesFromCookies().map(function (m) {
+    Storage.parseLines().map(function (m) {
         Lines.newLine(m.source, m.target);
     });
 
@@ -177,22 +153,22 @@ App.storeCenter = function () {
     'use strict';
 
     var c = App.m_map.getCenter();
-    Cookies.set('clat', c.lat(), {expires: 30});
-    Cookies.set('clon', c.lng(), {expires: 30});
+    Storage.set('clat', c.lat());
+    Storage.set('clon', c.lng());
 };
 
 
 App.storeZoom = function () {
     'use strict';
 
-    Cookies.set('zoom', App.m_map.getZoom(), {expires: 30});
+    Storage.set('zoom', App.m_map.getZoom());
 };
 
 
 App.storeMapType = function () {
     'use strict';
 
-    Cookies.set('maptype', App.m_map.getMapTypeId(), {expires: 30});
+    Storage.set('maptype', App.m_map.getMapTypeId());
 };
 
 
@@ -308,200 +284,6 @@ App.repairMaptype = function (t, d) {
     }
 
     return d;
-};
-
-
-App.parseMarkersFromUrl = function (urlarg) {
-    'use strict';
-
-    if (!urlarg) {
-        return [];
-    }
-
-    var data;
-
-    // ID:COODRS:R(:NAME)?|ID:COORDS:R(:NAME)?
-    // COORDS=LAT:LON or DEG or DMMM
-    if (urlarg.indexOf("*") >= 0) {
-        data = urlarg.split('*');
-    } else {
-        /* sep is '|' */
-        data = urlarg.split('|');
-    }
-
-    return data.map(function (dataitem) {
-        dataitem = dataitem.split(':');
-        if (dataitem.length < 3 || dataitem.length > 6) {
-            return null;
-        }
-
-        var m = {
-                alpha: dataitem[0],
-                id: alpha2id(dataitem[0]),
-                name: null,
-                coords: null,
-                r: 0,
-                color: ""
-            },
-            index = 1,
-            lat,
-            lon;
-
-        if (m.id < 0) {
-            return null;
-        }
-
-        lat = parseFloat(dataitem[index]);
-        lon = parseFloat(dataitem[index + 1]);
-        if (Coordinates.valid(lat, lon)) {
-            index += 2;
-            m.coords = new google.maps.LatLng(lat, lon);
-        } else {
-            m.coords = Coordinates.fromString(dataitem[index]);
-            index += 1;
-        }
-        if (!m.coords) {
-            return null;
-        }
-
-        m.r = App.repairRadius(parseFloat(dataitem[index]), 0);
-        index = index + 1;
-
-        if (index < dataitem.length &&
-                (/^([a-zA-Z0-9\-_]*)$/).test(dataitem[index])) {
-            m.name = dataitem[index];
-        }
-
-        index = index + 1;
-        if (index < dataitem.length &&
-                (/^([a-fA-F0-9]{6})$/).test(dataitem[index])) {
-            m.color = dataitem[index];
-        }
-
-        return m;
-    }).filter(function (thing) {
-        return thing !== null;
-    });
-};
-
-
-App.parseCenterFromUrl = function (urlarg) {
-    'use strict';
-
-    if (!urlarg) {
-        return null;
-    }
-
-    var data = urlarg.split(':');
-
-    if (data.length === 1) {
-        return Coordinates.fromString(data[0]);
-    }
-
-    if (data.length === 2) {
-        return Coordinates.toLatLng(parseFloat(data[0]), parseFloat(data[1]));
-    }
-
-    return null;
-};
-
-
-App.parseLinesFromUrl = function (urlarg) {
-    'use strict';
-
-    if (!urlarg) {
-        return [];
-    }
-
-    /* be backwards compatible */
-    if (urlarg.length === 3
-            && alpha2id(urlarg[0]) >= 0
-            && urlarg[1] === '*'
-            && alpha2id(urlarg[1]) >= 0) {
-        urlarg = urlarg[0] + ':' + urlarg[2];
-    }
-
-    return urlarg.split('*').map(function (pair_string) {
-        var pair = pair_string.split(':');
-        if (pair.length === 2) {
-            return {source: alpha2id(pair[0]), target: alpha2id(pair[1])};
-        }
-        return null;
-    }).filter(function (thing) {
-        return (thing !== null);
-    });
-};
-
-
-App.parseMarkersFromCookies = function () {
-    'use strict';
-
-    var raw_ids = Cookies.get('markers');
-
-    if (!raw_ids) {
-        return [];
-    }
-
-    return raw_ids.split(':').map(function (id_string) {
-        var m = {id: null, name: null, coords: null, r: 0, color: ""},
-            raw_data,
-            data;
-
-        m.id = Conversion.getInteger(id_string, 0, 26 * 10);
-        if (m.id === null) {
-            return null;
-        }
-
-        raw_data = Cookies.get('marker' + m.id);
-        if (!raw_data) {
-            return null;
-        }
-
-        data = raw_data.split(':');
-        if (data.length !== 4 && data.length !== 5) {
-            return null;
-        }
-
-        m.coords = Coordinates.toLatLng(parseFloat(data[0]), parseFloat(data[1]));
-        if (!m.coords) {
-            return null;
-        }
-
-        m.r = App.repairRadius(parseFloat(data[2]), 0);
-
-        if ((/^([a-zA-Z0-9\-_]*)$/).test(data[3])) {
-            m.name = data[3];
-        }
-
-        if (data.length === 5 && (/^([a-fA-F0-9]{6})$/).test(data[4])) {
-            m.color = data[4];
-        }
-
-        return m;
-    }).filter(function (thing) {
-        return (thing !== null);
-    });
-};
-
-
-App.parseLinesFromCookies = function () {
-    'use strict';
-
-    var raw_lines = Cookies.get('lines');
-
-    if (!raw_lines) {
-        return [];
-    }
-
-    return raw_lines.split('*').map(function (pair_string) {
-        var pair = pair_string.split(':');
-        if (pair.length === 2) {
-            return {source: alpha2id(pair[0]), target: alpha2id(pair[1])};
-        }
-        return null;
-    }).filter(function (thing) {
-        return (thing !== null);
-    });
 };
 
 

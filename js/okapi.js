@@ -3,7 +3,8 @@
 */
 
 /*global
-  $, google, Lang, window, Cookies, Coordinates, get_cookie_string
+  $, google, window,
+  Coordinates, Lang, Storage
 */
 
 
@@ -448,7 +449,7 @@ Okapi.scheduleLoad = function () {
 Okapi.toggle = function (t) {
     'use strict';
 
-    Cookies.set('load_caches', t ? "1" : "0", {expires: 30});
+    Storage.set('load_caches', t ? "1" : "0");
     if ($('#geocaches').is(':checked') !== t) {
         $('#geocaches').attr('checked', t);
     }
@@ -471,7 +472,7 @@ Okapi.toggle = function (t) {
 Okapi.restore = function (defaultValue) {
     'use strict';
 
-    var state = get_cookie_string("load_caches", "invalid");
+    var state = Storage.getString("load_caches", "invalid");
 
     if (state === "0") {
         this.toggle(false);
