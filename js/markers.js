@@ -312,7 +312,7 @@ Markers.createMarkerDiv = function (id) {
             "    </tr>\n" +
             "    <tr>\n" +
             "        <td style=\"text-align: center; vertical-align: middle;\"><i class=\"fa fa-circle-o\"></i>&nbsp;</td>\n" +
-            "        <td><input data-i18n=\"[title]sidebar.markers.radius;[placeholder]sidebar.markers.radius_placeholder\" class=\"radius form-control input-block-level\" type=\"text\" style=\"margin-bottom: 0px;\" value=\"n/a\" /></td>\n" +
+            "        <td><input data-i18n=\"[title]sidebar.markers.radius;[placeholder]sidebar.markers.radius_placeholder\" class=\"radius form-control input-block-level\" type=\"number\" min=\"0\" max=\"20037500\" style=\"margin-bottom: 0px;\" value=\"0\" /></td>\n" +
             "    </tr>\n" +
             "    <tr>\n" +
             "        <td style=\"text-align: center; vertical-align: middle;\"><i class=\"fa fa-paint-brush\"></i>&nbsp;</td>\n" +
@@ -424,11 +424,11 @@ Markers.projectFromMarker = function (id) {
             }
 
             newpos = Coordinates.projection_geodesic(oldpos, angle, dist);
-            newmarker = Markers.newMarker(newpos, -1, 0, "P_" + mm.getName(), mm.getColor());
+            newmarker = Markers.newMarker(newpos, -1, 0, "Proj" + mm.getName(), mm.getColor());
             if (newmarker) {
                 showAlert(
                     Lang.t("dialog.information"),
-                    Lang.t("dialog.projection.msg_new_marker").replace(/%1/, newmarker.getAlpha())
+                    Lang.t("dialog.projection.msg_new_marker").replace(/%1/, newmarker.getAlpha() + ": " + newmarker.getName())
                 );
             }
         }
