@@ -183,7 +183,7 @@ Coordinates.fromString = function (coordsString) {
 
     function mm(match, index) {
         var mi;
-        if (typeof(index) === 'number') {
+        if (typeof index === 'number') {
             if (index > 0) {
                 mi = match[index];
                 if (mi === '+' || mi === 'N' || mi === 'E' || mi === 'W' || mi === 'S') {

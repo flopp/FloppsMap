@@ -1,5 +1,4 @@
 /*jslint
-  indent: 4
 */
 
 /*global
@@ -50,14 +49,16 @@ App.initFromUrl = function (params) {
     }
 
     var center = Url.parseCenter(params.c),
-        zoom = this.repairZoom(parseInt(params.z, 10), (params.g === undefined) ? ZOOM_DEFAULT : ZOOM_DEFAULT_GEOCACHE),
+        zoom = this.repairZoom(parseInt(params.z, 10), (params.g === undefined)
+            ? ZOOM_DEFAULT
+            : ZOOM_DEFAULT_GEOCACHE),
         maptype = this.repairMaptype(params.t, MAPTYPE_DEFAULT),
         markerdata = Url.parseMarkers(params.m),
-        defaultCenter = false;
+        defaultCenter = false,
+        clat = 0,
+        clng = 0;
 
     if (!center && markerdata.length > 0) {
-        var clat = 0,
-            clng = 0;
         markerdata.map(function (m) {
             clat += m.coords.lat();
             clng += m.coords.lng();
@@ -268,15 +269,15 @@ App.repairMaptype = function (t, d) {
     'use strict';
 
     var mapTypes = {
-        "OSM": 1,
+        OSM: 1,
         "OSM/DE": 1,
-        "OCM": 1,
-        "OUTD": 1,
-        "TOPO": 1,
-        "satellite": 1,
-        "hybrid": 1,
-        "roadmap": 1,
-        "terrain": 1
+        OCM: 1,
+        OUTD: 1,
+        TOPO: 1,
+        satellite: 1,
+        hybrid: 1,
+        roadmap: 1,
+        terrain: 1
     };
 
     if (t !== undefined && mapTypes[t]) {

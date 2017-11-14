@@ -22,28 +22,28 @@ function Line(themap, id, source, target) {
 
     $('#dynLineDiv').append(
         "<div id=\"dynline" + id + "\">" +
-            "<table style=\"width: 100%\">" +
-                "<tr>" +
-                    "<td>1:</td>" +
-                    "<td>" +
-                        "<select class=\"source my-small-select\" data-i18n=\"[title]sidebar.lines.source\" onchange=\"Lines.selectLineSource(" + id + ");\"><option value=\"-1\">?</option></select>" +
-                    "</td>" +
-                    "<td rowspan=\"2\" style=\"vertical-align: top;\">" +
-                        "<button class=\"my-button btn btn-mini btn-danger\" style=\"float: right\" data-i18n=\"[title]sidebar.lines.delete_line\" type=\"button\" onClick=\"trackLine('delete'); Lines.deleteLine(" + id + ");\"><i class=\"fa fa-trash-o\"></i></button>" +
-                    "</td>" +
-                "</tr>" +
-                "<tr>" +
-                    "<td>2:</td>" +
-                    "<td>" +
-                        "<select class=\"target my-small-select\" data-i18n=\"[title]sidebar.lines.destination\" onchange=\"Lines.selectLineTarget(" + id + ");\"><option value=\"-1\">?</option></select>" +
-                    "</td>" +
-                "</tr>" +
-                "<tr>" +
-                    "<td colspan=\"3\">" +
-                        "<i class=\"fa fa-arrows-h\"></i> <span class=\"dist\">n/a</span> <i class=\"fa fa-compass\"></i> <span class=\"angle\">n/a</span>" +
-                    "</td>" +
-                "</tr>" +
-            "</table>" +
+        "    <table style=\"width: 100%\">" +
+        "        <tr>" +
+        "            <td>1:</td>" +
+        "            <td>" +
+        "                <select class=\"source my-small-select\" data-i18n=\"[title]sidebar.lines.source\" onchange=\"Lines.selectLineSource(" + id + ");\"><option value=\"-1\">?</option></select>" +
+        "            </td>" +
+        "            <td rowspan=\"2\" style=\"vertical-align: top;\">" +
+        "                <button class=\"my-button btn btn-mini btn-danger\" style=\"float: right\" data-i18n=\"[title]sidebar.lines.delete_line\" type=\"button\" onClick=\"trackLine('delete'); Lines.deleteLine(" + id + ");\"><i class=\"fa fa-trash-o\"></i></button>" +
+        "            </td>" +
+        "        </tr>" +
+        "        <tr>" +
+        "            <td>2:</td>" +
+        "            <td>" +
+        "                <select class=\"target my-small-select\" data-i18n=\"[title]sidebar.lines.destination\" onchange=\"Lines.selectLineTarget(" + id + ");\"><option value=\"-1\">?</option></select>" +
+        "            </td>" +
+        "        </tr>" +
+        "        <tr>" +
+        "            <td colspan=\"3\">" +
+        "                <i class=\"fa fa-arrows-h\"></i> <span class=\"dist\">n/a</span> <i class=\"fa fa-compass\"></i> <span class=\"angle\">n/a</span>" +
+        "            </td>" +
+        "        </tr>" +
+        "    </table>" +
         "</div>"
     );
 

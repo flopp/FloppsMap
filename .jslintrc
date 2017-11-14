@@ -1,0 +1,12 @@
+{
+  "indent":     4,
+  
+  "regexp": true,
+
+  "browser":    true,
+  "devel":      false,
+  "node":       false,
+  "rhino":      false,
+  "widget":     false,
+  "windows":    true
+}

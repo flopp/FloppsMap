@@ -1,6 +1,4 @@
 /*jslint
-  regexp: true
-  indent: 4
 */
 
 /*global
@@ -222,8 +220,8 @@ Lines.deleteAllLines = function () {
 Lines.updateTotalDistance = function () {
     'use strict';
 
-    var lines = 0;
-    var distance = 0;
+    var lines = 0,
+        distance = 0;
 
     this.m_lines.map(function (line) {
         if (line) {

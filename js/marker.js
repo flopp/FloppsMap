@@ -1,5 +1,4 @@
 /*jslint
-  indent: 4
 */
 
 /*global
@@ -169,17 +168,16 @@ Marker.prototype.setNamePositionRadiusColor = function (name, position, radius, 
 Marker.prototype.initialize = function (map, name, position, radius, color) {
     'use strict';
 
+    var self = this,
+        colors = ["FF0000", "00FF00", "0000FF", "FFFF00", "FF00FF", "00FFFF", "FFFFFF"];
     this.m_free = false;
     this.m_name = name;
     this.m_color = color;
     if (!((/^([a-fA-F0-9]{6})$/).test(this.m_color))) {
-        var colors = ["FF0000", "00FF00", "0000FF", "FFFF00", "FF00FF", "00FFFF", "FFFFFF"];
         this.m_color = colors[this.m_id % 7];
     }
     this.m_iconLabel = name;
     this.m_iconColor = this.m_color;
-
-    var self = this;
 
     this.m_miniIcon = IconFactory.createMiniIcon(this.m_alpha, this.m_color);
 
