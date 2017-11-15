@@ -86,8 +86,6 @@ function handleGpxFiles(files) {
             Lang.t("uploadgpx.info"),
             Lang.t("uploadgpx.msg_created_markers").replace(/%1/, wpts.length)
         );
-
-        // TODO pan to center of imported markers, adjust zoom
     };
 
     // reset file input

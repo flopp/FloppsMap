@@ -297,9 +297,11 @@ Okapi.removeMarkers = function () {
     }
 
     this.m_sites.map(function (site) {
-        $.each(site.markers, function (_, m) {
+        /*jslint unparam: true*/
+        $.each(site.markers, function (unused, m) {
             m.setMap(null);
         });
+        /*jslint unparam: false*/
         site.markers = {};
     });
 
@@ -446,7 +448,9 @@ Okapi.scheduleLoad = function () {
 Okapi.toggle = function (t) {
     'use strict';
 
-    Storage.set('load_caches', t ? "1" : "0");
+    Storage.set('load_caches', t
+        ? "1"
+        : "0");
     if ($('#geocaches').is(':checked') !== t) {
         $('#geocaches').attr('checked', t);
     }
