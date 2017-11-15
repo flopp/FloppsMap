@@ -17,9 +17,11 @@ Lang.init = function () {
         .use(i18nextBrowserLanguageDetector)
         .init({
             debug: false,
-            load: 'all',
+            load: 'languageOnly',
             resGetPath: 'lang/{{lng}}/{{ns}}.json',
-            fallbackLng: "en",
+            fallbackLng: ['en', 'de'],
+            whitelist: ['en', 'de', 'nl', 'ro', 'pl'],
+            nonExplicitWhitelist: true,
             backend: {
                 loadPath: 'lang/{{lng}}/{{ns}}.json'
             },
