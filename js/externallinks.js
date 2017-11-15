@@ -12,6 +12,7 @@ ExternalLinks.m_targets = null;
 
 
 ExternalLinks.init = function (themap) {
+
     'use strict';
 
     this.m_map = themap;
@@ -41,19 +42,16 @@ ExternalLinks.init = function (themap) {
 
     var tag = $('#externallinks');
 
-    /*jslint unparam: true*/
     $.each(this.m_targets, function (key, value) {
-        tag.append('<option value="' + key + '">' + key + '</option>');
+        tag.append('<option value="' + key + '" data-url="' + value + '">' + key + '</option>');
     });
-    /*jslint unparam: false*/
 };
 
 
 ExternalLinks.goto = function () {
     'use strict';
 
-    var selected = $('#externallinks').find(":selected").text(),
-        url = this.m_targets[selected],
+    var url = $('#externallinks').find(":selected").attr('data-url'),
         lat = this.m_map.getCenter().lat(),
         lng = this.m_map.getCenter().lng();
 
@@ -61,7 +59,7 @@ ExternalLinks.goto = function () {
         return;
     }
 
-    trackAction('external ' + selected);
+    trackAction('external ' + url);
 
     url = url.replace(/%lat%/g, lat.toFixed(6));
     url = url.replace(/%lon%/g, lng.toFixed(6));
