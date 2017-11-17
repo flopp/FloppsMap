@@ -47,6 +47,9 @@ $(document).ready(function () {
     $("#navbarInfo").click(function () {
         trackAction("navbar.info");
     });
+    $("#navbarWhatsnew").click(function () {
+        trackAction("navbar.whatsnew");
+    });
 
     $("#buttonExportGPX").click(function () {
         trackAction("export.gpx");
