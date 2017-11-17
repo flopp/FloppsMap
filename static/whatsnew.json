@@ -1,0 +1,14 @@
+[
+    {
+        "date": "2017-11-15",
+        "text": "More relaxed language detection; this hopefully fixes translation issues."
+    },
+    {
+        "date": "2017-11-13",
+        "text": "Use HTML5 \"color\" inputs for editing marker colors. Works fine in modern browsers."
+    },
+    {
+        "date": "2017-11-08",
+        "text": "Color of markers is now configurable."
+    }
+]

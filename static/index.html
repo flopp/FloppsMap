@@ -87,6 +87,7 @@
         <li><a id="navbarBlog" role="button" href="http://blog.flopp-caching.de/" target="_blank"><span data-i18n="nav.blog">BLOG</span> <i class="fa fa-star"></i></a></li>
         <li><a id="navbarHelp" role="button" href="http://blog.flopp-caching.de/benutzung-der-karte/" target="_blank"><span data-i18n="nav.help">HELP</span> <i class="fa fa-question"></i></a></li>
         <li><a id="navbarInfo" role="button" href="javascript:showInfoDialog()"><span data-i18n="nav.impress">IMPRESS</span> <i class="fa fa-info"></i></a></li>
+        <li><a id="navbarWhatsnew" role="button" href="javascript:showWhatsnewDialog()"><span data-i18n="nav.whatsnew">WHAT'S NEW?</span> <i class="fa fa-newspaper-o"></i></a></li>
         <li></li>
       </ul>
       <form class="nav navbar-form navbar-right" style="margin:auto">
@@ -248,7 +249,7 @@
 
 
 <!-- the info dialog -->
-<div id="dlgInfoAjax" class="modal">
+<div id="dlgInfo" class="modal">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -256,6 +257,25 @@
         <h3 data-i18n="dialog.info.title">INFO/IMPRESS</h3>
       </div>
       <div class="modal-body" data-i18n="[html]dialog.info.content">INFO CONTENT</div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" data-dismiss="modal" data-i18n="dialog.ok">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- the What's new? dialog -->
+<div id="dlgWhatsnew" class="modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h3 data-i18n="dialog.whatsnew.title">WHAT'S NEW?</h3>
+      </div>
+      <div class="modal-body">
+        <ul id="dlgWhatsnewList">
+        </ul>
+      </div>
       <div class="modal-footer">
         <button class="btn btn-primary" data-dismiss="modal" data-i18n="dialog.ok">OK</button>
       </div>

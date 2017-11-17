@@ -42,7 +42,23 @@ function restoreCoordinatesFormat(defaultValue) {
 function showInfoDialog() {
     'use strict';
 
-    $('#dlgInfoAjax').modal({show: true, backdrop: "static", keyboard: true});
+    $('#dlgInfo').modal({show: true, backdrop: "static", keyboard: true});
+}
+
+
+function showWhatsnewDialog() {
+    'use strict';
+
+    $.getJSON("whatsnew.json", function (json) {
+        var i,
+            obj;
+        $('#dlgWhatsnewList').empty();
+        for (i = 0; i < json.length; i += 1) {
+            obj = json[i];
+            $('#dlgWhatsnewList').append("<li>" + obj.date + ": " + obj.text + "</li>");
+        }
+        $('#dlgWhatsnew').modal({show: true, backdrop: "static", keyboard: true});
+    });
 }
 
 

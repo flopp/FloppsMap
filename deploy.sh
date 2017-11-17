@@ -64,6 +64,7 @@ ROOT=(
     private/google7caa54246d4da45f.html
     private/BingSiteAuth.xml
     static/.htaccess
+    static/whatsnew.json
     static/maintenance.html
     static/disabled.html)
 
