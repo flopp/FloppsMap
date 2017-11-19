@@ -23,13 +23,26 @@ Url.getParams = function () {
             if (p.length === 1) {
                 params[p[0]] = "";
             } else {
-                params[p[0]] = decodeURIComponent(p[1].replace(/\+/g, " "));
+                params[p[0]] = Url.decode(p[1]);
             }
         }
     }
 
     return params;
 };
+
+
+Url.decode = function (s) {
+    'use strict';
+
+    var s2 = decodeURIComponent(s.replace(/\+/g, " "));
+    // allow for multiple encodings
+    if ((s !== s2) && (/%[0-9a-fA-F]{2}/).test(s2)) {
+        s2 = Url.decode(s2);
+    }
+    return s2;
+};
+
 
 Url.parseMarkers = function (urlarg) {
     'use strict';

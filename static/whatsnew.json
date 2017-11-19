@@ -1,5 +1,9 @@
 [
     {
+        "date": "2017-11-19",
+        "text": "Allow for Url parameters that have been encoded multiple times."
+    },
+    {
         "date": "2017-11-15",
         "text": "More relaxed language detection; this hopefully fixes translation issues."
     },
