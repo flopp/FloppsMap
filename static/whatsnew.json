@@ -1,6 +1,10 @@
 [
     {
         "date": "2017-11-19",
+        "text": "Support UNESCO-style coordinates (seconds=60)."
+    },
+    {
+        "date": "2017-11-19",
         "text": "Allow for Url parameters that have been encoded multiple times."
     },
     {

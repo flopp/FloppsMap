@@ -99,20 +99,20 @@ Coordinates.create = function (h1, d1, m1, s1, h2, d2, m2, s2) {
     if (h1 !== '+' && d1 < 0) {
         return null;
     }
-    if (m1 < 0 || m1 >= 60) {
+    if (m1 < 0 || m1 >= 61) {
         return null;
     }
-    if (s1 < 0 || s1 >= 60) {
+    if (s1 < 0 || s1 >= 61) {
         return null;
     }
 
     if (h2 !== '+' && d2 < 0) {
         return null;
     }
-    if (m2 < 0 || m2 >= 60) {
+    if (m2 < 0 || m2 >= 61) {
         return null;
     }
-    if (s2 < 0 || s2 >= 60) {
+    if (s2 < 0 || s2 >= 61) {
         return null;
     }
 

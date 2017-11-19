@@ -38,7 +38,7 @@ IconFactory.createMapIcon = function (text, hexcolor) {
                 '       d="M 4 4 L 4 26 L ' + (w2 - 4.0) + ' 26 L ' + w2 + ' 33 L ' + (w2 + 4.0) + ' 26 L ' + (w - 4.0) + ' 26 L ' + (w - 4.0) + ' 4 L 4 4 z"\n' +
                 '       filter="url(#shadow)" />\n' +
                 '    <text\n' +
-                '       style="text-anchor:middle;font-style:normal;font-weight:normal;font-size:16px;line-height:100%;font-family:sans;letter-spacing:0px;word-spacing:0px;fill:' + txtcolor + ';fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"\n' +
+                '       style="text-anchor:middle;font-family:Arial,Helvetica,sans-serif;font-style:normal;font-weight:normal;font-size:16px;line-height:100%;font-family:sans;letter-spacing:0px;word-spacing:0px;fill:' + txtcolor + ';fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"\n' +
                 '       x="' + w2 + '" y="21">' + text + '</text>\n' +
                 '</svg>',
         url = 'data:image/svg+xml;charset=UTF-8;base64,' + window.btoa(svg);
@@ -72,7 +72,7 @@ IconFactory.createMiniIcon = function (text, hexcolor) {
                 '       d="M 4 4 L 4 26 L ' + (w - 4.0) + ' 26 L ' + (w - 4.0) + ' 4 L 4 4 z"\n' +
                 '       />\n' +
                 '    <text\n' +
-                '       style="text-anchor:middle;font-style:normal;font-weight:normal;font-size:16px;line-height:100%;font-family:sans;letter-spacing:0px;word-spacing:0px;fill:' + txtcolor + ';fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"\n' +
+                '       style="text-anchor:middle;font-family:Arial,Helvetica,sans-serif;font-style:normal;font-weight:normal;font-size:16px;line-height:100%;font-family:sans;letter-spacing:0px;word-spacing:0px;fill:' + txtcolor + ';fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"\n' +
                 '       x="' + w2 + '" y="21">' + text + '</text>\n' +
                 '</svg>',
         url = 'data:image/svg+xml;charset=UTF-8;base64,' + window.btoa(svg);
