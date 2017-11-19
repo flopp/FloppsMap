@@ -99,6 +99,7 @@ Coordinates.create = function (h1, d1, m1, s1, h2, d2, m2, s2) {
     if (h1 !== '+' && d1 < 0) {
         return null;
     }
+    // allow for m/s = 60 for supporting UNESCO style coordinates; see https://github.com/flopp/FloppsMap/issues/77
     if (m1 < 0 || m1 >= 61) {
         return null;
     }
