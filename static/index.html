@@ -22,8 +22,8 @@
     <script type="text/javascript" src="https://maps.google.com/maps/api/js?key=AIzaSyC_KjqwiB6tKCcrq2aa8B3z-c7wNN8CTA0&amp;language=en"></script>
     <script src="https://apis.google.com/js/client.js"></script>
 
-    <!-- jquery (bootstrap requires < v3) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+    <!-- jquery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
 
     <!-- js cookie -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.0/js.cookie.min.js" integrity="sha256-9Nt2r+tJnSd2A2CRUvnjgsD+ES1ExvjbjBNqidm9doI=" crossorigin="anonymous"></script>
@@ -35,8 +35,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-i18next/1.2.1/jquery-i18next.min.js" integrity="sha256-Vo1wrHjny4hQDPA9SwBUpG/EBawhvUusdqRHb3Ia7x8=" crossorigin="anonymous"></script>
 
     <!-- bootstrap + font-awesome -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.13.0/umd/popper.min.js" integrity="sha256-pS96pU17yq+gVu4KBQJi38VpSuKN7otMrDQprzf/DWY=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha256-GIa8Vh3sfESnVB2CN3rYGkD/MklvMq0lmITweQxE1qU=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha256-QUyqZrt5vIjBumoqQV0jM8CgGqscFfdGhN+nVCqX0vc=" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
 
     <!-- fonts -->
@@ -69,37 +70,40 @@
 <body>
 
 <!-- the menu -->
-<div class="navbar navbar-custom navbar-static-top">
-  <div class="navbar-inner">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <img src="img/favicon.png" style="position: absolute; top: 9px; left:4px;">
-      <a class="navbar-brand" href="#" style="margin-left:32px;"><div style="width: 32px"></div><span data-i18n="nav.title">FLOPP'S MAP</span></a>
+<nav id="main-navbar" class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <a class="navbar-brand" href="#">
+        <span data-i18n="nav.title">FLOPP'S MAP</span>
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a id="navbarBlog" class="nav-link" role="button" href="http://blog.flopp-caching.de/" target="_blank"><i class="fa fa-star"></i> <span data-i18n="nav.blog">BLOG</span></a>
+            </li>
+            <li class="nav-item">
+                <a id="navbarHelp" class="nav-link" role="button" href="http://blog.flopp-caching.de/benutzung-der-karte/" target="_blank"><i class="fa fa-question"></i> <span data-i18n="nav.help">HELP</span></a>
+            </li>
+            <li class="nav-item">
+                <a id="navbarInfo" class="nav-link" role="button" href="javascript:showInfoDialog()"><i class="fa fa-info"></i> <span data-i18n="nav.impress">IMPRESS</span></a>
+            </li>
+            <li class="nav-item">
+                <a id="navbarWhatsnew" class="nav-link" role="button" href="javascript:showWhatsnewDialog()"><i class="fa fa-newspaper-o"></i> <span data-i18n="nav.whatsnew">WHAT'S NEW?</span></a>
+            </li>
+            <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-language"></i> <span data-i18n="nav.language">LANGUAGE</span></a>
+            <div class="dropdown-menu" aria-labelledby="dropdown01">
+              <a class="dropdown-item" href="javascript:Lang.setEN()" data-i18n="[html]nav.english">ENGLISH</a>
+              <a class="dropdown-item" href="javascript:Lang.setDE()" data-i18n="[html]nav.german">DEUTSCH</a>
+              <a class="dropdown-item" href="javascript:Lang.setNL()" data-i18n="[html]nav.dutch">NEDERLANDS</a>
+              <a class="dropdown-item" href="javascript:Lang.setRO()" data-i18n="[html]nav.romanian">ROMANIAN</a>
+              <a class="dropdown-item" href="javascript:Lang.setPL()" data-i18n="[html]nav.polish">POLISH</a>
+            </div>
+          </li>
+        </ul>
     </div>
-
-    <div class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
-        <li><a id="navbarBlog" role="button" href="http://blog.flopp-caching.de/" target="_blank"><span data-i18n="nav.blog">BLOG</span> <i class="fa fa-star"></i></a></li>
-        <li><a id="navbarHelp" role="button" href="http://blog.flopp-caching.de/benutzung-der-karte/" target="_blank"><span data-i18n="nav.help">HELP</span> <i class="fa fa-question"></i></a></li>
-        <li><a id="navbarInfo" role="button" href="javascript:showInfoDialog()"><span data-i18n="nav.impress">IMPRESS</span> <i class="fa fa-info"></i></a></li>
-        <li><a id="navbarWhatsnew" role="button" href="javascript:showWhatsnewDialog()"><span data-i18n="nav.whatsnew">WHAT'S NEW?</span> <i class="fa fa-newspaper-o"></i></a></li>
-        <li></li>
-      </ul>
-      <form class="nav navbar-form navbar-right" style="margin:auto">
-         <span class="btn btn-default btn-sm navbar-btn" onclick="Lang.setEN();" data-i18n="[html]nav.english">ENGLISH</span>
-         <span class="btn btn-default btn-sm navbar-btn" onclick="Lang.setDE();" data-i18n="[html]nav.german">DEUTSCH</span>
-         <span class="btn btn-default btn-sm navbar-btn" onclick="Lang.setNL();" data-i18n="[html]nav.dutch">NEDERLANDS</span>
-         <span class="btn btn-default btn-sm navbar-btn" onclick="Lang.setRO();" data-i18n="[html]nav.romanian">ROMANIAN</span>
-         <span class="btn btn-default btn-sm navbar-btn" onclick="Lang.setPL();" data-i18n="[html]nav.polish">POLISH</span>
-      </form>
-    </div>
-  </div>
-</div>
+</nav>
 
 <!-- the map -->
 <div id="map-wrapper">
@@ -162,10 +166,10 @@
   </div>
   <div style="margin-bottom: 10px">
     <input id="buttonUploadGPXinput" style="display:none" type="file" name="files" onchange="handleGpxFiles(this.files);">
-    <a id="buttonUploadGPX" class="btn btn-block btn-sm btn-success" role="button" data-i18n="sidebar.misc.uploadgpx">UPLOAD GPX</a>
+    <button id="buttonUploadGPX" class="btn btn-block btn-sm btn-success" role="button" data-i18n="sidebar.misc.uploadgpx">UPLOAD GPX</button>
   </div>
   <div style="margin-bottom: 10px">
-    <a id="buttonExportGPX" class="btn btn-block btn-sm btn-info" role="button" data-i18n="sidebar.misc.gpx">EXPORT GPX</a>
+    <button id="buttonExportGPX" class="btn btn-block btn-sm btn-info" role="button" data-i18n="sidebar.misc.gpx">EXPORT GPX</button>
   </div>
   <div style="margin-bottom: 10px">
     <button id="buttonPermalink" class="btn btn-block btn-sm btn-info" type="button" onClick="App.generatePermalink();" data-i18n="sidebar.misc.permalink">CREATE PERMALINK</button>
@@ -253,8 +257,10 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
         <h3 data-i18n="dialog.info.title">INFO/IMPRESS</h3>
+        <button type="button" class="close" data-dismiss="modal">
+          <span>&times;</span>
+        </button>
       </div>
       <div class="modal-body" data-i18n="[html]dialog.info.content">INFO CONTENT</div>
       <div class="modal-footer">
@@ -269,8 +275,10 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
         <h3 data-i18n="dialog.whatsnew.title">WHAT'S NEW?</h3>
+        <button type="button" class="close" data-dismiss="modal">
+          <span>&times;</span>
+        </button>
       </div>
       <div class="modal-body">
         <ul id="dlgWhatsnewList">
@@ -289,6 +297,9 @@
     <div class="modal-content">
       <div class="modal-header">
         <h3 id="dlgAlertHeader">TITLE</h3>
+        <button type="button" class="close" data-dismiss="modal">
+          <span>&times;</span>
+        </button>
       </div>
       <div id="dlgAlertMessage" class="modal-body">CONTENT</div>
       <div class="modal-footer">
@@ -303,6 +314,9 @@
     <div class="modal-content">
       <div class="modal-header">
         <h3 data-i18n="dialog.projection.title">WAYPOINT PROJECTION</h3>
+        <button type="button" class="close" data-dismiss="modal">
+          <span>&times;</span>
+        </button>
       </div>
       <div class="modal-body">
         <img src="img/projection.png" style="float: right">
@@ -333,6 +347,9 @@
     <div class="modal-content">
       <div class="modal-header">
         <h3 data-i18n="dialog.permalink.title">PERMALINK</h3>
+        <button type="button" class="close" data-dismiss="modal">
+          <span>&times;</span>
+        </button>
       </div>
       <div class="modal-body">
         <div data-i18n="[html]dialog.permalink.content">PERMALINK CONTENT</div>
@@ -357,6 +374,9 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h3 data-i18n="dialog.multicoordinates.title">MULTICOORDINATES</h3>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
             </div>
             <div class="modal-body">
                 <div data-i18n="[html]dialog.multicoordinates.content">MULTICOORDINATES CONTENT</div>
@@ -383,6 +403,9 @@
     <div class="modal-content">
       <div class="modal-header">
         <h3 data-i18n="dialog.npa.title">NATURE PROTECTION AREAS</h3>
+        <button type="button" class="close" data-dismiss="modal">
+          <span>&times;</span>
+        </button>
       </div>
       <div class="modal-body">
         <div data-i18n="[html]dialog.npa.content">NPA CONTENT</div>
@@ -399,6 +422,9 @@
     <div class="modal-content">
       <div class="modal-header">
         <h3 data-i18n="dialog.cdda.title">NATIONALLY DESIGNATED AREAS</h3>
+        <button type="button" class="close" data-dismiss="modal">
+          <span>&times;</span>
+        </button>
       </div>
       <div class="modal-body">
         <div data-i18n="[html]dialog.cdda.content">CDDA CONTENT</div>
@@ -415,6 +441,9 @@
     <div class="modal-content">
       <div class="modal-header">
         <h3 data-i18n="dialog.freifunk.title">FREIFUNK</h3>
+        <button type="button" class="close" data-dismiss="modal">
+          <span>&times;</span>
+        </button>
       </div>
       <div class="modal-body">
         <div data-i18n="[html]dialog.freifunk.content">FREIFUNK CONTENT</div>

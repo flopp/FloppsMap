@@ -1,6 +1,10 @@
 [
     {
         "date": "2017-11-21",
+        "text": "Bootstrap 4.0; language selection via dropdown list."
+    },
+    {
+        "date": "2017-11-21",
         "text": "Fix resizing issues (menubar partially occluded map on narrow displays)."
     },
     {

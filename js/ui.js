@@ -167,7 +167,7 @@ $(document).ready(function () {
 /* react on resizes */
 var onResize = function () {
     'use strict';
-    var h = $(".navbar").height();
+    var h = $("#main-navbar").outerHeight();
     $("#map-wrapper").css("top", h);
     $("#sidebar").css("top", h);
 };
