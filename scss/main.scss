@@ -87,6 +87,10 @@ html, body { height: 100%; overflow: hidden}
 @media(max-width:599px){.only-small{display:inherit!important}.only-large{display:none!important}}
 @media(min-width:600px){.only-small{display:none!important}.only-large{display:inherit!important}}
 
+.input-color {
+  height: 38px;
+}
+
 .my-button {
   width: 26px;
   height: 26px;

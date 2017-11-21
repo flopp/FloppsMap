@@ -316,7 +316,7 @@ Markers.createMarkerDiv = function (id) {
             "    </tr>\n" +
             "    <tr>\n" +
             "        <td style=\"text-align: center; vertical-align: middle;\"><i class=\"fa fa-paint-brush\"></i>&nbsp;</td>\n" +
-            "        <td><input data-i18n=\"[title]sidebar.markers.color;[placeholder]sidebar.markers.color_placeholder\" class=\"color form-control input-block-level\" type=\"color\" style=\"margin-bottom: 0px;\" value=\"#FF0000\" /></td>\n" +
+            "        <td><input data-i18n=\"[title]sidebar.markers.color;[placeholder]sidebar.markers.color_placeholder\" class=\"color input-color form-control input-block-level\" type=\"color\" style=\"margin-bottom: 0px;\" value=\"#FF0000\" /></td>\n" +
             "    </tr>\n" +
             "    <tr>\n" +
             "        <td colspan=\"2\" style=\"text-align: right\">\n" +
