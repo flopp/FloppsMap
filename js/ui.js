@@ -3,7 +3,7 @@
 */
 
 /*global
-  $, document, gapi, setTimeout,
+  $, document, window, gapi, setTimeout,
   CDDA, Coordinates, Freifunk, Hillshading, NPA, Okapi, Sidebar, Storage,
   DownloadGPX, Geolocation,
   showMulticoordinatesDialog, Markers
@@ -162,4 +162,17 @@ $(document).ready(function () {
     $("#buttonMulticoordinates").click(function () {
         showMulticoordinatesDialog();
     });
+});
+
+/* react on resizes */
+var onResize = function () {
+    'use strict';
+    var h = $(".navbar").height();
+    $("#map-wrapper").css("top", h);
+    $("#sidebar").css("top", h);
+};
+$(window).resize(onResize);
+$(function () {
+    'use strict';
+    onResize();
 });

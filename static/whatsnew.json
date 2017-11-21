@@ -1,5 +1,9 @@
 [
     {
+        "date": "2017-11-21",
+        "text": "Fix resizing issues (menubar partially occluded map on narrow displays)."
+    },
+    {
         "date": "2017-11-19",
         "text": "Support UNESCO-style coordinates (seconds=60)."
     },
