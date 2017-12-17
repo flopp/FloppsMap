@@ -50,12 +50,12 @@ Attribution.update = function () {
         // non google map -> hide google stuff
         this.m_div.innerHTML = a;
         $("a[href*='maps.google.com/maps']").hide();
-        $(".gmnoprint a, .gmnoprint span, .gm-style-cc").css("display", "none");
+        $(".gmnoprint a, .gmnoprint span").css("display", "none");
         this.m_map.setOptions({streetViewControl: false});
     } else {
         // google map -> show google stuff
         this.m_div.innerHTML = "";
-        $(".gmnoprint a, .gmnoprint span, .gm-style-cc").css("display", "block");
+        $(".gmnoprint a, .gmnoprint span").css("display", "block");
         $("a[href*='maps.google.com/maps']").show();
         this.m_map.setOptions({streetViewControl: true});
     }
