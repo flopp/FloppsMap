@@ -68,12 +68,13 @@ ROOT=(
     static/maintenance.html
     static/disabled.html)
 
+TSTAMP=$(date +%s)
 GOOGLE_API_KEY=$(awk -F'"' '/API_KEY_GOOGLE/ { print $2; }' private/api_keys.js)
-sed -e "s/TSTAMP/$(date +%s)/g" -e "s/GOOGLE_API_KEY/${GOOGLE_API_KEY}/g" static/index.html > $D/index.html
+sed -e "s/TSTAMP/${TSTAMP}/g" -e "s/GOOGLE_API_KEY/${GOOGLE_API_KEY}/g" static/index.html > $D/index.html
 
 cp -a ${ROOT[@]} $D/
 sass scss/main.scss > $D/css/main.css
-cat ${JS[@]} > $D/js/compressed.js
+cat ${JS[@]} | sed -e "s/TSTAMP/${TSTAMP}/g" > $D/js/compressed.js
 cp -a ${IMG[@]} $D/img/
 cp -a lang/* $D/lang/
 

@@ -18,12 +18,12 @@ Lang.init = function () {
         .init({
             debug: false,
             load: 'languageOnly',
-            resGetPath: 'lang/{{lng}}/{{ns}}.json',
+            resGetPath: 'lang/{{lng}}/{{ns}}.json?TSTAMP',
             fallbackLng: ['en', 'de'],
             whitelist: ['en', 'de', 'nl', 'ro', 'pl'],
             nonExplicitWhitelist: true,
             backend: {
-                loadPath: 'lang/{{lng}}/{{ns}}.json'
+                loadPath: 'lang/{{lng}}/{{ns}}.json?TSTAMP'
             },
             detection: {
                 order: ['querystring', 'cookie', 'localStorage', 'navigator'],
