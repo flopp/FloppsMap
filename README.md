@@ -12,7 +12,7 @@
 - Display of geocaches from the Opencaching network (via OKAPI)
 - Display of German nature protection areas
 - Permalinking to the current map
-- Translated to English, German, Dutch, Romanian
+- Translated to English, German, Dutch, Polish, Romanian
 
 Visit the map at http://flopp.net/ or http://flopp-caching.de/
 
@@ -31,7 +31,6 @@ Flopp's Map uses the following third party components/services:
 - [i18next](http://i18next.com/) - via Cloudflare's CDNJS
 - [JS Translation of GeographicLib](http://geographiclib.sf.net/html/other.html#javascript)
 - [Font Awesome](https://fortawesome.github.io/Font-Awesome/) - via Cloudflare's CDNJS
-- [Norican Font](https://www.google.com/fonts/specimen/Norican) - via Google fonts
 - OSM map tiles by http://openstreetmap.org/, http://openstreetmap.de/, http://mapquest.com/, http://opencyclemap.org/, http://www.thunderforest.com/
 - Geocache data via  http://opencaching.de, http://opencaching.pl, http://opencaching.nl, https://opencache.uk, http://opencaching.us, http://opencaching.ro
 - German *Nature Protection Area* data provided by http://www.bfn.de/
