@@ -132,7 +132,7 @@ $(document).ready(function () {
         }
     });
     $('#buttonWhereAmI').click(function () {
-        Geolocation.whereAmI();
+        Geolocation.whereAmI(true);
     });
     $("#hillshading").click(function () {
         Hillshading.toggle($('#hillshading').is(':checked'));

@@ -51,7 +51,7 @@ Geolocation.search = function (address) {
 };
 
 
-Geolocation.whereAmI = function (showError=true) {
+Geolocation.whereAmI = function (showError) {
     'use strict';
 
     trackSearch("whereami");
