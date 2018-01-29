@@ -82,7 +82,7 @@
 
         "whereami_error": {
             "title": "Wo bin ich?",
-            "content": "Kann aktuellen Aufenthaltsort nicht bestimmen."
+            "content": "Kann aktuellen Aufenthaltsort nicht bestimmen.<br />Möglicherweise hast du Location Services mit Absicht deaktiviert, oder dein Browser ist falsch konfiguriert.<br /><a href='http://blog.flopp-caching.de/2018/01/location-services-aktivieren/' target='_blank'>Weitere Infos...</a>"
         },
 
         "toomanymarkers_error": {

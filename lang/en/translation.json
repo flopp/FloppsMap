@@ -86,7 +86,7 @@
 
         "whereami_error": {
             "title": "Where am I?",
-            "content": "Failed to determine current location."
+            "content": "Failed to determine current location.<br />Maybe you have disabled location services on purpose, or your browser is misconfigured.<br /><a href='http://blog.flopp-caching.de/2018/01/activate-location-services/' target='_blank'>More infos...</a>"
         },
 
         "toomanymarkers_error": {

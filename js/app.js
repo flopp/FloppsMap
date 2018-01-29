@@ -83,7 +83,7 @@ App.initFromUrl = function (params) {
     App.restore(params.f, params.g);
 
     if (defaultCenter && params.g !== undefined) {
-        Geolocation.whereAmI();
+        Geolocation.whereAmI(false);
     }
 
     return true;

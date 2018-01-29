@@ -80,7 +80,7 @@
 
         "whereami_error": {
             "title": "Gdzie ja jestem?",
-            "content": "Błąd podczas określania obecnej lokalizacji"
+            "content": "Błąd podczas określania obecnej lokalizacji.<br />Maybe you have disabled location services on purpose, or your browser is misconfigured.<br /><a href='http://blog.flopp-caching.de/2018/01/activate-location-services/' target='_blank'>More infos...</a>"
         },
 
         "toomanymarkers_error": {

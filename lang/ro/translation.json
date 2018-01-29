@@ -80,7 +80,7 @@
 
         "whereami_error": {
             "title": "Unde sunt?",
-            "content": "Poziţia ta nu a putut fi identificată."
+            "content": "Poziţia ta nu a putut fi identificată.<br />Maybe you have disabled location services on purpose, or your browser is misconfigured.<br /><a href='http://blog.flopp-caching.de/2018/01/activate-location-services/' target='_blank'>More infos...</a>"
         },
 
         "toomanymarkers_error": {

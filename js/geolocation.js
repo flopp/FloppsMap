@@ -51,7 +51,7 @@ Geolocation.search = function (address) {
 };
 
 
-Geolocation.whereAmI = function () {
+Geolocation.whereAmI = function (showError=true) {
     'use strict';
 
     trackSearch("whereami");
@@ -64,13 +64,15 @@ Geolocation.whereAmI = function () {
                 the_map.setCenter(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
             },
             function () {
-                showAlert(
-                    Lang.t("dialog.whereami_error.title"),
-                    Lang.t("dialog.whereami_error.content")
-                );
+                if (showError) {
+                    showAlert(
+                        Lang.t("dialog.whereami_error.title"),
+                        Lang.t("dialog.whereami_error.content")
+                    );
+                }
             }
         );
-    } else {
+    } else if (showError) {
         showAlert(
             Lang.t("dialog.whereami_error.title"),
             Lang.t("dialog.whereami_error.content")
