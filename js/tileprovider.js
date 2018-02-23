@@ -74,6 +74,6 @@ function opentopomapProvider(name) {
         tileSize: new google.maps.Size(256, 256),
         name: name,
         alt: "OpenTopoMap",
-        maxZoom: 15
+        maxZoom: 17
     });
 }
