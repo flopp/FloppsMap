@@ -42,6 +42,7 @@ Flopp's Map uses the following third party components/services:
 - [andrixnet](https://github.com/andrixnet): Romanian translation
 - [mzylowski](https://github.com/mzylowski): Polish translation
 - [FriedrichFroebel](https://github.com/FriedrichFroebel): Various fixes
+- [vsandre](https://github.com/vsandre): Tile provider update
 
 ## License
 Flopp's Map is governed by a MIT-style license that can be found in the LICENSE file.
