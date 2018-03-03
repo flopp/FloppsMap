@@ -3,7 +3,7 @@
 
 /*global
   $,
-  Line, Markers, Storage
+  Line, Markers, Persist
 */
 
 var Lines = {};
@@ -84,7 +84,7 @@ Lines.getLinesText = function () {
 Lines.store = function () {
     'use strict';
 
-    Storage.set("lines", this.getLinesText());
+    Persist.setValue("lines", this.getLinesText());
 };
 
 

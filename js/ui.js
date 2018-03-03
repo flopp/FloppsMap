@@ -4,7 +4,7 @@
 
 /*global
   $, document, window, gapi, setTimeout,
-  CDDA, Coordinates, Freifunk, Hillshading, NPA, Okapi, Sidebar, Storage,
+  CDDA, Coordinates, Freifunk, Hillshading, NPA, Okapi, Sidebar, Persist,
   DownloadGPX, Geolocation,
   showMulticoordinatesDialog, Markers
 */
@@ -14,7 +14,7 @@
 function setCoordinatesFormat(t) {
     'use strict';
 
-    Storage.set('coordinatesFormat', t);
+    Persist.setValue('coordinatesFormat', t);
 
     if ($('#coordinatesFormat').val() !== t) {
         $('#coordinatesFormat').val(t);
@@ -28,7 +28,7 @@ function setCoordinatesFormat(t) {
 function restoreCoordinatesFormat(defaultValue) {
     'use strict';
 
-    var t = Storage.getString("coordinatesFormat", "DM");
+    var t = Persist.getValue("coordinatesFormat", "DM");
 
     if (t === "DM" || t === "DMS" || t === "D") {
         setCoordinatesFormat(t);

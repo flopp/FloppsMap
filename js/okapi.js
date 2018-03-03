@@ -4,7 +4,7 @@
 
 /*global
   $, google, window,
-  Coordinates, Lang, Storage,
+  Coordinates, Lang, Persist,
   API_KEY_OPENCACHING_DE,
   API_KEY_OPENCACHING_PL,
   API_KEY_OPENCACHING_NL,
@@ -448,7 +448,7 @@ Okapi.scheduleLoad = function () {
 Okapi.toggle = function (t) {
     'use strict';
 
-    Storage.set('load_caches', t
+    Persist.setValue('load_caches', t
         ? "1"
         : "0");
     if ($('#geocaches').is(':checked') !== t) {
@@ -473,7 +473,7 @@ Okapi.toggle = function (t) {
 Okapi.restore = function (defaultValue) {
     'use strict';
 
-    var state = Storage.getString("load_caches", "invalid");
+    var state = Persist.getValue("load_caches", "invalid");
 
     if (state === "0") {
         this.toggle(false);

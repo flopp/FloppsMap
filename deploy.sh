@@ -11,6 +11,7 @@ mkdir -p $L
 
 JS=(
     private/api_keys.js
+    js/persist.js
     js/app.js
     js/attribution.js
     js/cdda-layer.js
@@ -32,7 +33,6 @@ JS=(
     js/npa-layer.js
     js/okapi.js
     js/sidebar.js
-    js/storage.js
     js/tileprovider.js
     js/tracking.js
     js/ui.js

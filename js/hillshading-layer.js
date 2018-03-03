@@ -3,7 +3,7 @@
 */
 
 /*global
-  $, google, showAlert, Lang, tileUrl, Storage
+  $, google, showAlert, Lang, tileUrl, Persist
 */
 
 var Hillshading = {};
@@ -46,7 +46,7 @@ Hillshading.getLayer = function () {
 Hillshading.toggle = function (t) {
     'use strict';
 
-    Storage.set('hillshading', t ? "1" : "0");
+    Persist.setValue('hillshading', t ? "1" : "0");
 
     if ($('#hillshading').is(':checked') !== t) {
         $('#hillshading').attr('checked', t);
@@ -69,7 +69,7 @@ Hillshading.toggle = function (t) {
 Hillshading.restore = function (defaultValue) {
     'use strict';
 
-    var state = Storage.getString("hillshading", "invalid");
+    var state = Persist.getValue("hillshading", "invalid");
     if (state === "0") {
         this.toggle(false);
     } else if (state === "1") {

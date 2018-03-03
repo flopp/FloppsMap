@@ -5,7 +5,7 @@
 
 /*global
   $, google,
-  Storage
+  Persist
 */
 
 var Sidebar = {};
@@ -22,7 +22,7 @@ Sidebar.init = function (themap) {
 Sidebar.hide = function () {
     'use strict';
 
-    Storage.set("sidebar", "hidden");
+    Persist.setValue("sidebar", "hidden");
     $('#sidebar').hide();
     $('#sidebartoggle').css("right", "0px");
     $('#sidebartogglebutton').html("<i class=\"fa fa-chevron-left\"></i>");
@@ -34,7 +34,7 @@ Sidebar.hide = function () {
 Sidebar.show = function () {
     'use strict';
 
-    Storage.set("sidebar", "shown");
+    Persist.setValue("sidebar", "shown");
     $('#sidebar').show();
     $('#sidebartoggle').css("right", "280px");
     $('#sidebartogglebutton').html("<i class=\"fa fa-chevron-right\"></i>");
@@ -57,7 +57,7 @@ Sidebar.toggle = function (shown) {
 Sidebar.restore = function (defaultValue) {
     'use strict';
 
-    var state = Storage.getString("sidebar", "invalid");
+    var state = Persist.getValue("sidebar", "invalid");
     if (state === "hidden" || state === "0") {
         this.hide();
     } else if (state === "shown" || state === "1") {

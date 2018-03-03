@@ -3,7 +3,7 @@
 
 /*global
   $, google,
-  Coordinates, IconFactory, Lines, Storage,
+  Coordinates, IconFactory, Lines, Persist,
   id2alpha
 */
 
@@ -251,5 +251,5 @@ Marker.prototype.store = function () {
     var pos = this.m_marker.getPosition(),
         radius = this.m_circle.getRadius();
 
-    Storage.set('marker' + this.m_id, pos.lat().toFixed(6) + ":" + pos.lng().toFixed(6) + ":" + radius + ":" + this.m_name + ":" + this.m_color);
+    Persist.setValue('marker' + this.m_id, pos.lat().toFixed(6) + ":" + pos.lng().toFixed(6) + ":" + radius + ":" + this.m_name + ":" + this.m_color);
 };

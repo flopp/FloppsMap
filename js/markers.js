@@ -4,7 +4,7 @@
 
 /*global
   $,
-  Conversion, Coordinates, Lines, Marker, Storage,
+  Conversion, Coordinates, Lines, Marker, Persist,
   id2alpha, Lang, showAlert, trackMarker, showProjectionDialog
 */
 
@@ -128,7 +128,7 @@ Markers.store = function () {
             }
         }
     );
-    Storage.set('markers', ids.join(":"));
+    Persist.setValue('markers', ids.join(":"));
 };
 
 

@@ -6,7 +6,7 @@
   id2alpha, alpha2id,
   showLinkDialog,
   osmProvider, osmDeProvider, thunderforestProvider, opentopomapProvider,
-  Attribution, Sidebar, ExternalLinks, Hillshading, Geolocation, NPA, CDDA, Freifunk, Okapi, Storage,
+  Attribution, Sidebar, ExternalLinks, Hillshading, Geolocation, NPA, CDDA, Freifunk, Okapi, Persist,
   DownloadGPX, API_KEY_THUNDERFOREST,
   restoreCoordinatesFormat,
   document
@@ -27,10 +27,11 @@ App.m_map = null;
 App.init = function () {
     'use strict';
 
+    Persist.init();
     Lang.init();
 
     if (!App.initFromUrl(Url.getParams())) {
-        App.initFromCookies();
+        App.initFromPersist();
     }
 };
 
@@ -90,24 +91,24 @@ App.initFromUrl = function (params) {
 };
 
 
-App.initFromCookies = function () {
+App.initFromPersist = function () {
     'use strict';
 
-    var clat = this.repairLat(Storage.getFloat('clat', CLAT_DEFAULT)),
-        clon = this.repairLon(Storage.getFloat('clon', CLON_DEFAULT)),
+    var clat = this.repairLat(Persist.getFloat('clat', CLAT_DEFAULT)),
+        clon = this.repairLon(Persist.getFloat('clon', CLON_DEFAULT)),
         defaultCenter = (clat === CLAT_DEFAULT && clon === CLON_DEFAULT),
         center = new google.maps.LatLng(clat, clon),
-        zoom = this.repairZoom(Storage.getInt('zoom', ZOOM_DEFAULT), ZOOM_DEFAULT),
-        maptype = this.repairMaptype(Storage.getString('maptype', MAPTYPE_DEFAULT), MAPTYPE_DEFAULT);
+        zoom = this.repairZoom(Persist.getInt('zoom', ZOOM_DEFAULT), ZOOM_DEFAULT),
+        maptype = this.repairMaptype(Persist.getValue('maptype', MAPTYPE_DEFAULT), MAPTYPE_DEFAULT);
 
 
     App.m_map = this.createMap("themap", center, zoom, maptype);
 
-    Storage.parseMarkers().map(function (m) {
+    Persist.parseMarkers().map(function (m) {
         Markers.newMarker(m.coords, m.id, m.r, m.name, m.color);
     });
 
-    Storage.parseLines().map(function (m) {
+    Persist.parseLines().map(function (m) {
         Lines.newLine(m.source, m.target);
     });
 
@@ -154,22 +155,22 @@ App.storeCenter = function () {
     'use strict';
 
     var c = App.m_map.getCenter();
-    Storage.set('clat', c.lat());
-    Storage.set('clon', c.lng());
+    Persist.setValue('clat', c.lat());
+    Persist.setValue('clon', c.lng());
 };
 
 
 App.storeZoom = function () {
     'use strict';
 
-    Storage.set('zoom', App.m_map.getZoom());
+    Persist.setValue('zoom', App.m_map.getZoom());
 };
 
 
 App.storeMapType = function () {
     'use strict';
 
-    Storage.set('maptype', App.m_map.getMapTypeId());
+    Persist.setValue('maptype', App.m_map.getMapTypeId());
 };
 
 
