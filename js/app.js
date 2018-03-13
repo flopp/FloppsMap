@@ -7,6 +7,7 @@
   showLinkDialog,
   osmProvider, osmDeProvider, thunderforestProvider, opentopomapProvider,
   Attribution, Sidebar, ExternalLinks, Hillshading, Geolocation, NPA, CDDA, Freifunk, Okapi, Persist,
+  ContextMenu,
   DownloadGPX, API_KEY_THUNDERFOREST,
   restoreCoordinatesFormat,
   document
@@ -325,6 +326,7 @@ App.createMap = function (id, center, zoom, maptype) {
     Freifunk.init(m);
     Okapi.init(m);
     DownloadGPX.init(m);
+    ContextMenu.init(m, $('#map-context-menu'));
 
     google.maps.event.addListener(m, "center_changed", function () {
         App.storeZoom();

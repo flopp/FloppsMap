@@ -15,6 +15,7 @@ JS=(
     js/app.js
     js/attribution.js
     js/cdda-layer.js
+    js/contextmenu.js
     js/conversion.js
     js/downloadgpx.js
     js/externallinks.js

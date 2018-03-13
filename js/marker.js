@@ -3,7 +3,7 @@
 
 /*global
   $, google,
-  Coordinates, IconFactory, Lines, Persist,
+  ContextMenu, Coordinates, IconFactory, Lines, Persist,
   id2alpha
 */
 
@@ -194,6 +194,10 @@ Marker.prototype.initialize = function (map, name, position, radius, color) {
     });
     google.maps.event.addListener(this.m_marker, "dragend", function () {
         self.update();
+    });
+    google.maps.event.addListener(this.m_marker, "rightclick", function (event) {
+        ContextMenu.showMarkerMenu(event, self);
+        return false;
     });
 
     this.m_circle = new google.maps.Circle({

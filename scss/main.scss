@@ -5,8 +5,21 @@ $sidebarwidth: 280px;
 
 html, body { height: 100%; overflow: hidden}
 #map-wrapper { position: absolute; left: 0; right: $sidebarwidth; top: 50px; bottom: 0; float: left; }
-#themap { width: 100%; height: 100%;}
-#themap img { max-width: none; }
+#themap { 
+    width: 100%;
+    height: 100%;
+    
+    img { 
+        max-width: none;
+    }
+}
+//#themap img { max-width: none; }
+
+#map-context-menu {
+    a {
+        cursor: pointer;
+    }
+}
 
 #sidebar {
   background-color: $background;

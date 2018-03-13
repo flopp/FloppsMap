@@ -15,6 +15,12 @@
         "romanian": "Română",
         "polish": "Polski"
     },
+    
+    "contextmenu": {
+        "addmarker": "Add Marker",
+        "deletemarker": "Delete Marker",
+        "centermap": "Center Map"
+    },
 
     "sidebar": {
         "search": {

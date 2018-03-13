@@ -15,6 +15,12 @@
         "romanian": "Română",
         "polish": "Polski"
     },
+    
+    "contextmenu": {
+        "addmarker": "Neuer Marker",
+        "deletemarker": "Marker löschen",
+        "centermap": "Karte zentrieren"
+    },
 
     "sidebar": {
         "search": {
