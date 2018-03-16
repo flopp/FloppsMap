@@ -23,7 +23,8 @@ html, body { height: 100%; overflow: hidden}
 
 #sidebar {
   background-color: $background;
-  overflow: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
   position: absolute;
   padding: 4px;
   width: $sidebarwidth;
