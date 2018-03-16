@@ -280,15 +280,15 @@ Markers.createMarkerDiv = function (id) {
             "        <td rowspan=\"3\" style=\"vertical-align: top\">\n" +
             "            <img class=\"icon\" src=\"\" />\n" +
             "        </td>\n" +
-            "        <td style=\"text-align: center\"><i class=\"fa fa-map-marker\"></i></td>\n" +
+            "        <td class=\"mini-icon\"><i class=\"fa fa-map-marker\"></i></td>\n" +
             "        <td class=\"name\" colspan=\"2\">marker</td>\n" +
             "    </tr>\n" +
             "    <tr>\n" +
-            "        <td style=\"text-align: center\"><i class=\"fa fa-globe\"></i></td>\n" +
+            "        <td class=\"mini-icon\"><i class=\"fa fa-globe\"></i></td>\n" +
             "        <td class=\"coords\" colspan=\"2\">N 48° 00.123 E 007° 51.456</td>\n" +
             "    </tr>\n" +
             "    <tr>\n" +
-            "        <td style=\"text-align: center\"><i class=\"fa fa-circle-o\"></i></td>\n" +
+            "        <td class=\"mini-icon\"><i class=\"fa fa-circle-o\"></i></td>\n" +
             "        <td class=\"radius\">16100 m</td>\n" +
             "        <td>\n" +
             "            <div class=\"btn-group\" style=\"padding-bottom: 2px; padding-top: 2px; float: right\">\n" +
@@ -303,19 +303,19 @@ Markers.createMarkerDiv = function (id) {
             "</table>\n" +
             "<table class=\"edit\" style=\"display: none; width: 100%; vertical-align: middle;\">\n" +
             "    <tr>\n" +
-            "        <td style=\"text-align: center; vertical-align: middle;\"><i class=\"fa fa-map-marker\"></i>&nbsp;</td>\n" +
+            "        <td class=\"mini-icon\"><i class=\"fa fa-map-marker\"></i></td>\n" +
             "        <td><input data-i18n=\"[title]sidebar.markers.name;[placeholder]sidebar.markers.name_placeholder\" class=\"name form-control input-block-level\" type=\"text\" style=\"margin-bottom: 0px;\" value=\"n/a\" /></td>\n" +
             "    </tr>\n" +
             "    <tr>\n" +
-            "        <td style=\"text-align: center; vertical-align: middle;\"><i class=\"fa fa-globe\"></i>&nbsp;</td>\n" +
+            "        <td class=\"mini-icon\"><i class=\"fa fa-globe\"></i></td>\n" +
             "        <td><input data-i18n=\"[title]sidebar.markers.coordinates;[placeholder]sidebar.markers.coordinates_placeholder\" class=\"coords form-control input-block-level\" type=\"text\" style=\"margin-bottom: 0px;\" value=\"n/a\" /></td>\n" +
             "    </tr>\n" +
             "    <tr>\n" +
-            "        <td style=\"text-align: center; vertical-align: middle;\"><i class=\"fa fa-circle-o\"></i>&nbsp;</td>\n" +
+            "        <td class=\"mini-icon\"><i class=\"fa fa-circle-o\"></i></td>\n" +
             "        <td><input data-i18n=\"[title]sidebar.markers.radius;[placeholder]sidebar.markers.radius_placeholder\" class=\"radius form-control input-block-level\" type=\"number\" min=\"0\" max=\"20037500\" style=\"margin-bottom: 0px;\" value=\"0\" /></td>\n" +
             "    </tr>\n" +
             "    <tr>\n" +
-            "        <td style=\"text-align: center; vertical-align: middle;\"><i class=\"fa fa-paint-brush\"></i>&nbsp;</td>\n" +
+            "        <td class=\"mini-icon\"><i class=\"fa fa-paint-brush\"></i></td>\n" +
             "        <td><input data-i18n=\"[title]sidebar.markers.color;[placeholder]sidebar.markers.color_placeholder\" class=\"color input-color form-control input-block-level\" type=\"color\" style=\"margin-bottom: 0px;\" value=\"#FF0000\" /></td>\n" +
             "    </tr>\n" +
             "    <tr>\n" +

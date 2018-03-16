@@ -5,11 +5,11 @@ $sidebarwidth: 280px;
 
 html, body { height: 100%; overflow: hidden}
 #map-wrapper { position: absolute; left: 0; right: $sidebarwidth; top: 50px; bottom: 0; float: left; }
-#themap { 
+#themap {
     width: 100%;
     height: 100%;
-    
-    img { 
+
+    img {
         max-width: none;
     }
 }
@@ -130,6 +130,26 @@ html, body { height: 100%; overflow: hidden}
   padding-top: 1px;
   padding-bottom: 1px;
   margin-bottom: 4px;
+}
+
+.view {
+    .mini-icon {
+        text-align: center;
+        vertical-align: middle;
+    }
+    .name {
+        max-width: 170px;
+    }
+    .coords {
+        max-width: 170px;
+    }
+}
+
+.edit {
+    .mini-icon {
+        text-align: center;
+        vertical-align: middle;
+    }
 }
 
 .my-new {
