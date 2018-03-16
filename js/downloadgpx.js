@@ -1,4 +1,5 @@
 /*jslint
+  indent: 4
 */
 
 /*global
@@ -29,7 +30,6 @@ DownloadGPX.initiateDownload = function () {
                 '    </metadata>\n' +
                 Markers.toXmlWpts() +
                 '</gpx>\n';
-
     element.setAttribute('href', 'data:application/gpx+xml;charset=utf-8,' + encodeURIComponent(data));
     element.setAttribute('download', 'markers.gpx');
     element.style.display = 'none';

@@ -4,7 +4,7 @@
 
 /*global
   $, document, window, gapi, setTimeout,
-  CDDA, Coordinates, Freifunk, Hillshading, NPA, Okapi, Sidebar, Persist,
+  CDDA, Coordinates, Freifunk, Hillshading, Lang, NPA, Okapi, Sidebar, Persist,
   DownloadGPX, Geolocation,
   showMulticoordinatesDialog, Markers
 */
@@ -95,7 +95,16 @@ function showProjectionDialog(callback) {
 function showLinkDialog(linkUrl) {
     'use strict';
 
+    var length = linkUrl.length;
+
     $('#linkDialogLink').val(linkUrl);
+    if (length >= 4096) {
+        $('#linkDialogLengthMessage').html(Lang.t("dialog.permalink.length").replace(/%1/, length));
+    } else {
+        $('#linkDialogLengthMessage').html('');
+    }
+    $('#linkDialogError').html('');
+
     $('#linkDialog').modal({show: true, backdrop: "static", keyboard: true});
     $('#linkDialogLink').select();
 }
@@ -105,6 +114,7 @@ function linkDialogShortenLink() {
     'use strict';
 
     var longUrl = $('#linkDialogLink').val();
+    $('#linkDialogError').html('');
     gapi.client.setApiKey('AIzaSyC_KjqwiB6tKCcrq2aa8B3z-c7wNN8CTA0');
     gapi.client.load('urlshortener', 'v1', function () {
         var request = gapi.client.urlshortener.url.insert({resource: {longUrl: longUrl}});

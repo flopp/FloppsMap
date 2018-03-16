@@ -15,7 +15,7 @@
         "romanian": "Română",
         "polish": "Polski"
     },
-    
+
     "contextmenu": {
         "addmarker": "Neuer Marker",
         "deletemarker": "Marker löschen",
@@ -119,7 +119,8 @@
 
         "permalink": {
             "title": "Permalink",
-            "content": "Die folgende URL beschreibt die aktuelle Kartenansicht inklusive aller Marker, Linien und des ausgewählten Kartentyps. Kopiere (<tt>STRG+C</tt>) die URL und teile sie mit deinen Freunden!<br />'<b>Kürzen</b> schickt die lange URL durch einen URL-Shortener (<a href=\"http://goo.gl/\" target=\"_blank\">goo.gl</a>) und erzeugt so einen kürzere URL.",
+            "content": "Die folgende URL beschreibt die aktuelle Kartenansicht inklusive aller Marker, Linien und des ausgewählten Kartentyps. Kopiere (<tt>STRG+C</tt>) die URL und teile sie mit deinen Freunden!<br />'<b>Kürzen</b>' schickt die lange URL durch einen URL-Shortener (<a href=\"http://goo.gl/\" target=\"_blank\">goo.gl</a>) und erzeugt so eine kürzere URL.",
+            "length": "Die ursprüngliche URL ist wahrscheinlich zu lang um von Browsern und Googles URL-Shortener korrekt verarbeitet zu werden (%1 Zeichen; die Maximallänge von URLs ist 4096). Du solltest versuchen, die URL manuell zu kürzen, z.B. indem du Marker/Linien entfernst oder kürzere Marker-namen verwendest.",
             "shorten": "Kürzen"
         },
 

@@ -108,6 +108,7 @@
         "permalink": {
             "title": "Permalink",
             "content": "Următoarea legătură URL indică către poziţia afişată în acest moment pe Harta lui Flopp, inclusiv toate marcajele, liniile şi tipul de hartă. Copiază (<tt>CTRL+C</tt>) acest URL şi distribuie-l prietenilor tăi!<br /><b>Scurtează</b> va converti acest URL foarte lung printr-un serviciu dedicat de scurtare (<a href=\"http://goo.gl/\" target=\"_blank\">goo.gl</a>) şi va produce o legătură (URL) mult mai scurtă şi simplă.",
+            "length": "[TRANSLATION NEEDED!] The original URL is probably too long to be handled by correctly by browsers and Google's shortening service (%1 characters; the recommended maximum length of an URL is 4096). You should try to manually shorten the URL by removing markers/lines and/or using shorter marker names.",
             "shorten": "Scurtează"
         },
 
@@ -137,7 +138,7 @@
             "popuptitle": "Copiază şi lipeşte următoarele comenzi în consola router-ului tău pentru a-i schimba geo-localizarea:"
         }
     },
-    
+
     "geocache": {
         "owner": "Owner",
         "type": "Type",
