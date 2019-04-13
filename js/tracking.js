@@ -58,9 +58,6 @@ $(document).ready(function () {
     $("#buttonPermalink").click(function () {
         trackAction("permalink.create");
     });
-    $("#buttonPermalinkShorten").click(function () {
-        trackAction("permalink.shorten");
-    });
 
     $("#buttonMarkersNew1").click(function () {
         trackMarker("new1");

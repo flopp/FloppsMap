@@ -107,9 +107,8 @@
 
         "permalink": {
             "title": "Link",
-            "content": "Poniższy link pozwala porwrócić do aktualnego widoku mapy Floppa włączając wszystkie markery, linie oraz zaznaczone typy map. Skopiuj (<tt>CTRL+C</tt>) link i podziel się nim z Twoimi znajomymi!<br />Przycisk <b>skróć</b> uruchamia skracacz linków (<a href=\"http://goo.gl/\" target=\"_blank\">goo.gl</a>) i zwraca krótki link.",
-            "length": "[TRANSLATION NEEDED!] The original URL is probably too long to be handled by correctly by browsers and Google's shortening service (%1 characters; the recommended maximum length of an URL is 4096). You should try to manually shorten the URL by removing markers/lines and/or using shorter marker names.",
-            "shorten": "Skróć"
+            "content": "Poniższy link pozwala porwrócić do aktualnego widoku mapy Floppa włączając wszystkie markery, linie oraz zaznaczone typy map. Skopiuj (<tt>CTRL+C</tt>) link i podziel się nim z Twoimi znajomymi!",
+            "length": "[TRANSLATION NEEDED!] The original URL is probably too long to be handled by correctly by browsers (%1 characters; the recommended maximum length of an URL is 4096). You should try to manually shorten the URL by removing markers/lines and/or using shorter marker names."
         },
 
         "hillshading": {

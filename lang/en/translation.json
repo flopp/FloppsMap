@@ -123,9 +123,8 @@
 
         "permalink": {
             "title": "Permalink",
-            "content": "The following URL links to the current view of Flopp's Map including all markers, lines and the selected map type. Copy (<tt>CTRL+C</tt>) the URL and share it with your friends!<br /><b>Shorten</b> runs the long URL through an URL shortener (<a href=\"http://goo.gl/\" target=\"_blank\">goo.gl</a>) an produces a shortened URL.",
-            "length": "The original URL is probably too long to be handled by correctly by browsers and Google's shortening service (%1 characters; the recommended maximum length of an URL is 4096). You should try to manually shorten the URL by removing markers/lines and/or using shorter marker names.",
-            "shorten": "Shorten"
+            "content": "The following URL links to the current view of Flopp's Map including all markers, lines and the selected map type. Copy (<tt>CTRL+C</tt>) the URL and share it with your friends!",
+            "length": "The original URL is probably too long to be handled by correctly by browsers (%1 characters; the recommended maximum length of an URL is 4096). You should try to manually shorten the URL by removing markers/lines and/or using shorter marker names."
         },
 
         "hillshading": {

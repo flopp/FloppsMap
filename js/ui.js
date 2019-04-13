@@ -110,26 +110,6 @@ function showLinkDialog(linkUrl) {
 }
 
 
-function linkDialogShortenLink() {
-    'use strict';
-
-    var longUrl = $('#linkDialogLink').val();
-    $('#linkDialogError').html('');
-    gapi.client.setApiKey('AIzaSyC_KjqwiB6tKCcrq2aa8B3z-c7wNN8CTA0');
-    gapi.client.load('urlshortener', 'v1', function () {
-        var request = gapi.client.urlshortener.url.insert({resource: {longUrl: longUrl}});
-        request.execute(function (resp) {
-            if (resp.error) {
-                $('#linkDialogError').html('Error: ' + resp.error.message);
-            } else {
-                $('#linkDialogLink').val(resp.id);
-                $('#linkDialogLink').select();
-            }
-        });
-    });
-}
-
-
 /* setup button events */
 $(document).ready(function () {
     'use strict';

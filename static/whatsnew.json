@@ -1,5 +1,13 @@
 [
     {
+        "date": "2019-04-13",
+        "text": "Remove deprecated URL shortener service from the permalink dialog."
+    },
+    {
+        "date": "2019-04-11",
+        "text": "Remove Thunderforest's map tile service, since we're exceeding their free service limit."
+    },
+    {
         "date": "2018-03-13",
         "text": "Add context menu to the map and the markers."
     },
