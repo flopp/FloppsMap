@@ -5,10 +5,10 @@
   $, google, Url, Lang, Lines, Markers, Conversion, Coordinates, trackMarker, showAlert,
   id2alpha, alpha2id,
   showLinkDialog,
-  osmProvider, osmDeProvider, thunderforestProvider, opentopomapProvider,
+  osmProvider, osmDeProvider, opentopomapProvider,
   Attribution, Sidebar, ExternalLinks, Hillshading, Geolocation, NPA, CDDA, Freifunk, Okapi, Persist,
   ContextMenu,
-  DownloadGPX, API_KEY_THUNDERFOREST,
+  DownloadGPX,
   restoreCoordinatesFormat,
   document
 */
@@ -309,8 +309,6 @@ App.createMap = function (id, center, zoom, maptype) {
 
     m.mapTypes.set("OSM", osmProvider("OSM"));
     m.mapTypes.set("OSM/DE", osmDeProvider("OSM/DE"));
-    m.mapTypes.set("OCM", thunderforestProvider("OCM", "cycle", API_KEY_THUNDERFOREST));
-    m.mapTypes.set("OUTD", thunderforestProvider("OUTD", "outdoors", API_KEY_THUNDERFOREST));
     m.mapTypes.set("TOPO", opentopomapProvider("TOPO"));
     m.setMapTypeId(maptype);
 

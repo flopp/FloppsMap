@@ -31,7 +31,7 @@ Flopp's Map uses the following third party components/services:
 - [i18next](http://i18next.com/) - via Cloudflare's CDNJS
 - [JS Translation of GeographicLib](http://geographiclib.sf.net/html/other.html#javascript)
 - [Font Awesome](https://fortawesome.github.io/Font-Awesome/) - via Cloudflare's CDNJS
-- OSM map tiles by http://openstreetmap.org/, http://openstreetmap.de/, http://mapquest.com/, http://opencyclemap.org/, http://www.thunderforest.com/
+- OSM map tiles by http://openstreetmap.org/, http://openstreetmap.de/
 - Geocache data via  http://opencaching.de, http://opencaching.pl, http://opencaching.nl, https://opencache.uk, http://opencaching.us, http://opencaching.ro
 - German *Nature Protection Area* data provided by http://www.bfn.de/
 

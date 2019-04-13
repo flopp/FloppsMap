@@ -49,21 +49,6 @@ function osmDeProvider(name) {
 }
 
 
-function thunderforestProvider(name, style, key) {
-    'use strict';
-
-    return new google.maps.ImageMapType({
-        getTileUrl: function (coord, zoom) {
-            return tileUrl("https://%s.tile.thunderforest.com/" + style + "/%z/%x/%y.png?apikey=" + key, ["a", "b", "c"], coord, zoom);
-        },
-        tileSize: new google.maps.Size(256, 256),
-        name: name,
-        alt: "Thunderforest " + style,
-        maxZoom: 18
-    });
-}
-
-
 function opentopomapProvider(name) {
     'use strict';
 
