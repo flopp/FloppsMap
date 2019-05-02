@@ -8,11 +8,18 @@
         "blog": "Blog",
         "help": "Ajutor (în germană)",
         "impress": "Info",
+        "whatsnew": "Ce este nou?",
         "english": "English",
         "german": "Deutsch",
         "dutch": "Nederlands",
         "romanian": "Română <i class=\"fa fa-check\"></i>",
         "polish": "Polski"
+    },
+
+    "contextmenu": {
+        "addmarker": "Adaugă marcaj",
+        "deletemarker": "Şterge marcaj",
+        "centermap": "Centrează harta"
     },
 
     "sidebar": {
@@ -36,11 +43,11 @@
             "coordinates_placeholder": "Coordonate",
             "radius": "Raza cercului (m) în jurul marcajului",
             "radius_placeholder": "Raza (m)",
-            "color": "Color of the marker (RRGGBB)",
-            "color_placeholder": "Color (RRGGBB)",
+            "color": "Culoare marcaj (RRGGBB)",
+            "color_placeholder": "Culoare (RRGGBB)",
             "error_badcoordinates": "Formatul coordonatelor este greşit: \"%1\".",
             "error_badradius": "Valoare greşită pentru 'rază': \"%1\".<br />Valori permise: numere întregi &geq; 0.",
-            "error_badcolor": "Bad value of 'color': \"%1\".<br />Allowed format: RRGGBB."
+            "error_badcolor": "Valoare incorectă pentru 'culoare': \"%1\".<br />Format permis: RRGGBB."
         },
         "lines": {
             "title": "Lini",
@@ -49,10 +56,13 @@
             "source": "Sursă",
             "destination": "Destinaţie",
             "delete_line": "Şterge linie"
+            "total": "Total:"
         },
         "misc": {
             "title": "Diverse",
+            "multicoordinates": "Adaugă marcaje multiple",
             "gpx": "Exportă în fişier GPX",
+            "uploadgpx": "Încarcă fişier GPX",
             "permalink": "Creează legătură Permalink",
             "coordinates": "Formatul coordonatelor",
             "layers": "Straturi suplimentare",
@@ -60,8 +70,10 @@
             "boundaries": "Graniţe Administrative",
             "npa": "Rezervaţii naturale (NPA)",
             "npainfo": "Arată info despre NPA la următorul click",
+            "cdda": "Arii desemnate naţional (CDDA)",
+            "cddainfo": "Arată informaţiile CDDA la următoarea apăsare",
             "geocaches": "Geocutii (<a href=\"http://www.opencaching.eu/\" target=\"_blank\">Opencaching</a>)",
-            "external": "Servicii Externe",
+            "external": "Servicii externe",
             "freifunk": "Freifunk",
             "freifunkinfo": "Arată informaţii despre Freifunk la următorul click"
         }
@@ -93,6 +105,10 @@
             "content": "<img class=\"img-polaroid\" width=\"100ps\" height=\"100px\" style=\"float: right\" src=\"img/avatar.jpg\" alt=\"Flopp\"><h4>Contact</h4><p>Noutăţile vor fi distribuite prin acest <a target=\"_blank\" href=\"http://blog.flopp-caching.de/\" alt=\"blog\">blog <i class=\"fa fa-globe\"></i></a> (în germană).</p><p>Poţi posta întrebări şi sugestii prin <a href=\"mailto:mail@flopp-caching.de\" target=\"_blank\">email <i class=\"fa fa-envelope\"></i></a> sau prin <a href=\"https://twitter.com/floppgc\" target=\"_blank\">contul meu de Twitter <i class=\"fa fa-twitter-square\"></i></a>. În plus, am creat o pagină pentru fani pe <a href=\"https://plus.google.com/u/0/116067328889875491676\" target=\"_blank\">Google+ <i class=\"fa fa-google-plus-square\"></i></a> şi <a href=\"https://www.facebook.com/FloppsTolleKarte\" target=\"_blank\">Facebook <i class=\"fa fa-facebook-square\"></i></a>.</p><p>Poţi raporta bug-uri în pagina proiectului de la <a href=\"https://github.com/flopp/FloppsMap\" target=\"_blank\">Github <i class=\"fa fa-github-square\"></i></a>, unde se găseşte întreg codul sursă..</p>    <hr /><h4>Autor</h4><p>  Angaben gemäß § 5 TMG, Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV:<br /><br />  <a href=\"http://www.florian-pigorsch.de/\" target=\"_blank\">Florian Pigorsch</a><br />  Hurstbrunnenstraße 5<br />  79117 Freiburg<br />  <a target=\"_blank\" href=\"mailto:mail@flopp.net\">mail@flopp.net</a></p><!--<h4>Evidenţierea Dealurilor</h4><p>Elementele hărţii pentru evidenţierea dealurilor sunt furnizate cu generozitate de <a href=\"openmapsurfer.uni-hd.de\" target=\"_blank\">OpenMapSurfer project</a> al Universităţii din Heidelberg în următoarele condiţii:<br>Harta &copy; <a href=\"http://srtm.csi.cgiar.org/\" target=\"_blank\">SRTM</a>; ASTER GDEM este un produs al <a href=\"http://www.meti.go.jp/english/press/data/20090626_03.html\" target=\"_blank\">METI</a> şi <a href=\"https://lpdaac.usgs.gov/products/aster_policies\" target=\"_blank\">NASA</a>, Imagistica <a href=\"http://giscience.uni-hd.de/\" target=\"_blank\">GIScience Research Group @ Heidelberg University</a></p><h4>Graniţe Administrative</h4><p>Elementele de hartă pentru 'Graniţele Administrative' sunt furnizate cu generozitate de <a href=\"http://openmapsurfer.uni-hd.de\" target=\"_blank\">OpenMapSurfer project</a> al Universităţii din Heidelberg University în următoarele condiţii:<br>Harta &copy; contribuitori ai <a href=\"http://osm.org/\" target=\"_blank\">Openstreetmap</a>; Imagistica <a href=\"http://giscience.uni-hd.de/\" target=\"_blank\">GIScience Research Group @ Heidelberg University</a></p>--><h4>Rezervaţii naturale (NPA) (Germania)</h4><p>    Informaţiile despre rezervaţiile naturale germane sunt furnizate de <a href=\"http://www.bfn.de/\" target=\"_blank\">Bundesamt für Naturschutz (Federal Agency for Nature Conservation)</a> în condiţiile legii <a href=\"http://www.gesetze-im-internet.de/geonutzv/\" target=\"_blank\">GeoNutzV</a>. În plus, avem permisiune explicită în scris.<br />Informaţiile afişate sunt colectate şi unificate de 'Bundesamt für Naturschutz' din informaţiile colectate de la statele federale individuale. 'Bundesamt für Naturschutz' nu garantează în nici un fel precizia şi corectitudinea acestor date.<br />Pe pagina Bundesamt poţi găsi o <a href=\"http://www.geodienste.bfn.de/schutzgebiete\" target=\"_blank\">hartă oficială a ariilor protejate</a>.</p><h4>Informaţii despre geocutii</h4><p>  Informaţiile despre geocutii sunt colectate prin <a target=\"_blank\" href=\"http://www.opencaching.de/okapi/introduction.html\">Opencaching-API (OKAPI)</a> de la site-urile naţionale de Opencaching  <a target=\"_blank\" href=\"http://www.opencaching.de/\">Opencaching.de</a>,   <a target=\"_blank\" href=\"http://www.opencaching.pl/\">Opencaching.pl</a>,   <a target=\"_blank\" href=\"http://www.opencaching.nl/\">Opencaching.nl</a>,  <a target=\"_blank\" href=\"https://opencache.uk/\">Opencache.uk</a>,   <a target=\"_blank\" href=\"http://www.opencaching.us/\">Opencaching.us</a>, <a target=\"_blank\" href=\"http://www.opencaching.ro/\">Opencaching.ro</a> şi sunt supuse condiţiilor de utilizare ale respectivelor site-uri.</p><h4>Cookies</h4><p>  Acest site foloseşte cookies pentru a stoca poziţia curentă a hărţii (centru, marcaje, linii, etc.) pentru a putea reafişa harta în aceeaşi configuraţie la o vizită ulterioară. Desigur, poţi şterge aceste cookies din opţiunile navigatorului tău.</p><h4>Piwik</h4><p>  Acest site foloseşte Piwik, un software open-source de analiză web. Piwik foloseşte “cookies”, care sunt informaţii de tip text stocate pe computer-ul tău, pentru a putea analiza modul în care vizitatorii utilizează acest site. Informaţiile din acest cookie vor fi accesate de server-ul furnizorului din Germania. Poţi refuza acest cookie selectând opţiunile aferente din configuraţia navigatorului tău, dar procedând în acest fel nu vei putea beneficia de toate funcţionalităţile acestui site.<iframe src=\"https://flopp.grus.uberspace.de/piwik/index.php?module=CoreAdminHome&amp;action=optOut\" height=\"200\" width=\"500\" frameborder=\"no\"></iframe></p>"
         },
 
+        "whatsnew": {
+            "title": "Ce este nou?"
+        },
+
         "projection": {
             "title": "Proiectare Punct",
             "content": "Proiectând un Punct se creează un marcaj nou la <b>d</b> metri de marcajul sursă şi la ungiul (relevmentul) faţă de nord de <b>&beta;°</b>",
@@ -108,7 +124,7 @@
         "permalink": {
             "title": "Permalink",
             "content": "Următoarea legătură URL indică către poziţia afişată în acest moment pe Harta lui Flopp, inclusiv toate marcajele, liniile şi tipul de hartă. Copiază (<tt>CTRL+C</tt>) acest URL şi distribuie-l prietenilor tăi!",
-            "length": "[TRANSLATION NEEDED!] The original URL is probably too long to be handled by correctly by browsers (%1 characters; the recommended maximum length of an URL is 4096). You should try to manually shorten the URL by removing markers/lines and/or using shorter marker names."
+            "length": "Adresa iniţială este probabil prea lungă pentru a putea fi interpretată corect de browser-e (%1 caractere; lungimea maximă se recomandă a fi 4096). Încearcă să scurtezi adresa ştergând linii/marcaje sau folosind denumiri mai scurte pentru marcaje."
         },
 
         "hillshading": {
@@ -131,20 +147,47 @@
             "error": "Eroare la interogarea pentru informaţii despre rezervaţii naturale."
         },
 
+        "cdda": {
+            "title": "Arii Desemnate Naţional (CDDA)",
+            "content": "Common Database on Designated Areas (CDDA) este mai cunoscută ca Arii Desemnate Naţional. Este sursa oficială pentru informaţii despre arii protejate din ţările europene pentru World Database of Protected Areas (WDPA).<br /><br />Copyright: European Environment Agency (EEA), Estonian Environmental Register 25.02.2014, &copy; Finnish Environment Institute, 2015.<br /><br />Pentru mai multe informaţii vizitează <a href=\"http://www.eea.europa.eu/data-and-maps/data/nationally-designated-areas-national-cdda-10\" target=_blank>pagina Agenţiei Europene pentru Mediu</a>",
+            "msg_no_data": "Nu există informaţii la coordonatele date",
+            "msg_error": "Eroare la intergoarea CDDA."
+        },
+
         "freifunk": {
             "title": "Freifunk",
             "content": "<a href=\"https://www.freifunk.net/\" target=\"_blank\">Freifunk</a> este o iniţiativă populară, deschisă şi non-comercială care sprijină reţele de calculatoare (fără fir) cu acces liber i gratuit în Germania.<br />Harta lui Flopp include nişte funţii speciale pentru Freifunk:<ul><li>Determinarea poziţiei geografice pentru a configura router-e Freifunk</li></ul>",
             "popuptitle": "Copiază şi lipeşte următoarele comenzi în consola router-ului tău pentru a-i schimba geo-localizarea:"
+        },
+
+        "multicoordinates": {
+            "title": "Adaugă marcaje multiple",
+            "content": "Creează marcaje multiple introducând mai multe seturi de coordonate în caseta de mai jos (separate cu ; sau pe rânduri diferite). Numele marcajelor vor fi prefixate cu denumirea dată ca prefix.",
+            "label_coordinates": "Coordonate:",
+            "label_prefix": "Prefix marcaje:",
+            "error_badprefix": "Prefix incorect: %1; caractere permise: A-Z, a-z, 0-9, -, şi _.",
+            "error_badcoordinates": "Coordonate incorecte: %1",
+            "error_maxmarkers": "Prea multe marcaje. Se pot adăuga doar %1 marcaje noi.",
+            "error_message": "<b>Erori:</b><br />%1"
         }
     },
 
     "geocache": {
-        "owner": "Owner",
-        "type": "Type",
-        "size": "Size",
-        "status": "Status",
-        "difficulty": "Difficulty",
-        "terrain": "Terrain",
-        "finds": "Finds"
+        "owner": "Proprietar",
+        "type": "Tip",
+        "size": "Marime",
+        "status": "Stare",
+        "difficulty": "Dificultate",
+        "terrain": "Teren",
+        "finds": "Găsiri"
+    },
+
+    "uploadgpx": {
+        "info": "Încărcare GPX - Informaţii",
+        "error": "Încărcare GPX - Eroare",
+        "error_no_files": "Nu a fost furnizat nici un fişier GPX.",
+        "error_bad_xml": "Eroare la interpretarea XML.",
+        "error_failed_after": "Eroare la interpetarea XML după adăugarea a %1 marcaje.",
+        "msg_created_markers": "%1 marcaje create."
     }
 }
