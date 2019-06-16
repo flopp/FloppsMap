@@ -170,9 +170,16 @@
     <input id="buttonUploadGPXinput" style="display:none" type="file" name="files" onchange="handleGpxFiles(this.files);">
     <button id="buttonUploadGPX" class="btn btn-block btn-sm btn-success" role="button" data-i18n="sidebar.misc.uploadgpx">UPLOAD GPX</button>
   </div>
+
   <div style="margin-bottom: 10px">
     <button id="buttonExportGPX" class="btn btn-block btn-sm btn-info" role="button" data-i18n="sidebar.misc.gpx">EXPORT GPX</button>
   </div>
+  
+  <b data-i18n="sidebar.misc.gpxsymbol">GPX SYMBOL</b>
+  <div style="margin-bottom: 10px">
+    <input type="text" class="form-control" id="gpxSymbol" data-i18n="[placeholder]sidebar.misc.gpxsymbol_placeholder">
+  </div>
+
   <div style="margin-bottom: 10px">
     <button id="buttonPermalink" class="btn btn-block btn-sm btn-info" type="button" onClick="App.generatePermalink();" data-i18n="sidebar.misc.permalink">CREATE PERMALINK</button>
   </div>

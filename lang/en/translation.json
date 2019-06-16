@@ -62,6 +62,8 @@
             "title": "Misc",
             "multicoordinates": "Add Multiple Markers",
             "gpx": "Export to GPX File",
+            "gpxsymbol": "GPX Symbol",
+            "gpxsymbol_placeholder": "Name",
             "uploadgpx": "Upload GPX File",
             "permalink": "Create Permalink",
             "coordinates": "Format of Coordinates",

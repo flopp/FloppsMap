@@ -55,13 +55,15 @@
             "deleteall": "Sterge toate",
             "source": "Sursă",
             "destination": "Destinaţie",
-            "delete_line": "Şterge linie"
+            "delete_line": "Şterge linie",
             "total": "Total:"
         },
         "misc": {
             "title": "Diverse",
             "multicoordinates": "Adaugă marcaje multiple",
             "gpx": "Exportă în fişier GPX",
+            "gpxsymbol": "GPX Symbol",
+            "gpxsymbol_placeholder": "Nume",
             "uploadgpx": "Încarcă fişier GPX",
             "permalink": "Creează legătură Permalink",
             "coordinates": "Formatul coordonatelor",

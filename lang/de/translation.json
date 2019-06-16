@@ -60,6 +60,8 @@
             "title": "Verschiedenes",
             "multicoordinates": "Mehrere Marker erstellen",
             "gpx": "GPX-Datei exportieren",
+            "gpxsymbol": "GPX Symbol",
+            "gpxsymbol_placeholder": "Name",
             "uploadgpx": "GPX-Datei hochladen",
             "permalink": "Permalink erstellen",
             "coordinates": "Koordinatenformat",

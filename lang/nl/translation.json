@@ -53,6 +53,8 @@
         "misc": {
             "title": "Diversen",
             "gpx": "Exporteer als GPX bestand",
+            "gpxsymbol": "GPX Symbol",
+            "gpxsymbol_placeholder": "Naam",
             "permalink": "Maak permalink",
             "coordinates": "Coördinatenformaat",
             "layers": "Extra toevoegingen",

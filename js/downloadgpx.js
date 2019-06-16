@@ -5,17 +5,25 @@
 /*global
   $,
   document, encodeURIComponent,
-  Markers
+  Markers, Persist
 */
 
 var DownloadGPX = {};
 DownloadGPX.m_map = null;
+DownloadGPX.m_symbol = 'flag';
 
 
 DownloadGPX.init = function (themap) {
     'use strict';
 
     DownloadGPX.m_map = themap;
+    DownloadGPX.m_symbol = Persist.getValue('gpxsymbol', 'flag');
+    $("#gpxSymbol").val(DownloadGPX.m_symbol);
+
+    $("#gpxSymbol").change(function () {
+        DownloadGPX.m_symbol = $("#gpxSymbol").val();
+        Persist.setValue('gpxsymbol', DownloadGPX.m_symbol);
+    });
 };
 
 
@@ -28,7 +36,7 @@ DownloadGPX.initiateDownload = function () {
                 '    <metadata>\n' +
                 '        <name>Export from Flopp\'s Map</name>\n' +
                 '    </metadata>\n' +
-                Markers.toXmlWpts() +
+                Markers.toXmlWpts(DownloadGPX.m_symbol) +
                 '</gpx>\n';
     element.setAttribute('href', 'data:application/gpx+xml;charset=utf-8,' + encodeURIComponent(data));
     element.setAttribute('download', 'markers.gpx');

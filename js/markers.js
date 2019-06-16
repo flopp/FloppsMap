@@ -147,7 +147,7 @@ Markers.toString = function () {
 };
 
 
-Markers.toXmlWpts = function () {
+Markers.toXmlWpts = function (symbol) {
     'use strict';
 
     var data = '';
@@ -155,7 +155,7 @@ Markers.toXmlWpts = function () {
     this.m_markers.map(
         function (m) {
             if (!m.isFree()) {
-                data += m.toXmlWpt();
+                data += m.toXmlWpt(symbol);
                 data += '\n';
             }
         }

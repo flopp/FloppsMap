@@ -53,6 +53,8 @@
         "misc": {
             "title": "Różne",
             "gpx": "Eksport do pliku GPX",
+            "gpxsymbol": "GPX Symbol",
+            "gpxsymbol_placeholder": "Nazwa",
             "permalink": "Utwórz link",
             "coordinates": "Format współrzędnych",
             "layers": "Dodatkowe warstwy",

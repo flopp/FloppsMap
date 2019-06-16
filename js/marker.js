@@ -36,13 +36,13 @@ Marker.prototype.toString = function () {
 };
 
 
-Marker.prototype.toXmlWpt = function () {
+Marker.prototype.toXmlWpt = function (symbol) {
     'use strict';
 
     var data = '';
     data += '<wpt lat="' + this.getPosition().lat().toFixed(8) + '" lon="' + this.getPosition().lng().toFixed(8) + '">\n';
     data += '    <name>' + this.getName() + '</name>\n';
-    data += '    <sym>flag</sym>\n';
+    data += '    <sym>' + symbol + '</sym>\n';
     if (this.getRadius() > 0) {
         data += '    <extensions>\n';
         data += '      <wptx1:WaypointExtension>\n';
