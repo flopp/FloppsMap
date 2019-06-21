@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -euo pipefail
+
 D=.deploy
 L=.local
 rm -rf $D
