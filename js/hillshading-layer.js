@@ -24,12 +24,12 @@ Hillshading.getLayer = function () {
 
     if (!this.m_layer) {
         var tileSize = 256,
-            url = 'proxy2.php?url=http://%s.tiles.wmflabs.org/hillshading/%z/%x/%y.png';
+            url = 'https://tiles.wmflabs.org/hillshading/%z/%x/%y.png';
 
         this.m_layer = new google.maps.ImageMapType({
             getTileUrl: function (coord, zoom) {
                 if (6 <= zoom && zoom <= 15) {
-                    return tileUrl(url, ['a', 'b', 'c'], coord, zoom);
+                    return tileUrl(url, ['dummy'], coord, zoom);
                 }
                 return null;
             },
