@@ -14,7 +14,7 @@
 - Permalinking to the current map
 - Translated to English, German, Dutch, Polish, Romanian
 
-Visit the map at http://flopp.net/ or http://flopp-caching.de/
+Visit the map at https://flopp.net/
 
 ![Screenshot of Flopp's Map](https://raw.githubusercontent.com/flopp/flopp.github.io/master/FloppsMap/floppsmap.jpg)
 
