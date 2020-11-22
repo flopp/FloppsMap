@@ -10,7 +10,7 @@
   ContextMenu,
   DownloadGPX,
   restoreCoordinatesFormat,
-  document
+  document, window
 */
 
 
@@ -33,6 +33,10 @@ App.init = function () {
 
     if (!App.initFromUrl(Url.getParams())) {
         App.initFromPersist();
+    }
+
+    if (window.location.hostname !== "flopp.net") {
+        showDeprecatedUrlDialog(window.location.hostname);
     }
 };
 
