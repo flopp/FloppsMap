@@ -68,7 +68,7 @@ Okapi.setupSites = function () {
     }
 
     var self = this,
-        main_url = "proxy2.php?url=http://www.opencaching.de/okapi/services/apisrv/installations",
+        main_url = "https://www.opencaching.de/okapi/services/apisrv/installations",
         keys = {
             "Opencaching.DE": API_KEY_OPENCACHING_DE,
             "Opencaching.PL": API_KEY_OPENCACHING_PL,
@@ -93,13 +93,12 @@ Okapi.setupSites = function () {
         dataType: 'json',
         success: function (response) {
             response.map(function (site) {
-                if (keys[site.site_name] !== undefined) {
+                if ((keys[site.site_name] !== undefined) && (!site.okapi_base_url.startsWith('https:'))) {
                     self.m_sites.push({
                         siteid: self.m_sites.length,
                         name: site.site_name,
                         site_url: site.site_url,
                         url: site.okapi_base_url,
-                        proxy: site.okapi_base_url.startsWith('http:'),
                         prefix: prefixes[site.site_name],
                         key: keys[site.site_name],
                         ignore_user: null,
@@ -239,13 +238,6 @@ Okapi.showPopup = function (m, code, siteid) {
         fields: 'name|type|status|url|owner|founds|size2|difficulty|terrain|location'
     };
 
-    if (site.proxy) {
-        data = {
-            url: url + "?" + $.param(data)
-        };
-        url = "proxy2.php";
-    }
-
     $.ajax({
         url: url,
         dataType: 'json',
@@ -350,13 +342,6 @@ Okapi.loadBboxSite = function (siteid) {
         retr_params: '{"fields": "code|name|location|type|status|url"}',
         wrap: 'false'
     };
-
-    if (site.proxy) {
-        data = {
-            url: url + "?" + $.param(data)
-        };
-        url = "proxy2.php";
-    }
 
     $.ajax({
         url: url,

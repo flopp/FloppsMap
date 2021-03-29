@@ -77,8 +77,12 @@ NPA.getPopupContentFromResponse = function (json) {
 NPA.getInfo = function (coords) {
     'use strict';
 
-    var self = this,
-        data = {
+    var self = this;
+
+    $.ajax({
+        url: self.m_url,
+        dataType: "json",
+        data: {
             REQUEST: "GetFeatureInfo",
             SERVICE: "WMS",
             VERSION: "1.3.0",
@@ -91,12 +95,6 @@ NPA.getInfo = function (coords) {
             QUERY_LAYERS: "Naturschutzgebiete",
             X: 0,
             Y: 0
-        };
-    $.ajax({
-        url: "proxy2.php",
-        dataType: "json",
-        data: {
-            url: self.m_url + "?" + $.param(data)
         },
         timeout: 3000
     }).done(function (data) {
