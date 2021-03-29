@@ -93,7 +93,7 @@ Okapi.setupSites = function () {
         dataType: 'json',
         success: function (response) {
             response.map(function (site) {
-                if ((keys[site.site_name] !== undefined) && (!site.okapi_base_url.startsWith('https:'))) {
+                if ((keys[site.site_name] !== undefined) && site.okapi_base_url.startsWith('https:')) {
                     self.m_sites.push({
                         siteid: self.m_sites.length,
                         name: site.site_name,
