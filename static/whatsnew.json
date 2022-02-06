@@ -1,5 +1,9 @@
 [
     {
+        "date": "2022-03-06",
+        "text": "Remove disfunctional hillshading layer."
+    },
+    {
         "date": "2019-06-16",
         "text": "Add an option to specify the symbol to use when exporting to a GPX file."
     },

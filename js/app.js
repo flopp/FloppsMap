@@ -6,7 +6,9 @@
   id2alpha, alpha2id,
   showLinkDialog,
   osmProvider, osmDeProvider, opentopomapProvider,
-  Attribution, Sidebar, ExternalLinks, Hillshading, Geolocation, NPA, CDDA, Freifunk, Okapi, Persist,
+  Attribution, Sidebar, ExternalLinks,
+  Hillshading,
+  Geolocation, NPA, CDDA, Freifunk, Okapi, Persist,
   ContextMenu,
   DownloadGPX,
   restoreCoordinatesFormat,
@@ -135,14 +137,14 @@ App.restore = function (features, geocache) {
     Sidebar.restore(true);
 
     if (features === undefined) {
-        Hillshading.restore(false);
+        // Hillshading.restore(false);
         Okapi.restore(false);
         NPA.toggle(false);
         CDDA.toggle(false);
         Freifunk.toggle(false);
     } else {
         features = features.toLowerCase();
-        Hillshading.toggle(features.indexOf('h') >= 0);
+        // Hillshading.toggle(features.indexOf('h') >= 0);
         Okapi.toggle(features.indexOf('g') >= 0);
         NPA.toggle(features.indexOf('n') >= 0);
         Freifunk.toggle(features.indexOf('f') >= 0);
@@ -186,9 +188,9 @@ App.getFeaturesString = function () {
     if ($('#geocaches').is(':checked')) {
         s += "g";
     }
-    if ($('#hillshading').is(':checked')) {
-        s += "h";
-    }
+    // if ($('#hillshading').is(':checked')) {
+        // s += "h";
+    // }
     if ($('#npa').is(':checked')) {
         s += "n";
     }
@@ -322,7 +324,7 @@ App.createMap = function (id, center, zoom, maptype) {
     Markers.init(m);
     Lines.init(m);
     Geolocation.init(m);
-    Hillshading.init(m);
+    // Hillshading.init(m);
     NPA.init(m);
     CDDA.init(m);
     Freifunk.init(m);

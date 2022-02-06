@@ -4,7 +4,9 @@
 
 /*global
   $, document, window, gapi, setTimeout,
-  CDDA, Coordinates, Freifunk, Hillshading, Lang, NPA, Okapi, Sidebar, Persist,
+  CDDA, Coordinates, Freifunk,
+  Hillshading,
+  Lang, NPA, Okapi, Sidebar, Persist,
   DownloadGPX, Geolocation,
   showMulticoordinatesDialog, Markers
 */
@@ -124,9 +126,9 @@ $(document).ready(function () {
     $('#buttonWhereAmI').click(function () {
         Geolocation.whereAmI(true);
     });
-    $("#hillshading").click(function () {
-        Hillshading.toggle($('#hillshading').is(':checked'));
-    });
+    // $("#hillshading").click(function () {
+        // Hillshading.toggle($('#hillshading').is(':checked'));
+    // });
     $("#npa").click(function () {
         NPA.toggle($('#npa').is(':checked'));
     });

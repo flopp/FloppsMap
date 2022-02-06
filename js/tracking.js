@@ -82,9 +82,9 @@ $(document).ready(function () {
     $("#sidebartoggle").click(function () {
         trackAction("sidebar.toggle");
     });
-    $("#hillshading").click(function () {
-        trackAction("hillshading.toggle");
-    });
+    // $("#hillshading").click(function () {
+        // trackAction("hillshading.toggle");
+    // });
     $("#npa").click(function () {
         trackAction("cdda.toggle");
     });
