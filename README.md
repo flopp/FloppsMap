@@ -1,3 +1,10 @@
+# Note
+
+This repository has been archived. The new implementation lives at [https://github.com/flopp/map](https://github.com/flopp/map)
+
+
+
+
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/flopp/FloppsMap/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/flopp/FloppsMap/?branch=master)
 [![Travis CI Build](https://api.travis-ci.org/flopp/FloppsMap.svg?branch=master)](https://travis-ci.org/flopp/FloppsMap)
 [![License MIT](https://img.shields.io/badge/license-MIT-lightgrey.svg?style=flat)](https://github.com/flopp/FloppsMap/blob/master/LICENSE)
